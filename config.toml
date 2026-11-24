@@ -2,7 +2,7 @@ baseURL = "https://news.cnbmobile.com/"
 languageCode = "pt-br"
 defaultContentLanguage = "pt-br"
 title = "CNB News"
-disableKinds = ["taxonomy", "term", "RSS"]
+disableKinds = ["taxonomy", "taxonomyTerm", "term", "RSS"]
 enableRobotsTXT = true
 
 [params]
