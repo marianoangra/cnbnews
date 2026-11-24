@@ -3,20 +3,19 @@
 {{ $sorted := $pages.ByDate.Reverse }}
 {{ if gt (len $sorted) 0 }}
   {{ $first := index $sorted 0 }}
-  {{ $fCity := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
-  {{ $fSlug := path.Base $first.RelPermalink }}
-  {{ $fUrl := printf "https://%s.%s/%s/" $fCity site.Params.baseDomain $fSlug }}
+  {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
+  {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
   <div class="uol-grid">
     <div class="hero">
       <div class="hero-cover">
         <span class="kicker">Manchete · {{ $first.Parent.Title }}</span>
-        <h1><a href="{{ $fUrl }}">{{ $first.Title }}</a></h1>
+        <h1><a href="{{ $furl }}">{{ $first.Title }}</a></h1>
       </div>
       <div class="hero-body">
         <p style="color:var(--mut);font-size:1.05rem;margin:0 0 18px">{{ $first.Description }}</p>
         <div class="meta">
           <span>{{ $first.Date.Format "02/01/2006 15:04" }} {{ with $first.Params.fonte }}· {{ . }}{{ end }}</span>
-          <a class="wa-btn" href="#" data-title="{{ $first.Title }}" data-url="{{ $fUrl }}" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
+          <a class="wa-btn" href="#" data-title="{{ $first.Title }}" data-url="{{ $furl }}" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
         </div>
       </div>
     </div>
@@ -24,10 +23,9 @@
     <aside class="plantao">
       <div class="plantao-hdr"><span class="dot"></span> Plantão · Últimas Horas</div>
       {{ range first 5 (after 1 $sorted) }}
-        {{ $c := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
-        {{ $s := path.Base .RelPermalink }}
+        {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
         <div class="p-item">
-          <a href="https://{{ $c }}.{{ site.Params.baseDomain }}/{{ $s }}/">{{ .Title }}</a>
+          <a href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Title }}</a>
           <div class="p-time">{{ .Parent.Title }} · {{ .Date.Format "15:04" }}</div>
         </div>
       {{ end }}
@@ -37,20 +35,19 @@
   <h2 style="font-size:1.25rem;margin-bottom:18px;border-left:5px solid var(--green);padding-left:12px">Destaques pelo Brasil</h2>
   <div class="cards">
   {{ range first 30 (after 1 $sorted) }}
-    {{ $c := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
-    {{ $s := path.Base .RelPermalink }}
-    {{ $u := printf "https://%s.%s/%s/" $c site.Params.baseDomain $s }}
+    {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+    {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
     <article class="card">
       <div class="card-top"></div>
       <div class="card-in">
         <div>
-          <a class="badge" href="https://{{ $c }}.{{ site.Params.baseDomain }}/">{{ .Parent.Title }}</a>
-          <h2><a class="title-link" href="{{ $u }}">{{ .Title }}</a></h2>
+          <a class="badge" href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/">{{ .Parent.Title }}</a>
+          <h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2>
           <p style="font-size:.9rem;color:var(--mut);margin:0">{{ .Description }}</p>
         </div>
         <div class="meta">
           <span>{{ .Date.Format "02/01/2006" }}</span>
-          <a class="wa-btn" href="#" data-title="{{ .Title }}" data-url="{{ $u }}" onclick="return compartilharWA(this)">WhatsApp</a>
+          <a class="wa-btn" href="#" data-title="{{ .Title }}" data-url="{{ $purl }}" onclick="return compartilharWA(this)">WhatsApp</a>
         </div>
       </div>
     </article>

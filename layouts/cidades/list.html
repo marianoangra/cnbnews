@@ -9,23 +9,22 @@
 {{ if .Sections }}
   <div class="cards">{{ range .Sections.ByTitle }}<a class="card" href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" style="text-decoration:none"><div class="card-top"></div><div class="card-in"><h2 style="color:var(--blue)">{{ .Title }}</h2><p style="color:var(--mut);margin:0">Acessar portal da cidade →</p></div></a>{{ end }}</div>
 {{ else }}
-  {{ $cSlug := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
   {{ $sorted := .Pages.ByDate.Reverse }}
+  {{ $cslug := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
   {{ if gt (len $sorted) 0 }}
     {{ $first := index $sorted 0 }}
-    {{ $fSlug := path.Base $first.RelPermalink }}
-    {{ $fUrl := printf "https://%s.%s/%s/" $cSlug site.Params.baseDomain $fSlug }}
+    {{ $furl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
     <div class="uol-grid">
       <div class="hero">
         <div class="hero-cover">
           <span class="kicker">Destaque em {{ .Title }}</span>
-          <h1><a href="{{ $fSlug }}/">{{ $first.Title }}</a></h1>
+          <h1><a href="{{ path.Base $first.RelPermalink }}/">{{ $first.Title }}</a></h1>
         </div>
         <div class="hero-body">
           <p style="color:var(--mut);font-size:1.05rem;margin:0 0 18px">{{ $first.Description }}</p>
           <div class="meta">
             <span>{{ $first.Date.Format "02/01/2006 15:04" }}</span>
-            <a class="wa-btn" href="#" data-title="{{ $first.Title }}" data-url="{{ $fUrl }}" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
+            <a class="wa-btn" href="#" data-title="{{ $first.Title }}" data-url="{{ $furl }}" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
           </div>
         </div>
       </div>
@@ -41,19 +40,18 @@
     </div>
     <div class="cards">
     {{ range after 1 $sorted }}
-      {{ $s := path.Base .RelPermalink }}
-      {{ $u := printf "https://%s.%s/%s/" $cSlug site.Params.baseDomain $s }}
+      {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
       <article class="card">
         <div class="card-top"></div>
         <div class="card-in">
           <div>
             <span class="badge">{{ .Parent.Title }}</span>
-            <h2><a class="title-link" href="{{ $s }}/">{{ .Title }}</a></h2>
+            <h2><a class="title-link" href="{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h2>
             <p style="font-size:.9rem;color:var(--mut);margin:0">{{ .Description }}</p>
           </div>
           <div class="meta">
             <span>{{ .Date.Format "02/01/2006" }}</span>
-            <a class="wa-btn" href="#" data-title="{{ .Title }}" data-url="{{ $u }}" onclick="return compartilharWA(this)">WhatsApp</a>
+            <a class="wa-btn" href="#" data-title="{{ .Title }}" data-url="{{ $purl }}" onclick="return compartilharWA(this)">WhatsApp</a>
           </div>
         </div>
       </article>
