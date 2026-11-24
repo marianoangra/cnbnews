@@ -10,12 +10,12 @@
   <h1>{{ .Title }}</h1>
   {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
   <div style="margin-bottom:24px">
-    <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" .Title (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink)) | urlquery }}">Compartilhar no WhatsApp</a>
+    <a class=\"wa-btn\" href=\"#\" onclick=\"return compartilharWA(this)\">Compartilhar no WhatsApp</a>
   </div>
   <div class="body-txt">{{ .Content }}</div>
   <div class="meta" style="margin-top:28px">
     <span>{{ with .Params.fonte }}Fonte: {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank" style="color:var(--blue)">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}{{ end }}</span>
-    <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" .Title (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink)) | urlquery }}">Enviar no WhatsApp</a>
+    <a class=\"wa-btn\" href=\"#\" onclick=\"return compartilharWA(this)\">Enviar no WhatsApp</a>
   </div>
 </article>
 {{ end }}
