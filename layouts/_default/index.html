@@ -11,11 +11,8 @@
       <div class="hero-body">
         <span class="kicker">{{ $first.Parent.Title }} · Destaque</span>
         <h1><a href="{{ $furl }}">{{ $first.Title }}</a></h1>
-        <p style="color:var(--mut);font-size:1.05rem;margin:0 0 14px">{{ $first.Description }}</p>
-        <div class="meta">
-          <span>{{ $first.Date.Format "02/01/2006 15:04" }}</span>
-          <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
-        </div>
+        <p style="color:var(--mut);margin:0 0 14px">{{ $first.Description }}</p>
+        <div class="meta"><span>{{ $first.Date.Format "02/01/2006 15:04" }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
         <ul class="sub-bullets">
         {{ range first 3 (after 1 $sorted) }}
           {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
@@ -28,10 +25,7 @@
       <div class="sec-title">Mais Lidas</div>
       {{ range $i, $p := first 6 (after 1 $sorted) }}
         {{ $cslug := path.Base (strings.TrimSuffix "/" $p.Parent.RelPermalink) }}
-        <div class="ml-item">
-          <div class="ml-num">{{ add $i 1 }}</div>
-          <div><a href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base $p.RelPermalink }}/">{{ $p.Title }}</a><div style="font-size:.75rem;color:var(--mut);margin-top:4px">{{ $p.Parent.Title }} · {{ $p.Date.Format "15:04" }}</div></div>
-        </div>
+        <div class="ml-item"><div class="ml-num">{{ add $i 1 }}</div><div><a href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base $p.RelPermalink }}/">{{ $p.Title }}</a><div style="font-size:.75rem;color:var(--mut);margin-top:4px">{{ $p.Parent.Title }} · {{ $p.Date.Format "15:04" }}</div></div></div>
       {{ end }}
     </aside>
   </div>
@@ -49,5 +43,5 @@
     </article>
   {{ end }}
   </div>
-{{ else }}<p>Ainda sem notícias publicadas.</p>{{ end }}
+{{ else }}<p>Ainda sem notícias.</p>{{ end }}
 {{ end }}
