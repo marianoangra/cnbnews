@@ -2,36 +2,54 @@
 {{ define "edicao" }}{{ if not .Sections }}{{ .Title }}{{ else }}Brasil{{ end }}{{ end }}
 {{ define "home" }}{{ if .Sections }}/{{ else }}./{{ end }}{{ end }}
 {{ define "main" }}
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px">
-  <h1 style="margin:0;font-size:1.8rem">Notícias de {{ .Title }}</h1>
-  <a href="https://cnbmobile.com" style="font-size:.85rem;color:var(--blue);text-decoration:none;font-weight:600">← Portal Nacional CNB</a>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+  <h1 style="margin:0;font-size:1.75rem">Edição Local · {{ .Title }}</h1>
+  <a href="https://cnbmobile.com" style="font-size:.85rem;color:var(--blue);text-decoration:none;font-weight:700">← Ir para CNB Brasil</a>
 </div>
 {{ if .Sections }}
-  <div class="grid">{{ range .Sections.ByTitle }}<a class="card" href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" style="text-decoration:none"><h2 style="color:var(--blue)">{{ .Title }}</h2><p style="color:var(--mut);margin:0">Acessar edição local →</p></a>{{ end }}</div>
+  <div class="cards">{{ range .Sections.ByTitle }}<a class="card" href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" style="text-decoration:none"><div class="card-top"></div><div class="card-in"><h2 style="color:var(--blue)">{{ .Title }}</h2><p style="color:var(--mut);margin:0">Acessar portal da cidade →</p></div></a>{{ end }}</div>
 {{ else }}
   {{ $sorted := .Pages.ByDate.Reverse }}
   {{ if gt (len $sorted) 0 }}
     {{ $first := index $sorted 0 }}
-    <div class="hero">
-      <span class="badge">Destaque em {{ .Title }}</span>
-      <h1><a class="title-link" href="{{ path.Base $first.RelPermalink }}/">{{ $first.Title }}</a></h1>
-      <p style="color:var(--mut);margin:0 0 16px">{{ $first.Description }}</p>
-      <div class="meta">
-        <span>{{ $first.Date.Format "02/01/2006 15:04" }}</span>
-        <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" $first.Title (path.Base (strings.TrimSuffix "/" .RelPermalink)) site.Params.baseDomain (path.Base $first.RelPermalink)) | urlquery }}">Compartilhar no WhatsApp</a>
-      </div>
-    </div>
-    <div class="grid">
-    {{ range after 1 $sorted }}
-      <article class="card">
-        <div>
-          <span class="badge">{{ .Parent.Title }}</span>
-          <h2><a class="title-link" href="{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h2>
-          <p style="font-size:.92rem;color:var(--mut);margin:0">{{ .Description }}</p>
+    <div class="uol-grid">
+      <div class="hero">
+        <div class="hero-cover">
+          <span class="kicker">Destaque em {{ .Title }}</span>
+          <h1><a href="{{ path.Base $first.RelPermalink }}/">{{ $first.Title }}</a></h1>
         </div>
-        <div class="meta">
-          <span>{{ .Date.Format "02/01/2006" }}</span>
-          <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" .Title (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink)) | urlquery }}">WhatsApp</a>
+        <div class="hero-body">
+          <p style="color:var(--mut);font-size:1.05rem;margin:0 0 18px">{{ $first.Description }}</p>
+          <div class="meta">
+            <span>{{ $first.Date.Format "02/01/2006 15:04" }}</span>
+            <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" $first.Title (path.Base (strings.TrimSuffix "/" .RelPermalink)) site.Params.baseDomain (path.Base $first.RelPermalink)) | urlquery }}">Compartilhar no WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <aside class="plantao">
+        <div class="plantao-hdr"><span class="dot"></span> Últimas em {{ .Title }}</div>
+        {{ range first 5 (after 1 $sorted) }}
+          <div class="p-item">
+            <a href="{{ path.Base .RelPermalink }}/">{{ .Title }}</a>
+            <div class="p-time">{{ .Date.Format "02/01 · 15:04" }}</div>
+          </div>
+        {{ end }}
+      </aside>
+    </div>
+    <div class="cards">
+    {{ range after 6 $sorted }}
+      <article class="card">
+        <div class="card-top"></div>
+        <div class="card-in">
+          <div>
+            <span class="badge">{{ .Parent.Title }}</span>
+            <h2><a class="title-link" href="{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h2>
+            <p style="font-size:.9rem;color:var(--mut);margin:0">{{ .Description }}</p>
+          </div>
+          <div class="meta">
+            <span>{{ .Date.Format "02/01/2006" }}</span>
+            <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" .Title (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink)) | urlquery }}">WhatsApp</a>
+          </div>
         </div>
       </article>
     {{ end }}
