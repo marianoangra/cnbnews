@@ -7,16 +7,16 @@
   {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
   <div class="cnn-top">
     <div class="hero">
-      <a href="{{ $furl }}"><div class=\"capa-box\"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
+      <a style="text-decoration:none" href="{{ $furl }}"><div class="capa-box"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
       <div class="hero-body">
         <span class="kicker">Edição Local · Destaque</span>
-        <h1><a href="{{ $furl }}">{{ $first.Title }}</a></h1>
+        <h1><a style="text-decoration:none" href="{{ $furl }}">{{ $first.Title }}</a></h1>
         <p style="color:var(--mut);margin:0 0 14px">{{ $first.Description }}</p>
         <div class="meta"><span>{{ $first.Date.Format "02/01/2006 15:04" }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
         <ul class="sub-bullets">
         {{ range first 3 (after 1 $sorted) }}
           {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
-          <li><a href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Parent.Title }}: {{ .Title }}</a></li>
+          <li><a style="text-decoration:none" href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Parent.Title }}: {{ .Title }}</a></li>
         {{ end }}
         </ul>
       </div>
@@ -25,7 +25,7 @@
       <div class="sec-title">Mais Lidas</div>
       {{ range $i, $p := first 6 (after 1 $sorted) }}
         {{ $cslug := path.Base (strings.TrimSuffix "/" $p.Parent.RelPermalink) }}
-        <div class="ml-item"><div class="ml-num">{{ add $i 1 }}</div><div><a href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base $p.RelPermalink }}/">{{ $p.Title }}</a><div style="font-size:.75rem;color:var(--mut);margin-top:4px">{{ $p.Parent.Title }} · {{ $p.Date.Format "15:04" }}</div></div></div>
+        <div class="ml-item"><div class="ml-num">{{ add $i 1 }}</div><div><a style="text-decoration:none" href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base $p.RelPermalink }}/">{{ $p.Title }}</a><div style="font-size:.75rem;color:var(--mut);margin-top:4px">{{ $p.Parent.Title }} · {{ $p.Date.Format "15:04" }}</div></div></div>
       {{ end }}
     </aside>
   </div>
@@ -35,7 +35,7 @@
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
     {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
     <article class="card">
-      <a href="{{ $purl }}"><div class=\"capa-box\"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
+      <a style="text-decoration:none" href="{{ $purl }}"><div class="capa-box"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
       <div class="card-in">
         <div><span class="kicker">{{ .Parent.Title }}</span><h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2><p style="font-size:.88rem;color:var(--mut);margin:0">{{ .Description }}</p></div>
         <div class="meta"><span>{{ .Date.Format "02/01/2006" }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
