@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "São José dos Campos (SP) recebe festa literária com Itamar Vieira Junior e Mônica Salmaso"
 date: 2026-11-24T20:09:04-03:00
 description: "Evento promovido pela revista Viagem e Turismo reforça a importância da cultura na vida cotidiana dos cidadãos de São José dos Campos, incentivando a leitura e o diálogo social."

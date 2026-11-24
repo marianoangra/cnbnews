@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Processo Seletivo da Prefeitura de Cruzeiro (SP) para Melhoria do Serviço Público"
 date: 2026-11-24T19:41:16-03:00
 description: "Prefeitura de Cruzeiro - SP divulga abertura de Processo Seletivo - PCI Concursos"

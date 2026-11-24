@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Lorena City Council Opens Vacancies for Middle and Higher Education Levels"
 date: 2026-11-24T15:38:35-03:00
 description: "The Lorena City Council has launched a public competition with vacancies for middle and higher education levels, aiming to recruit professionals who contribute to efficient public service delivery for the community."

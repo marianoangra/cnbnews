@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.compolicia.png"
+imagem: "/fotos/policia.jpg"
 title: "Ex-policial militar preso em investigação de homicídio em Londrina"
 date: 2026-11-24T15:38:35-03:00
 description: "Um ex-policial militar foi preso durante a investigação de um homicídio em Londrina, conforme informado pela G1."

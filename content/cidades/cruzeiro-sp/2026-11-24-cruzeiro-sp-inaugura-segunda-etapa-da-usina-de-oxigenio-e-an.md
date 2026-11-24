@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comsaude.png"
+imagem: "/fotos/saude.jpg"
 title: "Cruzeiro (SP) inaugura segunda etapa da Usina de Oxigênio, garantindo autonomia no abastecimento hospitalar"
 date: 2026-11-24T17:10:23-03:00
 description: "Cruzeiro, SP inaugura segunda etapa da Usina de Oxigênio e anuncia autonomia no abastecimento hospitalar - A Gazeta RM"

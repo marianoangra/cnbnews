@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comsaude.png"
+imagem: "/fotos/saude.jpg"
 title: "Santa Casa de Vitória abre vaga para rádio operador no SAMU 192 através do PCI Concursos"
 date: 2026-11-24T18:36:21-03:00
 description: "A Santa Casa de Misericórdia de Vitória abre vaga para o cargo de rádio operador no SAMU 192 com edital do PCI Concursos, visando garantir um atendimento de emergência mais eficiente para a população."

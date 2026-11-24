@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Galhos colocam em risco pedestres em Maringá - G1"
 date: 2026-11-24T18:36:21-03:00
 description: "Galhos nas ruas de Maringá estão colocando pedestres em risco, conforme informado pela G1."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.compolicia.png"
+imagem: "/fotos/policia.jpg"
 title: "PF deflagra operação contra tráfico internacional de drogas em Umuarama (PR)"
 date: 2026-11-24T15:38:35-03:00
 description: "A Polícia Federal realizou uma operação contra o tráfico internacional de drogas em Umuarama, no estado do Paraná, visando proteger a segurança pública e garantir o bem-estar dos cidadãos."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Cachoeira Paulista abre processo seletivo com 36 vagas e salário até R$ 10 mil"
 date: 2026-11-24T15:38:35-03:00
 description: "Cachoeira Paulista lançou processo seletivo para preencher 36 vagas de cargos públicos com salário até R$ 10 mil, visando aprimorar o atendimento ao cidadão e a eficiência no serviço público local."

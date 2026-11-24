@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Leandro Moretti and Tida Lino are pre-candidates for the Mayor of Lavras (MG) - Republicanos 10"
 date: 2026-11-24T20:09:04-03:00
 description: "Leandro Moretti and Tida Lino are pre-candidates for the Mayor of Lavras (MG) in the Republicanos 10 coalition."

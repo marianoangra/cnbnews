@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Espetáculo celebra centenário do prédio histórico da Fafi na Prefeitura de Vitória"
 date: 2026-11-24T20:09:04-03:00
 description: "A Prefeitura de Vitória realizou um espetáculo especial para comemorar o centenário do prédio histórico da Fafi, destacando sua relevância na trajetoria da cidade."

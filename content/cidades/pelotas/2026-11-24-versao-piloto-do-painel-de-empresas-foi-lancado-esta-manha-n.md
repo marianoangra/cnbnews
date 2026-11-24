@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Versão Piloto do Painel de Empresas é lançado na Prefeitura de Pelotas esta manhã"
 date: 2026-11-24T17:07:23-03:00
 description: "A Prefeitura de Pelotas lançou esta manhã a Versão Piloto do Painel de Empresas, um instrumento que visa facilitar o acesso de empresas ao serviço público e promover a transparência na gestão municipal."

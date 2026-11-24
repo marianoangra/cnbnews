@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Carro capota em Rio-Santos e deixa três feridos em Angra dos Reis"
 date: 2026-11-24T19:41:16-03:00
 description: "Um carro capotou na região de Rio-Santos, em Angra dos Reis, resultando em três feridos, conforme informado pela G1."

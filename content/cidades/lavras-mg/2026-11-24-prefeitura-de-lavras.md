@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Prefeitura de Lavras abre processo seletivo com vagas para diversos cargos"
 date: 2026-11-24T20:09:04-03:00
 description: "A Prefeitura de Lavras, no estado de Minas Gerais, lançou um processo seletivo para preencher diversas vagas em cargos públicos, com a participação da PCI Concursos como responsável pelo edital."

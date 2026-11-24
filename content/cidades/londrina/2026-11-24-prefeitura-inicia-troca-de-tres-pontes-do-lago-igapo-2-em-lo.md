@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comobras.png"
+imagem: "/fotos/obras.jpg"
 title: "Prefeitura de Londrina inicia troca de três pontes do Lago Igapó 2"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Londrina iniciou a troca de três pontes do Lago Igapó 2."

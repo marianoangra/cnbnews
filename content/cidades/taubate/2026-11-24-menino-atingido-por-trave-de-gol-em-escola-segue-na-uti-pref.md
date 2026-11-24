@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Menino atingido por trave de gol em escola de Taubaté permanece em UTI"
 date: 2026-11-24T20:09:04-03:00
 description: "Um menino foi atingido por uma trave de gol em escola de Taubaté e permanece em UTI, enquanto a prefeitura afirma que a quadra estava em condições adequadas."

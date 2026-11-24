@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Prefeitura de Cruzeiro oferece Colônia de Férias gratuita para crianças"
 date: 2026-11-24T18:36:21-03:00
 description: "A prefeitura de Cruzeiro lançou um programa que oferece colônia de férias gratuita para crianças, visando promover o desenvolvimento e o lazer durante o período escolar."

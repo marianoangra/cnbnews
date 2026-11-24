@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Concurso Público de Lavras (MG) com 169 Vagas: Edital Publicado"
 date: 2026-11-24T20:09:04-03:00
 description: "O edital do concurso público de Lavras (MG) foi publicado, oferecendo 169 vagas para preenchimento de cargos essenciais, visando a melhoria do serviço público local."

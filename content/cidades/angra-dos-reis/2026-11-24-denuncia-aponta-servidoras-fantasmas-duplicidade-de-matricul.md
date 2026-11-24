@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comsaude.png"
+imagem: "/fotos/saude.jpg"
 title: "Denúncia aponta servidoras fantasmas, duplicidade de matrícula e assédio na Regulação do Samu de Angra dos Reis"
 date: 2026-11-24T17:10:23-03:00
 description: "Uma denúncia aponta a existência de servidoras fantasmas, duplicidade de matrícula e assédio no setor de Regulação do Samu de Angra dos Reis, comprometendo a qualidade do serviço público para os cidadãos."

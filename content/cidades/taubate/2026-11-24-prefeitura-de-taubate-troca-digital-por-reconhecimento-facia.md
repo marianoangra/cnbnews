@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Prefeitura de Taubaté adota reconhecimento facial para controle de ponto de servidores"
 date: 2026-11-24T20:09:04-03:00
 description: "A Prefeitura de Taubaté substituiu o sistema digital por reconhecimento facial no controle de ponto dos servidores, conforme informado pela G1."

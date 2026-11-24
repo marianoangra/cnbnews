@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Ex-chefe de gabinete de Lula teve réveillon em Paraty pago por herdeiro da Unigel"
 date: 2026-11-24T15:38:35-03:00
 description: "O ex-chefe de gabinete de Lula, Marcola, teve seu evento de réveillon em Paraty financiado por um herdeiro da Unigel, gerando questionamentos sobre a transparência na gestão de recursos públicos."

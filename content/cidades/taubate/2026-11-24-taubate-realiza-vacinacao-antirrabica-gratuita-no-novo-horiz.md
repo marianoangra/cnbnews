@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comsaude.png"
+imagem: "/fotos/saude.jpg"
 title: "Taubaté realiza vacinação antirrábica gratuita no Novo Horizonte nesta quarta-feira (2.5)"
 date: 2026-11-24T20:09:04-03:00
 description: "A prefeitura de Taubaté realiza vacinação antirrábica gratuita para cães e gatos no bairro Novo Horizonte nesta quarta-feira (25), visando garantir a saúde pública e prevenir a disseminação da raiva."

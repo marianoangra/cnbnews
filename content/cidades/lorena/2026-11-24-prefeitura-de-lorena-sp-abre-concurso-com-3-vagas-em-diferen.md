@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Prefeitura de Lorena SP abre concurso com 3 vagas em diferentes áreas - Qconcursos Folha Dirigida"
 date: 2026-11-24T15:38:35-03:00
 description: "Prefeitura de Lorena SP abre concurso com 3 vagas em diferentes áreas - Qconcursos Folha Dirigida"

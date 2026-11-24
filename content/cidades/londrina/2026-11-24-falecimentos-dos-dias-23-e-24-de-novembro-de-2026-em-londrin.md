@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Falecimentos dos dias 23 e 24 de novembro de 2026 em Londrina e região"
 date: 2026-11-24T17:10:23-03:00
 description: "A prefeitura de Londrina informou o registro de falecimentos em dois dias consecutivos na região, destacando o atendimento prioritário aos familiares e o processo de registro no cadastro civil."

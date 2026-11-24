@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeconomia.png"
+imagem: "/fotos/economia.jpg"
 title: "Prefeitura de Lorena realiza leilão de veículos inservíveis e sucatas - Prefeitura de Lorena"
 date: 2026-11-24T17:10:23-03:00
 description: "This is a description."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comclima.png"
+imagem: "/fotos/clima.jpg"
 title: "Previsão de tempo instável em Londrina nesta terça-feira (24)"
 date: 2026-11-24T17:10:23-03:00
 description: "A previsão do tempo para Londrina indica condições instáveis nesta terça-feira (24), conforme informado pela G1."

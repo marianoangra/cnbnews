@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Prefeitura de Itumirim decreta luto após acidente com ônibus que matou peregrinos em SP"
 date: 2026-11-24T17:10:23-03:00
 description: "A prefeitura de Itumirim declarou luto após um acidente com ônibus que resultou em mortes de peregrinos em SP, reforçando o compromisso com a segurança pública e o cuidado aos cidadãos."

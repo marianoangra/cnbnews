@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comclima.png"
+imagem: "/fotos/clima.jpg"
 title: "INMET alerta São José dos Campos e região para tempestade com granizo e ventos de 60 km/h"
 date: 2026-11-24T20:09:04-03:00
 description: "O INMET informou que São José dos Campos e região estão sob alerta amarelo devido a previsão de tempestades com granizo e ventos de até 60 km/h."

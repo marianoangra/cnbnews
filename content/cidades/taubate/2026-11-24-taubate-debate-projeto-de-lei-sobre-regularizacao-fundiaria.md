@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Taubaté debate projeto de lei sobre regularização fundiária nesta quarta-feira (25)"
 date: 2026-11-24T20:09:04-03:00
 description: "O município de Taubaté realizará debate público sobre projeto de lei que busca regularizar propriedades rurais e urbanas, visando facilitar o acesso à posse de terras por cidadãos."

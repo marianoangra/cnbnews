@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Procuradoria Geral de Vitória abre inscrições para programa de residência jurídica"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Vitória lançou inscrições para o programa de residência jurídica da Procuradoria Geral, visando formar profissionais capacitados para atender às necessidades legais da população."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Prefeitura de Lavras (MG) retifica concurso público com 59 vagas e salários até R$15.824"
 date: 2026-11-24T20:09:04-03:00
 description: "A Prefeitura de Lavras, no estado de Minas Gerais, publicou retificação de concurso público com 59 vagas para cargos com salários até R$15.824, visando aprimorar a qualidade do serviço público e garantir a contratação de profissionais capacitados."

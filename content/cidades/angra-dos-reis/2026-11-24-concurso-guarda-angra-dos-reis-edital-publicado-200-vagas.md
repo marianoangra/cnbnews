@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Concurso Guarda Angra dos Reis: edital publicado; 200 vagas! - Estratégia Concursos"
 date: 2026-11-24T15:38:35-03:00
 description: "Concurso Guarda Angra dos Reis: edital publicado; 200 vagas! - Estratégia Concursos"

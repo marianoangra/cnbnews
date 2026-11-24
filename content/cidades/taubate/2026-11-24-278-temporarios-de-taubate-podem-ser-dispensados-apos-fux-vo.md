@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comclima.png"
+imagem: "/fotos/clima.jpg"
 title: "278 temporários de Taubaté podem ser dispensados após ministro Fux votar contra recurso da Prefeitura no STF"
 date: 2026-11-24T20:09:04-03:00
 description: "Após o ministro do STF Fux votar contra recurso apresentado pela Prefeitura de Taubaté, 278 temporários podem ser dispensados, impactando diretamente o serviço público local."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "São José dos Campos conquista Selo Diamante em Transparência"
 date: 2026-11-24T20:09:04-03:00
 description: "São José dos Campos foi reconhecido com o Selo Diamante de Transparência pela Prefeitura Municipal, destacando sua eficiência na gestão pública e compromisso com o cidadão."

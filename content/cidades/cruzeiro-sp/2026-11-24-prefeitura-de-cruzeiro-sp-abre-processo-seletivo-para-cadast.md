@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Prefeitura de Cruzeiro (SP) abre processo seletivo para cadastro reserva na Educação"
 date: 2026-11-24T17:10:23-03:00
 description: "A Prefeira de Cruzeiro (SP) lançou um processo seletivo para cadastro reserva de profissionais na área de Educação, visando garantir a qualidade do ensino e atender às necessidades da população."

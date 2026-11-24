@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comsaude.png"
+imagem: "/fotos/saude.jpg"
 title: "Prorrogação do Decreto de Emergência em Saúde"
 date: 2026-11-24T19:41:16-03:00
 description: "A prefeitura de Pelotas prorroga o decreto de emergência em saúde por mais 12 meses para garantir a continuidade dos serviços essenciais."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Eleições em Pelotas (RS): veja a apuração do 2º turno - O GLOBO"
 date: 2026-11-24T14:41:32-03:00
 description: "O GLOBO divulgou a apuração final das eleições municipais de Pelotas no segundo turno."

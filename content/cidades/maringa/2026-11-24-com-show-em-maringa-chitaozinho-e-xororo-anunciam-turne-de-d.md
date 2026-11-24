@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Chitãozinho e Xororó anunciaram uma turnê de despedida dos palcos em Maringá"
 date: 2026-11-24T20:09:04-03:00
 description: "Chitãozinho e Xororó anunciaram uma turnê de despedida dos palcos em Maringá, oferecendo aos cidadãos uma oportunidade única de celebrar a cultura local."

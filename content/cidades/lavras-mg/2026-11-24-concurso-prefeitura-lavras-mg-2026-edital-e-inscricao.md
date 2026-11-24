@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Concurso Prefeitura Lavras-MG 2026: Edital e Inscrição - Ache Concursos"
 date: 2026-11-24T20:09:04-03:00
 description: "A Prefeitura de Lavras (MG) lançou o edital para o concurso público de 2026, com inscrições abertas para candidatos desejarem contribuir para o desenvolvimento dos serviços públicos municipais."

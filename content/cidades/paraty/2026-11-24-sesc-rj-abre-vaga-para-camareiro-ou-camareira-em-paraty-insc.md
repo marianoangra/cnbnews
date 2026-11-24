@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Sesc RJ abre vaga para camareiro ou camareira em Paraty; inscrições até domingo"
 date: 2026-11-24T19:41:16-03:00
 description: "O Sesc RJ está com inscrições abertas para a vaga de camareiro ou camareira em Paraty, com prazo até domingo, visando garantir serviços de limpeza eficientes para a comunidade."

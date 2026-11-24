@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Ativistas questionam bem-estar de cavalos de Paraty após proibição"
 date: 2026-11-24T17:10:23-03:00
 description: "Ativistas locais estão questionando a efetividade dos serviços de saúde animal em Paraty após a implementação de uma proibição."

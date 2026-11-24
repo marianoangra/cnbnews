@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comclima.png"
+imagem: "/fotos/clima.jpg"
 title: "Temporal causa alagamentos em ruas de Paraty após chuva intensa - A Cidade Costa Verde"
 date: 2026-11-24T15:38:35-03:00
 description: "Temporal causa alagamentos em ruas de Paraty após chuva intensa - A Cidade Costa Verde"

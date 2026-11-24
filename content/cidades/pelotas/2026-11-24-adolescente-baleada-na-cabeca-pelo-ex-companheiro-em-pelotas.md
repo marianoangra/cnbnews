@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Adolescente baleada na cabeça pelo ex-companheiro em Pelotas passará por cirurgia na GZH"
 date: 2026-11-24T15:38:35-03:00
 description: "Uma adolescente de Pelotas foi baleada na cabeça por seu ex-companheiro e passará por cirurgia no Hospital GZH, conforme informado pela fonte."

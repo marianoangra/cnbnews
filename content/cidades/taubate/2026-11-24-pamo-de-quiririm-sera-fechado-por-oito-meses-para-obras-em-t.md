@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comobras.png"
+imagem: "/fotos/obras.jpg"
 title: "Pamo de Quiririm será fechado por oito meses para obras em Taubaté"
 date: 2026-11-24T20:09:04-03:00
 description: "O Pamo de Quiririm permanecerá fechado por oito meses para execução de obras essenciais, impactando temporariamente o trânsito local em Taubaté, segundo informa o Guia Taubaté."

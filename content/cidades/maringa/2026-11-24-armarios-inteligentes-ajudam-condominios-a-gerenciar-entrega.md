@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Armários inteligentes facilitam gestão de entregas em condomínios de Maringá (PR)"
 date: 2026-11-24T15:38:35-03:00
 description: "Armários inteligentes em condomínios de Maringá (PR) permitem que moradores recebam entregas de compras online de forma segura e organizada, reduzindo o tempo e o risco de perda de mercadorias."

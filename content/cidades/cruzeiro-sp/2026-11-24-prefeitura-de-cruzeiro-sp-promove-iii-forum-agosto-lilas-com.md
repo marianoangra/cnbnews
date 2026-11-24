@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Prefeitura de Cruzeiro, SP promove III Fórum Agosto Lilás com debates sobre proteção às mulheres e fortalecimento da rede de atendimento - A Gazeta RM"
 date: 2026-11-24T18:36:21-03:00
 description: "A Prefeitura de Cruzeiro (SP) promove o III Fórum Agosto Lilás, evento que aborda debates sobre proteção às mulheres e fortalecimento da rede de atendimento público para garantir maior segurança e acesso a serviços essenciais."

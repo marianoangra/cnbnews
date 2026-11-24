@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeconomia.png"
+imagem: "/fotos/economia.jpg"
 title: "REFIS Vitória 2026 oferece até 85% de desconto em multas e juros"
 date: 2026-11-24T17:10:23-03:00
 description: "O programa REFIS Vitória 2026 permite que cidadãos reduzam até 85% das multas e juros devido, oferecendo uma solução prática para a regularização de dívidas sem custos excessivos."

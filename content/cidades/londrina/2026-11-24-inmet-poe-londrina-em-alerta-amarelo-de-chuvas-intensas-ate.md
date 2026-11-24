@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comclima.png"
+imagem: "/fotos/clima.jpg"
 title: "INMET issues yellow alert for Londrina due to heavy rainfall and flood risk"
 date: 2026-11-24T19:41:16-03:00
 description: "INMET has issued a yellow alert for Londrina, indicating possible heavy rainfall with up to 50 mm of precipitation and a high risk of flooding."

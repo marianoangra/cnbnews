@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Prefeitura de Vitória oferece serviços gratuitos e oportunidades para bairro São Benedito"
 date: 2026-11-24T15:38:35-03:00
 description: "Vitória com Você leva serviços gratuitos e oportunidades para São Benedito neste sábado (22) - Prefeitura de Vitória"

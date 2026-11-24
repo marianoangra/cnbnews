@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Concurso SME Pelotas RS 2026: Banca Definida para Fortalecer a Educação Municipal"
 date: 2026-11-24T20:09:04-03:00
 description: "A banca organizadora do concurso público para o SME Pelotas RS 2026 foi oficialmente definida pela Estratégia Concursos, garantindo transparência e qualidade no processo seletivo para atender às demandas da educação municipal."

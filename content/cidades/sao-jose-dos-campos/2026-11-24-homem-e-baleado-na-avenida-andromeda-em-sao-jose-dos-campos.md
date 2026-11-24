@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comobras.png"
+imagem: "/fotos/obras.jpg"
 title: "Homem é baleado na Avenida Andrômeda em São José dos Campos; quatro pessoas detidas"
 date: 2026-11-24T20:09:04-03:00
 description: "Um homem foi baleado na Avenida Andrômeda em São José dos Campos, com quatro pessoas sendo detidas pelas autoridades, conforme informado pela G1."

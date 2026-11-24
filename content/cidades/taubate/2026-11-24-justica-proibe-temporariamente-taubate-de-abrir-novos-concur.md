@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comclima.png"
+imagem: "/fotos/clima.jpg"
 title: "Justiça proíbe temporariamente Taubaté de abrir novos concursos por contrato com o IBAM; entenda - G1"
 date: 2026-11-24T20:09:04-03:00
 description: "A Justiça temporariamente proibiu a cidade de Taubaté (SP) de realizar novos concursos públicos por meio de contrato com o IBAM, medida que visa evitar possíveis irregularidades na gestão de recursos públicos."

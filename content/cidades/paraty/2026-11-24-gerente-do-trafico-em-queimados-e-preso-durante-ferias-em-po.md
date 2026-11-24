@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.compolicia.png"
+imagem: "/fotos/policia.jpg"
 title: "Gerente do tráfico em Queimados é preso em pousada de Paraty durante férias"
 date: 2026-11-24T17:10:23-03:00
 description: "O gerente de tráfico de Queimados foi preso durante férias em uma pousada de Paraty (RJ), conforme informado pela R7."

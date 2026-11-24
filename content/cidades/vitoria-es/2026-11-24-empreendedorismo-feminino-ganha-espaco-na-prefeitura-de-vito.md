@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Empreendedorismo feminino ganha espaço na Prefeitura de Vitória durante os 16 Dias de Ativismo"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Vitória está ampliando a participação de mulheres em projetos de empreendedorismo durante os 16 Dias de Ativismo, evento internacional de conscientização sobre violência de gênero."

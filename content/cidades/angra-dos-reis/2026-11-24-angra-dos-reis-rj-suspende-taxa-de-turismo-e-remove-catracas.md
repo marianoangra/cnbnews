@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comgeral.png"
+imagem: "/fotos/geral.jpg"
 title: "Angra dos Reis suspende taxa de turismo e remove catracas e totens de pagamento"
 date: 2026-11-24T15:38:35-03:00
 description: "A prefeitura de Angra dos Reis está suspendendo a taxa de turismo e removendo catracas e totens de pagamento para simplificar o acesso e reduzir burocracia."

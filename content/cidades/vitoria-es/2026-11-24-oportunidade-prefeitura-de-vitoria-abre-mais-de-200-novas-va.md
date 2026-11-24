@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Prefeitura de Vitória abre mais de 200 vagas em cursos gratuitos para ampliar acesso à educação"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Vitória lançou mais de 200 novas vagas em cursos gratuitos com o objetivo de capacitar cidadãos e fortalecer a inclusão social na região."

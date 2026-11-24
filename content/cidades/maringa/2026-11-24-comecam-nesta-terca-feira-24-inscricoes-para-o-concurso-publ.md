@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Inscrições para concurso público do Aeroporto de Maringá começam nesta terça-feira, 24"
 date: 2026-11-24T20:09:04-03:00
 description: "A Prefeitura do Município de Maringá abre inscrições para o concurso público do Aeroporto de Maringá a partir do dia 24, terça-feira, com o objetivo de garantir a contratação de profissionais qualificados que contribuam para o atendimento eficiente e transparente ao cidadão."

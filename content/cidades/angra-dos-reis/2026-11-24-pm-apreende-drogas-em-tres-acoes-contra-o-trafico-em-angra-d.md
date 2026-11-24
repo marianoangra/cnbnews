@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.compolicia.png"
+imagem: "/fotos/policia.jpg"
 title: "PM apreende drogas em três ações contra tráfico em Angra dos Reis"
 date: 2026-11-24T17:10:23-03:00
 description: "A Polícia Militar de Angra dos Reis realizou três ações coordenadas para combater o tráfico de drogas na região, visando garantir a segurança dos cidadãos e reduzir atividades ilícitas que impactam a qualidade de vida local."

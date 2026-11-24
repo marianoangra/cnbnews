@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comobras.png"
+imagem: "/fotos/obras.jpg"
 title: "Obras interditam trecho da Zona 5, em Maringá - G1"
 date: 2026-11-24T19:59:21-03:00
 description: "Obras interditam trecho da Zona 5, em Maringá - G1"

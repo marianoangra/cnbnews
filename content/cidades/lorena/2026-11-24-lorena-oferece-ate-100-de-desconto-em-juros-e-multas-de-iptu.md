@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeconomia.png"
+imagem: "/fotos/economia.jpg"
 title: "Lorena oferece até 100% de desconto em juros e multas de IPTU e ISS - G1"
 date: 2026-11-24T15:38:35-03:00
 description: "Lorena oferece até 100% de desconto em juros e multas de IPTU e ISS - G1"

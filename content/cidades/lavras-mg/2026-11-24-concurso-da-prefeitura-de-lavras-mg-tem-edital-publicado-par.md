@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comeducacao.png"
+imagem: "/fotos/educacao.jpg"
 title: "Prefeitura de Lavras (MG) publica edital para quase 170 vagas em concurso público"
 date: 2026-11-24T20:09:04-03:00
 description: "A Prefeitura de Lavras (MG) divulgou edital para concurso público com quase 170 vagas, oferecendo oportunidades para cidadãos desejosos de contribuir com a gestão municipal."

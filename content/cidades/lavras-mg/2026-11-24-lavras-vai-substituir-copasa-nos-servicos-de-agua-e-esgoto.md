@@ -1,5 +1,5 @@
 ---
-imagem: "https://cnbmobile.comsaude.png"
+imagem: "/fotos/saude.jpg"
 title: "Lavras vai substituir Copasa nos serviços de água e esgoto - G1"
 date: 2026-11-24T20:09:04-03:00
 description: "Lavras está implementando a substituição da Copasa nos serviços de água e esgoto, visando aprimorar a qualidade e eficiência dos serviços públicos locais."
