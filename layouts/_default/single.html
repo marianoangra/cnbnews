@@ -1,0 +1,8 @@
+{{ define "titulo" }}{{ .Title }} · CNB News Brasil{{ end }}
+{{ define "main" }}
+<article class="art">
+  <div style="margin-bottom:14px"><a class="badge" href="https://cnbmobile.com">← Voltar para CNB Brasil</a></div>
+  <h1>{{ .Title }}</h1>
+  <div class="body-txt">{{ .Content }}</div>
+</article>
+{{ end }}
