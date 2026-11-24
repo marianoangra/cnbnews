@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Prefeitura de Cruzeiro (SP) contrata JC Concursos para elaboração de novo edital com 132 vagas"
 date: 2026-11-24T18:36:21-03:00
 description: "A Prefeitura de Cruzeiro (SP) contratou a JC Concursos para elaboração de novo edital de concursos públicos com 132 vagas, visando ampliar a capacitação de profissionais para atender às demandas da gestão municipal."

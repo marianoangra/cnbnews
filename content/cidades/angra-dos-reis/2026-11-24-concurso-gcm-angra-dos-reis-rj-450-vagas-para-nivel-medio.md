@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Concurso GCM Angra dos Reis RJ: 450 vagas para nível médio!"
 date: 2026-11-24T17:10:23-03:00
 description: "O concurso público do GCM Angra dos Reis oferece 450 vagas para nível médio, visando a contratação de agentes de segurança pública que contribuem para o serviço ao cidadão."

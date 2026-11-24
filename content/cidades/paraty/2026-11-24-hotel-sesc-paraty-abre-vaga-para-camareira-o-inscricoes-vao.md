@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Hotel Sesc Paraty abre vaga para camareira(o); inscrições até 22 de novembro"
 date: 2026-11-24T18:36:21-03:00
 description: "O Hotel Sesc Paraty da ABIH-RJ abre vaga para camareira(o) com inscrições até 22 de novembro."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/economia.svg"
 title: "Prefeitura de Lorena realiza leilão de veículos inservíveis e sucatas - Prefeitura de Lorena"
 date: 2026-11-24T17:10:23-03:00
 description: "This is a description."

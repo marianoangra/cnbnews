@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Ativistas questionam bem-estar de cavalos de Paraty após proibição"
 date: 2026-11-24T17:10:23-03:00
 description: "Ativistas locais estão questionando a efetividade dos serviços de saúde animal em Paraty após a implementação de uma proibição."

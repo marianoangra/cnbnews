@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Prefeitura de Cruzeiro oferece Colônia de Férias gratuita para crianças"
 date: 2026-11-24T18:36:21-03:00
 description: "A prefeitura de Cruzeiro lançou um programa que oferece colônia de férias gratuita para crianças, visando promover o desenvolvimento e o lazer durante o período escolar."

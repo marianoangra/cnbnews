@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/clima.svg"
 title: "Prefeitura de Cruzeiro reinaugura unidade do Poupatempo no Shopping Shibata"
 date: 2026-11-24T19:41:16-03:00
 description: "A Prefeitura de Cruze. SP, reinaugurou a unidade do Poupatempo em novo endereço no Shopping Shibata, visando facilitar o acesso a serviços públicos e melhorar a qualidade do atendimento ao cidadão."

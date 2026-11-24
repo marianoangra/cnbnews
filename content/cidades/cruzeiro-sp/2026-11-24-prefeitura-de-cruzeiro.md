@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Processo Seletivo da Prefeitura de Cruzeiro (SP) para Melhoria do Serviço Público"
 date: 2026-11-24T19:41:16-03:00
 description: "Prefeitura de Cruzeiro - SP divulga abertura de Processo Seletivo - PCI Concursos"

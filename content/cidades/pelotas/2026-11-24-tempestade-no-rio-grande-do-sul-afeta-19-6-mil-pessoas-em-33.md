@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/clima.svg"
 title: "Tempestade no Rio Grande do Sul afeta 19,6 mil pessoas em 33 cidades"
 date: 2026-11-24T15:38:35-03:00
 description: "Tempestade no Rio Grande do Sul impactou 19,6 mil pessoas em 33 cidades, exigindo ações rápidas de assistência e segurança para os cidadãos afetados."

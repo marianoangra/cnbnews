@@ -2,7 +2,7 @@
 {{ define "edicao" }}{{ if not .Sections }}{{ .Title }}{{ else }}Brasil{{ end }}{{ end }}
 {{ define "home" }}{{ if .Sections }}/{{ else }}./{{ end }}{{ end }}
 {{ define "main" }}
-{{ $def := "https://unsplash.com" }}
+{{ $def := "/img/geral.svg" }}
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
   <h1 style="margin:0;font-size:1.75rem;font-weight:900">{{ .Title }}</h1>
   <a href="https://cnbmobile.com" style="font-size:.85rem;color:var(--red);text-decoration:none;font-weight:800">← CNB BRASIL</a>

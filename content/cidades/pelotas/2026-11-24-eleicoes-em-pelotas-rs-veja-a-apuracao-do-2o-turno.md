@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Eleições em Pelotas (RS): veja a apuração do 2º turno - O GLOBO"
 date: 2026-11-24T14:41:32-03:00
 description: "O GLOBO divulgou a apuração final das eleições municipais de Pelotas no segundo turno."

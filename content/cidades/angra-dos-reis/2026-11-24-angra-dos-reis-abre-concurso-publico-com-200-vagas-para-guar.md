@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Novas Medidas para Melhorar o Serviço Público em Angra dos Reis"
 date: 2026-11-24T15:38:35-03:00
 description: "A prefeitura de Angra dos Reis está implementando novas ações para garantir um serviço público mais eficiente e acessível para todos os cidadãos."

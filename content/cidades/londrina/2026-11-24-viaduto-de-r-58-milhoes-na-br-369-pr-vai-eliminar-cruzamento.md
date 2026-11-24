@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Viaduto de R$58 milhões na BR-369/PR em Londrina"
 date: 2026-11-24T19:59:21-03:00
 description: "O viaduto de R$58 milhões na BR-369/PR em Londrina foi projetado para eliminar um cruzamento crítico que contribui para a ocorrência de mortes na região.  A iniciativa da Estradas visa garantir maior segurança viária, reduzindo o número de óbitos e beneficiando diretamente os moradores da área."

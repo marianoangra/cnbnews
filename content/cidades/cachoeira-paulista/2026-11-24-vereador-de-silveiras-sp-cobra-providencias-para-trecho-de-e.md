@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Vereador de Silveiras solicita providências para trecho de estrada com risco de acidentes"
 date: 2026-11-24T15:38:35-03:00
 description: "Vereador de Silveiras, no estado de São Paulo, exigiu medidas urgentes para resolver um trecho de estrada onde a presença de terra na pista aumenta significativamente o risco de acidentes."

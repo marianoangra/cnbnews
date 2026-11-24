@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Concurso Cachoeira Paulista-SP 2026: Prova, Gabarito e Resultado Publicados pela Ache Concursos"
 date: 2026-11-24T15:38:35-03:00
 description: "O concurso público de Cachoeira Paulista-SP para 2026, organizado pela Ache Concursos, disponibiliza informações sobre a prova, gabarito e resultado para facilitar a seleção de servidores públicos com foco no atendimento ao cidadão."

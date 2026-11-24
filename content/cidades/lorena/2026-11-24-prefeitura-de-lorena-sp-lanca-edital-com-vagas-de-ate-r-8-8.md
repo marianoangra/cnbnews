@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Prefeitura de Lorena-SP lança edital com vagas de até R$ 8,8 mil para concursos públicos"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Lorena-SP lançou um edital de concursos públicos com vagas para cargos que oferecem salários até R$ 8,8 mil, visando atrair profissionais qualificados para contribuir com o desenvolvimento da cidade."

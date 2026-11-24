@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/saude.svg"
 title: "Ponte sobre o Rio Ivaí chega a 47% e vai substituir travessia de balsa no Noroeste do Paraná"
 date: 2026-11-24T15:38:35-03:00
 description: "A ponte sobre o Rio Ivaí, que atinge 47% de construção, substituirá a travessia de balsa no Noroeste do Paraná, melhorando a mobilidade e segurança dos cidadãos."

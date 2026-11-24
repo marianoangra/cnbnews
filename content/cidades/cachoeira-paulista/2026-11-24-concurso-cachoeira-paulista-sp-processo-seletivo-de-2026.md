@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Concurso Cachoeira Paulista 2026: Processo Seletivo da Estratégia Concursos"
 date: 2026-11-24T15:38:35-03:00
 description: "A Estratégia Concursos lançou o processo seletivo para 2026, visando capacitar profissionais que atuem no município de Cachoeira Paulista, SP, com foco em serviços públicos de qualidade."

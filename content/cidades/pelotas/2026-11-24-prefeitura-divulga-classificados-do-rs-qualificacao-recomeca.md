@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Prefeitura de Pelotas divulga classificados da Qualificação Recomeçar do RS"
 date: 2026-11-24T14:41:32-03:00
 description: "A Prefeitura de Pelotas divulgou os classificados da etapa de qualificação do Recomeçar do Rio Grande do Sul."

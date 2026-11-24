@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Comércio de Rua Amplia Atendimento para Black Friday em Londrina"
 date: 2026-11-24T17:10:23-03:00
 description: "O comércio de rua em Londrina ampliou seus serviços para atender ao Black Friday, garantindo maior acessibilidade e conveniência aos cidadãos."

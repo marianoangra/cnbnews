@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Eleições 2026: quem foi mais votado em Pelotas (RS) no 1º turno"
 date: 2026-11-24T13:47:56-03:00
 description: "O GLOBO divulgou um relatório com os resultados do primeiro turno das eleições de 2026 na cidade de Pelotas, no Rio Grande do Sul."

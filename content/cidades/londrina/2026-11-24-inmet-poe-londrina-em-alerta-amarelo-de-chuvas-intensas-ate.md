@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/clima.svg"
 title: "INMET issues yellow alert for Londrina due to heavy rainfall and flood risk"
 date: 2026-11-24T19:41:16-03:00
 description: "INMET has issued a yellow alert for Londrina, indicating possible heavy rainfall with up to 50 mm of precipitation and a high risk of flooding."

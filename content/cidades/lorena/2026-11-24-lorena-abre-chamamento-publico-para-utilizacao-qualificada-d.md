@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Lorena abre Chamamento Público para utilização qualificada do espaço público do CEO II"
 date: 2026-11-24T17:10:23-03:00
 description: "A Prefeitura de Lorena lançou um Chamamento Público para que entidades e cidadãos possam utilizar o espaço público do CEO II de forma qualificada, visando garantir maior transparência e acesso aos recursos municipais."

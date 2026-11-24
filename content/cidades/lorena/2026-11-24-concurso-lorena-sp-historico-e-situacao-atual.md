@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Concurso Lorena SP: Histórico e Situação Atual"
 date: 2026-11-24T15:38:35-03:00
 description: "O concurso público de Lorena (SP) mantém um histórico de seleção de servidores públicos, com atualização constante em sua situação atual para garantir a eficiência no atendimento ao cidadão."

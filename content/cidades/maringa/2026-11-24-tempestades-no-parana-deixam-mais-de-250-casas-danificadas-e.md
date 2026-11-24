@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/clima.svg"
 title: "Tempestades deixam mais de 250 casas danificadas em Maringá"
 date: 2026-11-24T18:36:21-03:00
 description: "Tempestades no Paraná deixam mais de 250 casas danificadas e 18 pessoas desalojadas - Maringa.Com"

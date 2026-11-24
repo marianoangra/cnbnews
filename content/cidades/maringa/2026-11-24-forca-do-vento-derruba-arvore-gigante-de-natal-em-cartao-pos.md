@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Força do vento derruba árvore gigante de Natal em cartão-postal de Maringá"
 date: 2026-11-24T19:41:16-03:00
 description: "Uma forte corrente de vento derrubou uma árvore gigante de Natal em um local emblemático de Maringá, gerando necessidade de ações rápidas para garantir a segurança pública e a recuperação do espaço."

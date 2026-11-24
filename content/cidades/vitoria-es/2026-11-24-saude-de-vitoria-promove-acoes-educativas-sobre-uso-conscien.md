@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/saude.svg"
 title: "Saúde de Vitória promove ações educativas para conscientização sobre uso correto de antibióticos"
 date: 2026-11-24T18:36:21-03:00
 description: "A Prefeitura de Vitória, por meio da Secretaria Municipal de Saúde, realiza campanhas educativas visando orientar a população sobre o uso responsável de antibióticos, com o objetivo de reduzir a resistência bacteriana e garantir a eficácia dos medicamentos."

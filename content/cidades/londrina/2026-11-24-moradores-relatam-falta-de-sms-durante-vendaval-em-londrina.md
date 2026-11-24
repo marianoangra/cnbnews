@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Moradores de Londrina relatam falha no envio de SMS durante vendaval"
 date: 2026-11-24T15:38:35-03:00
 description: "Moradores de Londrina relatam que não receberam alertas por SMS durante o vendaval que atingiu a cidade, destacando a insuficiência do sistema de notificações em momentos críticos."

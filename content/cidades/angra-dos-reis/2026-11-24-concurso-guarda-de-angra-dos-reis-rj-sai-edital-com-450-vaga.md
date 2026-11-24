@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Concurso Público para 450 Vagas na Guarda Municipal de Angra dos Reis: Edital Publicado pela Qconcursos Folha Dirigida"
 date: 2026-11-24T15:38:35-03:00
 description: "O concurso público para preenchimento de 450 vagas na Guarda Municipal de Angra dos Reis, publicado pela Qconcursos Folha Dirigida, representa uma medida estratégica para fortalecer a segurança pública e o atendimento ao cidadão na região. A seleção de novos agentes visa garantir que a força de segurança municipal esteja preparada para atender às demandas com eficiência e transparência, contribuindo diretamente para a qualidade de vida dos moradores."

@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/obras.svg"
 title: "Obras interditam trecho da Zona 5, em Maringá - G1"
 date: 2026-11-24T19:59:21-03:00
 description: "Obras interditam trecho da Zona 5, em Maringá - G1"

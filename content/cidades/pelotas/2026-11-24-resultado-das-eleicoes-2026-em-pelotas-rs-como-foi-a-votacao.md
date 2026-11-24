@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Resultado das eleições 2026 em Pelotas (RS): como foi a votação no 1º turno"
 date: 2026-11-24T13:47:56-03:00
 description: "A G1 divulgou os resultados do primeiro turno das eleições de 2026 em Pelotas, revelando as principais tendências na votação local."

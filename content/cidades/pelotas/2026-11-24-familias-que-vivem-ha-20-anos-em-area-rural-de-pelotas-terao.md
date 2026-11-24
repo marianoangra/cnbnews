@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/geral.svg"
 title: "Famílias que vivem há 20 anos em áreas rurais de Pelotas terão imóveis regularizados"
 date: 2026-11-24T11:09:28-03:00
 description: "Famílias que residem há 20 anos em áreas rurais de Pelotas receberão regularização de imóveis segundo a GZH."

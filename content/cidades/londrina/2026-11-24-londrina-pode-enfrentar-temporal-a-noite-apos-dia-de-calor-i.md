@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/clima.svg"
 title: "Londrina pode enfrentar temporal à noite após dia de calor intenso nesta terça-feira (24)"
 date: 2026-11-24T15:38:35-03:00
 description: "Londrina está em alerta para possíveis tempestades à noite após um dia de alta temperatura nesta terça-feira (24)."

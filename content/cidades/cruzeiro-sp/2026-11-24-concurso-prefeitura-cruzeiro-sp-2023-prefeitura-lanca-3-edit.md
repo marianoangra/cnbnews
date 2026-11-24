@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/educacao.svg"
 title: "Concurso Prefeitura Cruzeiro-SP 2023: 3 editais com 133 vagas lançados"
 date: 2026-11-24T18:36:21-03:00
 description: "A Prefeitura de Cruzeiro-SP lançou três editais de concursos públicos com 133 vagas para atender às demandas da gestão municipal em 2023, visando fortalecer o serviço ao cidadão."

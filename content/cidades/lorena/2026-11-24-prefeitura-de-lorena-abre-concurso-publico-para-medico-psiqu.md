@@ -1,5 +1,5 @@
 ---
-imagem: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
+imagem: "/img/saude.svg"
 title: "Prefeitura de Lorena abre concurso público para Médico Psiquiatra, Tesoureiro e Agente de Atendimento Especial"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Lorena abre concurso público para preencher vagas de Médico Psiquiatra, Tesoureiro e Agente de Atendimento Especial, visando fortalecer o atendimento ao cidadão e a transparência financeira no município."
