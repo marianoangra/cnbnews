@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "Prefeitura de Cachoeira Paulista abre processo seletivo com vagas em diversas áreas"
 date: 2026-11-24T15:38:35-03:00
 description: "A prefeitura de Cachoeira Paulista lançou um processo seletivo para preencher diversas vagas em diferentes áreas do serviço público, visando aprimorar o atendimento ao cidadão e fortalecer o serviço público local."

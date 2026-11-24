@@ -1,5 +1,5 @@
 ---
-imagem: "/img/obras.svg"
+imagem: "https://cnbmobile.comobras.png"
 title: "Prefeitura de Piracicaba segue reforma da ciclovia da Avenida Cruzeiro do Sul"
 date: 2026-11-24T17:10:23-03:00
 description: "A prefeitura de Piracicaba está continuando com a reforma da ciclovia da Avenida Cruzeiro do Sul para garantir maior segurança e facilitar a mobilidade de ciclistas na região."

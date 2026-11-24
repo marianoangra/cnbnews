@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Grupo usava dados de criança para desviar hormônios de farmácia popular - UOL Notícias"
 date: 2026-11-24T14:41:32-03:00
 description: "Um grupo utilizava dados de crianças para desviar hormônios de uma farmácia popular."

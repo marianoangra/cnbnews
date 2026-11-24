@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "MEC promove último aulão do Enem em Pelotas (RS)"
 date: 2026-11-24T15:38:35-03:00
 description: "O Ministério da Educação (MEC) realizará o último aulão do Enem em Pelotas (RS) para orientar candidatos na preparação final do exame."

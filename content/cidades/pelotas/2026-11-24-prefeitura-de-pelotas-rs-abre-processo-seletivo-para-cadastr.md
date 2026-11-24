@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Prefeitura de Pelotas-RS abre processo seletivo para cadastro de reserva de mecânico"
 date: 2026-11-24T11:09:28-03:00
 description: "A prefeitura de Pelotas-RS lançou um processo seletivo para cadastro de reserva de mecânicos, conforme informado pela plataforma Qconcursos Folha Dirigida."

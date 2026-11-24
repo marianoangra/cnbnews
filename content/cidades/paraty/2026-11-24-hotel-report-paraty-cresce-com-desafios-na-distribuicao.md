@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Paraty cresce com desafios na distribuição de serviços: relatório do setor hoteliero"
 date: 2026-11-24T15:38:35-03:00
 description: "Paraty enfrenta desafios na distribuição de serviços públicos devido ao crescimento do setor hoteliero, impactando a qualidade de vida dos cidadãos."

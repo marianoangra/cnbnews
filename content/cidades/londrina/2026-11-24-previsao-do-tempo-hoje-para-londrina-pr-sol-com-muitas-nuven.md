@@ -1,5 +1,5 @@
 ---
-imagem: "/img/clima.svg"
+imagem: "https://cnbmobile.comclima.png"
 title: "Previsão do tempo hoje em Londrina: sol com nuvens e pancadas de chuva à noite"
 date: 2026-11-24T15:38:35-03:00
 description: "A previsão do tempo para hoje em Londrina, divulgada pela G1, informa sol com muitas nuvens e pancadas de chuva à tarde e à noite, orientando os cidadãos a se prepararem para as condições climáticas."

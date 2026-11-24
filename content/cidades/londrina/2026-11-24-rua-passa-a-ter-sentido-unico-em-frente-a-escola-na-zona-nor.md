@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "Rua na Zona Norte de Londrina Passa a Ter Sentido Único em Frente a Escola"
 date: 2026-11-24T15:38:35-03:00
 description: "A medida visa garantir segurança dos estudantes e reduzir riscos de acidentes na região."

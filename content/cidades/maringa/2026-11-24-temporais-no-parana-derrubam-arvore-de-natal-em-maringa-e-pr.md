@@ -1,5 +1,5 @@
 ---
-imagem: "/img/clima.svg"
+imagem: "https://cnbmobile.comclima.png"
 title: "Temporais no Paraná derrubam árvore de Natal em Maringá e geram nuvem em funil em Foz do Iguaçu"
 date: 2026-11-24T18:36:21-03:00
 description: "Temporais intensos no Paraná causaram a derrubada de uma árvore de Natal em Maringá e a formação de uma nuvem em funil em Foz do Iguaçu, segundo informações do Clima ao Vivo."

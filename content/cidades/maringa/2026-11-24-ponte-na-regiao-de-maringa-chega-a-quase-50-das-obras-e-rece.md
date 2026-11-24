@@ -1,5 +1,5 @@
 ---
-imagem: "/img/obras.svg"
+imagem: "https://cnbmobile.comobras.png"
 title: "Ponte na região de Maringá chega a quase 50% das obras com investimento de R$ 33,7 milhões"
 date: 2026-11-24T15:38:35-03:00
 description: "A ponte na região de Maringá está concluindo quase 50% das obras com investimento de R$ 33,7 milhões, visando aprimorar a infraestrutura urbana e o acesso da população."

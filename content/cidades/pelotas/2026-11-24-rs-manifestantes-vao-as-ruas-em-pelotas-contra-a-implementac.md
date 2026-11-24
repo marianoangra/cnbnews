@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Manifestantes de Pelotas protestam contra a implementação da CMPC Celulose"
 date: 2026-11-24T14:41:32-03:00
 description: "Manifestantes locais estão se reunindo para protestar contra a decisão da empresa CMPC Celulose de expandir suas operações na região."

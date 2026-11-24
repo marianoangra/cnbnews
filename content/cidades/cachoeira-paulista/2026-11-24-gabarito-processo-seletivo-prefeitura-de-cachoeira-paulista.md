@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Gabarito Processo Seletivo Prefeitura de Cachoeira Paulista SP 2026 - FiiBrasil"
 date: 2026-11-24T15:38:35-03:00
 description: "Gabarito Processo Seletivo Prefeitura de Cachoeira Paulista SP 2026 - FiiBrasil"

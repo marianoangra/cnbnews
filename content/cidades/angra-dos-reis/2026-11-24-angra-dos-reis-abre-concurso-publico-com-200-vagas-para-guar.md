@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Novas Medidas para Melhorar o Serviço Público em Angra dos Reis"
 date: 2026-11-24T15:38:35-03:00
 description: "A prefeitura de Angra dos Reis está implementando novas ações para garantir um serviço público mais eficiente e acessível para todos os cidadãos."

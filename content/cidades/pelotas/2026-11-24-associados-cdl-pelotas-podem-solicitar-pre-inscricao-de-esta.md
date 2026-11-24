@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Associados CDL Pelotas podem solicitar pré-inscrição de estandes para a 33ª Fenadoce até 25"
 date: 2026-11-24T11:27:16-03:00
 description: "Os associados da CDL Pelotas têm até esta quarta-feira (25) para solicitar a pré-inscrição de estandes na 33ª Fenadoce."

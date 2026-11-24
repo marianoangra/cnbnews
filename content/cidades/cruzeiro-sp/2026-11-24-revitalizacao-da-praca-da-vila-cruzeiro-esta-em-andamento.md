@@ -1,5 +1,5 @@
 ---
-imagem: "/img/obras.svg"
+imagem: "https://cnbmobile.comobras.png"
 title: "Revitalização da Praça da Vila Cruzeiro está em andamento na Prefeitura Municipal de Capão Bonito"
 date: 2026-11-24T17:10:23-03:00
 description: "A Prefeitura Municipal de Capão Bonito está executando a revitalização da Praça da Vila Cruzeiro para melhorar o acesso e a qualidade do espaço público para a população."

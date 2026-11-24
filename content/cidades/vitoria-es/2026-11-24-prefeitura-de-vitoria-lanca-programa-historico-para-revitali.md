@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Prefeitura de Vitória lança programa histórico para revitalizar o Centro e destravar mais de R$ 6 bi - Prefeitura de Vitória"
 date: 2026-11-24T15:38:35-03:00
 description: "Prefeitura de Vitória lança programa histórico para revitalizar o Centro e destravar mais de R$ 6 bi - Prefeitura de Vitória"

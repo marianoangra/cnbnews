@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "O concurso público do GCM de Angra dos Reis, com edital publicado pela Focus Concursos, oferece 450 vagas para ampliar a capacidade de atendimento à segurança pública no município."
 date: 2026-11-24T17:10:23-03:00
 description: "Concurso GCM Angra dos Reis RJ: edital oferece 450 vagas - Focus Concursos"

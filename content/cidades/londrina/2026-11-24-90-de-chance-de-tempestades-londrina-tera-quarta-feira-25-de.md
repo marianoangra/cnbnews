@@ -1,5 +1,5 @@
 ---
-imagem: "/img/clima.svg"
+imagem: "https://cnbmobile.comclima.png"
 title: "90% de chance de tempestades: Londrina terá quarta-feira (25) de chuva intensa - Tribuna do Paraná"
 date: 2026-11-24T19:41:16-03:00
 description: "90% de chance de tempestades: Londrina terá quarta-feira (25) de chuva intensa - Tribuna do Paraná"

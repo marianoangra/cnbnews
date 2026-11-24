@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Corrida Zumbi dos Palmares"
 date: 2026-11-24T18:36:21-03:00
 description: "A race event that celebrates the cultural heritage of the Tupi people in Brazil."

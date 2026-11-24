@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Justiça manda prefeitura de Pelotas restaurar Castelo Simões Lopes"
 date: 2026-11-24T13:47:56-03:00
 description: "A Justiça do Estado determinou que a prefeitura de Pelotas realize a restauração do Castelo Simões Lopes."

@@ -1,5 +1,5 @@
 ---
-imagem: "/img/clima.svg"
+imagem: "https://cnbmobile.comclima.png"
 title: "Previsão do Tempo para Maringá (PR) Hoje: Sol com Nuvens e Pancadas de Chuva à Tarde"
 date: 2026-11-24T15:38:35-03:00
 description: "Hoje em Maringá (PR), prevê-se sol com muitas nuvens e pancadas de chuva à tarde e à noite, conforme a previsão do G1."

@@ -1,5 +1,5 @@
 ---
-imagem: "/img/economia.svg"
+imagem: "https://cnbmobile.comeconomia.png"
 title: "Anistia sobre juros e multas de IPTU e ISS pode ser solicitada até 30 de setembro em Lorena"
 date: 2026-11-24T17:10:23-03:00
 description: "A Prefeitura de Lorena informa que cidadãos podem solicitar a anistia de juros e multas relacionadas ao IPTU e ISS até o dia 30 de setembro para evitar custos adicionais."

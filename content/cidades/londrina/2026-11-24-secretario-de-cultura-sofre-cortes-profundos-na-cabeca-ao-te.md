@@ -1,5 +1,5 @@
 ---
-imagem: "/img/clima.svg"
+imagem: "https://cnbmobile.comclima.png"
 title: "Secretário de Cultura sofre cortes profundos na cabeça ao tentar proteger pessoas de vendaval em Londrina: 'Não deu tempo de nada' - G1"
 date: 2026-11-24T19:59:21-03:00
 description: "Secretário de Cultura sofre cortes profundos na cabeça ao tentar proteger pessoas de vendaval em Londrina: 'Não deu tempo de nada' - G1"

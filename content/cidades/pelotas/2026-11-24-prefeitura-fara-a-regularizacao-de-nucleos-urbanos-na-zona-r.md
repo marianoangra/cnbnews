@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Prefeitura de Pelotas realizará regularização de núcleos urbanos na zona rural"
 date: 2026-11-24T11:09:28-03:00
 description: "A prefeitura de Pelotas iniciará a regularização de núcleos urbanos localizados em áreas rurais."

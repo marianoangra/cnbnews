@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "Prefeitura de Itapevi avança com construção da Escola do Futuro no Jardim Cruzeiro, com 70% das obras concluídas"
 date: 2026-11-24T19:59:21-03:00
 description: "A prefeitura de Itapevi está concluindo 70% das obras da Escola do Futuro no bairro Jardim Cruzeiro, comprometida com a melhoria da educação e o desenvolvimento da comunidade local."

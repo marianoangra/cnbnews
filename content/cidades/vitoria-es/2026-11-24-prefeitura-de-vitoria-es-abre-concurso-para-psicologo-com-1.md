@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "Prefeitura de Vitória abre concurso para psicólogo com 1 vaga"
 date: 2026-11-24T18:36:21-03:00
 description: "A Prefeitura de Vitória, no estado do Espírito Santo, lançou um concurso público para preencher uma vaga de psicólogo, conforme informado pela plataforma Qconcursos Folha Dirigida."

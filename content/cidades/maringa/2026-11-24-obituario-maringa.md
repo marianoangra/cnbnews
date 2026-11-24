@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Obituário/Maringá - Angelo Rigon"
 date: 2026-11-24T17:10:23-03:00
 description: "Obituário/Maringá - Angelo Rigon"

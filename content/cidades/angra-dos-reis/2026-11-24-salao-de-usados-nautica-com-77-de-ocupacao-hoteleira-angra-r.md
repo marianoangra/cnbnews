@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Salão de Usados Náutica movimenta Angra com 77% de ocupação hoteleira durante feriadão"
 date: 2026-11-24T15:38:35-03:00
 description: "O evento realizado pela Náutica em Angra dos Reis, com 77% de ocupação hoteleira, impulsiona a economia local durante o feriadão, facilitando o acesso de cidadãos a serviços náuticos."

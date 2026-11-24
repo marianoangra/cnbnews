@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Cruzeiro (SP) conclui apuração das eleições com 100% das seções totalizadas"
 date: 2026-11-24T17:10:23-03:00
 description: "Cruzeiro (SP) conclui a apuração das eleições com 100% das seções eleitorais, garantindo transparência no processo."

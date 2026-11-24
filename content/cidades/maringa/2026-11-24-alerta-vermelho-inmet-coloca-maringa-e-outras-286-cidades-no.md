@@ -1,5 +1,5 @@
 ---
-imagem: "/img/clima.svg"
+imagem: "https://cnbmobile.comclima.png"
 title: "Alerta vermelho do Inmet: Maringá e outras 286 cidades sob nível máximo de atenção por risco de tempestades com ventos acima de 100 km/h"
 date: 2026-11-24T18:36:21-03:00
 description: "O Inmet alertou que Maringá e outras 286 cidades estão sob alerta vermelho de nível máximo de atenção devido a possibilidade de tempestades intensas com ventos que podem superar 100 km/h."

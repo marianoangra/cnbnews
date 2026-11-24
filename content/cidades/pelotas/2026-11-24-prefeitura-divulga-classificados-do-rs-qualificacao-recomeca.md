@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Prefeitura de Pelotas divulga classificados da Qualificação Recomeçar do RS"
 date: 2026-11-24T14:41:32-03:00
 description: "A Prefeitura de Pelotas divulgou os classificados da etapa de qualificação do Recomeçar do Rio Grande do Sul."

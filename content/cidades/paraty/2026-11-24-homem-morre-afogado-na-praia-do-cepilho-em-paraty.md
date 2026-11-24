@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Homem morre afogado na Praia do Cepilho, em Paraty - G1"
 date: 2026-11-24T15:38:35-03:00
 description: "Homem morre afogado na Praia do Cepilho, em Paraty - G1"

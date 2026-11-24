@@ -1,5 +1,5 @@
 ---
-imagem: "/img/economia.svg"
+imagem: "https://cnbmobile.comeconomia.png"
 title: "Carnês do IPTU e ISS 2026 já estão sendo distribuídos em Lorena, segundo a Prefeitura"
 date: 2026-11-24T18:36:21-03:00
 description: "A Prefeitura de Lorena informa que os carnês do IPTU e ISS para o ano de 2026 estão sendo distribuídos aos cidadãos, visando facilitar o pagamento e a transparência na gestão fiscal."

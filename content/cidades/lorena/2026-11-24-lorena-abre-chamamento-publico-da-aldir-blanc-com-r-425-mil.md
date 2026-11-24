@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "Lorena abre Chamamento Público da Aldir Blanc com R$ 425 mil para seleção de projetos culturais"
 date: 2026-11-24T17:10:23-03:00
 description: "A Prefeitura de Lorena lançou um chamamento público da Aldir Blanc com investimento de R$ 425 mil para seleção de projetos culturais que visem fortalecer a identidade local e promover o engajamento da população."

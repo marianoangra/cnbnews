@@ -1,5 +1,5 @@
 ---
-imagem: "/img/educacao.svg"
+imagem: "https://cnbmobile.comeducacao.png"
 title: "Concurso Público de Lavras (MG): Vagas com Salário Até R$ 15,8 Mil e Gabaritos Disponíveis"
 date: 2026-11-24T20:06:25-03:00
 description: "A Estratégia Concursos divulgou os gabaritos do concurso público de Lavras (MG) que oferece salários até R$ 15,8 mil, permitindo que os candidatos aprovados acessem as informações necessárias para a contratação."

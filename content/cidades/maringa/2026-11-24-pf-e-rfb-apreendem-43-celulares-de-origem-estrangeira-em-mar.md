@@ -1,5 +1,5 @@
 ---
-imagem: "/img/policia.svg"
+imagem: "https://cnbmobile.compolicia.png"
 title: "Polícia Federal e Receita Federal apreendem 43 celulares estrangeiros em Maringá/PR"
 date: 2026-11-24T15:38:35-03:00
 description: "A Polícia Federal e a Receita Federal do Brasil apreenderam 43 celulares de origem estrangeira em Maringá, PR, ação que visa garantir a segurança jurídica e fiscal dos dispositivos eletrônicos utilizados pelo cidadão."

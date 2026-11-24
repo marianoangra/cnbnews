@@ -1,5 +1,5 @@
 ---
-imagem: "/img/saude.svg"
+imagem: "https://cnbmobile.comsaude.png"
 title: "Primavera da Saúde: Vitória oferece mais de 120 mil atendimentos em 29 unidades de saúde aos sábados"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Vitória realiza, durante os sábados, a iniciativa Primavera da Saúde em 29 unidades de saúde, atendendo mais de 120 mil cidadãos com serviços de saúde essenciais."

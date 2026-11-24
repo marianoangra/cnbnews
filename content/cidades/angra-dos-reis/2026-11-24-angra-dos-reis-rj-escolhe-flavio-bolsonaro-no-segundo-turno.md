@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Angra dos Reis (RJ) escolhe Flávio Bolsonaro no segundo turno"
 date: 2026-11-24T15:38:35-03:00
 description: "De acordo com o jornal Congresso em Foco, Angra dos Reis (RJ) confirmou a vitória de Flávio Bolsonaro no segundo turno das eleições municipais."

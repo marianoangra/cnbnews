@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Calendário de Matrículas para o Ano Letivo de 2027"
 date: 2026-11-24T15:38:35-03:00
 description: "Educação: rede municipal de Vitória inicia calendário de matrículas para o ano letivo de 2027 - Prefeitura de Vitória"

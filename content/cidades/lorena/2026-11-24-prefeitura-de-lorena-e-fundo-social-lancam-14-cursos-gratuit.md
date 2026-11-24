@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "City Council and Fund Launch 14 Free Courses with 770 Spots for the Second Semester of 2:26"
 date: 2026-11-24T15:38:35-03:00
 description: "The City Council, in partnership with the Fund, offers 14 free courses for the second semester of 2026, with 770 spots, aiming to empower and promote social development in the community."

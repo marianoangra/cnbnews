@@ -1,5 +1,5 @@
 ---
-imagem: "/img/geral.svg"
+imagem: "https://cnbmobile.comgeral.png"
 title: "Londrina Paraná Day 2027: Iniciativa da Prefeitura para Fortalecer o Engajamento Cidadão"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Londrina lançará o Londrina Paraná Day 2027 para promover maior proximidade com os cidadãos e aprimorar os serviços públicos."

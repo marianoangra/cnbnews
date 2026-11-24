@@ -1,5 +1,5 @@
 ---
-imagem: "/img/obras.svg"
+imagem: "https://cnbmobile.comobras.png"
 title: "Acidentes de trânsito reforçam a importância de preservar vidas"
 date: 2026-11-24T15:38:35-03:00
 description: "Acidentes de trânsito em Londrina reforçam a necessidade de ações preventivas para garantir a segurança de todos os cidadãos."

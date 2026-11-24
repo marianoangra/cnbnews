@@ -1,5 +1,5 @@
 ---
-imagem: "/img/clima.svg"
+imagem: "https://cnbmobile.comclima.png"
 title: "Previsão do tempo em Paraty (RJ): sexta-feira terá queda de temperatura e chuva de madrugada"
 date: 2026-11-24T15:38:35-03:00
 description: "A previsão do tempo para Paraty no dia sexta-feira indica queda de temperatura e chuva na madrugada, orientando os cidadãos a se prepararem para condições climáticas adversas."

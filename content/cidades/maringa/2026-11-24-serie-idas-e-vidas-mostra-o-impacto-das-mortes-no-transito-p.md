@@ -1,5 +1,5 @@
 ---
-imagem: "/img/obras.svg"
+imagem: "https://cnbmobile.comobras.png"
 title: "Série 'Idas e Vidas' revela impacto das mortes no trânsito nas famílias"
 date: 2026-11-24T17:10:23-03:00
 description: "A série 'Idas e Vidas' da G1 destaca o impacto emocional e financeiro que os acidentes de trânsito causam em famílias, reforçando a necessidade de políticas públicas eficazes para garantir a segurança viária."
