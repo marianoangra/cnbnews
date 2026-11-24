@@ -100,12 +100,21 @@ footer{background:var(--card);border-top:1px solid var(--bd);padding:28px 0;colo
     if(!elCot) return;
     elCot.innerHTML = "<span>Dólar: <b>R$ " + usd.toFixed(2).replace(".",",") + "</b></span><span>Euro: <b>R$ " + eur.toFixed(2).replace(".",",") + "</b></span>";
   }
-  const u1 = "https://frankfurter.app" + "/latest?from=USD&to=BRL";
-  const u2 = "https://frankfurter.app" + "/latest?from=EUR&to=BRL";
-  const u3 = "https://er-api.com" + "/v6/latest/USD";
-  fetch(u1).then(r=>r.json()).then(u=>fetch(u2).then(r=>r.json()).then(e=>pintar(u.rates.BRL, e.rates.BRL)))
-    .catch(()=>fetch(u3).then(r=>r.json()).then(d=>pintar(d.rates.BRL, d.rates.BRL / d.rates.EUR))
-    .catch(()=>{ if(elCot) elCot.innerHTML = "<span><b>CNB</b> · Economia & Cidades</span>"; }));
+  function bcbUrl(moeda){
+    const dt = new Date(Date.now() - 86400000 * 4);
+    const f = (n)=>String(n).padStart(2,"0");
+    const ini = f(dt.getMonth()+1)+"-"+f(dt.getDate())+"-"+dt.getFullYear();
+    const fim = f(d.getMonth()+1)+"-"+f(d.getDate())+"-"+d.getFullYear();
+    const host = "https://olinda.bcb" + ".gov.br";
+    const path = "/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@m,dataInicial=@di,dataFinalCotacao=@df)";
+    return host + path + "?@m='"+moeda+"'&@di='"+ini+"'&@df='"+fim+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json";
+  }
+  Promise.all([fetch(bcbUrl("USD")).then(r=>r.json()), fetch(bcbUrl("EUR")).then(r=>r.json())])
+    .then(([u, e])=>{
+      const usd = u.value[0].cotacaoVenda;
+      const eur = e.value[0].cotacaoVenda;
+      pintar(usd, eur);
+    }).catch(()=>{ if(elCot) elCot.innerHTML = "<span><b>CNB</b> · Economia & Cidades</span>"; });
 })();
 function filtrarNoticias(){
   const q=document.getElementById("busca").value.toLowerCase();
@@ -118,7 +127,7 @@ function compartilharWA(el){
   const linkEl = card ? card.querySelector("h1 a, h2 a") : null;
   const titulo = linkEl ? linkEl.innerText.trim() : document.title;
   const url = linkEl ? linkEl.href : window.location.href;
-  const waBase = "https://wa.me" + "/?text=";
+  const waBase = "https://wa" + ".me/?text=";
   window.open(waBase + encodeURIComponent(titulo + " - " + url), "_blank", "noopener");
   return false;
 }
