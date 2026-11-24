@@ -87,13 +87,13 @@ footer{background:var(--dark);color:#a1a1aa;border-top:3px solid var(--red);padd
   if(el)el.textContent=s.charAt(0).toUpperCase()+s.slice(1);
   const c=document.getElementById("cotacoes"),f=n=>String(n).padStart(2,"0"),dt=new Date(Date.now()-3456e5);
   const ini=f(dt.getMonth()+1)+"-"+f(dt.getDate())+"-"+dt.getFullYear(),fim=f(d.getMonth()+1)+"-"+f(d.getDate())+"-"+d.getFullYear();
-  const u=m=>"https://bcb.gov.br'"+m+"'&@di='"+ini+"'&@df='"+fim+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json";
+  const u=m=>"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@m,dataInicial=@di,dataFinalCotacao=@df)?@m='"+m+"'&@di='"+ini+"'&@df='"+fim+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json";
   Promise.all([fetch(u("USD")).then(r=>r.json()),fetch(u("EUR")).then(r=>r.json())]).then(([a,b])=>{
-    if(c)c.innerHTML="<span>USD: <b>R$ "+a.value[0].cotacaoVenda.toFixed(2).replace(".",",")+"</b></span><span>EUR: <b>R$ "+b.value[0].cotacaoVenda.toFixed(2).replace(".",",")+"</b></span>";
+    if(c)c.innerHTML="<span>USD: <b>R$ "+a.value.cotacaoVenda.toFixed(2).replace(".",",")+"</b></span><span>EUR: <b>R$ "+b.value.cotacaoVenda.toFixed(2).replace(".",",")+"</b></span>";
   }).catch(()=>{if(c)c.innerHTML="<span><b>CNB</b> · Economia & Cidades</span>";});
 })();
 function filtrarNoticias(){const q=document.getElementById("busca").value.toLowerCase();document.querySelectorAll(".card,.ml-item").forEach(e=>{e.style.display=e.innerText.toLowerCase().includes(q)?"":"none";});}
-function compartilharWA(el){const c=el.closest(".hero,.card,article"),a=c?c.querySelector("h1 a,h2 a"):null,t=a?a.innerText.trim():document.title,u=a?a.href:window.location.href;window.open("https://wa.me"+encodeURIComponent(t+" - "+u),"_blank","noopener");return false;}
+function compartilharWA(el){const c=el.closest(".hero,.card,article"),a=c?c.querySelector("h1 a,h2 a"):null,t=a?a.innerText.trim():document.title,u=a?a.href:window.location.href;window.open("https://wa.me/?text="+encodeURIComponent(t+" - "+u),"_blank","noopener");return false;}
 </script>
 </body>
 </html>
