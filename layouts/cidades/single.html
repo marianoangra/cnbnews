@@ -6,7 +6,7 @@
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><a class="kicker" href="../" style="text-decoration:none">← {{ .Parent.Title }}</a><span style="font-size:.82rem;color:var(--mut)">{{ .Date.Format "02/01/2006 15:04" }}</span></div>
   <h1>{{ .Title }}</h1>
   {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
-  <img class="art-img" src="{{ partial "capa.html" . }}" alt="{{ .Title }}">
+  <div class=\"capa-box\"><span>CNB NEWS · COBERTURA AO VIVO</span></div>
   <div style="margin-bottom:24px"><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
   <div class="body-txt">{{ .Content }}</div>
   <div class="meta" style="margin-top:28px"><span>{{ with .Params.fonte }}Fonte: {{ . }}{{ end }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Enviar no WhatsApp</a></div>

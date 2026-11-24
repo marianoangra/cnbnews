@@ -7,7 +7,7 @@
   {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
   <div class="cnn-top">
     <div class="hero">
-      <a href="{{ $furl }}"><img class="hero-img" src="{{ partial "capa.html" $first }}" alt="{{ $first.Title }}"></a>
+      <a href="{{ $furl }}"><div class=\"capa-box\"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
       <div class="hero-body">
         <span class="kicker">{{ $first.Parent.Title }} · Destaque</span>
         <h1><a href="{{ $furl }}">{{ $first.Title }}</a></h1>
@@ -35,7 +35,7 @@
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
     {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
     <article class="card">
-      <a href="{{ $purl }}"><img class="card-img" src="{{ partial "capa.html" . }}" alt="{{ .Title }}" loading="lazy"></a>
+      <a href="{{ $purl }}"><div class=\"capa-box\"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
       <div class="card-in">
         <div><span class="kicker">{{ .Parent.Title }}</span><h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2><p style="font-size:.88rem;color:var(--mut);margin:0">{{ .Description }}</p></div>
         <div class="meta"><span>{{ .Date.Format "02/01/2006" }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
