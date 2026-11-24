@@ -2,49 +2,49 @@
 {{ define "edicao" }}{{ if not .Sections }}{{ .Title }}{{ else }}Brasil{{ end }}{{ end }}
 {{ define "home" }}{{ if .Sections }}/{{ else }}./{{ end }}{{ end }}
 {{ define "main" }}
+{{ $def := "https://unsplash.com" }}
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
-  <h1 style="margin:0;font-size:1.75rem">Edição Local · {{ .Title }}</h1>
-  <a href="https://cnbmobile.com" style="font-size:.85rem;color:var(--blue);text-decoration:none;font-weight:700">← Ir para CNB Brasil</a>
+  <h1 style="margin:0;font-size:1.75rem;font-weight:900">{{ .Title }}</h1>
+  <a href="https://cnbmobile.com" style="font-size:.85rem;color:var(--red);text-decoration:none;font-weight:800">← CNB BRASIL</a>
 </div>
 {{ if .Sections }}
-  <div class="cards">{{ range .Sections.ByTitle }}<a class="card" href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" style="text-decoration:none"><div class="card-top"></div><div class="card-in"><h2 style="color:var(--blue)">{{ .Title }}</h2><p style="color:var(--mut);margin:0">Acessar portal da cidade →</p></div></a>{{ end }}</div>
+  <div class="cards">{{ range .Sections.ByTitle }}<a class="card" href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" style="text-decoration:none"><div class="card-in"><span class="kicker">Edição Local</span><h2 style="color:var(--fg)">{{ .Title }}</h2><p style="color:var(--mut);margin:0">Acessar cobertura ao vivo →</p></div></a>{{ end }}</div>
 {{ else }}
   {{ $sorted := .Pages.ByDate.Reverse }}
   {{ if gt (len $sorted) 0 }}
     {{ $first := index $sorted 0 }}
-    <div class="uol-grid">
+    <div class="cnn-top">
       <div class="hero">
-        <div class="hero-cover">
-          <span class="kicker">Destaque em {{ .Title }}</span>
-          <h1><a href="{{ path.Base $first.RelPermalink }}/">{{ $first.Title }}</a></h1>
-        </div>
+        <a href="{{ path.Base $first.RelPermalink }}/"><img class="hero-img" src="{{ with $first.Params.imagem }}{{ . }}{{ else }}{{ $def }}{{ end }}" alt="{{ $first.Title }}"></a>
         <div class="hero-body">
-          <p style="color:var(--mut);font-size:1.05rem;margin:0 0 18px">{{ $first.Description }}</p>
+          <span class="kicker">Manchete · {{ .Title }}</span>
+          <h1><a href="{{ path.Base $first.RelPermalink }}/">{{ $first.Title }}</a></h1>
+          <p style="color:var(--mut);font-size:1.05rem;margin:0 0 14px">{{ $first.Description }}</p>
           <div class="meta">
             <span>{{ $first.Date.Format "02/01/2006 15:04" }}</span>
             <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
           </div>
         </div>
       </div>
-      <aside class="plantao">
-        <div class="plantao-hdr"><span class="dot"></span> Últimas em {{ .Title }}</div>
-        {{ range first 5 (after 1 $sorted) }}
-          <div class="p-item">
-            <a href="{{ path.Base .RelPermalink }}/">{{ .Title }}</a>
-            <div class="p-time">{{ .Date.Format "02/01 · 15:04" }}</div>
+      <aside class="mais-lidas">
+        <div class="sec-title">Mais Lidas em {{ .Title }}</div>
+        {{ range $i, $p := first 5 (after 1 $sorted) }}
+          <div class="ml-item">
+            <div class="ml-num">{{ add $i 1 }}</div>
+            <div><a href="{{ path.Base $p.RelPermalink }}/">{{ $p.Title }}</a><div style="font-size:.75rem;color:var(--mut);margin-top:4px">{{ $p.Date.Format "02/01 · 15:04" }}</div></div>
           </div>
         {{ end }}
       </aside>
     </div>
     <div class="cards">
-    {{ range after 6 $sorted }}
+    {{ range after 1 $sorted }}
       <article class="card">
-        <div class="card-top"></div>
+        <a href="{{ path.Base .RelPermalink }}/"><img class="card-img" src="{{ with .Params.imagem }}{{ . }}{{ else }}{{ $def }}{{ end }}" alt="{{ .Title }}" loading="lazy"></a>
         <div class="card-in">
           <div>
-            <span class="badge">{{ .Parent.Title }}</span>
+            <span class="kicker">{{ .Parent.Title }}</span>
             <h2><a class="title-link" href="{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h2>
-            <p style="font-size:.9rem;color:var(--mut);margin:0">{{ .Description }}</p>
+            <p style="font-size:.88rem;color:var(--mut);margin:0">{{ .Description }}</p>
           </div>
           <div class="meta">
             <span>{{ .Date.Format "02/01/2006" }}</span>

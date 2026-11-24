@@ -2,19 +2,19 @@
 {{ define "edicao" }}{{ .Parent.Title }}{{ end }}
 {{ define "home" }}../{{ end }}
 {{ define "main" }}
+{{ $def := "https://unsplash.com" }}
 <article class="art">
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-    <a class="badge" href="../">← {{ .Parent.Title }}</a>
-    <span style="font-size:.85rem;color:var(--mut)">Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}</span>
+    <a class="kicker" href="../" style="text-decoration:none">← {{ .Parent.Title }}</a>
+    <span style="font-size:.82rem;color:var(--mut)">Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}</span>
   </div>
   <h1>{{ .Title }}</h1>
   {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
-  <div style="margin-bottom:24px">
-    <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
-  </div>
+  <img class="art-img" src="{{ with .Params.imagem }}{{ . }}{{ else }}{{ $def }}{{ end }}" alt="{{ .Title }}">
+  <div style="margin-bottom:24px"><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
   <div class="body-txt">{{ .Content }}</div>
   <div class="meta" style="margin-top:28px">
-    <span>{{ with .Params.fonte }}Fonte: {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank" style="color:var(--blue)">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}{{ end }}</span>
+    <span>{{ with .Params.fonte }}Fonte: {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank" style="color:var(--red);font-weight:700">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}{{ end }}</span>
     <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Enviar no WhatsApp</a>
   </div>
 </article>
