@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <title>{{ block "titulo" . }}{{ .Site.Title }}{{ end }}</title>
+<link rel="icon" type="image/png" href="/favicon.png?v=6">
+<link rel="shortcut icon" href="/favicon.ico?v=6">
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.descricao }}{{ . }}{{ else }}Notícias locais e do Brasil em tempo real no CNB News.{{ end }}{{ end }}">
 {{ $canon := "https://cnbmobile.com" }}
 {{ if .IsPage }}{{ $canon = printf "https://%s.%s/%s/" (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink) }}{{ else if and .IsSection (ne .RelPermalink "/cidades/") }}{{ $canon = printf "https://%s.%s/" (path.Base (strings.TrimSuffix "/" .RelPermalink)) site.Params.baseDomain }}{{ end }}
@@ -87,16 +89,38 @@ footer{background:var(--card);border-top:1px solid var(--bd);padding:28px 0;colo
 <main class="w">{{ block "main" . }}{{ end }}</main>
 <footer><div class="w">© 2026 CNB News Brasil · Rede de Portais Municipais</div></footer>
 <script>
-fetch("https://awesomeapi.com.br").then(r=>r.json()).then(d=>{
-  const u=parseFloat(d.USDBRL.bid).toFixed(2).replace(".",",");
-  const e=parseFloat(d.EURBRL.bid).toFixed(2).replace(".",",");
-  document.getElementById("cotacoes").innerHTML=`<span>Dólar: <b>R$ ${u}</b></span><span>Euro: <b>R$ ${e}</b></span>`;
-}).catch(()=>{});
+(function(){
+  const d = new Date();
+  const s = d.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  const elData = document.getElementById("data-hoje");
+  if(elData) elData.textContent = s.charAt(0).toUpperCase() + s.slice(1);
+
+  const elCot = document.getElementById("cotacoes");
+  function pintar(usd, eur){
+    if(!elCot) return;
+    elCot.innerHTML = "<span>Dólar: <b>R$ " + usd.toFixed(2).replace(".",",") + "</b></span><span>Euro: <b>R$ " + eur.toFixed(2).replace(".",",") + "</b></span>";
+  }
+  const u1 = "https://frankfurter.app" + "/latest?from=USD&to=BRL";
+  const u2 = "https://frankfurter.app" + "/latest?from=EUR&to=BRL";
+  const u3 = "https://er-api.com" + "/v6/latest/USD";
+  fetch(u1).then(r=>r.json()).then(u=>fetch(u2).then(r=>r.json()).then(e=>pintar(u.rates.BRL, e.rates.BRL)))
+    .catch(()=>fetch(u3).then(r=>r.json()).then(d=>pintar(d.rates.BRL, d.rates.BRL / d.rates.EUR))
+    .catch(()=>{ if(elCot) elCot.innerHTML = "<span><b>CNB</b> · Economia & Cidades</span>"; }));
+})();
 function filtrarNoticias(){
   const q=document.getElementById("busca").value.toLowerCase();
   document.querySelectorAll(".card,.p-item").forEach(el=>{
     el.style.display=el.innerText.toLowerCase().includes(q)?"":"none";
   });
+}
+function compartilharWA(el){
+  const card = el.closest(".hero, .card, article");
+  const linkEl = card ? card.querySelector("h1 a, h2 a") : null;
+  const titulo = linkEl ? linkEl.innerText.trim() : document.title;
+  const url = linkEl ? linkEl.href : window.location.href;
+  const waBase = "https://wa.me" + "/?text=";
+  window.open(waBase + encodeURIComponent(titulo + " - " + url), "_blank", "noopener");
+  return false;
 }
 </script>
 </body>
