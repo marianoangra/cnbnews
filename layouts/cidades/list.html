@@ -1,0 +1,16 @@
+{{ define "titulo" }}{{ .Title }} · CNB News{{ end }}
+{{ define "home" }}{{ if .Sections }}/{{ else }}{{ replaceRE "^/cidades/[^/]+" "" .RelPermalink | default "/" }}{{ end }}{{ end }}
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+{{ if .Sections }}
+<ul class="l">{{ range .Sections.ByTitle }}<li><a href="https://{{ .File.ContentBaseName }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a></li>{{ end }}</ul>
+{{ else }}
+  {{ if .Pages }}
+  <ul class="l">
+  {{ range .Pages.ByDate.Reverse }}
+    <li><a href="{{ replaceRE "^/cidades/[^/]+" "" .RelPermalink }}">{{ .Title }}</a><div class="m">{{ .Date.Format "02/01/2006" }}</div></li>
+  {{ end }}
+  </ul>
+  {{ else }}<p class="m">Ainda sem notícias nesta cidade.</p>{{ end }}
+{{ end }}
+{{ end }}

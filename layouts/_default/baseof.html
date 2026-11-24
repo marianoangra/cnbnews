@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ block "titulo" . }}{{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.descricao }}{{ end }}">
+<style>
+:root{--bg:#fff;--fg:#18181b;--mut:#71717a;--ac:#0a58ca;--bd:#e4e4e7}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0b0f;--fg:#f4f4f5;--mut:#a1a1aa;--ac:#6ea8fe;--bd:#27272a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,sans-serif}
+.w{max-width:720px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--bd);padding:14px 0}header a{font-weight:700;color:var(--fg);text-decoration:none}
+a{color:var(--ac)}h1{line-height:1.2}.m{color:var(--mut);font-size:.9rem}
+ul.l{list-style:none;padding:0}ul.l li{padding:12px 0;border-bottom:1px solid var(--bd)}
+footer{padding:32px 0;color:var(--mut);font-size:.85rem}
+</style>
+</head>
+<body>
+<header><div class="w"><a href="{{ block "home" . }}/{{ end }}">CNB News</a></div></header>
+<main class="w">{{ block "main" . }}{{ end }}</main>
+<footer><div class="w">© CNB News</div></footer>
+</body>
+</html>

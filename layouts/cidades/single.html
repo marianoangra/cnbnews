@@ -1,0 +1,10 @@
+{{ define "titulo" }}{{ .Title }} · {{ .Parent.Title }} · CNB News{{ end }}
+{{ define "home" }}/{{ end }}
+{{ define "main" }}
+<article>
+<p class="m"><a href="/">{{ .Parent.Title }}</a> · {{ .Date.Format "02/01/2006" }}</p>
+<h1>{{ .Title }}</h1>
+{{ .Content }}
+{{ with .Params.fonte }}<p class="m">Fonte: {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}</p>{{ end }}
+</article>
+{{ end }}

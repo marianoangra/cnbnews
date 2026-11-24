@@ -1,0 +1,11 @@
+{{ define "main" }}
+<h1>Notícias da sua cidade</h1>
+<p class="m">Escolha uma cidade.</p>
+{{ with site.GetPage "/cidades" }}
+<ul class="l">
+{{ range .Sections.ByTitle }}
+  <li><a href="https://{{ .File.ContentBaseName }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a></li>
+{{ end }}
+</ul>
+{{ end }}
+{{ end }}
