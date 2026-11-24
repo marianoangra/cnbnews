@@ -4,7 +4,7 @@
 {{ with site.GetPage "/cidades" }}
 <ul class="l">
 {{ range .Sections.ByTitle }}
-  <li><a href="https://{{ .File.ContentBaseName }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a></li>
+  <li><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a></li>
 {{ end }}
 </ul>
 {{ end }}

@@ -2,16 +2,20 @@
   "framework": "hugo",
   "buildCommand": "hugo --minify",
   "outputDirectory": "public",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/:path*",
+      "src": "/(.*)",
       "has": [
         {
           "type": "host",
           "value": "(?<city>[a-z0-9-]+)[.]news[.]cnbmobile[.]com"
         }
       ],
-      "destination": "/cidades/:city/:path*"
+      "dest": "/cidades/$city/$1",
+      "check": true
+    },
+    {
+      "handle": "filesystem"
     }
   ]
 }
