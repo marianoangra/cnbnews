@@ -3,52 +3,51 @@
 {{ $sorted := $pages.ByDate.Reverse }}
 {{ if gt (len $sorted) 0 }}
   {{ $first := index $sorted 0 }}
-  <div class="uol-grid">
+  {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
+  {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
+  <div class="cnn-top">
     <div class="hero">
-      <div class="hero-cover">
-        <span class="kicker">Manchete · {{ $first.Parent.Title }}</span>
-        <h1><a href="https://{{ path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/{{ path.Base $first.RelPermalink }}/">{{ $first.Title }}</a></h1>
-      </div>
+      <a href="{{ $furl }}"><img class="hero-img" src="{{ with $first.Params.imagem }}{{ . }}{{ else }}/img/geral.svg{{ end }}" alt="{{ $first.Title }}"></a>
       <div class="hero-body">
-        <p style="color:var(--mut);font-size:1.05rem;margin:0 0 18px">{{ $first.Description }}</p>
+        <span class="kicker">{{ $first.Parent.Title }} · Destaque</span>
+        <h1><a href="{{ $furl }}">{{ $first.Title }}</a></h1>
+        <p style="color:var(--mut);font-size:1.05rem;margin:0 0 14px">{{ $first.Description }}</p>
         <div class="meta">
-          <span>{{ $first.Date.Format "02/01/2006 15:04" }} {{ with $first.Params.fonte }}· {{ . }}{{ end }}</span>
+          <span>{{ $first.Date.Format "02/01/2006 15:04" }}</span>
           <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
         </div>
+        <ul class="sub-bullets">
+        {{ range first 3 (after 1 $sorted) }}
+          {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+          <li><a href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Parent.Title }}: {{ .Title }}</a></li>
+        {{ end }}
+        </ul>
       </div>
     </div>
-
-    <aside class="plantao">
-      <div class="plantao-hdr"><span class="dot"></span> Plantão · Últimas Horas</div>
-      {{ range first 5 (after 1 $sorted) }}
-        <div class="p-item">
-          <a href="https://{{ path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Title }}</a>
-          <div class="p-time">{{ .Parent.Title }} · {{ .Date.Format "15:04" }}</div>
+    <aside class="mais-lidas">
+      <div class="sec-title">Mais Lidas</div>
+      {{ range $i, $p := first 6 (after 1 $sorted) }}
+        {{ $cslug := path.Base (strings.TrimSuffix "/" $p.Parent.RelPermalink) }}
+        <div class="ml-item">
+          <div class="ml-num">{{ add $i 1 }}</div>
+          <div><a href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base $p.RelPermalink }}/">{{ $p.Title }}</a><div style="font-size:.75rem;color:var(--mut);margin-top:4px">{{ $p.Parent.Title }} · {{ $p.Date.Format "15:04" }}</div></div>
         </div>
       {{ end }}
     </aside>
   </div>
-
-  <h2 style="font-size:1.25rem;margin-bottom:18px;border-left:5px solid var(--green);padding-left:12px">Destaques pelo Brasil</h2>
+  <div class="sec-title">Últimas Notícias pelo Brasil</div>
   <div class="cards">
-  {{ range first 30 (after 6 $sorted) }}
+  {{ range first 30 (after 4 $sorted) }}
+    {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+    {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
     <article class="card">
-      <div class="card-top"></div>
+      <a href="{{ $purl }}"><img class="card-img" src="{{ with .Params.imagem }}{{ . }}{{ else }}/img/geral.svg{{ end }}" alt="{{ .Title }}" loading="lazy"></a>
       <div class="card-in">
-        <div>
-          <a class="badge" href="https://{{ path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Parent.Title }}</a>
-          <h2><a class="title-link" href="https://{{ path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h2>
-          <p style="font-size:.9rem;color:var(--mut);margin:0">{{ .Description }}</p>
-        </div>
-        <div class="meta">
-          <span>{{ .Date.Format "02/01/2006" }}</span>
-          <a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a>
-        </div>
+        <div><span class="kicker">{{ .Parent.Title }}</span><h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2><p style="font-size:.88rem;color:var(--mut);margin:0">{{ .Description }}</p></div>
+        <div class="meta"><span>{{ .Date.Format "02/01/2006" }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
       </div>
     </article>
   {{ end }}
   </div>
-{{ else }}
-  <p>Ainda sem notícias publicadas.</p>
-{{ end }}
+{{ else }}<p>Ainda sem notícias publicadas.</p>{{ end }}
 {{ end }}
