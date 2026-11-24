@@ -1,11 +1,36 @@
 {{ define "main" }}
-<h1>Notícias da sua cidade</h1>
-<p class="m">Escolha uma cidade.</p>
-{{ with site.GetPage "/cidades" }}
-<ul class="l">
-{{ range .Sections.ByTitle }}
-  <li><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a></li>
-{{ end }}
-</ul>
+{{ $pages := where .Site.RegularPages "Section" "cidades" }}
+{{ $sorted := $pages.ByDate.Reverse }}
+{{ if gt (len $sorted) 0 }}
+  {{ $first := index $sorted 0 }}
+  <div class="hero">
+    <a class="badge" href="https://{{ path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ $first.Parent.Title }}</a>
+    <div style="float:right;font-size:.8rem;color:var(--mut)">Destaque Nacional</div>
+    <h1><a class="title-link" href="https://{{ path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/{{ path.Base $first.RelPermalink }}/">{{ $first.Title }}</a></h1>
+    <p style="color:var(--mut);margin:0 0 16px">{{ $first.Description }}</p>
+    <div class="meta">
+      <span>{{ $first.Date.Format "02/01/2006 15:04" }} {{ with $first.Params.fonte }}· {{ . }}{{ end }}</span>
+      <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" $first.Title (path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink)) site.Params.baseDomain (path.Base $first.RelPermalink)) | urlquery }}">Compartilhar no WhatsApp</a>
+    </div>
+  </div>
+
+  <h2 style="font-size:1.2rem;margin-bottom:16px;border-left:4px solid var(--green);padding-left:10px">Últimas notícias do Brasil</h2>
+  <div class="grid">
+  {{ range first 30 (after 1 $sorted) }}
+    <article class="card">
+      <div>
+        <a class="badge" href="https://{{ path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Parent.Title }}</a>
+        <h2><a class="title-link" href="https://{{ path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h2>
+        <p style="font-size:.92rem;color:var(--mut);margin:0">{{ .Description }}</p>
+      </div>
+      <div class="meta">
+        <span>{{ .Date.Format "02/01/2006" }}</span>
+        <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" .Title (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink)) | urlquery }}">WhatsApp</a>
+      </div>
+    </article>
+  {{ end }}
+  </div>
+{{ else }}
+  <p>Ainda sem notícias publicadas.</p>
 {{ end }}
 {{ end }}

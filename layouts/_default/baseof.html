@@ -6,19 +6,44 @@
 <title>{{ block "titulo" . }}{{ .Site.Title }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.descricao }}{{ end }}">
 <style>
-:root{--bg:#fff;--fg:#18181b;--mut:#71717a;--ac:#0a58ca;--bd:#e4e4e7}
-@media(prefers-color-scheme:dark){:root{--bg:#0b0b0f;--fg:#f4f4f5;--mut:#a1a1aa;--ac:#6ea8fe;--bd:#27272a}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,sans-serif}
-.w{max-width:720px;margin:0 auto;padding:0 16px}
-header{border-bottom:1px solid var(--bd);padding:14px 0}header a{font-weight:700;color:var(--fg);text-decoration:none}
-a{color:var(--ac)}h1{line-height:1.2}.m{color:var(--mut);font-size:.9rem}
-ul.l{list-style:none;padding:0}ul.l li{padding:12px 0;border-bottom:1px solid var(--bd)}
-footer{padding:32px 0;color:var(--mut);font-size:.85rem}
+:root{--bg:#f4f6f9;--card:#fff;--fg:#111827;--mut:#4b5563;--blue:#0056b3;--blue-d:#003d82;--green:#10b981;--bd:#e5e7eb;--sh:0 2px 8px rgba(0,0,0,.06)}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0f17;--card:#111827;--fg:#f3f4f6;--mut:#9ca3af;--blue:#3b82f6;--blue-d:#1d4ed8;--green:#10b981;--bd:#1f2937;--sh:0 2px 8px rgba(0,0,0,.4)}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.w{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{background:linear-gradient(135deg,var(--blue-d),var(--blue));color:#fff;padding:14px 0;border-bottom:4px solid var(--green);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:1.45rem;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+.brand span{background:var(--green);color:#064e3b;font-size:.75rem;padding:2px 8px;border-radius:4px;font-weight:800;text-transform:uppercase}
+.city-bar{background:var(--card);border-bottom:1px solid var(--bd);padding:10px 0;overflow-x:auto;white-space:nowrap}
+.city-bar a{display:inline-block;padding:4px 12px;margin-right:8px;border-radius:999px;background:var(--bg);color:var(--fg);text-decoration:none;font-size:.85rem;font-weight:600;border:1px solid var(--bd);transition:.2s}
+.city-bar a:hover{border-color:var(--blue);color:var(--blue)}
+main.w{padding-top:24px;padding-bottom:40px}
+.hero{background:var(--card);border:1px solid var(--bd);border-left:5px solid var(--blue);border-radius:10px;padding:24px;margin-bottom:24px;box-shadow:var(--sh)}
+.hero h1{font-size:1.75rem;line-height:1.25;margin:10px 0 12px}
+.hero h1 a,.title-link{color:var(--fg);text-decoration:none}
+.hero h1 a:hover,.title-link:hover{color:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--sh);transition:transform .15s}
+.card:hover{transform:translateY(-2px)}
+.card h2{font-size:1.15rem;line-height:1.35;margin:8px 0 10px}
+.badge{display:inline-block;background:rgba(16,185,129,.15);color:var(--green);font-size:.75rem;font-weight:700;padding:3px 9px;border-radius:4px;text-decoration:none;text-transform:uppercase}
+.meta{display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--mut);margin-top:14px;padding-top:10px;border-top:1px solid var(--bd)}
+.wa-btn{display:inline-flex;align-items:center;gap:6px;background:#25d366;color:#fff!important;text-decoration:none;font-weight:700;font-size:.8rem;padding:5px 12px;border-radius:6px;transition:.2s}
+.wa-btn:hover{filter:brightness(.92)}
+article.art{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:28px;max-width:780px;margin:0 auto;box-shadow:var(--sh)}
+article.art h1{font-size:2rem;line-height:1.22;margin:12px 0 16px}
+.desc{font-size:1.1rem;color:var(--mut);border-left:3px solid var(--green);padding-left:12px;margin-bottom:20px}
+.body-txt p{margin-bottom:16px;font-size:1.08rem;line-height:1.75}
+@media(max-width:600px){.grid{grid-template-columns:1fr}article.art{padding:18px}article.art h1{font-size:1.5rem}}
+footer{background:var(--card);border-top:1px solid var(--bd);padding:24px 0;color:var(--mut);font-size:.85rem;text-align:center}
 </style>
 </head>
 <body>
-<header><div class="w"><a href="{{ block "home" . }}/{{ end }}">CNB News</a></div></header>
+<header class="top"><div class="w nav"><a class="brand" href="{{ block "home" . }}/{{ end }}">CNB News <span>{{ block "edicao" . }}Brasil{{ end }}</span></a><div style="font-size:.85rem;opacity:.9">Notícias em tempo real</div></div></header>
+{{ with site.GetPage "/cidades" }}
+<div class="city-bar"><div class="w"><strong style="font-size:.8rem;margin-right:10px;color:var(--mut)">Cidades:</strong>{{ range .Sections.ByTitle }}<a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a>{{ end }}</div></div>
+{{ end }}
 <main class="w">{{ block "main" . }}{{ end }}</main>
-<footer><div class="w">© CNB News</div></footer>
+<footer><div class="w">© 2026 CNB News Brasil · Jornalismo local e nacional</div></footer>
 </body>
 </html>
