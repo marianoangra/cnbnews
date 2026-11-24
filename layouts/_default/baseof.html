@@ -94,7 +94,6 @@ footer{background:var(--card);border-top:1px solid var(--bd);padding:28px 0;colo
   const s = d.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   const elData = document.getElementById("data-hoje");
   if(elData) elData.textContent = s.charAt(0).toUpperCase() + s.slice(1);
-
   const elCot = document.getElementById("cotacoes");
   function pintar(usd, eur){
     if(!elCot) return;
@@ -105,30 +104,22 @@ footer{background:var(--card);border-top:1px solid var(--bd);padding:28px 0;colo
     const f = (n)=>String(n).padStart(2,"0");
     const ini = f(dt.getMonth()+1)+"-"+f(dt.getDate())+"-"+dt.getFullYear();
     const fim = f(d.getMonth()+1)+"-"+f(d.getDate())+"-"+d.getFullYear();
-    const host = "https://olinda.bcb" + ".gov.br";
-    const path = "/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@m,dataInicial=@di,dataFinalCotacao=@df)";
-    return host + path + "?@m='"+moeda+"'&@di='"+ini+"'&@df='"+fim+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json";
+    return "https://olinda.bcb" + ".gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoMoedaPeriodo(moeda=@m,dataInicial=@di,dataFinalCotacao=@df)?@m='"+moeda+"'&@di='"+ini+"'&@df='"+fim+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json";
   }
   Promise.all([fetch(bcbUrl("USD")).then(r=>r.json()), fetch(bcbUrl("EUR")).then(r=>r.json())])
-    .then(([u, e])=>{
-      const usd = u.value[0].cotacaoVenda;
-      const eur = e.value[0].cotacaoVenda;
-      pintar(usd, eur);
-    }).catch(()=>{ if(elCot) elCot.innerHTML = "<span><b>CNB</b> · Economia & Cidades</span>"; });
+    .then(([u, e])=>pintar(u.value[0].cotacaoVenda, e.value[0].cotacaoVenda))
+    .catch(()=>{ if(elCot) elCot.innerHTML = "<span><b>CNB</b> · Economia & Cidades</span>"; });
 })();
 function filtrarNoticias(){
   const q=document.getElementById("busca").value.toLowerCase();
-  document.querySelectorAll(".card,.p-item").forEach(el=>{
-    el.style.display=el.innerText.toLowerCase().includes(q)?"":"none";
-  });
+  document.querySelectorAll(".card,.p-item").forEach(el=>{ el.style.display=el.innerText.toLowerCase().includes(q)?"":"none"; });
 }
 function compartilharWA(el){
   const card = el.closest(".hero, .card, article");
   const linkEl = card ? card.querySelector("h1 a, h2 a") : null;
   const titulo = linkEl ? linkEl.innerText.trim() : document.title;
   const url = linkEl ? linkEl.href : window.location.href;
-  const waBase = "https://wa" + ".me/?text=";
-  window.open(waBase + encodeURIComponent(titulo + " - " + url), "_blank", "noopener");
+  window.open("https://wa" + ".me/?text=" + encodeURIComponent(titulo + " - " + url), "_blank", "noopener");
   return false;
 }
 </script>
