@@ -10,10 +10,8 @@
   <div class="cards">{{ range .Sections.ByTitle }}<a class="card" href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" style="text-decoration:none"><div class="card-top"></div><div class="card-in"><h2 style="color:var(--blue)">{{ .Title }}</h2><p style="color:var(--mut);margin:0">Acessar portal da cidade →</p></div></a>{{ end }}</div>
 {{ else }}
   {{ $sorted := .Pages.ByDate.Reverse }}
-  {{ $cslug := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
   {{ if gt (len $sorted) 0 }}
     {{ $first := index $sorted 0 }}
-    {{ $furl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
     <div class="uol-grid">
       <div class="hero">
         <div class="hero-cover">
@@ -24,7 +22,7 @@
           <p style="color:var(--mut);font-size:1.05rem;margin:0 0 18px">{{ $first.Description }}</p>
           <div class="meta">
             <span>{{ $first.Date.Format "02/01/2006 15:04" }}</span>
-            <a class="wa-btn" href="#" data-title="{{ $first.Title }}" data-url="{{ $furl }}" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
+            <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" $first.Title (path.Base (strings.TrimSuffix "/" .RelPermalink)) site.Params.baseDomain (path.Base $first.RelPermalink)) | urlquery }}">Compartilhar no WhatsApp</a>
           </div>
         </div>
       </div>
@@ -39,8 +37,7 @@
       </aside>
     </div>
     <div class="cards">
-    {{ range after 1 $sorted }}
-      {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
+    {{ range after 6 $sorted }}
       <article class="card">
         <div class="card-top"></div>
         <div class="card-in">
@@ -51,7 +48,7 @@
           </div>
           <div class="meta">
             <span>{{ .Date.Format "02/01/2006" }}</span>
-            <a class="wa-btn" href="#" data-title="{{ .Title }}" data-url="{{ $purl }}" onclick="return compartilharWA(this)">WhatsApp</a>
+            <a class="wa-btn" target="_blank" rel="noopener" href="https://whatsapp.com{{ (printf "%s - https://%s.%s/%s/" .Title (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink)) | urlquery }}">WhatsApp</a>
           </div>
         </div>
       </article>
