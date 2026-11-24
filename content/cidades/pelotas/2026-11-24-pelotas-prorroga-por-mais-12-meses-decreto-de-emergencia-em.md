@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
 title: "Prorrogação do Decreto de Emergência em Saúde"
 date: 2026-11-24T19:41:16-03:00
 description: "A prefeitura de Pelotas prorroga o decreto de emergência em saúde por mais 12 meses para garantir a continuidade dos serviços essenciais."

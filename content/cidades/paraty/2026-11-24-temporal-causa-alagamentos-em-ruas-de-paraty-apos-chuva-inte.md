@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
 title: "Temporal causa alagamentos em ruas de Paraty após chuva intensa - A Cidade Costa Verde"
 date: 2026-11-24T15:38:35-03:00
 description: "Temporal causa alagamentos em ruas de Paraty após chuva intensa - A Cidade Costa Verde"

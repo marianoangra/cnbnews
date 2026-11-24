@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80"
 title: "\"Cantor\" do PCC é preso em operação por lavar dinheiro do tráfico - CNN Brasil"
 date: 2026-11-24T15:38:35-03:00
 description: "\"Cantor\" do PCC é preso em operação por lavar dinheiro do tráfico - CNN Brasil"

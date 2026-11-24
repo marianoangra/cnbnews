@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
 title: "Prefeitura de Lorena SP abre concurso com 3 vagas em diferentes áreas - Qconcursos Folha Dirigida"
 date: 2026-11-24T15:38:35-03:00
 description: "Prefeitura de Lorena SP abre concurso com 3 vagas em diferentes áreas - Qconcursos Folha Dirigida"

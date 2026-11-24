@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
 title: "Cruzeiro (SP) inaugura segunda etapa da Usina de Oxigênio, garantindo autonomia no abastecimento hospitalar"
 date: 2026-11-24T17:10:23-03:00
 description: "Cruzeiro, SP inaugura segunda etapa da Usina de Oxigênio e anuncia autonomia no abastecimento hospitalar - A Gazeta RM"

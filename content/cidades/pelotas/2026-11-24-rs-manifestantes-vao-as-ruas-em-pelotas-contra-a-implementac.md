@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Manifestantes de Pelotas protestam contra a implementação da CMPC Celulose"
 date: 2026-11-24T14:41:32-03:00
 description: "Manifestantes locais estão se reunindo para protestar contra a decisão da empresa CMPC Celulose de expandir suas operações na região."

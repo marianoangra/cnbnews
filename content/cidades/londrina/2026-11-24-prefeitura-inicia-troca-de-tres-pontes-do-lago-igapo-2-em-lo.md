@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=900&q=80"
 title: "Prefeitura de Londrina inicia troca de três pontes do Lago Igapó 2"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Londrina iniciou a troca de três pontes do Lago Igapó 2."

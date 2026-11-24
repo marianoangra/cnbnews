@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
 title: "Terminais Aéreos de Maringá - PR abrem concurso público com salários até R$ 9.921,22 - PCI Concursos"
 date: 2026-11-24T19:41:16-03:00
 description: "Os Terminais Aéreos de Maringá (PR) abrem concurso público com salários até R$ 9.921,22, visando aprimorar o serviço de transporte aéreo para a população."

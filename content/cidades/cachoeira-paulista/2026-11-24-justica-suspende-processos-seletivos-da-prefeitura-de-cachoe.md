@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Justiça suspende processos seletivos da Prefeitura de Cachoeira Paulista por possível irregularidade"
 date: 2026-11-24T15:38:35-03:00
 description: "A Justiça suspendeu os processos seletivos da Prefeitura de Cachoeira Paulista por possível irregularidade, o que pode impactar a contratação de servidores públicos e a eficiência dos serviços municipais."

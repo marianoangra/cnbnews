@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
 title: "Cristiane Silveira deixa Secretaria Municipal de Educação em Cruzeiro; Lourdes Erli Novaes Alves assume pasta"
 date: 2026-11-24T17:10:23-03:00
 description: "A secretaria municipal de Educação de Cruzeiro, SP, passará a ser liderada por Lourdes Erli Novaes Alves após Cristiane Silveira deixar o cargo, conforme informado pela A Gazeta RM."

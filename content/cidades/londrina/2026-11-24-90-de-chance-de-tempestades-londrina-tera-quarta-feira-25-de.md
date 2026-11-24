@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
 title: "90% de chance de tempestades: Londrina terá quarta-feira (25) de chuva intensa - Tribuna do Paraná"
 date: 2026-11-24T19:41:16-03:00
 description: "90% de chance de tempestades: Londrina terá quarta-feira (25) de chuva intensa - Tribuna do Paraná"

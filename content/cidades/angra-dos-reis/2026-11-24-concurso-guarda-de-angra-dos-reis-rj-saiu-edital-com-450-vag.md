@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
 title: "Concurso para Guarda Municipal de Angra dos Reis: Edital com 450 Vagas para Nível Médio"
 date: 2026-11-24T17:10:23-03:00
 description: "O edital do concurso público para a Guarda Municipal de Angra dos Reis, com 450 vagas para nível médio, foi lançado pela prefeitura, visando fortalecer a segurança pública e a atuação direta com o cidadão."

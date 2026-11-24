@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Justiça manda prefeitura de Pelotas restaurar Castelo Simões Lopes"
 date: 2026-11-24T13:47:56-03:00
 description: "A Justiça do Estado determinou que a prefeitura de Pelotas realize a restauração do Castelo Simões Lopes."

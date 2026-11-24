@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=900&q=80"
 title: "Denúncia aponta servidoras fantasmas, duplicidade de matrícula e assédio na Regulação do Samu de Angra dos Reis"
 date: 2026-11-24T17:10:23-03:00
 description: "Uma denúncia aponta a existência de servidoras fantasmas, duplicidade de matrícula e assédio no setor de Regulação do Samu de Angra dos Reis, comprometendo a qualidade do serviço público para os cidadãos."

@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=900&q=80"
 title: "Prefeitura de Cruzeiro alerta para possibilidade de novas chuvas fortes no domingo (11)"
 date: 2026-11-24T17:10:23-03:00
 description: "A prefeitura de Cruzeiro, SP, informou que há possibilidade de novas chuvas intensas no domingo (11), recomendando medidas de precaução aos cidadãos."

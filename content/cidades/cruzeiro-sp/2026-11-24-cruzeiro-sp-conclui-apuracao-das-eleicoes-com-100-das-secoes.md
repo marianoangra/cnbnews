@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Cruzeiro (SP) conclui apuração das eleições com 100% das seções totalizadas"
 date: 2026-11-24T17:10:23-03:00
 description: "Cruzeiro (SP) conclui a apuração das eleições com 100% das seções eleitorais, garantindo transparência no processo."

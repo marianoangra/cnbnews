@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80"
 title: "PSS do IBGE oferece 1.944 vagas para o Paraná; inscrições até quarta-feira (25)"
 date: 2026-11-24T15:38:35-03:00
 description: "O Instituto Brasileiro de Geografia e Estatística (IBGE) abre inscrições para 1.944 vagas no Paraná até o dia 25, visando aprimorar o serviço público com a coleta e análise de dados essenciais para o cidadão."

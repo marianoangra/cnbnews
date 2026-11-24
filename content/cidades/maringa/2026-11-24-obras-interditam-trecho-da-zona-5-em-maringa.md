@@ -1,0 +1,11 @@
+---
+imagem: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=900&q=80"
+title: "Obras interditam trecho da Zona 5, em Maringá - G1"
+date: 2026-11-24T19:59:21-03:00
+description: "Obras interditam trecho da Zona 5, em Maringá - G1"
+fonte: "G1"
+fonte_url: "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPTmg3U2NqbGxKa05LNmc1VEoyODVMaDBybEtpdktmQlBmRkJ2SGpDdW9WN09vQy05T29QU0ZKZmw4MzhBY2JWOTVScFg2Nm5oSUhVcEp3ZU1ual9BeVlocU9TNmJ1ZzJaM01RQ1JVYVJKTjI0Yl80bExjOXkwYjJwY0YtV3lKVmZqRUJWYjdOV2N6RHZObEdNSkZya09RQUZMTjNvVUpuMU5hWG43MUw0M09lZndoaEVPWDRaWlJMQUVUV0tsMElyMlJDbHdPdDJK0gHfAUFVX3lxTE5vamxvdWI4SjNxUlU1Yk9aTlFfMkNmbFhwelRCeE5IRGNyV2dRZXFaVmJ0LUpDVnZhcHJoYXpQQ0JlWmlGcWd1SUxZNG1uTTRza2wydWg5NEVIM2UxMzB4U3R0YkUtc1B2bmVIRkdZazlZbmJjN2hYWEhrOUllYlRNZjNaN0pXRTNDcVdXRFp6LUdqd2o4blRKTDVFMUZ3OEwtME4yNVZMMUZjbFplcGNlNDhEbzU4RDZLYWkwUnNTQTVfOFhkQkQ1eUhIQ0cyR0lSX2M1OUY1bVBCazU1bms?oc=5"
+draft: false
+---
+
+-1

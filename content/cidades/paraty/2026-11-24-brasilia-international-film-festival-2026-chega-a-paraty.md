@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Brasília International Film Festival 2026 chega a Paraty"
 date: 2026-11-24T15:38:35-03:00
 description: "O evento internacional de cinema da capital federal chegará a Paraty em 2026, proporcionando oportunidades para engajamento cultural e social da população."

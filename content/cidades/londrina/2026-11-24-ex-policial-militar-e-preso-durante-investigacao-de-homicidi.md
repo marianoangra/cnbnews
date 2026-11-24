@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=900&q=80"
 title: "Ex-policial militar preso em investigação de homicídio em Londrina"
 date: 2026-11-24T15:38:35-03:00
 description: "Um ex-policial militar foi preso durante a investigação de um homicídio em Londrina, conforme informado pela G1."

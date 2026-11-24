@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Gabarito Processo Seletivo Prefeitura de Cachoeira Paulista SP 2026 - FiiBrasil"
 date: 2026-11-24T15:38:35-03:00
 description: "Gabarito Processo Seletivo Prefeitura de Cachoeira Paulista SP 2026 - FiiBrasil"

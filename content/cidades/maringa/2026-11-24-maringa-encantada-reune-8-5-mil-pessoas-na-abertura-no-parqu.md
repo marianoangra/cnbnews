@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Maringá Encantada reúne 8,5 mil pessoas na abertura do Parque do Japão"
 date: 2026-11-24T15:38:35-03:00
 description: "O evento Maringá Encantada reuniu 8,5 mil pessoas na abertura do Parque do Japão, destacando a importância de iniciativas que fortalecem a relação comunitária e promovem o desenvolvimento local."

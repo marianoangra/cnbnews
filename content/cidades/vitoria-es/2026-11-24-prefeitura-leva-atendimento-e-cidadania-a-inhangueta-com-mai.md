@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Prefeitura de Vitória realiza edição do 'Vitória com Você' em Inhanguetá para fortalecer atendimento e cidadania"
 date: 2026-11-24T15:38:35-03:00
 description: "A Prefeitura de Vitória realizou mais uma edição do programa 'Vitória com Você' no município de Inhanguetá, promovendo atendimento direto aos cidadãos e fortalecendo a relação com a população."

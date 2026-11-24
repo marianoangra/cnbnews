@@ -1,4 +1,5 @@
 ---
+imagem: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80"
 title: "Prefeitura de Itumirim decreta luto após acidente com ônibus que matou peregrinos em SP"
 date: 2026-11-24T17:10:23-03:00
 description: "A prefeitura de Itumirim declarou luto após um acidente com ônibus que resultou em mortes de peregrinos em SP, reforçando o compromisso com a segurança pública e o cuidado aos cidadãos."
