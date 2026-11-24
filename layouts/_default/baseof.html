@@ -3,8 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <title>{{ block "titulo" . }}{{ .Site.Title }}{{ end }}</title>
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.descricao }}{{ end }}">
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.descricao }}{{ . }}{{ else }}Notícias locais e do Brasil em tempo real no CNB News.{{ end }}{{ end }}">
+{{ $canon := "https://cnbmobile.com" }}
+{{ if .IsPage }}{{ $canon = printf "https://%s.%s/%s/" (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink) }}{{ else if and .IsSection (ne .RelPermalink "/cidades/") }}{{ $canon = printf "https://%s.%s/" (path.Base (strings.TrimSuffix "/" .RelPermalink)) site.Params.baseDomain }}{{ end }}
+<link rel="canonical" href="{{ $canon }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:site_name" content="CNB News Brasil">
+<meta property="og:title" content="{{ block "titulo_og" . }}{{ .Title }} · CNB News{{ end }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}Acompanhe as últimas notícias da sua cidade em tempo real.{{ end }}">
+<meta property="og:url" content="{{ $canon }}">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://w3.org' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230056b3'/%3E%3Crect y='52' width='64' height='12' rx='4' fill='%2310b981'/%3E%3Ctext x='50%25' y='38' font-family='Arial,sans-serif' font-weight='900' font-size='22' fill='white' text-anchor='middle'%3ECNB%3C/text%3E%3C/svg%3E">
+{{ if .IsPage }}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"NewsArticle","headline":{{ .Title | jsonify }},"datePublished":"{{ .Date.Format "2006-01-02T15:04:05-07:00" }}","description":{{ .Description | jsonify }},"mainEntityOfPage":{"@type":"WebPage","@id":"{{ $canon }}"},"publisher":{"@type":"Organization","name":"CNB News Brasil"}}
+</script>
+{{ end }}
 <style>
 :root{--bg:#f8fafc;--card:#ffffff;--fg:#0f172a;--mut:#475569;--blue:#0056b3;--blue-d:#003875;--green:#10b981;--red:#dc2626;--bd:#e2e8f0;--sh:0 4px 12px rgba(15,23,42,.06)}
 @media(prefers-color-scheme:dark){:root{--bg:#090d16;--card:#111827;--fg:#f8fafc;--mut:#94a3b8;--blue:#3b82f6;--blue-d:#1e3a8a;--green:#10b981;--red:#ef4444;--bd:#1e293b;--sh:0 4px 14px rgba(0,0,0,.45)}}
