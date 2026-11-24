@@ -97,28 +97,3 @@ function compartilharWA(el){const c=el.closest(".hero,.card,article"),a=c?c.quer
 </script>
 </body>
 </html>
-<body>
-<div class="util-bar"><div class="w"><div class="ticker" id="cotacoes"><span>USD: <b>R$ --</b></span><span>EUR: <b>R$ --</b></span></div><div id="data-hoje">Brasil · Ao Vivo</div></div></div>
-<header class="top"><div class="w nav"><a class="brand" href="{{ block "home" . }}/{{ end }}"><span class="brand-box">CNB</span> NEWS <small>{{ block "edicao" . }}Brasil{{ end }}</small></a><div style="display:flex;align-items:center;gap:12px"><span class="live-pill"><span class="live-dot"></span> Ao Vivo</span><div class="search-box"><input type="text" id="busca" placeholder="Buscar no CNB..." onkeyup="filtrarNoticias()"></div></div></div></header>
-{{ with site.GetPage "/cidades" }}
-<div class="city-bar"><div class="w">{{ range .Sections.ByTitle }}<a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a>{{ end }}</div></div>
-{{ end }}
-<div class="w"><div class="ad-slot">Publicidade<div class="ad-box">Espaço Publicitário · CNB News Brasil</div></div></div>
-<main class="w">{{ block "main" . }}{{ end }}</main>
-<footer><div class="w"><div style="margin-bottom:12px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap"><a href="https://cnbmobile.com" style="text-decoration:none;font-weight:700">Sobre a CNB News</a><a href="https://cnbmobile.com" style="text-decoration:none;font-weight:700">Política de Privacidade</a><a href="https://cnbmobile.com" style="text-decoration:none;font-weight:700">Termos de Uso</a><a href="https://cnbmobile.com" style="text-decoration:none;font-weight:700">Fale Conosco</a></div>© 2026 CNB News Brasil · Todos os direitos reservados</div></footer>
-<script>
-(function(){
-  const d=new Date(),s=d.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"}),el=document.getElementById("data-hoje");
-  if(el)el.textContent=s.charAt(0).toUpperCase()+s.slice(1);
-  const c=document.getElementById("cotacoes"),f=n=>String(n).padStart(2,"0"),dt=new Date(Date.now()-3456e5);
-  const ini=f(dt.getMonth()+1)+"-"+f(dt.getDate())+"-"+dt.getFullYear(),fim=f(d.getMonth()+1)+"-"+f(d.getDate())+"-"+d.getFullYear();
-  const u=m=>"https://bcb.gov.br'"+m+"'&@di='"+ini+"'&@df='"+fim+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json";
-  Promise.all([fetch(u("USD")).then(r=>r.json()),fetch(u("EUR")).then(r=>r.json())]).then(([a,b])=>{
-    if(c)c.innerHTML="<span>USD: <b>R$ "+a.value[0].cotacaoVenda.toFixed(2).replace(".",",")+"</b></span><span>EUR: <b>R$ "+b.value[0].cotacaoVenda.toFixed(2).replace(".",",")+"</b></span>";
-  }).catch(()=>{if(c)c.innerHTML="<span><b>CNB</b> · Economia & Cidades</span>";});
-})();
-function filtrarNoticias(){const q=document.getElementById("busca").value.toLowerCase();document.querySelectorAll(".card,.ml-item").forEach(e=>{e.style.display=e.innerText.toLowerCase().includes(q)?"":"none";});}
-function compartilharWA(el){const c=el.closest(".hero,.card,article"),a=c?c.querySelector("h1 a,h2 a"):null,t=a?a.innerText.trim():document.title,u=a?a.href:window.location.href;window.open("https://wa.me"+encodeURIComponent(t+" - "+u),"_blank","noopener");return false;}
-</script>
-</body>
-</html>
