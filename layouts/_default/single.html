@@ -1,8 +1,39 @@
 {{ define "titulo" }}{{ .Title }} · CNB News Brasil{{ end }}
 {{ define "main" }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ .Description | jsonify }},
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05-03:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05-03:00" }}",
+  "author": [{
+    "@type": "Person",
+    "name": "Rafael Mariano",
+    "url": "https://rafaelmariano.com.br"
+  }],
+  "publisher": {
+    "@type": "Organization",
+    "name": "CNB News Brasil · CNB Mobile LTDA",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cnbmobile.com"
+    }
+  }
+}
+</script>
 <article class="art">
   <div style="margin-bottom:14px"><a class="badge" href="https://cnbmobile.com">← Voltar para CNB Brasil</a></div>
   <h1>{{ .Title }}</h1>
+  <div style="font-size:.85rem;color:var(--mut);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bd)">
+    Por <strong>Redação CNB News</strong> · Edição: <a href="https://cnbmobile.comsobre/" style="color:var(--red);font-weight:700;text-decoration:none">Rafael Mariano</a> · Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}
+  </div>
+  {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
   <div class="body-txt">{{ .Content }}</div>
+  <div style="margin-top:28px;padding-top:16px;border-top:1px solid var(--bd);font-size:.85rem;color:var(--mut);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+    <span>{{ with .Params.fonte }}Fonte de referência: <strong>{{ . }}</strong>{{ else }}CNB News Brasil · Jornalismo Local{{ end }}</span>
+    <a href="#" onclick="return compartilharWA(this)" class="wa-btn">Compartilhar no WhatsApp</a>
+  </div>
 </article>
 {{ end }}
