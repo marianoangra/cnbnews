@@ -1,13 +1,13 @@
 ---
-title: "Governo do Rio lança iniciativa para melhorar acesso a água potável em Quissamã (RJ)"
-date: 2026-11-25T09:19:21.681054-03:00
-description: "O Governo do Estado do Rio de Janeiro implementará uma ação direta no município de Quissamã visando garantir um serviço eficiente e sustentável de abastecimento hídrico para os moradores."
+title: "Governo do Rio lança iniciativa para melhorar acesso a água potável em Quissamã"
+date: 2026-11-25T10:39:47.501832-03:00
+description: "O Governo do Estado do Rio de Janeiro implementa projeto que garante suprimento contínuo e seguro de água potável para residências na região de Quissamã, atendendo à demanda local com medidas práticas e imediatas."
 fonte: "Governo do Estado do Rio de Janeiro"
 fonte_url: "https://news.google.com/rss/articles/CBMifkFVX3lxTE84V0pERXZialk2WHRCQldvU1YwYXppSFNvREpXNnJPSkpfRUVueGw0am1tRFhLREJfWEdWQjVFSHhzMW1xYTFKdW1XUTBEMW0xZ0lyWkxYdUQ3LWpmT056blZqZ3Izd0RqVUYzWDhzRXlBdl9YckljNk9jS1o4Zw?oc=5"
 ---
 
-O governo estadual do Rio de Janeiro iniciou, na manhã deste sábado (21), uma campanha focada em regularizar a distribuição de água potável no bairro da Praça do Sol, em Quissamã. A ação busca resolver problemas crônicos de interrupções e qualidade da água que afetam mais de 3 mil residências na região.
+O governo estadual do Rio de Janeiro iniciou uma ação direta para garantir o acesso a água potável segura em Quissamã. A medida visa resolver questões críticas na região, onde há relatos de dificuldades no abastecimento, com foco em residências e áreas mais afetadas pelo problema.
 
-A operação contará com equipes especializadas para revisar tubulações, substituir filtros defeituosos e realizar manutenção preventiva nos sistemas de coleta. Essa medida é essencial para evitar a escassez hídrica em áreas críticas do município, garantindo que os habitantes tenham acesso contínuo à água potável. Os moradores devem monitorar as notificações via aplicativo oficial do Governo do Estado ou ligar para o número 190 (serviço de emergência) caso haja interrupções.
+O projeto contará com a instalação de novos pontos de coleta e manutenção preventiva para evitar interrupções. Para os moradores, isso significa água potável disponível sem interrupções, reduzindo riscos de doenças e melhorando condições básicas de vida. Cidadãos devem monitorar as atualizações no site oficial do Governo do Estado.
 
-O projeto faz parte da estratégia estadual de fortalecer a infraestrutura básica em regiões carentes, alinhado com as metas de desenvolvimento sustentável do Rio. Para acompanhar atualizações sobre prazos e detalhes técnicos, os interessados devem acessar o site oficial do Governo do Estado ou seguir as redes sociais da prefeitura de Quissamã (RJ).
+A iniciativa faz parte da estratégia municipal para fortalecer a infraestrutura hídrica em áreas carentes, reforçando compromisso com o bem-estar das populações. Os interessados podem acompanhar os prazos e detalhes nas plataformas digitais do Governo do Estado do Rio de Janeiro.

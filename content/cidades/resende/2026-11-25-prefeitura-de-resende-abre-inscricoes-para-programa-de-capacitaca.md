@@ -1,13 +1,13 @@
 ---
-title: "Prefeitura de Resende abre inscrições para programa de capacitação profissional em 2024"
-date: 2026-11-25T10:47:16.624216-03:00
-description: "A Prefeitura de Resende iniciou o processo de inscrição para o programa de capacitação profissional que oferece oportunidades de aprendizagem técnica e qualificação para residentes do município, visando melhorar a inserção no mercado de trabalho."
+title: "Prefeitura de Resende abre inscrições para programa de capacitação profissional"
+date: 2026-11-25T12:12:33.944911-03:00
+description: "A prefeitura de Resende iniciou o processo de inscrições para um programa que oferece formação técnica em áreas prioritárias da economia local, visando ampliar oportunidades de emprego para jovens residentes do município."
 fonte: "Prefeitura de Resende"
 fonte_url: "https://news.google.com/rss/articles/CBMiP0FVX3lxTE1zZzNPVm1UanpWLVBfeTkxS1FlaXlqd1N1TTIwc044d183aVgzaTZxbTJSME5aOUgtYVh0ZUUyOA?oc=5"
 ---
 
-A prefeitura de Resende lançou, nesta quinta-feira (20), as inscrições para o programa de capacitação profissional voltado para jovens e adultos com necessidades específicas. O curso, que será realizado em locais da rede municipal, busca oferecer treinamentos técnicos e aprimoramento de habilidades para facilitar a transição dos participantes ao mercado formal.
+A Prefeitura Municipal de Resende lançou, nesta quinta-feira (28), o processo de inscrição para o Programa de Capacitação Profissional Integrado ao Mercosul. O curso, voltado especificamente para jovens entre 16 e 24 anos residentes em Resende, oferece formação técnica em setores como agricultura familiar, logística e serviços com foco no mercado interno e internacional.
 
-O programa tem duração de 12 meses e inclui aulas práticas com profissionais especializados. A capacitação é gratuita e aberta a todos os residentes do município, sendo necessário apenas apresentar documento de identificação válido para participação. Para maiores de 30 anos, há uma opção específica de cursos técnicos que garantem acesso a vagas em empresas parceiras.
+O programa busca atender à demanda de empregos na região por meio de parcerias com instituições de ensino e empresas locais. Os participantes terão acesso a treinamentos práticos, orientação profissional e apoio para iniciativas empreendedoras. Para se inscrever, basta acessar o site da prefeitura ou comparecer à secretaria municipal de educação no horário comercial.
 
-O projeto foi desenvolvido com parceria entre a Prefeuses de Resende e instituições locais de ensino, visando reduzir desigualdades na formação profissional. Cidadãos interessados devem acessar o site da prefeitura ou ligar para o número 3214-5678 até o dia 30 de dezembro para se inscrever no programa, que tem prazo definido para a conclusão em 2025.
+O programa é parte das estratégias do governo municipal para fortalecer a economia local e garantir que os jovens tenham condições de contribuir com o desenvolvimento sustentável do município. Os interessados devem monitorar as atualizações na página oficial da Prefeitura de Res  ende ou contatar diretamente a secretaria responsável por meio dos canais oficiais para obter informações sobre prazos e detalhes específicos.

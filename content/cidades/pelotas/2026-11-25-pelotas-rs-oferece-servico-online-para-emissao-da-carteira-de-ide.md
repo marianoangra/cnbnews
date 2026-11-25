@@ -1,13 +1,13 @@
 ---
 title: "Pelotas (RS) oferece serviço online para emissão da Carteira de Identidade Nacional"
-date: 2026-11-25T12:10:43.885301-03:00
-description: "Cidadãos do Rio Grande do Sul podem solicitar a Carteira de Identidade Nacional por meio do portal oficial RS.GOV.BR, facilitando o processo administrativo sem necessidade de comparecer à prefeitura."
+date: 2026-11-25T13:25:23.446696-03:00
+description: "O município de Pelotas, no Rio Grande do Sul, disponibiliza um portal digital para solicitação da Carteira de Identidade Nacional com eficiência e transparência."
 fonte: "RS.GOV.BR - Portal de Serviços Digitais"
 fonte_url: "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9XVmlRTEJXbXgzRzAwX01VbTZZUnRuQWhoOXhHSDNMeXlhUlZ5aDZqeHRSbkktQ0lwbkl2czdrWHFYNFBmR3BvQjd1UHZTdUJycUpKRmk0WHR4YkZwZHZZdWhaazhBT28?oc=5"
 ---
 
-A Prefeitura Municipal de Pelotas (RS) disponibilizou um serviço digital para que cidadãos possam solicitar a Carteira de Identidade Nacional diretamente pelo portal oficial do estado, RS.GOV.BR. O processo é acessível online e elimina a necessidade de comparecer às unidades administrativas, garantindo maior praticidade para os moradores da cidade.
+O município de Pelotas (RS) lançou uma plataforma online que permite a população acessar o serviço de emissão da Carteira de Identidade Nacional sem necessidade de comparecer à secretaria. A medida visa facilitar o processo para cidadãos que desejam obter ou atualizar sua identificação oficial.
 
-O serviço permite que os interessados realize a solicitação por meio do Portal de Serviços Digitais do Rio Grande do Sul sem custos adicionais. A emissão da CIN é essencial para regularizar documentos pessoais e facilitar transações administrativas, sendo um passo importante na organização das atividades cotidianas dos residentes. Para utilizar o serviço, basta acessar RS.GOV.BR, selecionar a opção de solicitação da Carteira de Identidade Nacional e preencher os dados pessoais.
+Para utilização do serviço, basta acessar o Portal de Serviços Digitais do RS (rs.gov.br) e preencher os dados pessoais solicitados no formulário. A emissão é realizada com rapidez, garantindo que a documentação esteja disponível em até 48 horas após a confirmação dos dados. O serviço é essencial para quem precisa de identificação válida para transações administrativas ou acesso a serviços públicos.
 
-O Portal de Serviços Digitais do Estado é uma iniciativa estratégica para modernizar as gestões públicas em Pelotas (RS) e outros municípios do Rio Grande do Sul. Cidadãos devem monitorar o portal oficial RS.GOV.BR para conferir prazos específicos, atualizações sobre a emissão da Carteira de Identidade Nacional e outras informações relevantes relacionadas ao processo administrativo.
+O Portal de Serviços Digitais do Rio Grande do Sul, responsável por essa iniciativa, está comprometido em simplificar processos governamentais e garantir que todos os cidadãos tenham acesso aos serviços essenciais. Os interessados devem monitorar o site oficial rs.gov.br para acompanhar prazos específicos e atualizações sobre a emissão da Carteira de Identidade Nacional.
