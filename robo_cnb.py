@@ -78,7 +78,7 @@ def buscar_pautas_oficiais(query_cidade):
     itens, vistos = [], set()
     for q in consultas:
         try:
-            url = "https://google.com" + urllib.parse.quote(q) + "&hl=pt-BR&gl=BR&ceid=BR:pt-419"
+            url = "https://news.google.com/rss/search?q=" + urllib.parse.quote(q) + "&hl=pt-BR&gl=BR&ceid=BR:pt-419"
             xml_data = urllib.request.urlopen(urllib.request.Request(url, headers=hdr), timeout=12).read()
             root = ET.fromstring(xml_data)
             for item in root.findall(".//item")[:5]:
