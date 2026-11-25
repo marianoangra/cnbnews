@@ -176,7 +176,9 @@ Responda EXCLUSIVAMENTE o JSON válido."""
     }).encode("utf-8")
 
     req = urllib.request.Request("http://127.0.0.1:11434/api/generate", data=payload, headers={"Content-Type": "application/json"})
-    resp = json.loads(urllib.request.urlopen(req, timeout=90).read().decode("utf-8"))
+    # 600 s: logo após o boot o qwen3:4b leva >90 s para sair do pendrive para a GPU;
+    # se o cliente desiste antes, o Ollama ABORTA o carregamento e o ciclo nunca termina.
+    resp = json.loads(urllib.request.urlopen(req, timeout=600).read().decode("utf-8"))
     dados = json.loads(resp["response"])
     if not dados.get("valido", True):
         return None, None, None
