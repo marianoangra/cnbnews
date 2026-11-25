@@ -5,10 +5,13 @@
 > - **Portal no ar = Hugo na raiz** (`config.toml`, `content/`, `layouts/`, `static/`), projeto Vercel `cnbnews` na equipe `gasomax`, servindo `cnbmobile.com`, `news.cnbmobile.com` e `<cidade>.news.cnbmobile.com`. `git push` em `main` publica sozinho. Hugo da Vercel é 0.58: a config TEM que ser `config.toml`.
 > - **`apps/web/`** é o futuro portal Next.js (seção 6). Ainda vazio — o Hugo continua sendo o site até a migração.
 > - **`services/agents/`** é o robô de redação (Fase 1, pronto): RSS da Agência Brasil → Redator → Revisor → Editor/SEO no Ollama → travas determinísticas (`src/guardrails.ts`) → Markdown em `content/noticias/`. Score ≥ 4 vai para `services/agents/fila-aprovacao/` (fora do git) e só sobe se Rafael mover o arquivo à mão.
-> - **`services/stream-engine/`** (live 24h) ainda não começou.
-> - O robô de cidades (`pelotas_v2.py`, roda na rig) escreve em `content/cidades/<slug>/` — contrato no README. Não mexer nesse formato.
+> - **`services/stream-engine/`** (live 24h) ainda não começou; já existe a rota `/tv/` (telão, ver `ROADMAP.md` Fase 2).
+> - **Hardware real ≠ seção 2:** a rig é a `rig1660s` (GTX 1660 Super, **6 GB**), modelo **`qwen3:4b`**, `num_ctx` 4096, `think: false`. O 14b da seção 2 não cabe. Os dois robôs usam o MESMO modelo e `num_ctx` para o Ollama não recarregar.
+> - **Robô de cidades = `robo_cnb.py`** (Python, na rig, 42 cidades, ciclo de 45 min) → `content/cidades/<slug>/` + `static/sitemap.xml` + `git add content/` e push. Detalhes em `MEMORIA_PROJETO.md`. Não mexer nesse formato. Como ele faz `git add content/`, matérias em `content/noticias/` também sobem no push dele.
+> - **Contato da redação real** é `contato@rafaelmariano.com.br` (`/contato/`), não o `redacao@cnbmobile.com` da seção 5A — essa caixa não existe.
+> - O `static/sitemap.xml` é reescrito pelo `robo_cnb.py` só com as cidades: as páginas `/noticias/` ainda não entram no sitemap.
 > - `.vercelignore` tira o monorepo Node do deploy: a Vercel continua vendo só o site Hugo. Não remover sem migrar o build.
-> - Limite de deploys do plano Hobby: agrupar matérias num commit só (o robô faz um push por ciclo, ciclo mínimo de 20 min).
+> - Limite de deploys do plano Hobby: agrupar matérias num commit só (o robô faz um push por ciclo, ciclo mínimo de 20 min). Antes de qualquer push manual: `git pull --rebase --autostash` (o robô da rig empurra o tempo todo).
 
 ---
 

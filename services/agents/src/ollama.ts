@@ -4,14 +4,19 @@ export interface ConfigOllama {
   endpoint: string;
   modelo: string;
   timeoutMs: number;
+  numCtx?: number;
   token?: string;
 }
 
+// Padrões = os do robo_cnb.py na rig1660s (GTX 1660 Super, 6 GB). Modelo e num_ctx
+// IGUAIS aos dele: qualquer diferença faz o Ollama recarregar o modelo a cada troca
+// entre os dois robôs.
 export function configDoAmbiente(env: NodeJS.ProcessEnv = process.env): ConfigOllama {
   return {
     endpoint: (env.OLLAMA_ENDPOINT || 'http://localhost:11434').replace(/\/+$/, ''),
-    modelo: env.OLLAMA_MODEL || 'qwen2.5:14b-instruct-q4_K_M',
+    modelo: env.OLLAMA_MODEL || 'qwen3:4b',
     timeoutMs: Number(env.OLLAMA_TIMEOUT_MS) || 180_000,
+    numCtx: Number(env.OLLAMA_NUM_CTX) || 4096,
     token: env.OLLAMA_TOKEN || undefined,
   };
 }
@@ -41,9 +46,10 @@ export function criarLlm(cfg: ConfigOllama, fetchImpl: typeof fetch = fetch, ten
               system,
               prompt,
               stream: false,
+              think: false, // qwen3: sem bloco <think> antes do JSON
               format: 'json',
               keep_alive: '30m',
-              options: { temperature: temperatura, num_ctx: 8192 },
+              options: { temperature: temperatura, num_ctx: cfg.numCtx ?? 4096 },
             }),
           });
           if (!res.ok) throw new ErroLlm(`Ollama HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);

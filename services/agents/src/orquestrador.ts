@@ -12,8 +12,9 @@ import {
 } from './prompts.ts';
 import { AUTOR_PADRAO, CATEGORIAS, type ArticlePayload, type Categoria, type ItemBruto, type Urgencia } from './tipos.ts';
 
-// ~9 mil caracteres de entrada cabem com folga no num_ctx 8192 junto com a resposta.
-const MAX_ENTRADA = 9000;
+// num_ctx 4096 (igual ao robo_cnb.py): o Revisor recebe original + matéria + resposta,
+// então o original entra com no máximo ~4,5 mil caracteres (~1.300 tokens).
+const MAX_ENTRADA = 4500;
 
 function categoriaValida(v: string | undefined, padrao: Categoria): Categoria {
   const c = (v ?? '').trim().toLowerCase();
