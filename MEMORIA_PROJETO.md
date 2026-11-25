@@ -1,6 +1,6 @@
 # Memória Técnica e Editorial · CNB News Brasil
 
-**Última atualização:** 24/11/2026  
+**Última atualização:** 25/11/2026  
 **Domínio Principal:** `https://cnbmobile.com` (Subdomínios municipais: `https://{cidade}://`)  
 **Repositório:** `github.com:marianoangra/cnbnews.git`  
 **Hospedagem / Deploy:** Vercel (Deploy automático via `git push` na branch `main`)  
@@ -20,25 +20,23 @@
 
 ---
 
-## 2. Arquitetura do Sistema
-- **Gerador Estático:** Hugo (`config.toml`, `content/cidades/`, `layouts/`)
+## 2. Arquitetura do Sistema e Cobertura (42 Cidades)
+- **Gerador Estático:** Hugo (`config.toml`, `content/cidades/`, `layouts/`) — compilado na Vercel (`hugo --minify`).
 - **Servidor Local:** Máquina `rig1660s` (GTX 1660 Super)
 - **Motor de IA:** Ollama rodando localmente na porta `11434` com o modelo **`qwen3:4b`** (`"format": "json"`, `temperature: 0.35`, `repeat_penalty: 1.15`).
+- **Cidades Ativas (42 municípios):**
+  - **28 originais:** Pelotas (RS), Londrina (PR), Maringá (PR), Vitória (ES), Angra dos Reis (RJ), Paraty (RJ), Lorena (SP), Cachoeira Paulista (SP), Cruzeiro (SP), Lavras (MG), Taubaté (SP), São José dos Campos (SP), Resende (RJ), Macaé (RJ), Campos dos Goytacazes (RJ), Caraguatatuba (SP), Ilhabela (SP), São Sebastião (SP), Ubatuba (SP), Mangaratiba (RJ), Itaguaí (RJ), Cabo Frio (RJ), Armação dos Búzios (RJ), Arraial do Cabo (RJ), São Pedro da Aldeia (RJ), Rio das Ostras (RJ), São João da Barra (RJ), Quissamã (RJ).
+  - **14 adicionadas no Paraná (25/11/2026 — cobertura de temporais/enchentes/emergência):** Curitiba (PR), Foz do Iguaçu (PR), Cascavel (PR), Ponta Grossa (PR), Paranaguá (PR), Francisco Beltrão (PR), Campo Largo (PR), Almirante Tamandaré (PR), Pitanga (PR), Manoel Ribas (PR), Prudentópolis (PR), Guaíra (PR), Rebouças (PR), Capanema (PR).
 - **Automação (`robo_cnb.py`):**
-  - Roda em segundo plano contínuo (ciclos a cada 45 minutos / 2700s).
-  - Coleta pautas via Google News RSS focadas em `.gov.br` e serviços municipais das 28 cidades cadastradas.
-  - Aplica filtro anti-duplicidade por palavras-chave (`similaridade >= 0.55` nos últimos 40 artigos da cidade).
-  - Limpa erros comuns de formatação (ex: `2.026` -> `2026`, listas numeradas quebradas e sufixos de concorrentes).
-  - Espaça os horários de publicação em 7 minutos por matéria.
-  - Regenera o `static/sitemap.xml` e faz `git commit` + `git push` automático.
+  - Ciclos a cada 45 minutos (2700s), coleta via Google News RSS, filtro anti-duplicidade (`similaridade >= 0.55` nos últimos 40 artigos), espaçamento de 7 minutos por matéria, atualização do `static/sitemap.xml` e `git push` automático.
 
 ---
 
-## 3. Recursos Implementados no Front-End
-- **Capa Nacional (`layouts/_default/index.html`):** Title SEO descritivo, manchete com foto temática (`/fotos/*.jpg`) e `alt` text, ranking "Mais Lidas" e feed de últimas notícias com botão de compartilhamento WhatsApp.
-- **Edições Municipais (`layouts/cidades/list.html`):** Widget de **Previsão do Tempo ao Vivo** (API Open-Meteo sem chave) com coordenadas das 28 cidades.
-- **Matérias Internas (`layouts/cidades/single.html` e `layouts/_default/single.html`):** Schema Markup `NewsArticle` JSON-LD, assinatura do Editor-Chefe Rafael Mariano, data/hora formatada, foto temática e link clicável para a fonte oficial.
-- **Base (`layouts/_default/baseof.html`):** Cotação Dólar/Euro via API do Banco Central (PTAX), logotipo apontando sempre para `https://cnbmobile.com`, favicons no padrão Google (`192x192`, `48x48` e `SVG`) e links do rodapé validados.
+## 3. Front-End Implementado (`layouts/`)
+- **Base (`layouts/_default/baseof.html`):** Tema escuro estilo CNN/G1, cotação USD/EUR ao vivo via CDN jsDelivr (`currency-api`), barra horizontal com as 42 cidades, busca instantânea na página, botão de compartilhamento WhatsApp e rodapé institucional.
+- **Capa Nacional (`layouts/_default/index.html`):** Destaque principal + 30 cards usando apenas as 6 fotos reais de `static/fotos/` (`clima.jpg`, `economia.jpg`, `educacao.jpg`, `obras.jpg`, `policia.jpg`, `saude.jpg`). *(Nota: `layouts/index.html` foi removido para não sobrescrever `_default/index.html`).*
+- **Edições Municipais (`layouts/cidades/list.html`):** Widget de **Previsão do Tempo ao Vivo** (API Open-Meteo `/v1/forecast`) configurado com as coordenadas das 42 cidades.
+- **Matérias Internas (`layouts/cidades/single.html` e `layouts/_default/single.html`):** Schema Markup `NewsArticle` JSON-LD, assinatura do Editor-Chefe e link para a fonte oficial.
 
 ---
 
