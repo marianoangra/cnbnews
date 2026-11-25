@@ -1,13 +1,13 @@
 ---
 title: "CAU/PR abre inscrições para cursos técnicos em Londrina (PR)"
-date: 2026-11-25T13:19:02.621073-03:00
-description: "O Conselho de Arquitetura e Urbanismo do Paraná divulga novas oportunidades educativas para profissionais da área, com foco no desenvolvimento técnico de cidadãos em Londrina."
+date: 2026-11-25T14:05:21.260664-03:00
+description: "O Conselho de Arquitetura e Urbanismo do Paraná divulga novas oportunidades educacionais para profissionais da área em Londrina, com foco na formação técnica e aprimoramento dos conhecimentos urbanísticos."
 fonte: "CAU/PR"
 fonte_url: "https://news.google.com/rss/articles/CBMiPkFVX3lxTE14SFVOalV0eTlXRVg2VWMwbzJVNWo2OEhnWDJjYXdqOHBuamJCc1RJMG1HM2Z5Ykt1NWVwbEln?oc=5"
 ---
 
-O CAU/PR iniciou inscrições para cursos técnicos voltados para a formação de profissionais na área de arquitetura e urbanismo. A medida busca capacitar moradores de Londrina (PR) com conhecimentos práticos necessários para contribuir efetivamente no planejamento urbano local.
+O CAU/PR iniciou inscrições para cursos técnicos de arquitetura e urbanismo no município de Londrina (PR), visando capacitar profissionais locais em projetos urbanísticos relevantes. A ação busca atender à demanda crescente por expertise técnica na construção civil e planejamento urbano, garantindo que os moradores tenham acesso a soluções mais eficientes para suas necessidades habitacionais.
 
-Os cursos, que serão ministrados em parceria com instituições locais, oferecem conteúdo técnico específico para atender às demandas do mercado. A ação é relevante para a comunidade, já que promove a qualificação de cidadãos para participar da construção e gestão de espaços urbanos. Os interessados devem se inscrever no site oficial do CAU/PR até o dia 15 de outubro.
+Os cursos oferecem conteúdo prático sobre normas técnicas, projetos de infraestrutura e gestão de áreas públicas. Para participar, é necessário possuir formação básica em engenharia ou arquitetura e seguir as orientações do CAU/PR no site oficial. A iniciativa reforça a importância da qualificação técnica na região para o desenvolvimento sustentável das cidades.
 
-O Conselho mantém uma trajetória sólida na regulação profissional do Paraná, garantindo que os cursos estejam alinhados com as normas técnicas vigentes. Para acompanhar prazos e atualizações oficiais, é essencial acessar o site da instituição ou contatar a equipe de Londrina (PR) diretamente.
+O Conselho de Arquitetas e Arquitetos do Paraná (CAU/PR) é uma entidade reguladora que supervisiona a prática profissional em arquitetura e urbanismo no estado. Os interessados devem monitorar as atualizações no site da instituição, onde serão divulgadas datas de prazos para inscrição e detalhes sobre os programas educacionais disponíveis.
