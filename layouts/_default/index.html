@@ -6,14 +6,14 @@
   {{ $first := index $sorted 0 }}
   {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
   {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
-  {{ $fimg := "/fotos/geral.jpg" }}
+  {{ $fimg := "/fotos/geral.svg" }}
   {{ $flow := lower $first.Title }}
   {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") }}{{ $fimg = "/fotos/saude.jpg" }}
   {{ else if or (in $flow "educação") (in $flow "escola") (in $flow "aluno") (in $flow "letivo") }}{{ $fimg = "/fotos/educacao.jpg" }}
-  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") }}{{ $fimg = "/fotos/obras.jpg" }}
+  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") (in $flow "veículo") (in $flow "rua") (in $flow "pamo") (in $flow "fechado") }}{{ $fimg = "/fotos/obras.jpg" }}
   {{ else if or (in $flow "chuva") (in $flow "defesa civil") (in $flow "alerta") }}{{ $fimg = "/fotos/clima.jpg" }}
   {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") }}{{ $fimg = "/fotos/policia.jpg" }}
-  {{ else if or (in $flow "concurso") (in $flow "refis") (in $flow "imposto") (in $flow "vagas") }}{{ $fimg = "/fotos/economia.jpg" }}{{ end }}
+  {{ else if or (in $flow "concurso") (in $flow "refis") (in $flow "imposto") (in $flow "vagas") (in $flow "cultura") (in $flow "festa") (in $flow "festival") (in $flow "inscrições") (in $flow "emprego") (in $flow "aeroporto") (in $flow "governança") }}{{ $fimg = "/fotos/economia.jpg" }}{{ end }}
 
   <div class="cnn-top">
     <div class="hero">
@@ -44,14 +44,14 @@
   {{ range first 30 (after 4 $sorted) }}
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
     {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
-    {{ $img := "/fotos/geral.jpg" }}
+    {{ $img := "/fotos/geral.svg" }}
     {{ $low := lower .Title }}
     {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $img = "/fotos/saude.jpg" }}
     {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
-    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") }}{{ $img = "/fotos/obras.jpg" }}
+    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "veículo") (in $low "rua") (in $low "pamo") (in $low "fechado") }}{{ $img = "/fotos/obras.jpg" }}
     {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $img = "/fotos/clima.jpg" }}
     {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") }}{{ $img = "/fotos/policia.jpg" }}
-    {{ else if or (in $low "concurso") (in $low "refis") (in $low "imposto") (in $low "vagas") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
+    {{ else if or (in $low "concurso") (in $low "refis") (in $low "imposto") (in $low "vagas") (in $low "cultura") (in $low "festa") (in $low "festival") (in $low "inscrições") (in $low "emprego") (in $low "aeroporto") (in $low "governança") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
     <article class="card">
       <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" src="{{ $img }}" alt="{{ .Title }} - {{ .Parent.Title }}" loading="lazy"></a>
       <div class="card-in">

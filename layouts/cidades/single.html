@@ -6,7 +6,7 @@
 {{ $low := lower .Title }}
 {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") (in $low "mpox") }}{{ $img = "https://cnbmobile.comfotos/saude.jpg" }}
 {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "https://cnbmobile.comfotos/educacao.jpg" }}
-{{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "córrego") }}{{ $img = "https://cnbmobile.comfotos/obras.jpg" }}
+{{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "veículo") (in $low "rua") (in $low "pamo") (in $low "fechado") (in $low "córrego") }}{{ $img = "https://cnbmobile.comfotos/obras.jpg" }}
 {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") (in $low "tempo") }}{{ $img = "https://cnbmobile.comfotos/clima.jpg" }}
 {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "segurança") }}{{ $img = "https://cnbmobile.comfotos/policia.jpg" }}
 {{ else if or (in $low "concurso") (in $low "refis") (in $low "imposto") (in $low "salário") }}{{ $img = "https://cnbmobile.comfotos/economia.jpg" }}{{ end }}
