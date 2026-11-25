@@ -1,21 +1,9 @@
+{{ define "titulo" }}{{ .Title }} · CNB News Brasil{{ end }}
+{{ define "home" }}https://cnbmobile.com{{ end }}
 {{ define "main" }}
-<article style="max-width:760px;margin:0 auto;padding:28px 0">
-  <p style="font-size:13px;color:#6B7280">{{ .Date.Format "02/01/2006 15:04" }} - {{ .Params.fonte }}</p>
-  <h1 style="font-size:34px;line-height:1.2">{{ .Title }}</h1>
-  <p style="font-size:19px;color:#374151">{{ .Params.description }}</p>
-  <div>{{ .Content }}</div>
-  <p style="margin-top:32px;padding:16px;background:#F9FAFB;border-radius:8px">
-    Fonte original: <a href="{{ .Params.fonte_url }}" rel="nofollow noopener" target="_blank">{{ .Params.fonte }}</a>
-  </p>
+<article style="max-width:820px;margin:20px auto 40px;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:28px;box-shadow:var(--sh)">
+  <div style="margin-bottom:14px"><a href="https://cnbmobile.com" style="color:var(--red2);font-weight:800;text-decoration:none;font-size:.85rem">← Voltar para a Capa Nacional</a></div>
+  <h1 style="font-size:1.85rem;line-height:1.25;margin:0 0 18px;font-weight:900;border-bottom:1px solid var(--bd);padding-bottom:14px">{{ .Title }}</h1>
+  <div style="font-size:1rem;line-height:1.75;color:#e5e7eb">{{ .Content }}</div>
 </article>
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"NewsArticle",
-  "headline": {{ .Title | jsonify }},
-  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05-03:00" }}",
-  "description": {{ .Params.description | jsonify }},
-  "mainEntityOfPage": "{{ .Permalink }}"
-}
-</script>
 {{ end }}
