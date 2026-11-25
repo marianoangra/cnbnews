@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta http-equiv="refresh" content="900"><title>CNB News TV</title><style>
+*{box-sizing:border-box;margin:0;padding:0}body{background:#07090e;color:#f8fafc;font-family:system-ui,sans-serif;width:100vw;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.top{height:64px;background:#0f131c;border-bottom:3px solid #dc2626;display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.logo{background:#dc2626;color:#fff;font-weight:900;font-size:24px;padding:4px 12px;border-radius:4px}
+.pill{background:rgba(220,38,38,.2);border:1px solid #dc2626;color:#fca5a5;padding:4px 12px;border-radius:99px;font-size:13px;font-weight:800}
+.mkt{display:flex;gap:20px;align-items:center;font-weight:700}.box{background:#161b26;padding:6px 14px;border-radius:6px}.box span{color:#38bdf8}
+.grid{flex:1;display:grid;grid-template-columns:72% 28%;overflow:hidden}
+.stage{position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:44px;background-size:cover;background-position:center}
+.stage::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,9,14,.2),rgba(7,9,14,.96) 85%)}
+.sc{position:relative;z-index:2}.tag{display:inline-block;background:#dc2626;padding:6px 14px;border-radius:4px;font-weight:800;margin-bottom:14px;text-transform:uppercase}
+h1{font-size:42px;line-height:1.15;font-weight:900;margin-bottom:16px}p{font-size:22px;line-height:1.4;color:#cbd5e1;margin-bottom:18px}
+.meta{font-size:15px;color:#94a3b8;border-top:1px solid rgba(255,255,255,.15);padding-top:12px}
+.side{background:#0d111a;border-left:1px solid #1e293b;padding:22px;display:flex;flex-direction:column;gap:12px}
+.sh{font-size:14px;font-weight:800;color:#38bdf8;border-bottom:1px solid #1e293b;padding-bottom:8px}
+.qi{background:#131824;border-left:3px solid #334155;padding:10px 12px}.qi.act{background:#1b2234;border-left-color:#dc2626}
+.qc{font-size:11px;font-weight:800;color:#f87171;text-transform:uppercase}.qt{font-size:14px;font-weight:600;margin-top:3px}
+.foot{height:54px;background:#dc2626;display:flex;align-items:center;overflow:hidden}
+.fl{background:#991b1b;font-weight:900;padding:0 24px;height:100%;display:flex;align-items:center;z-index:2}
+.ft{display:flex;white-space:nowrap;animation:tk 90s linear infinite;font-size:18px;font-weight:700}.ft span{margin-right:48px}
+@keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+</style></head><body>
+<div class="top"><div style="display:flex;gap:14px;align-items:center"><span class="logo">CNB NEWS</span><b>BRASIL</b><span class="pill">● AO VIVO</span></div>
+<div class="mkt"><div class="box">USD <span id="u">R$ --</span></div><div class="box">EUR <span id="e">R$ --</span></div><b id="clk" style="font-size:20px"></b></div></div>
+<div class="grid"><div class="stage" id="st"><div class="sc"><div class="tag" id="ct"></div><h1 id="ti"></h1><p id="de"></p><div class="meta" id="mt"></div></div></div>
+<div class="side"><div class="sh">A SEGUIR NO BOLETIM</div><div id="ql" style="display:flex;flex-direction:column;gap:10px;flex:1"></div></div></div>
+<div class="foot"><div class="fl">ÚLTIMAS</div><div class="ft">
+{{ $n := first 30 (where .Site.RegularPages "Section" "cidades") }}{{ range $n }}<span>● {{ .Parent.Title }}: {{ .Title }}</span>{{ end }}{{ range $n }}<span>● {{ .Parent.Title }}: {{ .Title }}</span>{{ end }}
+</div></div><script>
+const N=[{{ range first 30 (where .Site.RegularPages "Section" "cidades") }}{c:{{ .Parent.Title | jsonify }},t:{{ .Title | jsonify }},d:{{ (.Description | default .Summary) | plainify | jsonify }},s:{{ (.Params.fonte | default "Portal Oficial") | jsonify }},i:{{ (.Params.imagem | default "/fotos/economia.jpg") | jsonify }}},{{ end }}];
+let x=0;function show(i){if(!N.length)return;const o=N[i];st.style.backgroundImage=`url('${o.i}')`;ct.textContent=o.c;ti.textContent=o.t;de.textContent=o.d;mt.textContent="Fonte: "+o.s+" · cnbmobile.com · @RafaelMarianoentrevistas";
+ql.innerHTML="";for(let k=0;k<5;k++){const q=N[(i+k)%N.length];ql.innerHTML+=`<div class="qi ${k==0?'act':''}"><div class="qc">${q.c}</div><div class="qt">${q.t}</div></div>`;}}
+if(N.length){show(0);setInterval(()=>{x=(x+1)%N.length;show(x)},15000)}
+setInterval(()=>clk.textContent=new Date().toLocaleTimeString("pt-BR"),1000);
+fetch("https://jsdelivr.net").then(r=>r.json()).then(d=>{u.textContent="R$ "+d.usd.brl.toFixed(2).replace(".",",");e.textContent="R$ "+(d.usd.brl/d.usd.eur).toFixed(2).replace(".",",")}).catch(()=>{});
+</script></body></html>
