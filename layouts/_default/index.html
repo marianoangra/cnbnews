@@ -1,3 +1,4 @@
+{{ define "titulo" }}CNB News Brasil | Notícias ao Vivo das Cidades, Concursos e Utilidade Pública{{ end }}
 {{ define "main" }}
 {{ $pages := where .Site.RegularPages "Section" "cidades" }}
 {{ $sorted := $pages.ByDate.Reverse }}
@@ -5,14 +6,23 @@
   {{ $first := index $sorted 0 }}
   {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
   {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
+  {{ $fimg := "/fotos/geral.jpg" }}
+  {{ $flow := lower $first.Title }}
+  {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") }}{{ $fimg = "/fotos/saude.jpg" }}
+  {{ else if or (in $flow "educação") (in $flow "escola") (in $flow "aluno") (in $flow "letivo") }}{{ $fimg = "/fotos/educacao.jpg" }}
+  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") }}{{ $fimg = "/fotos/obras.jpg" }}
+  {{ else if or (in $flow "chuva") (in $flow "defesa civil") (in $flow "alerta") }}{{ $fimg = "/fotos/clima.jpg" }}
+  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") }}{{ $fimg = "/fotos/policia.jpg" }}
+  {{ else if or (in $flow "concurso") (in $flow "refis") (in $flow "imposto") (in $flow "vagas") }}{{ $fimg = "/fotos/economia.jpg" }}{{ end }}
+
   <div class="cnn-top">
     <div class="hero">
-      <a style="text-decoration:none" href="{{ $furl }}"><div class="capa-box"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
+      <a style="text-decoration:none" href="{{ $furl }}"><img class="hero-img" src="{{ $fimg }}" alt="{{ $first.Title }} - {{ $first.Parent.Title }}"></a>
       <div class="hero-body">
-        <span class="kicker">Edição Local · Destaque</span>
+        <span class="kicker">Destaque · {{ $first.Parent.Title }}</span>
         <h1><a style="text-decoration:none" href="{{ $furl }}">{{ $first.Title }}</a></h1>
         <p style="color:var(--mut);margin:0 0 14px">{{ $first.Description }}</p>
-        <div class="meta"><span>{{ $first.Date.Format "02/01/2006 15:04" }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
+        <div class="meta"><span>{{ $first.Date.Format "02/01/2006 às 15:04" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
         <ul class="sub-bullets">
         {{ range first 3 (after 1 $sorted) }}
           {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
@@ -34,11 +44,19 @@
   {{ range first 30 (after 4 $sorted) }}
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
     {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
+    {{ $img := "/fotos/geral.jpg" }}
+    {{ $low := lower .Title }}
+    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $img = "/fotos/saude.jpg" }}
+    {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
+    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") }}{{ $img = "/fotos/obras.jpg" }}
+    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $img = "/fotos/clima.jpg" }}
+    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") }}{{ $img = "/fotos/policia.jpg" }}
+    {{ else if or (in $low "concurso") (in $low "refis") (in $low "imposto") (in $low "vagas") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
     <article class="card">
-      <a style="text-decoration:none" href="{{ $purl }}"><div class="capa-box"><span>CNB NEWS · COBERTURA AO VIVO</span></div></a>
+      <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" src="{{ $img }}" alt="{{ .Title }} - {{ .Parent.Title }}" loading="lazy"></a>
       <div class="card-in">
         <div><span class="kicker">{{ .Parent.Title }}</span><h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2><p style="font-size:.88rem;color:var(--mut);margin:0">{{ .Description }}</p></div>
-        <div class="meta"><span>{{ .Date.Format "02/01/2006" }}</span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
+        <div class="meta"><span>{{ .Date.Format "02/01/2006" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
       </div>
     </article>
   {{ end }}

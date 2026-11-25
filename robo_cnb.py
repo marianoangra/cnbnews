@@ -96,27 +96,35 @@ def buscar_pautas_oficiais(query_cidade):
     return itens[:3]
 
 def redigir_com_ia(cidade_nome, manchete, fonte):
-    prompt = f"""Você é o editor-chefe de jornalismo local do portal CNB News Brasil.
-Escreva estritamente em Português do Brasil (pt-BR), com tom jornalístico profissional, impessoal e de utilidade pública.
+    prompt = f"""Você é editor-chefe de jornalismo local e utilidade pública no Brasil.
+Reescreva a pauta abaixo sobre {cidade_nome} em Português do Brasil (pt-BR) culto, direto e informativo, no padrão de grandes portais de notícias.
 
-Pauta oficial de {cidade_nome}: "{manchete}" (Fonte: {fonte}).
+Pauta original: "{manchete}"
+Fonte oficial: {fonte}
 
-REGRAS OBRIGATÓRIAS:
-1. Crie um título jornalístico limpo, direto e sem nome de outros sites (máximo 85 caracteres).
-2. Escreva um resumo ("description") em 1 frase completa e bem acabada (entre 110 e 180 caracteres).
-3. Escreva o corpo da matéria ("artigo") com 3 parágrafos corridos e bem desenvolvidos (mínimo 420 caracteres no total), explicando a importância da ação/serviço para os moradores de {cidade_nome}.
-4. NUNCA use listas numeradas (1., 2., 3.) ou tópicos.
-5. NUNCA coloque ponto em anos (escreva 2026, nunca 2.026).
-6. NUNCA invente datas, endereços, telefones ou valores que não estejam na pauta.
+DIRETRIZES DE QUALIDADE JORNALÍSTICA:
+1. "title": Título jornalístico claro, atraente e objetivo (60 a 85 caracteres). Nunca inclua o nome de outros sites no título.
+2. "description": Lide jornalístico em 1 frase informativa (120 a 180 caracteres) que complemente o título sem repeti-lo palavra por palavra.
+3. "artigo": Texto completo com exatamente 3 parágrafos bem estruturados (total entre 550 e 900 caracteres), separados por quebra de linha dupla (
 
-Responda APENAS um JSON válido com as chaves: "title", "description" e "artigo"."""
+):
+   - 1º parágrafo: O fato principal (o quê, onde em {cidade_nome}, quem realiza e qual o objetivo prático para o morador).
+   - 2º parágrafo: Detalhes de funcionamento, importância do serviço/ação para a comunidade local e orientações gerais ao cidadão.
+   - 3º parágrafo: Contexto institucional e recomendação para que os interessados acompanhem os canais oficiais de {cidade_nome} ({fonte}) para prazos e atualizações.
+4. PROIBIÇÕES ESTRITAS:
+   - NUNCA use clichês repetitivos como "visando estimular a participação cidadã" ou "enriquecer a vida cultural".
+   - NUNCA use listas numeradas (1., 2., 3.) ou marcadores.
+   - NUNCA coloque ponto em anos (escreva 2026, jamais 2.026).
+   - NUNCA invente números de telefone, endereços, valores ou datas que não estejam na pauta.
+
+Responda EXCLUSIVAMENTE um objeto JSON válido com as chaves: "title", "description" e "artigo"."""
 
     payload = json.dumps({
         "model": "qwen3:4b",
         "prompt": prompt,
         "stream": False,
         "format": "json",
-        "options": {"temperature": 0.25, "num_ctx": 4096}
+        "options": {"temperature": 0.35, "top_p": 0.9, "repeat_penalty": 1.15, "num_ctx": 4096}
     }).encode("utf-8")
 
     req = urllib.request.Request("http://127.0.0", data=payload, headers={"Content-Type": "application/json"})
