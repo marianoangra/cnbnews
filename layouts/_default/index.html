@@ -45,26 +45,22 @@
   {{ range first 30 (after 4 $sorted) }}
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
     {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
-    {{ $cat := "Cidades" }}
-    {{ $cor := "#cc0000" }}
+    {{ $img := "/fotos/geral.svg" }}
     {{ $low := lower .Title }}
-    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $cat = "Saúde" }}{{ $cor = "#059669" }}
-    {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $cat = "Educação" }}{{ $cor = "#4f46e5" }}
-    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "pamo") }}{{ $cat = "Obras & Trânsito" }}{{ $cor = "#ea580c" }}
-    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $cat = "Clima & Alerta" }}{{ $cor = "#0284c7" }}
-    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") }}{{ $cat = "Segurança & Justiça" }}{{ $cor = "#dc2626" }}
-    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "seletivo") }}{{ $cat = "Concursos & Emprego" }}{{ $cor = "#2563eb" }}
-    {{ else if or (in $low "festa") (in $low "cultura") (in $low "festival") (in $low "noel") (in $low "literária") }}{{ $cat = "Cultura & Eventos" }}{{ $cor = "#9333ea" }}{{ end }}
+    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $img = "/fotos/saude.jpg" }}
+    {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
+    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "pamo") (in $low "veículo") }}{{ $img = "/fotos/obras.jpg" }}
+    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $img = "/fotos/clima.jpg" }}
+    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") }}{{ $img = "/fotos/policia.jpg" }}
+    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "seletivo") (in $low "refis") (in $low "imposto") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
 
-    <article class="card" style="border-top:4px solid {{ $cor }}">
+    <article class="card">
+      <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" style="height:92px" src="{{ $img }}" alt="{{ .Title }} - {{ .Parent.Title }}" loading="lazy"></a>
       <div class="card-in">
         <div>
-          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px">
-            <span class="kicker" style="margin:0">{{ .Parent.Title }}</span>
-            <span style="font-size:.68rem;font-weight:800;text-transform:uppercase;color:{{ $cor }};background:rgba(128,128,128,.12);padding:2px 8px;border-radius:3px">{{ $cat }}</span>
-          </div>
+          <span class="kicker">{{ .Parent.Title }}</span>
           <h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2>
-          <p style="font-size:.9rem;color:var(--mut);margin:0;line-height:1.5">{{ .Description }}</p>
+          <p style="font-size:.88rem;color:var(--mut);margin:0">{{ .Description }}</p>
         </div>
         <div class="meta"><span>{{ .Date.Format "02/01/2006" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
       </div>
