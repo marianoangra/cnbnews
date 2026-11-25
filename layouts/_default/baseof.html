@@ -115,7 +115,7 @@
       if(reg === "TODAS"){
         box.style.display = "none";
         document.querySelectorAll(".cards .card").forEach(c => c.style.display = "");
-        return location.hostname !== "cnbmobile.com" && location.hostname !== "://cnbmobile.com";
+        return !location.hostname.endsWith("cnbmobile.com") || location.hostname.includes(".news.");
       }
       const filtradas = CIDADES_SITE.filter(c => regiaoDaCidade(c.nome) === reg);
       if(filtradas.length){
@@ -123,49 +123,6 @@
           filtradas.map(c => "<a href='" + c.url + "' style='background:var(--card);border:1px solid var(--bd);padding:4px 10px;border-radius:999px;text-decoration:none;color:#f3f4f6;font-weight:600'>" + c.nome + "</a>").join("");
       } else {
         lista.innerHTML = "<span style='color:var(--mut)'>Cobertura " + reg + ": novas cidades sendo ativadas em breve.</span>";
-      }
-      box.style.display = "block";
-      document.querySelectorAll(".cards .card").forEach(c => {
-        const k = c.querySelector(".kicker");
-        c.style.display = (k && regiaoDaCidade(k.textContent) === reg) ? "" : "none";
-      });
-      return false;
-    }
-
-    const CIDADES_SITE = [
-      {{ range (site.GetPage "/cidades").Sections.ByTitle }}
-        {{ $s := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
-        { nome: {{ .Title | jsonify }}, slug: {{ $s | jsonify }}, url: "https://{{ $s }}.{{ site.Params.baseDomain }}/" },
-      {{ end }}
-    ];
-    const MAPA_REGIAO = {
-      "SP":"Sudeste","RJ":"Sudeste","MG":"Sudeste","ES":"Sudeste",
-      "PR":"Sul","SC":"Sul","RS":"Sul",
-      "DF":"Centro-Oeste","GO":"Centro-Oeste","MT":"Centro-Oeste","MS":"Centro-Oeste",
-      "BA":"Nordeste","PE":"Nordeste","CE":"Nordeste","RN":"Nordeste","PB":"Nordeste","AL":"Nordeste","SE":"Nordeste","MA":"Nordeste","PI":"Nordeste",
-      "AM":"Norte","PA":"Norte","RO":"Norte","RR":"Norte","AC":"Norte","AP":"Norte","TO":"Norte"
-    };
-    function regiaoDaCidade(titulo){
-      const m = titulo.match(/\(([A-Z]{2})\)/);
-      return m ? (MAPA_REGIAO[m] || "") : "";
-    }
-    function selecionarRegiao(el, reg){
-      document.querySelectorAll(".city-nav a").forEach(a => { a.style.borderBottomColor = "transparent"; a.style.color = "#d1d5db"; });
-      el.style.borderBottomColor = "var(--red)";
-      el.style.color = "#fff";
-      const box = document.getElementById("sub-cidades");
-      const lista = document.getElementById("sub-cidades-lista");
-      if(reg === "TODAS"){
-        box.style.display = "none";
-        document.querySelectorAll(".cards .card").forEach(c => c.style.display = "");
-        return location.hostname !== "cnbmobile.com" && location.hostname !== "://cnbmobile.com";
-      }
-      const filtradas = CIDADES_SITE.filter(c => regiaoDaCidade(c.nome) === reg);
-      if(filtradas.length){
-        lista.innerHTML = "<strong style='color:var(--red2);text-transform:uppercase;font-size:.72rem;margin-right:6px'>" + reg + ":</strong>" +
-          filtradas.map(c => "<a href='" + c.url + "' style='background:var(--card);border:1px solid var(--bd);padding:4px 10px;border-radius:999px;text-decoration:none;color:#f3f4f6;font-weight:600'>" + c.nome + "</a>").join("");
-      } else {
-        lista.innerHTML = "<span style='color:var(--mut)'>Cobertura " + reg + ": em breve novas cidades cadastradas.</span>";
       }
       box.style.display = "block";
       document.querySelectorAll(".cards .card").forEach(c => {
