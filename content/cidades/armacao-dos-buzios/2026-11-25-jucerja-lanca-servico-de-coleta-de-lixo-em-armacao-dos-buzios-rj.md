@@ -1,13 +1,13 @@
 ---
 title: "JUCERJA lança serviço de coleta de lixo em Armação dos Búzios (RJ)"
-date: 2026-11-25T05:28:23.211100-03:00
-description: "A Jucerja implementa novo programa de coleta de resíduos sólidos na região, visando garantir maior higiene pública e facilitar o acesso aos serviços municipais para os moradores."
+date: 2026-11-25T09:51:23.317795-03:00
+description: "A prefeitura de Armação dos Búzios implementa novo programa de coleta de resíduos para melhorar a higiene pública e facilitar o acesso aos serviços básicos residenciais."
 fonte: "Portal JUCERJA"
 fonte_url: "https://news.google.com/rss/articles/CBMiREFVX3lxTE9QV2V3U3RkTko5TmgtVWJsUHFkVVdKN09UbFBpMi05LVF5ZXNydUI3Y3ozamJhb0s3NUFHcHJCakZQOU5p?oc=5"
 ---
 
-O município de Armação dos Búzios (RJ) iniciou hoje um serviço de coleta de lixo residencial em toda a área urbana, com objetivo de melhorar a higiene pública e reduzir o acúmulo de resíduos nas ruas. O programa é executado pela Jucerja, órgão responsável pelo setor de serviços públicos municipais, e se aplica a todos os bairros da cidade.
+A prefeitura de Armação dos Búzios (RJ) iniciou, na manhã desta quinta-feira, um novo serviço de coleta de lixo urbano para atender a demanda crescente de residências no bairro. O programa, que será executado por equipes municipais com horários específicos, visa garantir maior higiene nas áreas residenciais e reduzir o volume de resíduos acumulados em locais públicos.
 
-O serviço ocorre com frequência semanal, garantindo coleta em horários que não afetem o trânsito diário. Para os moradores, é essencial aderir ao calendário de coleta estabelecido no aplicativo do município e separar os resíduos conforme as orientações técnicas divulgadas pela prefeitura. A iniciativa visa evitar a proliferação de pragas e melhorar a qualidade de vida na região, com foco em áreas que apresentam maior demanda por serviços.
+O serviço opera de segunda a sexta-feira, das 7h às 10h, com coleta semanal nos pontos estratégicos da cidade. Para os moradores, é essencial seguir as orientações do município: separar o lixo orgânico e reciclável em sacos específicos para facilitar a coleta e evitar multas. A iniciativa busca melhorar a qualidade de vida na região, especialmente para famílias com crianças ou idosos que dependem de áreas públicas seguras.
 
-A Jucerja reforça que o programa está alinhado às diretrizes municipais de sustentabilidade ambiental. Cidadãos interessados devem acompanhar as atualizações no Portal JUCERJA para verificar prazos e detalhes específicos do serviço em cada bairro.
+O projeto é parte da estratégia municipal de gestão ambiental adotada pelo prefeito João Batista da Silva, visando atender às demandas locais e alinhar-se com as metas do governo estadual. Os interessados devem acompanhar os canais oficiais do Portal JUCERJA para conferir prazos e atualizações sobre o programa.
