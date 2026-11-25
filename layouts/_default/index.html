@@ -2,7 +2,7 @@
 {{ define "main" }}
 {{ $pages := where .Site.RegularPages "Section" "cidades" }}
 {{ $sorted := $pages.ByDate.Reverse }}
-{{ $pool := slice "/fotos/cidade.jpg" "/fotos/governo.jpg" "/fotos/cultura.jpg" "/fotos/economia.jpg" "/fotos/obras.jpg" "/fotos/litoral.jpg" }}
+{{ $pool := slice "/fotos/ambiente.jpg" "/fotos/cidade.jpg" "/fotos/clima.jpg" "/fotos/cultura.jpg" "/fotos/economia.jpg" "/fotos/educacao.jpg" "/fotos/esporte.jpg" "/fotos/governo.jpg" "/fotos/industria.jpg" "/fotos/litoral.jpg" "/fotos/obras.jpg" "/fotos/policia.jpg" "/fotos/saude.jpg" "/fotos/transito.jpg" }}
 
 {{ if gt (len $sorted) 0 }}
   {{ $first := index $sorted 0 }}
