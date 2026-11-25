@@ -2,23 +2,17 @@
 {{ define "main" }}
 {{ $pages := where .Site.RegularPages "Section" "cidades" }}
 {{ $sorted := $pages.ByDate.Reverse }}
-{{ $pool := slice "/fotos/ambiente.jpg" "/fotos/cidade.jpg" "/fotos/clima.jpg" "/fotos/cultura.jpg" "/fotos/economia.jpg" "/fotos/educacao.jpg" "/fotos/esporte.jpg" "/fotos/governo.jpg" "/fotos/industria.jpg" "/fotos/litoral.jpg" "/fotos/obras.jpg" "/fotos/policia.jpg" "/fotos/saude.jpg" "/fotos/transito.jpg" }}
-
 {{ if gt (len $sorted) 0 }}
   {{ $first := index $sorted 0 }}
   {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
   {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
-  {{ $fimg := "/fotos/cidade.jpg" }}
+  {{ $fimg := "/fotos/geral.svg" }}
   {{ $flow := lower $first.Title }}
   {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") }}{{ $fimg = "/fotos/saude.jpg" }}
   {{ else if or (in $flow "educação") (in $flow "escola") (in $flow "aluno") (in $flow "letivo") }}{{ $fimg = "/fotos/educacao.jpg" }}
-  {{ else if or (in $flow "obra") (in $flow "pamo") (in $flow "construção") }}{{ $fimg = "/fotos/obras.jpg" }}
-  {{ else if or (in $flow "trânsito") (in $flow "estrada") (in $flow "veículo") (in $flow "rodovia") }}{{ $fimg = "/fotos/transito.jpg" }}
+  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") }}{{ $fimg = "/fotos/obras.jpg" }}
   {{ else if or (in $flow "chuva") (in $flow "defesa civil") (in $flow "alerta") }}{{ $fimg = "/fotos/clima.jpg" }}
-  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") (in $flow "justiça") }}{{ $fimg = "/fotos/policia.jpg" }}
-  {{ else if or (in $flow "festa") (in $flow "cultura") (in $flow "festival") (in $flow "noel") (in $flow "literária") }}{{ $fimg = "/fotos/cultura.jpg" }}
-  {{ else if or (in $flow "futebol") (in $flow "copa") (in $flow "basketball") (in $flow "esporte") }}{{ $fimg = "/fotos/esporte.jpg" }}
-  {{ else if or (in $flow "praia") (in $flow "litoral") (in $flow "turismo") }}{{ $fimg = "/fotos/litoral.jpg" }}
+  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") }}{{ $fimg = "/fotos/policia.jpg" }}
   {{ else if or (in $flow "concurso") (in $flow "refis") (in $flow "imposto") (in $flow "vagas") }}{{ $fimg = "/fotos/economia.jpg" }}{{ end }}
 
   <div class="cnn-top">
@@ -45,28 +39,34 @@
       {{ end }}
     </aside>
   </div>
+
   <div class="sec-title">Últimas Notícias pelo Brasil</div>
   <div class="cards">
-  {{ range $idx, $item := first 30 (after 4 $sorted) }}
-    {{ $cslug := path.Base (strings.TrimSuffix "/" $item.Parent.RelPermalink) }}
-    {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base $item.RelPermalink) }}
-    {{ $img := index $pool (mod $idx (len $pool)) }}
-    {{ $low := lower $item.Title }}
-    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $img = "/fotos/saude.jpg" }}
-    {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
-    {{ else if or (in $low "obra") (in $low "pamo") (in $low "construção") }}{{ $img = "/fotos/obras.jpg" }}
-    {{ else if or (in $low "trânsito") (in $low "estrada") (in $low "veículo") (in $low "rodovia") }}{{ $img = "/fotos/transito.jpg" }}
-    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $img = "/fotos/clima.jpg" }}
-    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") }}{{ $img = "/fotos/policia.jpg" }}
-    {{ else if or (in $low "festa") (in $low "cultura") (in $low "festival") (in $low "noel") (in $low "literária") }}{{ $img = "/fotos/cultura.jpg" }}
-    {{ else if or (in $low "futebol") (in $low "copa") (in $low "basketball") (in $low "esporte") }}{{ $img = "/fotos/esporte.jpg" }}
-    {{ else if or (in $low "praia") (in $low "litoral") (in $low "turismo") }}{{ $img = "/fotos/litoral.jpg" }}
-    {{ else if or (in $low "concurso") (in $low "refis") (in $low "imposto") (in $low "vagas") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
-    <article class="card">
-      <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" src="{{ $img }}" alt="{{ $item.Title }} - {{ $item.Parent.Title }}" loading="lazy" onerror="this.onerror=null;this.src='/fotos/geral.svg'"></a>
+  {{ range first 30 (after 4 $sorted) }}
+    {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+    {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
+    {{ $cat := "Cidades" }}
+    {{ $cor := "#cc0000" }}
+    {{ $low := lower .Title }}
+    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $cat = "Saúde" }}{{ $cor = "#059669" }}
+    {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $cat = "Educação" }}{{ $cor = "#4f46e5" }}
+    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "pamo") }}{{ $cat = "Obras & Trânsito" }}{{ $cor = "#ea580c" }}
+    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $cat = "Clima & Alerta" }}{{ $cor = "#0284c7" }}
+    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") }}{{ $cat = "Segurança & Justiça" }}{{ $cor = "#dc2626" }}
+    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "seletivo") }}{{ $cat = "Concursos & Emprego" }}{{ $cor = "#2563eb" }}
+    {{ else if or (in $low "festa") (in $low "cultura") (in $low "festival") (in $low "noel") (in $low "literária") }}{{ $cat = "Cultura & Eventos" }}{{ $cor = "#9333ea" }}{{ end }}
+
+    <article class="card" style="border-top:4px solid {{ $cor }}">
       <div class="card-in">
-        <div><span class="kicker">{{ $item.Parent.Title }}</span><h2><a class="title-link" href="{{ $purl }}">{{ $item.Title }}</a></h2><p style="font-size:.88rem;color:var(--mut);margin:0">{{ $item.Description }}</p></div>
-        <div class="meta"><span>{{ $item.Date.Format "02/01/2006" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px">
+            <span class="kicker" style="margin:0">{{ .Parent.Title }}</span>
+            <span style="font-size:.68rem;font-weight:800;text-transform:uppercase;color:{{ $cor }};background:rgba(128,128,128,.12);padding:2px 8px;border-radius:3px">{{ $cat }}</span>
+          </div>
+          <h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2>
+          <p style="font-size:.9rem;color:var(--mut);margin:0;line-height:1.5">{{ .Description }}</p>
+        </div>
+        <div class="meta"><span>{{ .Date.Format "02/01/2006" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
       </div>
     </article>
   {{ end }}
