@@ -73,13 +73,13 @@
   </header>
   <main class="wrap"><div class="ad-slot">PUBLICIDADE · Espaço Publicitário · CNB News Brasil</div>{{ block "main" . }}{{ end }}</main>
   <footer><div class="wrap">
-    <div><a href="https://cnbmobile.com">Sobre & Expediente</a><a href="https://cnbmobile.com">Privacidade</a><a href="https://cnbmobile.com">Termos</a><a href="https://cnbmobile.com">Contato</a></div>
+    <div><a href="https://cnbmobile.com/sobre/">Sobre & Expediente</a><a href="https://cnbmobile.com/privacidade/">Privacidade</a><a href="https://cnbmobile.com/termos/">Termos</a><a href="https://cnbmobile.com/contato/">Contato</a></div>
     <div>© 2026 CNB News Brasil</div>
   </div></footer>
   <script>
-    function compartilharWA(el){const box=el.closest('article,.hero'),a=box?box.querySelector('h1 a,h2 a'):null;window.open('https://whatsapp.com((a?a.textContent.trim():document.title)+' - '+(a?a.href:location.href)),'_blank');return false;}
-    function filtrarNoticias(q){q=q.toLowerCase().trim();document.querySelectorAll('.cards .card').forEach(c=>{c.style.display=c.textContent.toLowerCase().includes(q)?'':'none';});}
-    (function buscarPTAX(n){if(n>6)return;const d=new Date();d.setDate(d.getDate()-n);const dt=String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+'-'+d.getFullYear();fetch("https://bcb.gov.br'"+dt+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json").then(r=>r.json()).then(j=>{const[x]=j.value||[];if(x&&x.cotacaoVenda)document.getElementById('usd').textContent='R$ '+x.cotacaoVenda.toFixed(2).replace('.',',');else buscarPTAX(n+1);}).catch(()=>{});fetch("https://bcb.gov.br'"+dt+"'&$top=1&$orderby=dataHoraCotacao%20desc&$format=json").then(r=>r.json()).then(j=>{const[x]=j.value||[];if(x&&x.cotacaoVenda)document.getElementById('eur').textContent='R$ '+x.cotacaoVenda.toFixed(2).replace('.',',');}).catch(()=>{});})(0);
+    function compartilharWA(el){const box=el.closest("article,.hero"),a=box?box.querySelector("h1 a,h2 a"):null;window.open("https://api.whatsapp.com/send?text="+encodeURIComponent((a?a.textContent.trim():document.title)+" - "+(a?a.href:location.href)),"_blank");return false;}
+    function filtrarNoticias(q){q=q.toLowerCase().trim();document.querySelectorAll(".cards .card").forEach(c=>{c.style.display=c.textContent.toLowerCase().includes(q)?"":"none";});}
+    fetch("https://://awesomeapi.com.br/json/last/USD-BRL,EUR-BRL").then(r=>r.json()).then(d=>{if(d.USDBRL)document.getElementById("usd").textContent="R$ "+Number(d.USDBRL.bid).toFixed(2).replace(".",",");if(d.EURBRL)document.getElementById("eur").textContent="R$ "+Number(d.EURBRL.bid).toFixed(2).replace(".",",");}).catch(()=>{});
   </script>
 </body>
 </html>
