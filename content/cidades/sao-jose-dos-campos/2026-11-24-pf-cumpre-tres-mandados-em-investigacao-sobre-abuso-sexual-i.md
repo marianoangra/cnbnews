@@ -1,6 +1,6 @@
 ---
 imagem: "/fotos/policia.jpg"
-title: "PF cumprir três mandados judiciais em investigação de abuso sexual infantojuvenil em São José dos Campos e Jacareí"
+title: "PF cumpre três mandados judiciais em investigação de abuso sexual infantojuvenil em São José dos Campos e Jacareí"
 date: 2026-11-24T20:43:29-03:00
 description: "A Polícia Federal está cumprindo três mandados judiciais em São José dos Campos e Jacareí para investigar casos de abuso sexual infantojuvenil, reforçando ações de proteção à criança e à adolescente."
 fonte: "MOMENTO MT"

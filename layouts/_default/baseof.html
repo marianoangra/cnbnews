@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="index, follow, max-image-preview:large">
-<title>{{ block "titulo" . }}{{ .Site.Title }}{{ end }}</title>
+<title>{{ block "titulo" . }}CNB News Brasil | Notícias ao Vivo das Cidades, Concursos e Utilidade Pública{{ end }}</title>
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png">
@@ -12,6 +12,11 @@
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}Notícias ao vivo das cidades do Brasil no CNB News.{{ end }}">
 {{ $canon := "https://cnbmobile.com" }}
 {{ if .IsPage }}{{ $canon = printf "https://%s.%s/%s/" (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink) }}{{ else if and .IsSection (ne .RelPermalink "/cidades/") }}{{ $canon = printf "https://%s.%s/" (path.Base (strings.TrimSuffix "/" .RelPermalink)) site.Params.baseDomain }}{{ end }}
+<meta property="og:site_name" content="CNB News Brasil">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}Cobertura jornalística ao vivo das cidades brasileiras, editais, concursos e serviços públicos.{{ end }}">
+<meta property="og:image" content="https://cnbmobile.com">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="{{ $canon }}">
 <script async src="https://googlesyndication.com" crossorigin="anonymous"></script>
 <script async src="https://googletagmanager.com"></script>
