@@ -1,3 +1,7 @@
 public/
 resources/
 .vercel
+
+robo.log
+__pycache__/
+.hugo_build.lock
