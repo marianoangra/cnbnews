@@ -119,7 +119,7 @@ def buscar_pautas_oficiais(cidade_nome, query_cidade):
     for q in consultas:
         time.sleep(random.uniform(2.0, 3.5))
         try:
-            url = "https://google.com" + urllib.parse.quote(q) + "&hl=pt-BR&gl=BR&ceid=BR:pt-419"
+            url = "https://news.google.com/rss/search?q=" + urllib.parse.quote(q) + "&hl=pt-BR&gl=BR&ceid=BR:pt-419"
             xml_data = urllib.request.urlopen(urllib.request.Request(url, headers=hdr), timeout=15).read()
             root = ET.fromstring(xml_data)
             for item in root.findall(".//item")[:8]:
@@ -205,7 +205,7 @@ def atualizar_sitemap_e_git(novos):
 
     sm = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://sitemaps.org">\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
         + "\n</urlset>\n"
     )
