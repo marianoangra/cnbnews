@@ -79,7 +79,7 @@
   <script>
     function compartilharWA(el){const box=el.closest("article,.hero"),a=box?box.querySelector("h1 a,h2 a"):null;window.open("https://api.whatsapp.com/send?text="+encodeURIComponent((a?a.textContent.trim():document.title)+" - "+(a?a.href:location.href)),"_blank");return false;}
     function filtrarNoticias(q){q=q.toLowerCase().trim();document.querySelectorAll(".cards .card").forEach(c=>{c.style.display=c.textContent.toLowerCase().includes(q)?"":"none";});}
-    fetch("https://://awesomeapi.com.br/json/last/USD-BRL,EUR-BRL").then(r=>r.json()).then(d=>{if(d.USDBRL)document.getElementById("usd").textContent="R$ "+Number(d.USDBRL.bid).toFixed(2).replace(".",",");if(d.EURBRL)document.getElementById("eur").textContent="R$ "+Number(d.EURBRL.bid).toFixed(2).replace(".",",");}).catch(()=>{});
+    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/brl.json").then(r=>r.json()).then(d=>{if(d.brl&&d.brl.usd)document.getElementById("usd").textContent="R$ "+(1/d.brl.usd).toFixed(2).replace(".",",");if(d.brl&&d.brl.eur)document.getElementById("eur").textContent="R$ "+(1/d.brl.eur).toFixed(2).replace(".",",");}).catch(()=>{});
   </script>
 </body>
 </html>
