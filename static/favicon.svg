@@ -1,5 +1,4 @@
-<svg xmlns="http://w3.org" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0056b3"/>
-  <rect y="52" width="64" height="12" rx="4" fill="#10b981"/>
-  <text x="50%" y="38" font-family="Arial,sans-serif" font-weight="900" font-size="22" fill="#ffffff" text-anchor="middle">CNB</text>
+<svg xmlns="http://w3.org" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="34" fill="#cc0000"/>
+  <text x="96" y="122" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="74" fill="#ffffff" text-anchor="middle" letter-spacing="-2">CNB</text>
 </svg>
