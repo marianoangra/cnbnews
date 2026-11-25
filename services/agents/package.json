@@ -1,0 +1,20 @@
+{
+  "name": "cnbnews-agents",
+  "private": true,
+  "type": "module",
+  "description": "Robô de redação da CNB News (Ollama local). Roda com Node >= 23.6 (TypeScript nativo, sem build).",
+  "engines": {
+    "node": ">=23.6"
+  },
+  "scripts": {
+    "ciclo": "node src/ciclo.ts",
+    "simular": "node src/ciclo.ts --simular --limite 2",
+    "rig": "node src/ciclo.ts --push --loop 30",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "dependencies": {
+    "dotenv": "^18.0.10",
+    "node-fetch": "^3.3.2",
+    "rss-parser": "^3.13.0"
+  }
+}

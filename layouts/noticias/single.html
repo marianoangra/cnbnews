@@ -1,0 +1,23 @@
+{{ define "titulo" }}{{ .Title }} · CNB News{{ end }}
+{{ define "edicao" }}Brasil{{ end }}
+{{ define "home" }}/{{ end }}
+{{ define "main" }}
+<article class="art">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+    <a class="badge" href="/noticias/">← {{ with .Params.categoria }}{{ . | humanize }}{{ else }}Notícias{{ end }}</a>
+    <span style="font-size:.85rem;color:var(--mut)">Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}</span>
+  </div>
+  <h1>{{ .Title }}</h1>
+  {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
+  <p style="font-size:.85rem;color:var(--mut);margin:0 0 18px">{{ with .Params.autor }}{{ . }}{{ else }}Redação CNB News (Editor-Chefe: <a href="https://www.rafaelmariano.com.br" style="color:var(--blue)">Rafael Mariano</a>){{ end }}</p>
+  <div style="margin-bottom:24px">
+    <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
+  </div>
+  <div class="body-txt">{{ .Content }}</div>
+  <div class="meta" style="margin-top:28px">
+    <span>{{ with .Params.fonte }}Fonte: {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank" style="color:var(--blue)">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}{{ end }}</span>
+    <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Enviar no WhatsApp</a>
+  </div>
+  <p style="font-size:.8rem;color:var(--mut);margin-top:18px">Viu um erro? Escreva para <a href="mailto:redacao@cnbmobile.com" style="color:var(--blue)">redacao@cnbmobile.com</a>.</p>
+</article>
+{{ end }}

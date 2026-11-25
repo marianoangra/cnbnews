@@ -1,0 +1,6 @@
+{
+  "name": "@cnbnews/types",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./article.ts" }
+}

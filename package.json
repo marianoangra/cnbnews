@@ -1,0 +1,27 @@
+{
+  "name": "cnbnews",
+  "private": true,
+  "type": "module",
+  "description": "Monorepo CNB News: portal (Hugo hoje, apps/web Next.js depois), robô de redação e live 24h.",
+  "engines": {
+    "node": ">=23.6"
+  },
+  "workspaces": [
+    "packages/types",
+    "services/agents"
+  ],
+  "scripts": {
+    "build": "npm run typecheck && npm run test && npm run build:portal",
+    "build:portal": "hugo --minify",
+    "dev:portal": "hugo server",
+    "typecheck": "tsc -p services/agents",
+    "test": "npm test -w services/agents",
+    "agents:ciclo": "npm run ciclo -w services/agents",
+    "agents:simular": "npm run simular -w services/agents",
+    "agents:rig": "npm run rig -w services/agents"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.10",
+    "typescript": "^7.0.2"
+  }
+}

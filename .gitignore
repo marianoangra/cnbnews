@@ -5,3 +5,5 @@ resources/
 robo.log
 __pycache__/
 .hugo_build.lock
+node_modules/
+.env

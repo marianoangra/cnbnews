@@ -1,0 +1,9 @@
+# A Vercel builda só o site Hugo da raiz (framework "hugo" no vercel.json).
+# Sem isto, o package.json da raiz faria a Vercel rodar npm install à toa a cada deploy.
+/package.json
+/package-lock.json
+/node_modules
+/apps
+/services
+/packages
+/CLAUDE.md
