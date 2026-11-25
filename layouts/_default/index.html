@@ -6,14 +6,19 @@
   {{ $first := index $sorted 0 }}
   {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
   {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
-  {{ $fimg := "/fotos/geral.svg" }}
+  {{ $fimg := "/fotos/governo.svg" }}
   {{ $flow := lower $first.Title }}
-  {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") }}{{ $fimg = "/fotos/saude.jpg" }}
+  {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") (in $flow "mosquito") }}{{ $fimg = "/fotos/saude.jpg" }}
   {{ else if or (in $flow "educação") (in $flow "escola") (in $flow "aluno") (in $flow "letivo") }}{{ $fimg = "/fotos/educacao.jpg" }}
-  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") }}{{ $fimg = "/fotos/obras.jpg" }}
+  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") (in $flow "pamo") (in $flow "veículo") }}{{ $fimg = "/fotos/obras.jpg" }}
   {{ else if or (in $flow "chuva") (in $flow "defesa civil") (in $flow "alerta") }}{{ $fimg = "/fotos/clima.jpg" }}
-  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") }}{{ $fimg = "/fotos/policia.jpg" }}
-  {{ else if or (in $flow "concurso") (in $flow "refis") (in $flow "imposto") (in $flow "vagas") }}{{ $fimg = "/fotos/economia.jpg" }}{{ end }}
+  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") (in $flow "justiça") (in $flow "stf") }}{{ $fimg = "/fotos/policia.jpg" }}
+  {{ else if or (in $flow "concurso") (in $flow "vagas") (in $flow "edital") (in $flow "refis") (in $flow "imposto") }}{{ $fimg = "/fotos/economia.jpg" }}
+  {{ else if or (in $flow "festa") (in $flow "cultura") (in $flow "festival") (in $flow "noel") (in $flow "literária") (in $flow "espetáculo") }}{{ $fimg = "/fotos/cultura.svg" }}
+  {{ else if or (in $flow "futebol") (in $flow "copa") (in $flow "basketball") (in $flow "esporte") }}{{ $fimg = "/fotos/esporte.svg" }}
+  {{ else if or (in $flow "praia") (in $flow "litoral") (in $flow "turismo") (in $flow "viagem") }}{{ $fimg = "/fotos/litoral.svg" }}
+  {{ else if or (in $flow "facial") (in $flow "digital") (in $flow "sistema") (in $flow "tecnologia") (in $flow "aeroporto") }}{{ $fimg = "/fotos/tecnologia.svg" }}
+  {{ else if or (in $flow "parque") (in $flow "ambiente") (in $flow "indígena") (in $flow "fundiária") }}{{ $fimg = "/fotos/ambiente.svg" }}{{ end }}
 
   <div class="cnn-top">
     <div class="hero">
@@ -45,14 +50,19 @@
   {{ range first 30 (after 4 $sorted) }}
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
     {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
-    {{ $img := "/fotos/geral.svg" }}
+    {{ $img := "/fotos/governo.svg" }}
     {{ $low := lower .Title }}
-    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $img = "/fotos/saude.jpg" }}
+    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") (in $low "mosquito") }}{{ $img = "/fotos/saude.jpg" }}
     {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
     {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "pamo") (in $low "veículo") }}{{ $img = "/fotos/obras.jpg" }}
     {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $img = "/fotos/clima.jpg" }}
-    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") }}{{ $img = "/fotos/policia.jpg" }}
-    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "seletivo") (in $low "refis") (in $low "imposto") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
+    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") (in $low "stf") }}{{ $img = "/fotos/policia.jpg" }}
+    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "refis") (in $low "imposto") }}{{ $img = "/fotos/economia.jpg" }}
+    {{ else if or (in $low "festa") (in $low "cultura") (in $low "festival") (in $low "noel") (in $low "literária") (in $low "espetáculo") }}{{ $img = "/fotos/cultura.svg" }}
+    {{ else if or (in $low "futebol") (in $low "copa") (in $low "basketball") (in $low "esporte") }}{{ $img = "/fotos/esporte.svg" }}
+    {{ else if or (in $low "praia") (in $low "litoral") (in $low "turismo") (in $low "viagem") }}{{ $img = "/fotos/litoral.svg" }}
+    {{ else if or (in $low "facial") (in $low "digital") (in $low "sistema") (in $low "tecnologia") (in $low "aeroporto") }}{{ $img = "/fotos/tecnologia.svg" }}
+    {{ else if or (in $low "parque") (in $low "ambiente") (in $low "indígena") (in $low "fundiária") }}{{ $img = "/fotos/ambiente.svg" }}{{ end }}
 
     <article class="card">
       <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" style="height:92px" src="{{ $img }}" alt="{{ .Title }} - {{ .Parent.Title }}" loading="lazy"></a>
