@@ -2,31 +2,28 @@
 {{ define "main" }}
 {{ $pages := where .Site.RegularPages "Section" "cidades" }}
 {{ $sorted := $pages.ByDate.Reverse }}
+{{ $pool := slice "/fotos/obras.jpg" "/fotos/economia.jpg" "/fotos/educacao.jpg" "/fotos/saude.jpg" "/fotos/clima.jpg" "/fotos/policia.jpg" }}
+
 {{ if gt (len $sorted) 0 }}
   {{ $first := index $sorted 0 }}
   {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
   {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
-  {{ $fimg := "/fotos/governo.svg" }}
+  {{ $fimg := "/fotos/obras.jpg" }}
   {{ $flow := lower $first.Title }}
-  {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") (in $flow "mosquito") }}{{ $fimg = "/fotos/saude.jpg" }}
+  {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") }}{{ $fimg = "/fotos/saude.jpg" }}
   {{ else if or (in $flow "educação") (in $flow "escola") (in $flow "aluno") (in $flow "letivo") }}{{ $fimg = "/fotos/educacao.jpg" }}
-  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") (in $flow "pamo") (in $flow "veículo") }}{{ $fimg = "/fotos/obras.jpg" }}
-  {{ else if or (in $flow "chuva") (in $flow "defesa civil") (in $flow "alerta") }}{{ $fimg = "/fotos/clima.jpg" }}
-  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") (in $flow "justiça") (in $flow "stf") }}{{ $fimg = "/fotos/policia.jpg" }}
-  {{ else if or (in $flow "concurso") (in $flow "vagas") (in $flow "edital") (in $flow "refis") (in $flow "imposto") }}{{ $fimg = "/fotos/economia.jpg" }}
-  {{ else if or (in $flow "festa") (in $flow "cultura") (in $flow "festival") (in $flow "noel") (in $flow "literária") (in $flow "espetáculo") }}{{ $fimg = "/fotos/cultura.svg" }}
-  {{ else if or (in $flow "futebol") (in $flow "copa") (in $flow "basketball") (in $flow "esporte") }}{{ $fimg = "/fotos/esporte.svg" }}
-  {{ else if or (in $flow "praia") (in $flow "litoral") (in $flow "turismo") (in $flow "viagem") }}{{ $fimg = "/fotos/litoral.svg" }}
-  {{ else if or (in $flow "facial") (in $flow "digital") (in $flow "sistema") (in $flow "tecnologia") (in $flow "aeroporto") }}{{ $fimg = "/fotos/tecnologia.svg" }}
-  {{ else if or (in $flow "parque") (in $flow "ambiente") (in $flow "indígena") (in $flow "fundiária") }}{{ $fimg = "/fotos/ambiente.svg" }}{{ end }}
+  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") (in $flow "veículo") }}{{ $fimg = "/fotos/obras.jpg" }}
+  {{ else if or (in $flow "chuva") (in $flow "defesa civil") (in $flow "alerta") (in $flow "temporal") (in $flow "enchente") (in $flow "alagamento") (in $flow "emergência") }}{{ $fimg = "/fotos/clima.jpg" }}
+  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") (in $flow "justiça") }}{{ $fimg = "/fotos/policia.jpg" }}
+  {{ else if or (in $flow "concurso") (in $flow "vagas") (in $flow "edital") (in $flow "refis") }}{{ $fimg = "/fotos/economia.jpg" }}{{ end }}
 
   <div class="cnn-top">
     <div class="hero">
-      <a style="text-decoration:none" href="{{ $furl }}"><img class="hero-img" src="{{ $fimg }}" alt="{{ $first.Title }} - {{ $first.Parent.Title }}"></a>
+      <a style="text-decoration:none;display:block" href="{{ $furl }}"><img class="hero-img" src="{{ $fimg }}" alt="{{ $first.Title }} - {{ $first.Parent.Title }}"></a>
       <div class="hero-body">
         <span class="kicker">Destaque · {{ $first.Parent.Title }}</span>
         <h1><a style="text-decoration:none" href="{{ $furl }}">{{ $first.Title }}</a></h1>
-        <p style="color:var(--mut);margin:0 0 14px">{{ $first.Description }}</p>
+        <p style="color:var(--mut);margin:0 0 14px;line-height:1.5">{{ $first.Description }}</p>
         <div class="meta"><span>{{ $first.Date.Format "02/01/2006 às 15:04" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
         <ul class="sub-bullets">
         {{ range first 3 (after 1 $sorted) }}
@@ -47,32 +44,27 @@
 
   <div class="sec-title">Últimas Notícias pelo Brasil</div>
   <div class="cards">
-  {{ range first 30 (after 4 $sorted) }}
-    {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
-    {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base .RelPermalink) }}
-    {{ $img := "/fotos/governo.svg" }}
-    {{ $low := lower .Title }}
-    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") (in $low "mosquito") }}{{ $img = "/fotos/saude.jpg" }}
+  {{ range $idx, $item := first 30 (after 4 $sorted) }}
+    {{ $cslug := path.Base (strings.TrimSuffix "/" $item.Parent.RelPermalink) }}
+    {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base $item.RelPermalink) }}
+    {{ $img := index $pool (mod $idx (len $pool)) }}
+    {{ $low := lower $item.Title }}
+    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $img = "/fotos/saude.jpg" }}
     {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
-    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "pamo") (in $low "veículo") }}{{ $img = "/fotos/obras.jpg" }}
-    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") }}{{ $img = "/fotos/clima.jpg" }}
-    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") (in $low "stf") }}{{ $img = "/fotos/policia.jpg" }}
-    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "refis") (in $low "imposto") }}{{ $img = "/fotos/economia.jpg" }}
-    {{ else if or (in $low "festa") (in $low "cultura") (in $low "festival") (in $low "noel") (in $low "literária") (in $low "espetáculo") }}{{ $img = "/fotos/cultura.svg" }}
-    {{ else if or (in $low "futebol") (in $low "copa") (in $low "basketball") (in $low "esporte") }}{{ $img = "/fotos/esporte.svg" }}
-    {{ else if or (in $low "praia") (in $low "litoral") (in $low "turismo") (in $low "viagem") }}{{ $img = "/fotos/litoral.svg" }}
-    {{ else if or (in $low "facial") (in $low "digital") (in $low "sistema") (in $low "tecnologia") (in $low "aeroporto") }}{{ $img = "/fotos/tecnologia.svg" }}
-    {{ else if or (in $low "parque") (in $low "ambiente") (in $low "indígena") (in $low "fundiária") }}{{ $img = "/fotos/ambiente.svg" }}{{ end }}
+    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "veículo") }}{{ $img = "/fotos/obras.jpg" }}
+    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") (in $low "temporal") (in $low "enchente") (in $low "alagamento") (in $low "emergência") }}{{ $img = "/fotos/clima.jpg" }}
+    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") }}{{ $img = "/fotos/policia.jpg" }}
+    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "refis") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
 
     <article class="card">
-      <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" style="height:92px" src="{{ $img }}" alt="{{ .Title }} - {{ .Parent.Title }}" loading="lazy"></a>
+      <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" style="height:92px" src="{{ $img }}" alt="{{ $item.Title }} - {{ $item.Parent.Title }}" loading="lazy"></a>
       <div class="card-in">
         <div>
-          <span class="kicker">{{ .Parent.Title }}</span>
-          <h2><a class="title-link" href="{{ $purl }}">{{ .Title }}</a></h2>
-          <p style="font-size:.88rem;color:var(--mut);margin:0">{{ .Description }}</p>
+          <span class="kicker">{{ $item.Parent.Title }}</span>
+          <h2><a class="title-link" href="{{ $purl }}">{{ $item.Title }}</a></h2>
+          <p style="font-size:.88rem;color:var(--mut);margin:0">{{ $item.Description }}</p>
         </div>
-        <div class="meta"><span>{{ .Date.Format "02/01/2006" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
+        <div class="meta"><span>{{ $item.Date.Format "02/01/2006" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
       </div>
     </article>
   {{ end }}
