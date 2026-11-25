@@ -45,7 +45,7 @@
   const slug = box.getAttribute("data-cidade");
   const c = coords[slug];
   if(!c) return;
-  const [lat,lon]=c;fetch("https://open-meteo.com"+lat+"&longitude="+lon+"&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo").then(r=>r.json()).then(d=>{const cw=d.current_weather,[ico,desc]=wmo[cw.weathercode]||["⛅","Tempo estável"],[mn]=d.daily.temperature_2m_min,[mx]=d.daily.temperature_2m_max;document.getElementById("clima-ico").textContent=ico;document.getElementById("clima-desc").textContent=desc;document.getElementById("clima-temp").textContent=Math.round(cw.temperature)+"°C";document.getElementById("clima-min").textContent=Math.round(mn)+"°";document.getElementById("clima-max").textContent=Math.round(mx)+"°";box.style.display="flex";}).catch(()=>{});
+  const [lat,lon]=c;fetch("https://api.open-meteo.com/v1/forecast?latitude="+lat+"&longitude="+lon+"&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo").then(r=>r.json()).then(d=>{const cw=d.current_weather,[ico,desc]=wmo[cw.weathercode]||["⛅","Tempo estável"],[mn]=d.daily.temperature_2m_min,[mx]=d.daily.temperature_2m_max;document.getElementById("clima-ico").textContent=ico;document.getElementById("clima-desc").textContent=desc;document.getElementById("clima-temp").textContent=Math.round(cw.temperature)+"°C";document.getElementById("clima-min").textContent=Math.round(mn)+"°";document.getElementById("clima-max").textContent=Math.round(mx)+"°";box.style.display="flex";}).catch(()=>{});
 })();
 </script>
 {{ end }}
