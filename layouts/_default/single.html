@@ -1,39 +1,21 @@
-{{ define "titulo" }}{{ .Title }} · CNB News Brasil{{ end }}
 {{ define "main" }}
+<article style="max-width:760px;margin:0 auto;padding:28px 0">
+  <p style="font-size:13px;color:#6B7280">{{ .Date.Format "02/01/2006 15:04" }} - {{ .Params.fonte }}</p>
+  <h1 style="font-size:34px;line-height:1.2">{{ .Title }}</h1>
+  <p style="font-size:19px;color:#374151">{{ .Params.description }}</p>
+  <div>{{ .Content }}</div>
+  <p style="margin-top:32px;padding:16px;background:#F9FAFB;border-radius:8px">
+    Fonte original: <a href="{{ .Params.fonte_url }}" rel="nofollow noopener" target="_blank">{{ .Params.fonte }}</a>
+  </p>
+</article>
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "NewsArticle",
+  "@context":"https://schema.org",
+  "@type":"NewsArticle",
   "headline": {{ .Title | jsonify }},
-  "description": {{ .Description | jsonify }},
   "datePublished": "{{ .Date.Format "2006-01-02T15:04:05-03:00" }}",
-  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05-03:00" }}",
-  "author": [{
-    "@type": "Person",
-    "name": "Rafael Mariano",
-    "url": "https://rafaelmariano.com.br"
-  }],
-  "publisher": {
-    "@type": "Organization",
-    "name": "CNB News Brasil · CNB Mobile LTDA",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://cnbmobile.com"
-    }
-  }
+  "description": {{ .Params.description | jsonify }},
+  "mainEntityOfPage": "{{ .Permalink }}"
 }
 </script>
-<article class="art">
-  <div style="margin-bottom:14px"><a class="badge" href="https://cnbmobile.com">← Voltar para CNB Brasil</a></div>
-  <h1>{{ .Title }}</h1>
-  <div style="font-size:.85rem;color:var(--mut);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bd)">
-    Por <strong>Redação CNB News</strong> · Edição: <a href="https://://cnbmobile.com" style="color:var(--red);font-weight:700;text-decoration:none">Rafael Mariano</a> {{ if not .Date.IsZero }} · Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}{{ end }}
-  </div>
-  {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
-  <div class="body-txt">{{ .Content }}</div>
-  <div style="margin-top:28px;padding-top:16px;border-top:1px solid var(--bd);font-size:.85rem;color:var(--mut);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-    <span>{{ with .Params.fonte }}Fonte de referência: <strong>{{ . }}</strong>{{ else }}CNB News Brasil · Jornalismo Local{{ end }}</span>
-    <a href="#" onclick="return compartilharWA(this)" class="wa-btn">Compartilhar no WhatsApp</a>
-  </div>
-</article>
 {{ end }}

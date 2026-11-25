@@ -32,7 +32,7 @@
     "ubatuba":[-23.43,-45.08],"mangaratiba":[-22.95,-44.04],"itaguai":[-22.87,-43.77],
     "cabo-frio":[-22.87,-42.01],"armacao-dos-buzios":[-22.74,-41.88],"arraial-do-cabo":[-22.96,-42.02],
     "sao-pedro-da-aldeia":[-22.84,-42.10],"rio-das-ostras":[-22.52,-41.94],
-    "sao-joao-da-barra":[-21.64,-41.05],"quissama":[-22.10,-41.47]
+    "sao-joao-da-barra":[-21.64,-41.05],"quissama":[-22.10,-41.47],"curitiba":[-25.43,-49.27],"foz-do-iguacu":[-25.52,-54.59],"cascavel":[-24.96,-53.46],"ponta-grossa":[-25.09,-50.17],"paranagua":[-25.52,-48.52],"francisco-beltrao":[-26.08,-53.05],"campo-largo":[-25.46,-49.53],"almirante-tamandare":[-25.32,-49.30],"pitanga":[-24.76,-51.76],"manoel-ribas":[-24.52,-51.67],"prudentopolis":[-25.21,-50.98],"guaira":[-24.09,-54.26],"reboucas":[-25.62,-50.69],"capanema":[-25.67,-53.81]
   };
   const wmo = {
     0:["☀️","Céu limpo"],1:["🌤️","Predomínio de sol"],2:["⛅","Parcialmente nublado"],3:["☁️","Nublado"],
@@ -45,18 +45,7 @@
   const slug = box.getAttribute("data-cidade");
   const c = coords[slug];
   if(!c) return;
-  fetch("https://open-meteo.com"+c+"&longitude="+c+"&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo")
-    .then(r=>r.json())
-    .then(d=>{
-      const cw = d.current_weather;
-      const info = wmo[cw.weathercode] || ["⛅","Tempo estável"];
-      document.getElementById("clima-ico").textContent = info;
-      document.getElementById("clima-desc").textContent = info;
-      document.getElementById("clima-temp").textContent = Math.round(cw.temperature)+"°C";
-      document.getElementById("clima-min").textContent = Math.round(d.daily.temperature_2m_min)+"°";
-      document.getElementById("clima-max").textContent = Math.round(d.daily.temperature_2m_max)+"°";
-      box.style.display = "flex";
-    }).catch(()=>{});
+  const [lat,lon]=c;fetch("https://open-meteo.com"+lat+"&longitude="+lon+"&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo").then(r=>r.json()).then(d=>{const cw=d.current_weather,[ico,desc]=wmo[cw.weathercode]||["⛅","Tempo estável"],[mn]=d.daily.temperature_2m_min,[mx]=d.daily.temperature_2m_max;document.getElementById("clima-ico").textContent=ico;document.getElementById("clima-desc").textContent=desc;document.getElementById("clima-temp").textContent=Math.round(cw.temperature)+"°C";document.getElementById("clima-min").textContent=Math.round(mn)+"°";document.getElementById("clima-max").textContent=Math.round(mx)+"°";box.style.display="flex";}).catch(()=>{});
 })();
 </script>
 {{ end }}

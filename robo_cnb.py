@@ -31,6 +31,20 @@ CIDADES = [
     ("rio-das-ostras", "Rio das Ostras (RJ)", "Rio das Ostras RJ Prefeitura"),
     ("sao-joao-da-barra", "São João da Barra (RJ)", "Sao Joao da Barra RJ Prefeitura"),
     ("quissama", "Quissamã (RJ)", "Quissama RJ Prefeitura"),
+    ("curitiba", "Curitiba (PR)", "Curitiba PR Prefeitura"),
+    ("foz-do-iguacu", "Foz do Iguaçu (PR)", "Foz do Iguacu PR Prefeitura"),
+    ("cascavel", "Cascavel (PR)", "Cascavel PR Prefeitura"),
+    ("ponta-grossa", "Ponta Grossa (PR)", "Ponta Grossa PR Prefeitura"),
+    ("paranagua", "Paranaguá (PR)", "Paranagua PR Prefeitura"),
+    ("francisco-beltrao", "Francisco Beltrão (PR)", "Francisco Beltrao PR Prefeitura"),
+    ("campo-largo", "Campo Largo (PR)", "Campo Largo PR Prefeitura"),
+    ("almirante-tamandare", "Almirante Tamandaré (PR)", "Almirante Tamandare PR Prefeitura"),
+    ("pitanga", "Pitanga (PR)", "Pitanga PR"),
+    ("manoel-ribas", "Manoel Ribas (PR)", "Manoel Ribas PR"),
+    ("prudentopolis", "Prudentópolis (PR)", "Prudentopolis PR"),
+    ("guaira", "Guaíra (PR)", "Guaira PR"),
+    ("reboucas", "Rebouças (PR)", "Reboucas PR"),
+    ("capanema", "Capanema (PR)", "Capanema PR"),
 ]
 
 STOPWORDS = {
