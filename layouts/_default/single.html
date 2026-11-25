@@ -27,7 +27,7 @@
   <div style="margin-bottom:14px"><a class="badge" href="https://cnbmobile.com">← Voltar para CNB Brasil</a></div>
   <h1>{{ .Title }}</h1>
   <div style="font-size:.85rem;color:var(--mut);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bd)">
-    Por <strong>Redação CNB News</strong> · Edição: <a href="https://cnbmobile.comsobre/" style="color:var(--red);font-weight:700;text-decoration:none">Rafael Mariano</a> · Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}
+    Por <strong>Redação CNB News</strong> · Edição: <a href="https://cnbmobile.comsobre/" style="color:var(--red);font-weight:700;text-decoration:none">Rafael Mariano</a> {{ if not .Date.IsZero }} · Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}{{ end }}
   </div>
   {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
   <div class="body-txt">{{ .Content }}</div>
