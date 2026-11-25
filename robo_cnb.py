@@ -175,7 +175,7 @@ Responda EXCLUSIVAMENTE o JSON válido."""
         "options": {"temperature": 0.15, "top_p": 0.85, "repeat_penalty": 1.15, "num_ctx": 4096}
     }).encode("utf-8")
 
-    req = urllib.request.Request("http://127.0.0", data=payload, headers={"Content-Type": "application/json"})
+    req = urllib.request.Request("http://127.0.0.1:11434/api/generate", data=payload, headers={"Content-Type": "application/json"})
     resp = json.loads(urllib.request.urlopen(req, timeout=90).read().decode("utf-8"))
     dados = json.loads(resp["response"])
     if not dados.get("valido", True):
@@ -188,20 +188,20 @@ Responda EXCLUSIVAMENTE o JSON válido."""
 
 def atualizar_sitemap_e_git(novos):
     urls = [
-        "https://cnbmobile.com",
-        "https://cnbmobile.comsobre/",
-        "https://cnbmobile.comprivacidade/",
-        "https://cnbmobile.comtermos/",
-        "https://cnbmobile.comcontato/"
+        "https://cnbmobile.com/",
+        "https://cnbmobile.com/sobre/",
+        "https://cnbmobile.com/privacidade/",
+        "https://cnbmobile.com/termos/",
+        "https://cnbmobile.com/contato/"
     ]
     for root_dir, _, files in os.walk("content/cidades"):
         c_slug = os.path.basename(root_dir)
         if c_slug == "cidades":
             continue
-        urls.append(f"https://{c_slug}://")
+        urls.append(f"https://{c_slug}.news.cnbmobile.com/")
         for f in sorted(files, reverse=True):
             if f.endswith(".md") and f != "_index.md":
-                urls.append(f"https://{c_slug}://{f[:-3]}/")
+                urls.append(f"https://{c_slug}.news.cnbmobile.com/{f[:-3]}/")
 
     sm = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
