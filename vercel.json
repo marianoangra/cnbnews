@@ -1,6 +1,6 @@
 {
   "framework": "hugo",
-  "buildCommand": "hugo --minify",
+  "buildCommand": "if [ \"$VERCEL_ENV\" = \"preview\" ]; then hugo --minify -b \"https://$VERCEL_URL/\"; else hugo --minify; fi",
   "outputDirectory": "public",
   "routes": [
     {
