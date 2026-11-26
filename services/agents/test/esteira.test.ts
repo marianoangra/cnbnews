@@ -49,7 +49,8 @@ test('esteira completa: redator → revisor → SEO gera matéria publicável', 
     seo: [{ manchete_home: 'Governo prorroga subsídio ao diesel por mais 30 dias', subtitulo: 'Medida evita alta nas bombas em dezembro' }],
   });
   const a = await processarItem(item, llm);
-  assert.deepEqual(llm.chamadas, ['redator', 'revisor', 'seo']);
+  // com um Llm só, triagem e lauda caem no mesmo modelo ('?' = sem resposta no falso)
+  assert.deepEqual(llm.chamadas, ['?', 'redator', 'revisor', 'seo', '?']);
   assert.equal(a.requer_aprovacao_humana, false);
   assert.equal(a.slug, 'governo-prorroga-subsidio-ao-diesel-por-mais-30-dias');
   assert.equal(a.categoria, 'economia');
@@ -67,7 +68,7 @@ test('manchete longa: pede de novo ao SEO e, se insistir, corta em 70', async ()
     ],
   });
   const a = await processarItem(item, llm);
-  assert.deepEqual(llm.chamadas, ['redator', 'revisor', 'seo', 'seo']);
+  assert.deepEqual(llm.chamadas, ['?', 'redator', 'revisor', 'seo', 'seo', '?']);
   assert.ok(a.manchete_home.length <= 70);
   assert.equal(a.categoria, 'economia', 'categoria fora da lista cai na padrão da fonte');
 });
