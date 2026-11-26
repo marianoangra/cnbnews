@@ -48,7 +48,7 @@ export function criarLlm(cfg: ConfigOllama, fetchImpl: typeof fetch = fetch, ten
               stream: false,
               think: false, // qwen3: sem bloco <think> antes do JSON
               format: 'json',
-              keep_alive: '30m',
+              keep_alive: -1, // nunca descarregar (o serviço já usa OLLAMA_KEEP_ALIVE=-1; '30m' sobrescrevia)
               options: { temperature: temperatura, num_ctx: cfg.numCtx ?? 4096 },
             }),
           });
