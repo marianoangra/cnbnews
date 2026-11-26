@@ -73,21 +73,32 @@ export function promptSeo(materia: string, tentativaAnterior?: string): string {
 
 // ---- Etapas da GPU rápida (RTX 2060, modelo 3b) ----
 
-export const PROMPT_TRIAGEM = `Você é o Triador de Pautas da CNB News. Classifique o risco editorial e jurídico da notícia ANTES da redação.
+// Modelo de 3b copia listas de palavras do prompt como "motivo". Por isso: sem escala com
+// palavras soltas, exemplos completos e um TRECHO que o código confere no texto original.
+export const PROMPT_TRIAGEM = `Você é o Triador de Pautas da CNB News. Leia a notícia e diga o quanto ela é SENSÍVEL juridicamente.
 
-ESCALA DE SENSIBILIDADE:
-1 = cotidiano (serviço, economia, agro, tecnologia, eventos)
-2 = política/governo sem acusação a pessoa
-3 = acidente sem mortos, polêmica, disputa judicial sem crime
-4 = investigação, denúncia ou acusação contra pessoa/empresa/órgão; operação policial; morte
-5 = crime violento, chacina, menor de idade envolvido em crime ou como vítima, crime hediondo
+Pergunte-se: a notícia fala de crime, violência, morte, acusação contra uma pessoa ou empresa, ou criança/adolescente em risco?
+- Não fala de nada disso: score 1.
+- Política, governo, justiça ou economia sem acusar ninguém: score 2.
+- Acidente sem mortos, polêmica, briga judicial sem crime: score 3.
+- Alguém é investigado, denunciado, preso ou acusado; operação policial; morte: score 4.
+- Assassinato, violência grave, crime contra criança ou adolescente: score 5.
 
-CAMPOS DA RESPOSTA:
-- score_sensibilidade: número inteiro de 1 a 5.
-- motivos: lista de motivos curtos (vazia se score 1 ou 2).
+Na dúvida entre dois scores, escolha o MENOR. Serviço público, economia, tecnologia, agro, saúde e eventos são score 1.
 
-Responda SOMENTE com um JSON neste formato, preenchendo os valores:
-{"score_sensibilidade": 1, "motivos": []}`;
+Se o score for 3 ou mais, copie em "trecho" as palavras EXATAS da notícia que provam isso. Se for 1 ou 2, deixe "trecho" vazio.
+
+EXEMPLOS:
+Notícia: "Banco Central anuncia novas funções do Pix para 2027" -> {"score": 1, "trecho": ""}
+Notícia: "Câmara aprova projeto que muda regras do Imposto de Renda" -> {"score": 2, "trecho": ""}
+Notícia: "Batida entre ônibus e carreta deixa três mortos na Via Dutra" -> {"score": 4, "trecho": "deixa três mortos"}
+Notícia: "Homem suspeito de roubar farmácia é preso pela Guarda Municipal" -> {"score": 4, "trecho": "suspeito de roubar farmácia é preso"}
+Notícia: "PF faz operação contra fraude em licitação; ex-secretário é investigado" -> {"score": 4, "trecho": "ex-secretário é investigado"}
+Notícia: "Jovem de 16 anos é morto a tiros em praça de Campinas" -> {"score": 5, "trecho": "Jovem de 16 anos é morto a tiros"}
+
+Toda notícia com morte, prisão, investigação ou acusação é score 4 ou 5, nunca 3.
+
+Responda SOMENTE com JSON: {"score": 1, "trecho": ""}`;
 
 export const PROMPT_LAUDA = `Você é o Videorrepórter da live 24h e da rádio da CNB News. Transforme a matéria em lauda para ser LIDA EM VOZ ALTA.
 

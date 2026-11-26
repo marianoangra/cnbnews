@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { comReserva, configDoAmbiente, criarLlm, type Llm } from '../src/ollama.ts';
-import { ROTAS, maxEntradaPara, processarItem } from '../src/orquestrador.ts';
+import { ROTAS, maxEntradaPara, processarItem, termoSensivel, trechoNoTexto, triar } from '../src/orquestrador.ts';
 import { PROMPT_EDITOR_SEO, PROMPT_LAUDA, PROMPT_REDATOR, PROMPT_REVISOR, PROMPT_TRIAGEM } from '../src/prompts.ts';
 import { gravar } from '../src/publicador.ts';
 import type { ItemBruto } from '../src/tipos.ts';
@@ -64,7 +64,7 @@ test('dual-GPU: triagem e lauda na fast, redação/revisão/SEO na heavy, nessa 
   const fast = gpuFalsa(
     'fast',
     {
-      triagem: [{ score_sensibilidade: 1, motivos: [] }],
+      triagem: [{ score: 1, trecho: '' }],
       lauda: [{ texto_locucao: LOCUCAO, texto_gc: 'governo prorroga subsídio ao diesel.', palavras_chave_visuais: ['diesel', 'posto'] }],
     },
     log,
@@ -79,13 +79,13 @@ test('dual-GPU: triagem e lauda na fast, redação/revisão/SEO na heavy, nessa 
 
 test('dual-GPU: triagem com score 4 manda pra fila e não gera lauda', async () => {
   const log: string[] = [];
-  const fast = gpuFalsa('fast', { triagem: [{ score_sensibilidade: 4, motivos: ['acusação a empresa'] }] }, log);
+  const fast = gpuFalsa('fast', { triagem: [{ score: 4, trecho: 'deve prorrogar o subsídio ao diesel' }] }, log);
   const a = await processarItem(item, { heavy: heavyOk(log), fast });
   assert.equal(a.requer_aprovacao_humana, true);
   assert.equal(a.score_sensibilidade, 4);
   assert.equal(a.lauda_youtube, undefined);
   assert.ok(!log.includes('fast:lauda'));
-  assert.ok(a.motivos_revisao.includes('triagem: acusação a empresa'));
+  assert.ok(a.motivos_revisao.includes('triagem: "deve prorrogar o subsídio ao diesel"'));
 });
 
 test('dual-GPU: triagem que falha não derruba a matéria', async () => {
@@ -101,7 +101,7 @@ test('dual-GPU: lauda com termo condenatório é descartada, matéria sai sem el
   const fast = gpuFalsa(
     'fast',
     {
-      triagem: [{ score_sensibilidade: 1 }],
+      triagem: [{ score: 1, trecho: '' }],
       lauda: [{ texto_locucao: `${LOCUCAO} O empresário é corrupto.`, texto_gc: 'DIESEL', palavras_chave_visuais: [] }],
     },
     log,
@@ -118,11 +118,11 @@ test('dual-GPU: GPU rápida fora do ar → etapa roda na pesada', async () => {
       throw new TypeError('fetch failed (ECONNREFUSED 11435)');
     },
   };
-  const heavy = gpuFalsa('heavy', { triagem: [{ score_sensibilidade: 2 }] }, log);
+  const heavy = gpuFalsa('heavy', { triagem: [{ score: 2 }] }, log);
   let avisos = 0;
   const fast = comReserva(morta, heavy, () => avisos++);
-  const r = await fast.gerarJson(PROMPT_TRIAGEM, 'x', (x) => x as { score_sensibilidade: number });
-  assert.equal(r.score_sensibilidade, 2);
+  const r = await fast.gerarJson(PROMPT_TRIAGEM, 'x', (x) => x as { score: number });
+  assert.equal(r.score, 2);
   assert.deepEqual(log, ['heavy:triagem']);
   assert.equal(avisos, 1);
 });
@@ -160,7 +160,7 @@ test('gravar: lauda vai para o front matter', async () => {
   const fast = gpuFalsa(
     'fast',
     {
-      triagem: [{ score_sensibilidade: 1 }],
+      triagem: [{ score: 1, trecho: '' }],
       lauda: [{ texto_locucao: LOCUCAO, texto_gc: 'DIESEL MAIS BARATO', palavras_chave_visuais: ['diesel'] }],
     },
     [],
@@ -169,4 +169,32 @@ test('gravar: lauda vai para o front matter', async () => {
   const md = readFileSync(gravar(a, { publicadas: join(dir, 'p'), fila: join(dir, 'f') }).caminho, 'utf8');
   assert.match(md, /lauda_youtube:\n {2}texto_gc: "DIESEL MAIS BARATO"\n {2}texto_locucao: "Segundo/);
   assert.match(md, /palavras_chave_visuais: \["diesel"\]/);
+});
+
+test('triagem: score alto inventado (sem trecho nem termo sensível) é ignorado', async () => {
+  const fast = gpuFalsa('fast', { triagem: [{ score: 5, trecho: 'Jovem de 16 anos é morto a tiros' }] }, []);
+  const t = await triar(fast, item, item.conteudo_bruto);
+  assert.equal(t.score, 1);
+  assert.match(t.motivos[0], /sem prova no texto .*ignorada/);
+});
+
+test('triagem: termo sensível só conta no título + lead', async () => {
+  const fundo = `${'O Procon divulgou pesquisa sobre compras de fim de ano. '.repeat(15)}Alguns sites suspeitos foram citados.`;
+  const it = { ...item, titulo_original: 'Consumidores se sentem enganados na Black Friday', conteudo_bruto: fundo };
+  const t = await triar(gpuFalsa('fast', { triagem: [{ score: 5 }] }, []), it, fundo);
+  assert.equal(t.score, 1, 'termo no fim do texto não prova nada');
+  const it2 = { ...item, titulo_original: 'Adolescente é apreendido após assalto', conteudo_bruto: 'Texto curto da agência.' };
+  const t2 = await triar(gpuFalsa('fast', { triagem: [{ score: 5, trecho: 'Assaltante é preso' }] }, []), it2, it2.conteudo_bruto);
+  assert.equal(t2.score, 5);
+  assert.match(t2.motivos[0], /termo sensível no texto: "apreendido"/);
+});
+
+test('trechoNoTexto: aceita citação (com acento/pontuação diferentes), recusa paráfrase', () => {
+  const txt = 'Um acidente entre um caminhão e um carro deixou dois mortos na BR-116, em Barra Mansa.';
+  assert.equal(trechoNoTexto('deixou dois mortos', txt), true);
+  assert.equal(trechoNoTexto('Acidente entre um caminhao e um carro deixou dois mortos!', txt), true);
+  assert.equal(trechoNoTexto('tragédia mata duas pessoas', txt), false);
+  assert.equal(trechoNoTexto('', txt), false);
+  assert.equal(termoSensivel('Polícia Civil faz operação'), 'policia');
+  assert.equal(termoSensivel('Pix terá novas funções em 2027'), undefined);
 });

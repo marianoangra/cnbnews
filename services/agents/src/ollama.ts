@@ -2,6 +2,7 @@
 // fixo (zero model swapping dentro de cada GPU); entre agentes só o system prompt muda.
 //   heavy → RTX 3060 (12 GB), porta 11434: redação, revisão, SEO, colunista
 //   fast  → RTX 2060 (6 GB),  porta 11435: triagem de sensibilidade, lauda da live/rádio
+//           (hoje no PC do Rafael, alcançado pela rig via Tailscale: OLLAMA_FAST_URL)
 
 export interface ConfigOllama {
   endpoint: string;
@@ -15,7 +16,7 @@ export type Perfil = 'heavy' | 'fast';
 
 const PADROES: Record<Perfil, { url: string; modelo: string; numCtx: number }> = {
   heavy: { url: 'http://localhost:11434', modelo: 'qwen2.5:14b-instruct-q4_K_M', numCtx: 8192 },
-  fast: { url: 'http://localhost:11435', modelo: 'qwen2.5:3b-instruct', numCtx: 4096 },
+  fast: { url: 'http://localhost:11435', modelo: 'llama3.2:3b', numCtx: 4096 }, // licença comercial ok (o Qwen2.5-3B não é Apache)
 };
 
 // heavy aceita também as variáveis antigas (OLLAMA_ENDPOINT/OLLAMA_MODEL/OLLAMA_NUM_CTX):

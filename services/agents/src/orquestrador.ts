@@ -5,7 +5,7 @@
 //   4 Manchete, SEO e metadados      → heavy
 //   5 Lauda da live/rádio + GC       → fast
 // Depois do LLM, as travas determinísticas (guardrails.ts) têm a palavra final.
-import { aplicarGuardrails, limitarManchete, slugificar } from './guardrails.ts';
+import { aplicarGuardrails, limitarManchete, normalizar, slugificar } from './guardrails.ts';
 import { booleano, listaTexto, numero, objeto, pareceMolde, texto, textoOpcional, type Llm } from './ollama.ts';
 import {
   PROMPT_EDITOR_SEO,
@@ -76,21 +76,8 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
   const llm = (etapa: keyof typeof ROTAS) => gpu[ROTAS[etapa]];
   const original = item.conteudo_bruto.slice(0, opcoes.maxEntrada ?? 4500);
 
-  // 1. Triagem (fast). Se falhar, a matéria segue: o Revisor e as travas ainda pontuam.
-  const triagem = await llm('triagem')
-    .gerarJson(
-      PROMPT_TRIAGEM,
-      promptTriagem(item.titulo_original, item.fonte, original.slice(0, 3000)),
-      (x) => {
-        const o = objeto(x);
-        return {
-          score: Math.min(5, Math.max(1, Math.round(numero(o, 'score_sensibilidade', 1)))),
-          motivos: listaTexto(o, 'motivos').filter((m) => !pareceMolde(m) && m !== '...'),
-        };
-      },
-      0.1,
-    )
-    .catch(() => ({ score: 1, motivos: ['triagem indisponível (score só do revisor e das travas)'] }));
+  // 1. Triagem (fast)
+  const triagem = await triar(llm('triagem'), item, original);
 
   // 2. Redação (heavy)
   const redacao = await llm('redacao').gerarJson(
@@ -178,12 +165,75 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
     motivos_revisao: [
       ...motivosTriagem,
       ...g.motivos,
-      ...triagem.motivos.map((m) => `triagem: ${m}`),
+      ...triagem.motivos,
       ...revisao.alertas.map((a) => `alerta do revisor: ${a}`),
     ],
     autor_atribuicao: AUTOR_PADRAO,
     publicado_em: new Date().toISOString(),
   };
+}
+
+// O trecho citado pela triagem existe mesmo no texto? (citação, não paráfrase nem invenção)
+export function trechoNoTexto(trecho: string, texto: string): boolean {
+  const palavras = (s: string) => normalizar(s).match(/[a-z0-9]+/g) ?? [];
+  const t = palavras(trecho);
+  if (t.length === 0) return false;
+  const alvo = ` ${palavras(texto).join(' ')} `;
+  if (t.length <= 4) return alvo.includes(` ${t.join(' ')} `);
+  let achou = 0;
+  let total = 0;
+  for (let i = 0; i + 4 <= t.length; i++) {
+    total++;
+    if (alvo.includes(` ${t.slice(i, i + 4).join(' ')} `)) achou++;
+  }
+  return achou / total >= 0.7;
+}
+
+// Vocabulário que torna PLAUSÍVEL uma notícia ser sensível. Mais largo que as travas de
+// guardrails.ts (que sozinhas já sobem o score): aqui só serve de prova para aceitar o
+// score alto da triagem quando o modelo não cita o trecho literal.
+const LEXICO_SENSIVEL =
+  /\b(mort[oa]s?|morte|morreu|morreram|obitos?|homicid\w*|assassin\w*|feminicid\w*|latrocin\w*|chacina|tiros?|baleado\w*|esfaque\w*|agredid\w*|agress\w*|violen\w*|estupr\w*|abusos?|sequestr\w*|assalt\w*|roub\w*|furt\w*|crimes?|criminos\w*|infracion\w*|pres[oa]s?|prisao|prend\w*|apreend\w*|detid[oa]s?|flagrante|suspeit\w*|investigad\w*|investigac\w*|inquerito|denunci\w*|acusad\w*|acusac\w*|indiciad\w*|reus?|condenad\w*|operacao|policia\w*|delegacia|fraudes?|desvi\w*|propinas?|corrupc\w*|lavagem|contraband\w*|trafic\w*|falsificad\w*|vitimas?|ferid[oa]s?|tragedia|acidentes?)\b/;
+
+export function termoSensivel(texto: string): string | undefined {
+  return normalizar(texto).match(LEXICO_SENSIVEL)?.[0];
+}
+
+export interface Triagem {
+  score: number;
+  motivos: string[];
+}
+
+// Triagem só pode SUBIR o score com prova — o modelo de 3b inventa motivo e copia o prompt.
+// Prova = trecho citado que existe no texto OU termo do vocabulário sensível no texto.
+// Sem prova, score >= 3 é ignorado. Se o modelo falhar, a matéria segue: o Revisor e as
+// travas determinísticas continuam pontuando.
+export async function triar(llm: Llm, item: ItemBruto, original: string): Promise<Triagem> {
+  try {
+    const r = await llm.gerarJson(
+      PROMPT_TRIAGEM,
+      promptTriagem(item.titulo_original, item.fonte, original.slice(0, 3000)),
+      (x) => {
+        const o = objeto(x);
+        return {
+          score: Math.min(5, Math.max(1, Math.round(numero(o, 'score', 1)))),
+          trecho: textoOpcional(o, 'trecho') ?? '',
+        };
+      },
+      0.1,
+    );
+    if (r.score < 3) return { score: r.score, motivos: [] };
+    const texto = `${item.titulo_original}\n${original}`;
+    if (trechoNoTexto(r.trecho, texto)) return { score: r.score, motivos: [`triagem: "${r.trecho.slice(0, 120)}"`] };
+    // termo sensível só vale no título + lead (pirâmide invertida): "sites suspeitos" no
+    // 8º parágrafo de uma pesquisa de consumo não torna a pauta policial
+    const termo = termoSensivel(`${item.titulo_original}\n${original.slice(0, 600)}`);
+    if (termo) return { score: r.score, motivos: [`triagem: score ${r.score} (termo sensível no texto: "${termo}")`] };
+    const citado = r.trecho ? `"${r.trecho.slice(0, 80)}"` : 'nenhum';
+    return { score: 1, motivos: [`triagem deu score ${r.score} sem prova no texto (citou ${citado}; ignorada)`] };
+  } catch {
+    return { score: 1, motivos: ['triagem indisponível (score só do revisor e das travas)'] };
+  }
 }
 
 // Lauda é acessória: se o modelo falhar ou escrever algo que as travas barram, a matéria
