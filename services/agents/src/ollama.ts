@@ -30,7 +30,11 @@ export function configDoAmbiente(env: NodeJS.ProcessEnv = process.env, perfil: P
   return {
     endpoint: (url || p.url).replace(/\/+$/, ''),
     modelo: modelo || p.modelo,
-    timeoutMs: Number(env.OLLAMA_TIMEOUT_MS) || 600_000,
+    // fast é acessória e fica num PC remoto que pode estar em fila: desiste rápido e a
+    // etapa cai na pesada (comReserva). heavy espera o carregamento lento do pendrive.
+    timeoutMs: heavy
+      ? Number(env.OLLAMA_TIMEOUT_MS) || 600_000
+      : Number(env.OLLAMA_FAST_TIMEOUT_MS) || 45_000,
     numCtx: Number(ctx) || p.numCtx,
     token: env.OLLAMA_TOKEN || undefined,
   };
