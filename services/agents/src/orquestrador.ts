@@ -1,7 +1,7 @@
 // Esteira sequencial: Redator → Revisor → Editor/SEO → travas determinísticas.
 // Uma matéria por vez, um modelo só na VRAM (CLAUDE.md §2).
 import { aplicarGuardrails, limitarManchete, slugificar } from './guardrails.ts';
-import { booleano, listaTexto, numero, objeto, texto, textoOpcional, type Llm } from './ollama.ts';
+import { booleano, listaTexto, numero, objeto, pareceMolde, texto, textoOpcional, type Llm } from './ollama.ts';
 import {
   PROMPT_EDITOR_SEO,
   PROMPT_REDATOR,
@@ -51,11 +51,21 @@ export async function processarItem(item: ItemBruto, llm: Llm): Promise<ArticleP
     promptRevisao(original, redacao.corpo),
     (x) => {
       const o = objeto(x);
+      // Plano B: se o revisor não devolver um texto utilizável, segue o do redator,
+      // mas a nota de risco e os alertas dele continuam valendo.
+      let corpo: string;
+      const alertas = listaTexto(o, 'alertas_ao_editor').filter((a) => !pareceMolde(a) && a !== '...');
+      try {
+        corpo = texto(o, 'texto_final_revisado', 200);
+      } catch {
+        corpo = redacao.corpo;
+        alertas.push('revisor não devolveu o texto revisado; publicado o texto do redator');
+      }
       return {
-        corpo: texto(o, 'texto_final_revisado', 200),
+        corpo,
         score: numero(o, 'score_risco_juridico', 3),
         humano: booleano(o, 'requer_aprovacao_humana'),
-        alertas: listaTexto(o, 'alertas_ao_editor'),
+        alertas,
       };
     },
     0.1,

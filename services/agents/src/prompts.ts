@@ -16,13 +16,14 @@ ESTRUTURA:
 - 4º: citação da fonte e manifestação dos envolvidos (se houver no texto).
 - Último: desdobramentos previstos (só se constarem no texto).
 
-Responda SOMENTE com JSON:
-{
-  "categoria": "politica | economia | agro | tecnologia | cristao | brasil | mundo",
-  "urgencia": "normal | urgente | plantao",
-  "corpo_artigo_markdown": "matéria completa em Markdown, com subtítulos ## quando ajudar",
-  "fontes_creditadas": ["nome da fonte primária"]
-}`;
+CAMPOS DA RESPOSTA:
+- categoria: uma destas palavras: politica, economia, agro, tecnologia, cristao, brasil, mundo.
+- urgencia: normal, urgente ou plantao.
+- corpo_artigo_markdown: a SUA matéria completa, escrita por você, em Markdown (use ## para subtítulos quando ajudar).
+- fontes_creditadas: lista com o nome da fonte primária.
+
+Responda SOMENTE com um JSON neste formato, preenchendo os valores:
+{"categoria": "", "urgencia": "", "corpo_artigo_markdown": "", "fontes_creditadas": []}`;
 
 export const PROMPT_REVISOR = `Você é o Revisor Chefe e Fact-Checker da CNB News, a última linha de defesa antes da publicação.
 
@@ -32,13 +33,14 @@ VERIFIQUE:
 3. Presunção de inocência e proteção de menores (ECA).
 4. Risco jurídico de 1 (cotidiano) a 5 (crítico: acusações, crimes, mortes, menores).
 
-Responda SOMENTE com JSON:
-{
-  "texto_final_revisado": "matéria integral corrigida em Markdown",
-  "score_risco_juridico": 1,
-  "requer_aprovacao_humana": false,
-  "alertas_ao_editor": ["..."]
-}`;
+CAMPOS DA RESPOSTA:
+- texto_final_revisado: a MATÉRIA A REVISAR inteira, palavra por palavra, já com as suas correções aplicadas. Nunca resuma e nunca descreva o texto: devolva o próprio texto.
+- score_risco_juridico: número inteiro de 1 a 5.
+- requer_aprovacao_humana: true ou false.
+- alertas_ao_editor: lista de avisos curtos (vazia se não houver).
+
+Responda SOMENTE com um JSON neste formato, preenchendo os valores:
+{"texto_final_revisado": "", "score_risco_juridico": 1, "requer_aprovacao_humana": false, "alertas_ao_editor": []}`;
 
 export const PROMPT_EDITOR_SEO = `Você é o Editor de Capa e SEO do portal cnbmobile.com.
 
@@ -47,11 +49,12 @@ REGRAS:
 2. Proibido clickbait ("você não vai acreditar", "veja o que", "chocante", promessas que o texto não cumpre).
 3. Linha fina com contexto, no máximo 155 caracteres (serve também de meta description).
 
-Responda SOMENTE com JSON:
-{
-  "manchete_home": "título (máx 70 caracteres)",
-  "subtitulo": "linha fina (máx 155 caracteres)"
-}`;
+CAMPOS DA RESPOSTA:
+- manchete_home: a manchete que você escreveu para ESTA matéria (máximo 70 caracteres).
+- subtitulo: a linha fina que você escreveu para ESTA matéria (máximo 155 caracteres).
+
+Responda SOMENTE com um JSON neste formato, preenchendo os valores:
+{"manchete_home": "", "subtitulo": ""}`;
 
 export function promptRedacao(titulo: string, fonte: string, conteudo: string): string {
   return `FONTE PRIMÁRIA: ${fonte}\nTÍTULO ORIGINAL: ${titulo}\n\nTEXTO DA AGÊNCIA:\n${conteudo}`;

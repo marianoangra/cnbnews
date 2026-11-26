@@ -72,6 +72,27 @@ test('manchete longa: pede de novo ao SEO e, se insistir, corta em 70', async ()
   assert.equal(a.categoria, 'economia', 'categoria fora da lista cai na padrão da fonte');
 });
 
+test('revisor que devolve o texto do molde: segue o texto do redator, com alerta', async () => {
+  const llm = llmFalso({
+    redator: [{ categoria: 'economia', corpo_artigo_markdown: CORPO }],
+    revisor: [{ texto_final_revisado: 'matéria integral corrigida em Markdown', score_risco_juridico: 1, alertas_ao_editor: ['...'] }],
+    seo: [{ manchete_home: 'Governo prorroga subsídio ao diesel por mais 30 dias', subtitulo: 'Medida evita alta nas bombas em dezembro' }],
+  });
+  const a = await processarItem(item, llm);
+  assert.equal(a.corpo_artigo_md.startsWith(CORPO), true);
+  assert.ok(a.motivos_revisao.some((m) => m.includes('texto do redator')));
+  assert.ok(!a.motivos_revisao.some((m) => m.includes('...')));
+});
+
+test('manchete com texto do molde é rejeitada', async () => {
+  const llm = llmFalso({
+    redator: [{ corpo_artigo_markdown: CORPO }],
+    revisor: [{ texto_final_revisado: CORPO, score_risco_juridico: 1 }],
+    seo: [{ manchete_home: 'título (máx 70 caracteres)', subtitulo: 'linha fina (máx 155 caracteres)' }],
+  });
+  await assert.rejects(processarItem(item, llm), /molde/);
+});
+
 test('resposta inválida do modelo derruba a matéria (não publica lixo)', async () => {
   const llm = llmFalso({ redator: [{ corpo_artigo_markdown: 'curto' }] });
   await assert.rejects(processarItem(item, llm), /corpo_artigo_markdown/);

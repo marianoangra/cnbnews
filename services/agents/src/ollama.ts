@@ -77,9 +77,25 @@ export function objeto(x: unknown): Record<string, unknown> {
   return x as Record<string, unknown>;
 }
 
+// Modelos pequenos (qwen3:4b) às vezes devolvem a DESCRIÇÃO do campo em vez do conteúdo
+// ("matéria integral corrigida em Markdown", "título (máx 70 caracteres)").
+const MOLDE = [
+  /^mat[eé]ria (completa|integral)\b/i,
+  /^(t[ií]tulo|linha fina|manchete|subt[ií]tulo)\s*\(m[aá]x/i,
+  /\(m[aá]x(imo)?\.? \d+ caracteres\)/i,
+  /^(texto|resumo) (completo|flu[ií]do|jornal[ií]stico)\b/i,
+  /^\.{3}$/,
+];
+
+export function pareceMolde(v: string): boolean {
+  const t = v.trim();
+  return t.length < 120 && MOLDE.some((re) => re.test(t));
+}
+
 export function texto(o: Record<string, unknown>, chave: string, minimo = 1): string {
   const v = o[chave];
   if (typeof v !== 'string' || v.trim().length < minimo) throw new ErroLlm(`campo "${chave}" ausente ou curto demais`);
+  if (pareceMolde(v)) throw new ErroLlm(`campo "${chave}" veio com o texto do molde: "${v.trim().slice(0, 60)}"`);
   return v.trim();
 }
 

@@ -36,13 +36,18 @@ function git(...args: string[]): string {
   return execFileSync('git', args, { cwd: REPO, encoding: 'utf8' }).trim();
 }
 
+// O robo_cnb.py dá push no mesmo checkout. Se o nosso push perder a corrida, o commit
+// fica local e sai no próximo ciclo (ou no push do robô de cidades) — nada se perde.
 function publicarNoGit(n: number): void {
   git('add', '--', 'content/noticias');
-  if (!git('diff', '--cached', '--name-only', '--', 'content/noticias')) return;
-  git('commit', '-m', `noticias: ${n} matéria(s) da redação automática`, '--', 'content/noticias');
-  git('pull', '--rebase', '--autostash');
-  git('push');
-  log(`git: ${n} matéria(s) enviadas (o push publica na Vercel)`);
+  if (git('diff', '--cached', '--name-only', '--', 'content/noticias')) {
+    git('commit', '-m', `noticias: ${n} matéria(s) da redação automática`, '--', 'content/noticias');
+  }
+  git('fetch', '-q', 'origin');
+  if (git('rev-list', '--count', 'origin/main..HEAD') === '0') return;
+  git('pull', '--rebase', '--autostash', 'origin', 'main');
+  git('push', 'origin', 'HEAD:main');
+  log(`git: matérias enviadas (o push publica na Vercel)`);
 }
 
 export async function rodarCiclo(): Promise<void> {
@@ -94,7 +99,13 @@ export async function rodarCiclo(): Promise<void> {
 
   if (!simular) {
     estado.salvar();
-    if (flag('--push') && publicadas > 0) publicarNoGit(publicadas);
+    if (flag('--push')) {
+      try {
+        publicarNoGit(publicadas);
+      } catch (err) {
+        log('git: push falhou, tento de novo no próximo ciclo —', err instanceof Error ? err.message.split('\n')[0] : err);
+      }
+    }
   }
   log(`fim do ciclo: ${publicadas} publicada(s), ${naFila} na fila de aprovação`);
 }
