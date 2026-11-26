@@ -1,0 +1,43 @@
+# Palavras e expressões que tiram a matéria da LIVE (ela continua no site).
+# Uma por linha. Comparação sem acento, sem maiúsculas, por palavra inteira.
+# Motivo: diretrizes de conteúdo adequado para anunciantes do YouTube + ECA/CLAUDE.md §5.
+baleado
+baleada
+baleados
+morto
+morta
+mortos
+mortas
+morte
+mortes
+assassinato
+assassinada
+assassinado
+homicidio
+estupro
+estuprada
+tiroteio
+tiros
+chacina
+esfaqueado
+esfaqueada
+facada
+feminicidio
+latrocinio
+sequestro
+sequestrada
+sequestrado
+tragedia
+acidente fatal
+corpo encontrado
+cadaver
+suicidio
+preso
+presa
+presos
+prisao em flagrante
+trafico
+abuso sexual
+violencia sexual
+menor apreendido
+adolescente apreendido
