@@ -1,0 +1,2 @@
+{{/* Legenda + crédito. Entrada: o mapa devolvido por foto.html. */}}
+<figcaption class="cred">{{ with .legenda }}{{ . }} · {{ end }}{{ if not .propria }}foto de arquivo · {{ end }}<b>{{ .autor }}</b>{{ with .licenca }}{{ if $.fonte }} / <a href="{{ $.fonte }}" rel="nofollow noopener" target="_blank">{{ . }}</a>{{ else }} / {{ . }}{{ end }}{{ end }}</figcaption>

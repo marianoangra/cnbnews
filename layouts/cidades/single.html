@@ -1,66 +1,67 @@
-{{ define "titulo" }}{{ .Title }} · {{ .Parent.Title }} · CNB News Brasil{{ end }}
-{{ define "edicao" }}{{ .Parent.Title }}{{ end }}
-{{ define "home" }}https://cnbmobile.com{{ end }}
-{{ define "main" }}
-{{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
-{{ $img := "/fotos/obras.jpg" }}
-{{ $low := lower .Title }}
-{{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") (in $low "mpox") }}{{ $img = "/fotos/saude.jpg" }}
-{{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
-{{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "veículo") (in $low "rua") (in $low "pamo") (in $low "fechado") (in $low "córrego") }}{{ $img = "/fotos/obras.jpg" }}
-{{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") (in $low "tempo") (in $low "temporal") (in $low "enchente") (in $low "alagamento") (in $low "emergência") }}{{ $img = "/fotos/clima.jpg" }}
-{{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "segurança") }}{{ $img = "/fotos/policia.jpg" }}
-{{ else if or (in $low "concurso") (in $low "refis") (in $low "imposto") (in $low "salário") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
-
+{{ define "titulo" }}{{ .Title }} · {{ replaceRE " \\([A-Z]{2}\\)$" "" .Parent.Title }} · CNB News{{ end }}
+{{ define "bodyclass" }}tem-wa{{ end }}
+{{ define "canonical" }}https://{{ path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/{{ end }}
+{{ define "meta" }}
+{{ $slug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+{{ $ed := partial "editoria.html" . }}
+{{ $f := partial "foto.html" (dict "p" . "slug" $slug "ed" $ed) }}
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:url" content="https://{{ $slug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">
+{{ with $f }}<meta property="og:image" content="{{ .arquivo | absURL }}">{{ end }}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "NewsArticle",
-  "headline": {{ .Title | jsonify }},
-  "description": {{ .Description | jsonify }},
-  "image": ["https://cnbmobile.com{{ $img }}"],
-  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05-03:00" }}",
-  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05-03:00" }}",
-  "author": [{
-    "@type": "Person",
-    "name": "Rafael Mariano",
-    "url": "https://rafaelmariano.com.br"
-  }],
-  "publisher": {
-    "@type": "Organization",
-    "name": "CNB News Brasil · CNB Mobile LTDA",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://cnbmobile.com/favicon.png"
-    }
-  }
+  "headline": {{ .Title }},
+  "description": {{ .Description }},
+  {{ with $f }}"image": [{{ .arquivo | absURL }}],{{ end }}
+  "datePublished": {{ .Date.Format "2006-01-02T15:04:05-07:00" }},
+  "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }},
+  "articleSection": {{ partial "editoria-nome.html" $ed }},
+  "author": [{"@type": "Person", "name": "Rafael Mariano", "url": "https://www.rafaelmariano.com.br"}],
+  "publisher": {"@type": "Organization", "name": "CNB News", "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
 }
 </script>
-
-<article class="art" style="max-width:820px;margin:20px auto 40px;background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:24px;box-shadow:var(--sh)">
-  <div style="margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
-    <a class="badge" href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/" style="color:var(--red2);font-weight:800;text-decoration:none">← Mais notícias de {{ .Parent.Title }}</a>
-    <a href="https://cnbmobile.com" style="font-size:.82rem;color:var(--mut);text-decoration:none;font-weight:700">Capa Nacional</a>
+{{ end }}
+{{ define "main" }}
+{{ $slug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+{{ $base := printf "https://%s.%s/" $slug site.Params.baseDomain }}
+{{ $nome := replaceRE " \\([A-Z]{2}\\)$" "" .Parent.Title }}
+{{ $ed := partial "editoria.html" . }}
+{{ $f := partial "foto.html" (dict "p" . "slug" $slug "ed" $ed) }}
+<article class="materia">
+  <div class="crumbs"><a href="{{ $base }}#ed-{{ $ed }}">{{ partial "editoria-nome.html" $ed }}</a> · {{ $nome }}</div>
+  <h1>{{ .Title }}</h1>
+  {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
+  <div class="byline">
+    <div>
+      <b>Redação CNB News</b>{{ with .Params.fonte }}, com informações de {{ . }}{{ end }}
+      <span class="time">Editor-chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a></span>
+      <time class="time" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}" data-rel>Publicado em {{ .Date.Format "02/01/2006 às 15h04" }}</time>
+    </div>
+    <div class="share">
+      <button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}Enviar no WhatsApp</button>
+      <button class="btn" type="button" data-copy>Copiar link</button>
+    </div>
   </div>
-  <span class="kicker">{{ .Parent.Title }} · Utilidade Pública</span>
-  <h1 style="font-size:1.85rem;line-height:1.25;margin:6px 0 14px;font-weight:900">{{ .Title }}</h1>
-  <div style="font-size:.85rem;color:var(--mut);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bd)">
-    Por <strong style="color:#fff">Redação CNB News</strong> · Edição: <a href="https://cnbmobile.com/sobre/" style="color:var(--red2);font-weight:700;text-decoration:none">Rafael Mariano</a> · Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}
+  {{ with $f }}<figure><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="720">{{ partial "foto-cred.html" . }}</figure>{{ end }}
+  <div class="corpo">{{ .Content }}</div>
+  <div class="fonte">
+    {{ if .Params.fonte }}<span><b>Fonte original:</b> {{ if .Params.fonte_url }}<a href="{{ .Params.fonte_url }}" rel="nofollow noopener" target="_blank">{{ .Params.fonte }}</a>{{ else }}{{ .Params.fonte }}{{ end }}</span>{{ end }}
+    <span>Texto produzido com apoio de inteligência artificial a partir da fonte citada. Viu um erro? <a href="https://{{ site.Params.baseDomain }}/contato/">Avise a redação</a>.</span>
   </div>
-  <img class="art-img" src="{{ $img }}" alt="{{ .Title }} - {{ .Parent.Title }}" style="width:100%;max-height:420px;object-fit:cover;border-radius:6px;margin-bottom:18px;display:block">
-  {{ with .Description }}<p class="desc" style="font-size:1.08rem;color:#d1d5db;font-weight:600;line-height:1.55;margin:0 0 18px">{{ . }}</p>{{ end }}
-  <div class="body-txt" style="font-size:1.02rem;line-height:1.75;color:#e5e7eb">{{ .Content }}</div>
-  <div style="margin-top:28px;padding-top:16px;border-top:1px solid var(--bd);font-size:.85rem;color:var(--mut);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-    <span>
-      {{ if and .Params.fonte .Params.fonte_url }}
-        Fonte oficial: <a href="{{ .Params.fonte_url }}" target="_blank" rel="nofollow noopener" style="color:#fff;font-weight:700">{{ .Params.fonte }} ↗</a>
-      {{ else if .Params.fonte }}
-        Fonte: <strong style="color:#fff">{{ .Params.fonte }}</strong>
-      {{ else }}
-        CNB News Brasil · Jornalismo Local
-      {{ end }}
-    </span>
-    <a href="#" onclick="return compartilharWA(this)" class="wa-btn">Compartilhar no WhatsApp</a>
+  {{ $outras := first 4 (where .Parent.Pages.ByDate.Reverse "Permalink" "ne" .Permalink) }}
+  {{ with $outras }}
+  <section class="leia" aria-label="Leia também">
+    <div class="bloco-t">Mais notícias de {{ $nome }}</div>
+    {{ range . }}<a href="{{ $base }}{{ path.Base .RelPermalink }}/">{{ .Title }}</a>{{ end }}
+  </section>
+  {{ end }}
+  <div class="wa-bar">
+    <span>Mande para quem é de {{ $nome }}</span>
+    <button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}WhatsApp</button>
   </div>
 </article>
 {{ end }}

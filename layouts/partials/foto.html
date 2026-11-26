@@ -1,0 +1,22 @@
+{{/* Escolhe a foto de uma notícia. Entrada: dict "p" (página) "slug" (cidade) "ed" (editoria) "n" (desvio, pra variar na capa).
+   Devolve um mapa {arquivo, legenda, autor, licenca, fonte} ou false.
+   - Polícia nunca tem foto (ECA e presunção de inocência: foto de arquivo sugere ligação que não existe).
+   - Foto própria da matéria: front matter `imagem` + `imagem_credito` (opcional `imagem_legenda`). O campo `imagem` sozinho é ignorado: o robô antigo gravava /fotos/geral.jpg, que nunca existiu.
+   - Senão, sorteio fixo no banco data/fotos/<slug>.json (montado por scripts/fotos_cidade.py). Clima prefere fotos com tema "clima". */}}
+{{- $r := false -}}
+{{- if ne .ed "policia" -}}
+  {{- if and .p.Params.imagem .p.Params.imagem_credito -}}
+    {{- $r = dict "arquivo" .p.Params.imagem "legenda" (.p.Params.imagem_legenda | default "") "autor" .p.Params.imagem_credito "licenca" "" "fonte" "" "propria" true -}}
+  {{- else -}}
+    {{- $banco := false -}}
+    {{- with site.Data.fotos -}}{{- $banco = index . $.slug -}}{{- end -}}
+    {{- if $banco -}}
+      {{- $c := where $banco "tema" "" -}}
+      {{- if eq .ed "clima" -}}{{- with where $banco "tema" "clima" -}}{{- $c = . -}}{{- end -}}{{- end -}}
+      {{- if not $c -}}{{- $c = $banco -}}{{- end -}}
+      {{- $i := mod (add (add .p.Date.Unix (len .p.Title)) (.n | default 0)) (len $c) -}}
+      {{- $r = index $c $i -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $r -}}
