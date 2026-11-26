@@ -1,73 +1,54 @@
-{{ define "titulo" }}CNB News Brasil | Notícias ao Vivo das Cidades, Concursos e Utilidade Pública{{ end }}
+{{ define "titulo" }}CNB News · Notícias da sua cidade{{ end }}
 {{ define "main" }}
-{{ $pages := where .Site.RegularPages "Section" "cidades" }}
-{{ $sorted := $pages.ByDate.Reverse }}
-{{ $pool := slice "/fotos/obras.jpg" "/fotos/economia.jpg" "/fotos/educacao.jpg" "/fotos/saude.jpg" "/fotos/clima.jpg" "/fotos/policia.jpg" }}
-
-{{ if gt (len $sorted) 0 }}
-  {{ $first := index $sorted 0 }}
-  {{ $fslug := path.Base (strings.TrimSuffix "/" $first.Parent.RelPermalink) }}
-  {{ $furl := printf "https://%s.%s/%s/" $fslug site.Params.baseDomain (path.Base $first.RelPermalink) }}
-  {{ $fimg := "/fotos/obras.jpg" }}
-  {{ $flow := lower $first.Title }}
-  {{ if or (in $flow "saúde") (in $flow "vacina") (in $flow "hospital") (in $flow "uti") }}{{ $fimg = "/fotos/saude.jpg" }}
-  {{ else if or (in $flow "educação") (in $flow "escola") (in $flow "aluno") (in $flow "letivo") }}{{ $fimg = "/fotos/educacao.jpg" }}
-  {{ else if or (in $flow "obra") (in $flow "trânsito") (in $flow "estrada") (in $flow "veículo") }}{{ $fimg = "/fotos/obras.jpg" }}
-  {{ else if or (in $flow "chuva") (in $flow "defesa civil") (in $flow "alerta") (in $flow "temporal") (in $flow "enchente") (in $flow "alagamento") (in $flow "emergência") }}{{ $fimg = "/fotos/clima.jpg" }}
-  {{ else if or (in $flow "polícia") (in $flow "guarda") (in $flow "mandado") (in $flow "justiça") }}{{ $fimg = "/fotos/policia.jpg" }}
-  {{ else if or (in $flow "concurso") (in $flow "vagas") (in $flow "edital") (in $flow "refis") }}{{ $fimg = "/fotos/economia.jpg" }}{{ end }}
-
-  <div class="cnn-top">
-    <div class="hero">
-      <a style="text-decoration:none;display:block" href="{{ $furl }}"><img class="hero-img" src="{{ $fimg }}" alt="{{ $first.Title }} - {{ $first.Parent.Title }}"></a>
-      <div class="hero-body">
-        <span class="kicker">Destaque · {{ $first.Parent.Title }}</span>
-        <h1><a style="text-decoration:none" href="{{ $furl }}">{{ $first.Title }}</a></h1>
-        <p style="color:var(--mut);margin:0 0 14px;line-height:1.5">{{ $first.Description }}</p>
-        <div class="meta"><span>{{ $first.Date.Format "02/01/2006 às 15:04" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a></div>
-        <ul class="sub-bullets">
-        {{ range first 3 (after 1 $sorted) }}
-          {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
-          <li><a style="text-decoration:none" href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Parent.Title }}: {{ .Title }}</a></li>
+{{ $todas := (where .Site.RegularPages "Section" "cidades").ByDate.Reverse }}
+{{ with $todas }}
+<div class="capa">
+  <div>
+    <div class="alto">
+      {{ with index . 0 }}
+        {{ $slug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+        {{ $u := printf "https://%s.%s/%s/" $slug site.Params.baseDomain (path.Base .RelPermalink) }}
+        {{ $ed := partial "editoria.html" . }}
+        {{ $f := partial "foto.html" (dict "p" . "slug" $slug "ed" $ed) }}
+        <article class="manchete">
+          {{ with $f }}<figure><a href="{{ $u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="853"></a>{{ partial "foto-cred.html" . }}</figure>{{ end }}
+          <span class="ed">{{ .Parent.Title }}</span>
+          <h1><a href="{{ $u }}">{{ .Title }}</a></h1>
+          {{ with .Description }}<p>{{ . }}</p>{{ end }}
+          {{ partial "tempo.html" . }}
+        </article>
+      {{ end }}
+      <div class="secs">
+        {{ range $i, $p := first 3 (after 1 .) }}
+          {{ $slug := path.Base (strings.TrimSuffix "/" $p.Parent.RelPermalink) }}
+          {{ $u := printf "https://%s.%s/%s/" $slug site.Params.baseDomain (path.Base $p.RelPermalink) }}
+          {{ $f := partial "foto.html" (dict "p" $p "slug" $slug "ed" (partial "editoria.html" $p) "n" (add $i 1)) }}
+          <article class="sec{{ if $f }} com-foto{{ end }}">
+            <div><span class="ed">{{ $p.Parent.Title }}</span><h2><a href="{{ $u }}">{{ $p.Title }}</a></h2>{{ partial "tempo.html" $p }}</div>
+            {{ with $f }}<a href="{{ $u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="112" height="112" loading="lazy"></a>{{ end }}
+          </article>
         {{ end }}
-        </ul>
       </div>
     </div>
-    <aside class="mais-lidas">
-      <div class="sec-title">Mais Lidas</div>
-      {{ range $i, $p := first 6 (after 1 $sorted) }}
-        {{ $cslug := path.Base (strings.TrimSuffix "/" $p.Parent.RelPermalink) }}
-        <div class="ml-item"><div class="ml-num">{{ add $i 1 }}</div><div><a style="text-decoration:none" href="https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base $p.RelPermalink }}/">{{ $p.Title }}</a><div style="font-size:.75rem;color:var(--mut);margin-top:4px">{{ $p.Parent.Title }} · {{ $p.Date.Format "15:04" }}</div></div></div>
+  </div>
+  <aside class="ult" aria-label="Últimas pelo Brasil">
+    <div class="ult-h"><span>Últimas pelo Brasil</span><span class="time">por horário</span></div>
+    <ol>
+      {{ $hoje := now.Format "2006-01-02" }}
+      {{ range first 12 (after 4 .) }}
+        {{ $slug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+        <li><span class="hora">{{ if eq (.Date.Format "2006-01-02") $hoje }}{{ .Date.Format "15h04" }}{{ else }}{{ .Date.Format "02/01" }}{{ end }}</span>
+        <div><h3><a href="https://{{ $slug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h3><span class="ed">{{ .Parent.Title }}</span></div></li>
       {{ end }}
-    </aside>
-  </div>
-
-  <div class="sec-title">Últimas Notícias pelo Brasil</div>
-  <div class="cards">
-  {{ range $idx, $item := first 30 (after 4 $sorted) }}
-    {{ $cslug := path.Base (strings.TrimSuffix "/" $item.Parent.RelPermalink) }}
-    {{ $purl := printf "https://%s.%s/%s/" $cslug site.Params.baseDomain (path.Base $item.RelPermalink) }}
-    {{ $img := index $pool (mod $idx (len $pool)) }}
-    {{ $low := lower $item.Title }}
-    {{ if or (in $low "saúde") (in $low "vacina") (in $low "hospital") (in $low "uti") }}{{ $img = "/fotos/saude.jpg" }}
-    {{ else if or (in $low "educação") (in $low "escola") (in $low "aluno") (in $low "letivo") }}{{ $img = "/fotos/educacao.jpg" }}
-    {{ else if or (in $low "obra") (in $low "trânsito") (in $low "estrada") (in $low "veículo") }}{{ $img = "/fotos/obras.jpg" }}
-    {{ else if or (in $low "chuva") (in $low "defesa civil") (in $low "alerta") (in $low "temporal") (in $low "enchente") (in $low "alagamento") (in $low "emergência") }}{{ $img = "/fotos/clima.jpg" }}
-    {{ else if or (in $low "polícia") (in $low "guarda") (in $low "mandado") (in $low "justiça") }}{{ $img = "/fotos/policia.jpg" }}
-    {{ else if or (in $low "concurso") (in $low "vagas") (in $low "edital") (in $low "refis") }}{{ $img = "/fotos/economia.jpg" }}{{ end }}
-
-    <article class="card">
-      <a style="text-decoration:none" href="{{ $purl }}"><img class="card-img" style="height:92px" src="{{ $img }}" alt="{{ $item.Title }} - {{ $item.Parent.Title }}" loading="lazy"></a>
-      <div class="card-in">
-        <div>
-          <span class="kicker">{{ $item.Parent.Title }}</span>
-          <h2><a class="title-link" href="{{ $purl }}">{{ $item.Title }}</a></h2>
-          <p style="font-size:.88rem;color:var(--mut);margin:0">{{ $item.Description }}</p>
-        </div>
-        <div class="meta"><span>{{ $item.Date.Format "02/01/2006" }} · </span><a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a></div>
-      </div>
-    </article>
-  {{ end }}
-  </div>
-{{ else }}<p>Ainda sem notícias.</p>{{ end }}
+    </ol>
+  </aside>
+</div>
+{{ end }}
+<h2 class="h-sec" id="cidades">Escolha sua cidade</h2>
+<div class="cids">
+{{ with .Site.GetPage "/cidades" }}{{ range .Sections.ByTitle }}
+  <div class="cid"><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a>
+  {{ with .Pages.ByDate.Reverse }}{{ with index . 0 }}<span class="time">última notícia {{ .Date.Format "02/01 · 15h04" }}</span>{{ end }}{{ end }}</div>
+{{ end }}{{ end }}
+</div>
 {{ end }}

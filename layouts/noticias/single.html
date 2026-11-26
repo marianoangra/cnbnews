@@ -1,23 +1,26 @@
 {{ define "titulo" }}{{ .Title }} · CNB News{{ end }}
-{{ define "edicao" }}Brasil{{ end }}
-{{ define "home" }}/{{ end }}
+{{ define "bodyclass" }}tem-wa{{ end }}
 {{ define "main" }}
-<article class="art">
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-    <a class="badge" href="/noticias/">← {{ with .Params.categoria }}{{ . | humanize }}{{ else }}Notícias{{ end }}</a>
-    <span style="font-size:.85rem;color:var(--mut)">Publicado em {{ .Date.Format "02/01/2006 às 15:04" }}</span>
-  </div>
+<article class="materia">
+  <div class="crumbs"><a href="/noticias/">{{ with .Params.categoria }}{{ . | humanize }}{{ else }}Notícias{{ end }}</a> · Brasil</div>
   <h1>{{ .Title }}</h1>
-  {{ with .Description }}<p class="desc">{{ . }}</p>{{ end }}
-  <p style="font-size:.85rem;color:var(--mut);margin:0 0 18px">{{ with .Params.autor }}{{ . }}{{ else }}Redação CNB News (Editor-Chefe: <a href="https://www.rafaelmariano.com.br" style="color:var(--blue)">Rafael Mariano</a>){{ end }}</p>
-  <div style="margin-bottom:24px">
-    <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Compartilhar no WhatsApp</a>
+  {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
+  <div class="byline">
+    <div>
+      <b>{{ with .Params.autor }}{{ . }}{{ else }}Redação CNB News{{ end }}</b>{{ with .Params.fonte }}, com informações de {{ . }}{{ end }}
+      <span class="time">Editor-chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a></span>
+      <time class="time" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}" data-rel>Publicado em {{ .Date.Format "02/01/2006 às 15h04" }}</time>
+    </div>
+    <div class="share">
+      <button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}Enviar no WhatsApp</button>
+      <button class="btn" type="button" data-copy>Copiar link</button>
+    </div>
   </div>
-  <div class="body-txt">{{ .Content }}</div>
-  <div class="meta" style="margin-top:28px">
-    <span>{{ with .Params.fonte }}Fonte: {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank" style="color:var(--blue)">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}{{ end }}</span>
-    <a class="wa-btn" href="#" onclick="return compartilharWA(this)">Enviar no WhatsApp</a>
+  <div class="corpo">{{ .Content }}</div>
+  <div class="fonte">
+    {{ with .Params.fonte }}<span><b>Fonte original:</b> {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}</span>{{ end }}
+    <span>Viu um erro? <a href="/contato/">Avise a redação</a>.</span>
   </div>
-  <p style="font-size:.8rem;color:var(--mut);margin-top:18px">Viu um erro? Escreva para <a href="mailto:contato@rafaelmariano.com.br" style="color:var(--blue)">contato@rafaelmariano.com.br</a> ou use a <a href="/contato/" style="color:var(--blue)">página de contato</a>.</p>
+  <div class="wa-bar"><span>Mande para alguém</span><button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}WhatsApp</button></div>
 </article>
 {{ end }}

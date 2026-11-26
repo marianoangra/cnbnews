@@ -1,0 +1,16 @@
+{{/* Devolve a editoria de uma notícia. Usa o campo `editoria` do front matter se existir; senão classifica pelo título e linha fina. A ordem importa: Polícia primeiro (decide se a matéria pode ter foto). */}}
+{{- $ed := "cidade" -}}
+{{- with .Params.editoria -}}{{- $ed = . -}}{{- else -}}
+{{- $t := lower (printf "%s %s" .Title .Description) -}}
+{{- if findRE `polícia|policia|policial|baleado|baleada|esfaquead|\bpres[oa]s?\b|prisão|homicídio|assassinat|assassinad|latrocínio|tráfico|assalto|roubo|furto|delegacia|brigada militar|feminicídio|crime` $t -}}{{- $ed = "policia" -}}
+{{- else if findRE "chuva|tempestade|temporal|enchente|alagamento|defesa civil|ciclone|vendaval|granizo|inundaç|estiagem|previsão do tempo|frio intenso|onda de calor" $t -}}{{- $ed = "clima" -}}
+{{- else if findRE "trânsito|transito|detran|acidente|rodovia|br-[0-9]|motorista|cnh|ônibus|onibus|pedágio" $t -}}{{- $ed = "transito" -}}
+{{- else if findRE `concurso|vagas|emprego|edital|processo seletivo|estágio|\bsine\b` $t -}}{{- $ed = "empregos" -}}
+{{- else if findRE `saúde|saude|hospital|vacina|farmácia|farmacia|médic|\bsus\b|ubs|dengue|gripe|epidemi` $t -}}{{- $ed = "saude" -}}
+{{- else if findRE "escola|enem|educação|educacao|aluno|universidade|ufpel|ifsul|aula|matrícula|professor" $t -}}{{- $ed = "educacao" -}}
+{{- else if findRE "eleiç|eleic|prefeito|vereador|câmara|camara|deputad|governador|votação|votado|candidat|partido" $t -}}{{- $ed = "politica" -}}
+{{- else if findRE "carteira de identidade|documento|inscriç|agendamento|serviço online|serviço digital|benefício|cadastro" $t -}}{{- $ed = "servico" -}}
+{{- else if findRE "economia|venda|empresa|comércio|comercio|imposto|iptu|preço|leilão|investimento|indústria|celulose|negócio" $t -}}{{- $ed = "economia" -}}
+{{- end -}}
+{{- end -}}
+{{- return $ed -}}

@@ -1,139 +1,203 @@
+{{- $sec := false -}}
+{{- if eq .Section "cidades" -}}{{- if .IsPage -}}{{- $sec = .Parent -}}{{- else if and (not .IsHome) (not .Sections) -}}{{- $sec = . -}}{{- end -}}{{- end -}}
+{{- $cidade := "" -}}{{- $slug := "" -}}{{- $home := printf "https://%s/" .Site.Params.baseDomain -}}
+{{- with $sec -}}{{- $cidade = .Title -}}{{- $slug = path.Base (strings.TrimSuffix "/" .RelPermalink) -}}{{- $home = printf "https://%s.%s/" $slug site.Params.baseDomain -}}{{- end -}}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ block "titulo" . }}{{ .Title }} | CNB News Brasil{{ end }}</title>
+  <title>{{ block "titulo" . }}{{ .Title }} · CNB News{{ end }}</title>
   <meta name="description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.descricao }}{{ end }}">
-  <link rel="canonical" href="{{ .Permalink }}">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.png" sizes="192x192" type="image/png">
+  <meta name="robots" content="max-image-preview:large">
+  <link rel="canonical" href="{{ block "canonical" . }}{{ .Permalink }}{{ end }}">
+  {{/* Estáticos SEMPRE pelo domínio principal: no subdomínio da cidade a rota do vercel.json manda /fotos/... para /cidades/<slug>/fotos/... e dá 404. */}}
+  <link rel="icon" href="{{ "favicon.svg" | absURL }}" type="image/svg+xml">
+  <link rel="icon" href="{{ "favicon.png" | absURL }}" sizes="192x192" type="image/png">
+  {{ block "meta" . }}{{ end }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..600&family=Public+Sans:wght@400;500;600;700;800&display=swap">
   <style>
-    :root{--bg:#0b0d12;--card:#131720;--bd:#232938;--ink:#f3f4f6;--mut:#9ca3af;--red:#dc2626;--red2:#ef4444;--sh:0 4px 20px rgba(0,0,0,.35);--max:1200px}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55}
-    a{color:inherit}.wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
-    .topbar{background:#07090d;border-bottom:1px solid var(--bd);font-size:.78rem;color:var(--mut);padding:6px 0}
-    .topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-    .ptax span{color:#fff;font-weight:700;margin-right:12px}
-    header{background:#0f1219;border-bottom:2px solid var(--red);position:sticky;top:0;z-index:50;box-shadow:var(--sh)}
-    .head-main{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:16px;flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-    .logo-badge{background:var(--red);color:#fff;font-weight:900;font-size:1.15rem;padding:4px 9px;border-radius:4px}
-    .logo-txt{font-weight:900;font-size:1.3rem;color:#fff}.logo-txt small{font-size:.72rem;font-weight:700;color:var(--mut);text-transform:uppercase;margin-left:6px}
-    .live-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.45);color:#fca5a5;font-size:.72rem;font-weight:800;padding:4px 10px;border-radius:999px;text-transform:uppercase}
-    .live-dot{width:7px;height:7px;border-radius:50%;background:var(--red2);animation:pulse 1.5s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .search-box{background:var(--card);border:1px solid var(--bd);color:var(--ink);padding:7px 12px;border-radius:6px;font-size:.85rem;width:210px}
-    .city-nav{background:#0b0e14;border-top:1px solid var(--bd);overflow-x:auto;white-space:nowrap}
-    .city-nav a{display:inline-block;padding:9px 12px;font-size:.8rem;font-weight:600;color:#d1d5db;text-decoration:none;border-bottom:2px solid transparent}
-    .city-nav a:hover{color:#fff;border-bottom-color:var(--red)}
-    .ad-slot{background:var(--card);border:1px dashed var(--bd);border-radius:6px;padding:12px;text-align:center;margin:18px 0;color:var(--mut);font-size:.75rem}
-    .cnn-top{display:grid;grid-template-columns:1.65fr 1fr;gap:22px;margin:20px 0 32px;align-items:start}
-    .hero{background:var(--card);border:1px solid var(--bd);border-radius:8px;overflow:hidden;box-shadow:var(--sh)}
-    .hero-img{width:100%;height:340px;object-fit:cover;display:block}.hero-body{padding:20px}
-    .kicker{display:inline-block;color:var(--red2);font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
-    .hero h1{margin:0 0 10px;font-size:1.65rem;line-height:1.25;font-weight:900}.hero h1 a:hover{color:var(--red2)}
-    .meta{font-size:.78rem;color:var(--mut);display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .wa-btn{color:#4ade80;font-weight:700;text-decoration:none}
-    .sub-bullets{margin:16px 0 0;padding:14px 0 0 18px;border-top:1px solid var(--bd);display:flex;flex-direction:column;gap:8px}
-    .sub-bullets li{color:var(--red2);font-size:.9rem;font-weight:600}.sub-bullets li a{color:#e5e7eb}
-    .mais-lidas{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:18px;box-shadow:var(--sh)}
-    .sec-title{font-size:.95rem;font-weight:900;text-transform:uppercase;border-left:4px solid var(--red);padding-left:10px;margin:0 0 16px;color:#fff}
-    .ml-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--bd);align-items:flex-start}
-    .ml-item:last-child{border-bottom:none;padding-bottom:0}
-    .ml-num{font-size:1.25rem;font-weight:900;color:var(--red2);min-width:22px}.ml-item a{font-size:.9rem;font-weight:700;line-height:1.35}
-    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:36px}
-    .card{background:var(--card);border:1px solid var(--bd);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
-    .card-img{width:100%;height:145px;object-fit:cover;display:block}
-    .card-in{padding:14px;display:flex;flex-direction:column;justify-content:space-between;flex:1;gap:12px}
-    .card h2{margin:0 0 8px;font-size:1.02rem;line-height:1.35;font-weight:800}.title-link{text-decoration:none}
-    .capa-box{background:linear-gradient(135deg,#1e293b,#7f1d1d);height:200px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;color:#fff}
-    footer{background:#07090d;border-top:1px solid var(--bd);padding:28px 0;margin-top:40px;color:var(--mut);font-size:.82rem}
-    footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-    footer a{color:#d1d5db;text-decoration:none;margin-right:16px}
-    @media(max-width:900px){.cnn-top{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.hero-img{height:240px}}
-    @media(max-width:600px){.cards{grid-template-columns:1fr}.search-box{width:100%}}
+    /* Jornal local: a cidade é o cabeçalho. Fundo claro, título com serifa, vermelho CNB só em editorias, horários e links. */
+    :root{--bg:#fff;--surface:#f3f4f7;--ink:#15171c;--ink-2:#3b3f48;--muted:#636a76;--rule:#e1e3e8;--red:#c8102e;--red-ink:#a50d25;--wa:#128c4a;
+      --f-head:"Newsreader",Georgia,"Times New Roman",serif;--f-ui:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--max:1160px;color-scheme:light}
+    @media (prefers-color-scheme:dark){:root{--bg:#121418;--surface:#1b1e24;--ink:#eef0f3;--ink-2:#c9cdd4;--muted:#9aa1ad;--rule:#2a2e36;--red:#ef3b55;--red-ink:#ff6b7f;--wa:#3ccf7a;color-scheme:dark}}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5;padding:0 16px}
+    a{color:inherit;text-decoration:none}
+    a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
+    img{max-width:100%}
+    .wrap{max-width:var(--max);margin:0 auto}
+    h1,h2,h3{font-family:var(--f-head);text-wrap:balance;margin:0;letter-spacing:-.01em}
+    .ed{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red-ink)}
+    .time{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+    .dia{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 0;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--rule)}
+    .dia strong{color:var(--ink);font-weight:700}
+    .clima b{font-family:var(--f-head);font-size:1.12rem;font-weight:600;color:var(--ink)}
+    .mast{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:18px 0 14px;flex-wrap:wrap}
+    .brand{display:flex;align-items:baseline;gap:10px}
+    .badge{background:var(--red);color:#fff;font-weight:800;font-size:.9rem;letter-spacing:.04em;padding:3px 7px 2px;border-radius:3px;align-self:center}
+    .city{font-family:var(--f-head);font-weight:700;font-size:clamp(2.1rem,6vw,3.1rem);line-height:1;letter-spacing:-.02em}
+    .city small{font-family:var(--f-ui);font-size:.85rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:4px}
+    .trocar{font-size:.82rem;font-weight:600;color:var(--ink-2);border:1px solid var(--rule);padding:6px 12px;border-radius:999px}
+    .trocar:hover{border-color:var(--ink-2)}
+    .nav{position:sticky;top:0;z-index:20;background:var(--bg);border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);margin:0 -16px;padding:0 16px}
+    .nav ul{list-style:none;margin:0 auto;padding:0;display:flex;gap:2px;overflow-x:auto;max-width:var(--max);scrollbar-width:none}
+    .nav li a{display:block;padding:11px 12px;font-size:.86rem;font-weight:700;white-space:nowrap;color:var(--ink-2);border-bottom:3px solid transparent;margin-bottom:-1px}
+    .nav li a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+    .nav li a.on{color:var(--ink);border-bottom-color:var(--red)}
+
+    figure{margin:0}
+    .ph{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:var(--surface);border-radius:3px}
+    .cred{display:block;font-size:.72rem;color:var(--muted);margin-top:6px;line-height:1.35}
+    .cred b{font-weight:600;color:var(--ink-2)}
+    .cred a{text-decoration:underline;text-underline-offset:2px}
+
+    .capa{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:40px;padding:28px 0 8px}
+    .alto{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:28px;padding-bottom:28px;border-bottom:1px solid var(--rule)}
+    .manchete figure{margin-bottom:14px}
+    .manchete .ph{aspect-ratio:3/2}
+    .manchete h1{font-size:clamp(1.9rem,4.2vw,2.9rem);line-height:1.08;font-weight:700;margin:8px 0 12px}
+    .manchete p{font-family:var(--f-head);font-size:1.18rem;line-height:1.45;color:var(--ink-2);margin:0 0 12px}
+    .manchete h1 a:hover,.sec h2 a:hover,.ult h3 a:hover,.bloco h3 a:hover,.leia a:hover,.cid a:hover{color:var(--red-ink)}
+    .relac{list-style:none;margin:14px 0 0;padding:12px 0 0;border-top:1px solid var(--rule);display:grid;gap:8px}
+    .relac li{font-size:.95rem;font-weight:600;line-height:1.35;padding-left:14px;position:relative}
+    .relac li::before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;background:var(--red)}
+    .secs{display:grid;gap:20px;align-content:start}
+    .sec{padding-bottom:20px;border-bottom:1px solid var(--rule)}
+    .sec:last-child{border-bottom:0;padding-bottom:0}
+    .sec h2{font-size:1.32rem;line-height:1.2;font-weight:650;margin:6px 0}
+    .sec.com-foto{display:grid;grid-template-columns:minmax(0,1fr) 112px;gap:14px;align-items:start}
+    .sec.com-foto .ph{aspect-ratio:1/1}
+    .blocos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;padding:26px 0 8px}
+    .bloco-t{font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:12px;scroll-margin-top:60px}
+    .bloco figure{margin-bottom:4px}
+    .bloco article{padding:10px 0;border-bottom:1px solid var(--rule)}
+    .bloco article:last-child{border-bottom:0}
+    .bloco h3{font-size:1.08rem;line-height:1.28;font-weight:600;margin-bottom:4px}
+    aside.ult{border-left:1px solid var(--rule);padding-left:28px}
+    .ult-h{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:4px}
+    .ult-h span:first-child{font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .ult ol{list-style:none;margin:0;padding:0}
+    .ult li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px;padding:12px 0;border-bottom:1px solid var(--rule)}
+    .ult .hora{font-size:.8rem;font-weight:700;color:var(--red-ink);font-variant-numeric:tabular-nums;padding-top:2px}
+    .ult h3{font-size:1rem;line-height:1.3;font-weight:600}
+    .ult .ed{font-size:.66rem;color:var(--muted);display:block;margin-top:4px}
+    .servico{background:var(--surface);border-radius:6px;padding:16px;margin-top:22px}
+    .servico h4{margin:0 0 8px;font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+    .servico ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:.92rem}
+    .servico li{display:flex;justify-content:space-between;gap:10px}
+    .servico li span:last-child{color:var(--muted);font-variant-numeric:tabular-nums}
+
+    .materia{max-width:700px;margin:0 auto;padding:32px 0 40px}
+    .crumbs{font-size:.8rem;color:var(--muted);margin-bottom:14px}
+    .crumbs a{color:var(--red-ink);font-weight:700}
+    .materia h1{font-size:clamp(2rem,5vw,2.75rem);line-height:1.1;font-weight:700;margin-bottom:14px}
+    .fina{font-family:var(--f-head);font-size:1.3rem;line-height:1.42;color:var(--ink-2);margin:0 0 20px}
+    .byline{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);font-size:.85rem}
+    .byline b{font-weight:700}
+    .byline .time{display:block;margin-top:2px}
+    .share{display:flex;gap:8px}
+    .btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:.85rem;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);cursor:pointer}
+    .btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+    .btn svg{width:16px;height:16px;fill:currentColor}
+    .materia figure{margin:22px 0 4px}
+    .corpo{font-family:var(--f-head);font-size:1.22rem;line-height:1.65;padding-top:22px}
+    .corpo p{margin:0 0 1.1em}
+    .corpo a{color:var(--red-ink);text-decoration:underline;text-underline-offset:3px}
+    .fonte{margin-top:26px;padding:16px;background:var(--surface);border-radius:6px;font-size:.88rem;color:var(--ink-2);display:grid;gap:6px}
+    .fonte b{color:var(--ink)}
+    .fonte a{color:var(--red-ink);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+    .leia{margin-top:34px}
+    .leia a{display:block;padding:12px 0;border-bottom:1px solid var(--rule);font-family:var(--f-head);font-size:1.12rem;font-weight:600;line-height:1.3}
+    .wa-bar{display:none}
+
+    .cids{columns:4 200px;column-gap:28px;padding:8px 0 20px}
+    .cid{break-inside:avoid;padding:8px 0;border-bottom:1px solid var(--rule)}
+    .cid a{font-family:var(--f-head);font-size:1.1rem;font-weight:600}
+    .cid .time{display:block}
+    .h-sec{font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:28px 0 8px;border-bottom:2px solid var(--ink);margin:0 0 4px}
+
+    footer{border-top:3px solid var(--ink);margin-top:30px;padding:22px 0 28px;font-size:.82rem;color:var(--muted)}
+    footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    footer nav{display:flex;gap:16px;flex-wrap:wrap}
+    footer a{color:var(--ink-2);font-weight:600}
+
+    @media (max-width:960px){.capa{grid-template-columns:minmax(0,1fr)}aside.ult{border-left:0;padding-left:0}.blocos{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:680px){
+      .alto,.blocos{grid-template-columns:minmax(0,1fr)}
+      .manchete figure,.materia figure{margin-left:-16px;margin-right:-16px}
+      .manchete .ph,.materia .ph{border-radius:0}
+      .manchete .cred,.materia .cred{padding:0 16px}
+      .byline .share{display:none}
+      .wa-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;gap:10px;align-items:center;justify-content:space-between;background:var(--bg);border-top:1px solid var(--rule);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+      .wa-bar span{font-size:.8rem;color:var(--muted)}
+      body.tem-wa{padding-bottom:72px}
+    }
   </style>
 </head>
-<body>
-  <div class="topbar"><div class="wrap">
-    <div class="ptax">USD: <span id="usd">R$ --</span> EUR: <span id="eur">R$ --</span></div>
-    <div>{{ block "edicao" . }}Brasil · Ao Vivo{{ end }}</div>
-  </div></div>
-  <header>
-    <div class="wrap"><div class="head-main">
-      <a class="brand" href="{{ block "home" . }}https://cnbmobile.com{{ end }}"><span class="logo-badge">CNB</span><span class="logo-txt">NEWS <small>Brasil</small></span></a>
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-        <span class="live-pill"><span class="live-dot"></span> Ao Vivo</span>
-        <input class="search-box" type="search" placeholder="Filtrar notícias..." oninput="filtrarNoticias(this.value)">
-      </div>
-    </div></div>
-    <nav class="city-nav">
-      <div class="wrap" style="display:flex;align-items:center;gap:6px">
-        <a href="https://cnbmobile.com" onclick="return selecionarRegiao(this,'TODAS')" style="font-weight:800;color:#fff;border-bottom-color:var(--red)">Brasil (Todas)</a>
-        <a href="#sudeste" onclick="return selecionarRegiao(this,'Sudeste')">Sudeste</a>
-        <a href="#sul" onclick="return selecionarRegiao(this,'Sul')">Sul</a>
-        <a href="#centro-oeste" onclick="return selecionarRegiao(this,'Centro-Oeste')">Centro-Oeste</a>
-        <a href="#nordeste" onclick="return selecionarRegiao(this,'Nordeste')">Nordeste</a>
-        <a href="#norte" onclick="return selecionarRegiao(this,'Norte')">Norte</a>
-      </div>
-    </nav>
-    <div id="sub-cidades" style="display:none;background:#11151f;border-top:1px solid var(--bd);padding:10px 0">
-      <div class="wrap" id="sub-cidades-lista" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.8rem"></div>
+<body class="{{ block "bodyclass" . }}{{ end }}">
+  <div class="wrap">
+    <div class="dia">
+      <span><strong id="hoje">{{ now.Format "02/01/2006" }}</strong></span>
+      {{ if $slug }}{{ partial "clima.html" $slug }}{{ end }}
     </div>
-  </header>
-  <main class="wrap"><div class="ad-slot">PUBLICIDADE · Espaço Publicitário · CNB News Brasil</div>{{ block "main" . }}{{ end }}</main>
+    <header class="mast">
+      <a class="brand" href="{{ $home }}">
+        <span class="badge">CNB</span>
+        {{ if $cidade }}<span class="city">{{ replaceRE " \\([A-Z]{2}\\)$" "" $cidade }}{{ with findRE "[A-Z]{2}\\)$" $cidade }}<small>{{ trim (index . 0) ")" }}</small>{{ end }}</span>
+        {{ else }}<span class="city">News<small>Brasil</small></span>{{ end }}
+      </a>
+      <a class="trocar" href="https://{{ .Site.Params.baseDomain }}/#cidades">{{ if $cidade }}Trocar cidade{{ else }}Escolher cidade{{ end }}</a>
+    </header>
+  </div>
+  {{ if $slug }}
+  <nav class="nav" aria-label="Editorias de {{ $cidade }}"><ul>
+    <li><a href="{{ $home }}"{{ if not .IsPage }} class="on"{{ end }}>Capa</a></li>
+    {{ range slice "cidade" "policia" "politica" "saude" "educacao" "transito" "empregos" "economia" "servico" "clima" }}<li><a href="{{ $home }}#ed-{{ . }}">{{ partial "editoria-nome.html" . }}</a></li>{{ end }}
+  </ul></nav>
+  {{ end }}
+  <main class="wrap">{{ block "main" . }}{{ end }}</main>
   <footer><div class="wrap">
-    <div><a href="https://cnbmobile.com/sobre/">Sobre & Expediente</a><a href="https://cnbmobile.com/privacidade/">Privacidade</a><a href="https://cnbmobile.com/termos/">Termos</a><a href="https://cnbmobile.com/contato/">Contato</a></div>
-    <div>© 2026 CNB News Brasil</div>
+    <nav><a href="https://{{ .Site.Params.baseDomain }}/sobre/">Sobre e expediente</a><a href="https://{{ .Site.Params.baseDomain }}/privacidade/">Privacidade</a><a href="https://{{ .Site.Params.baseDomain }}/termos/">Termos</a><a href="https://{{ .Site.Params.baseDomain }}/contato/">Contato e correções</a></nav>
+    <span>© {{ now.Format "2006" }} CNB News{{ with $cidade }} · {{ . }}{{ end }}</span>
   </div></footer>
   <script>
-
-    const CIDADES_SITE = [
-      {{ range (site.GetPage "/cidades").Sections.ByTitle }}
-        {{ $s := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
-        { nome: {{ .Title | jsonify }}, url: "https://{{ $s }}.{{ site.Params.baseDomain }}/" },
-      {{ end }}
-    ];
-    const MAPA_REGIAO = {
-      SP:"Sudeste",RJ:"Sudeste",MG:"Sudeste",ES:"Sudeste",
-      PR:"Sul",SC:"Sul",RS:"Sul",
-      DF:"Centro-Oeste",GO:"Centro-Oeste",MT:"Centro-Oeste",MS:"Centro-Oeste",
-      BA:"Nordeste",PE:"Nordeste",CE:"Nordeste",RN:"Nordeste",PB:"Nordeste",AL:"Nordeste",SE:"Nordeste",MA:"Nordeste",PI:"Nordeste",
-      AM:"Norte",PA:"Norte",RO:"Norte",RR:"Norte",AC:"Norte",AP:"Norte",TO:"Norte"
-    };
-    function regiaoDaCidade(titulo){
-      const t = titulo.trim();
-      const uf = t.endsWith(")") ? t.slice(-3, -1) : "";
-      return MAPA_REGIAO[uf] || "";
+  (function(){
+    var NOW = new Date();
+    try{
+      var s = NOW.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+      document.getElementById("hoje").textContent = s.charAt(0).toUpperCase() + s.slice(1);
+    }catch(e){}
+    function rel(d){
+      var m = Math.round((NOW - d)/60000);
+      if (isNaN(m) || m < 0) return null;
+      if (m < 60) return "há " + Math.max(m,1) + " min";
+      var h = Math.round(m/60);
+      if (h < 24) return "há " + h + " h";
+      var dd = Math.round(h/24);
+      return dd === 1 ? "ontem" : "há " + dd + " dias";
     }
-    function selecionarRegiao(el, reg){
-      document.querySelectorAll(".city-nav a").forEach(a => { a.style.borderBottomColor = "transparent"; a.style.color = "#d1d5db"; });
-      el.style.borderBottomColor = "var(--red)";
-      el.style.color = "#fff";
-      const box = document.getElementById("sub-cidades");
-      const lista = document.getElementById("sub-cidades-lista");
-      if(reg === "TODAS"){
-        box.style.display = "none";
-        document.querySelectorAll(".cards .card").forEach(c => c.style.display = "");
-        return !location.hostname.endsWith("cnbmobile.com") || location.hostname.includes(".news.");
-      }
-      const filtradas = CIDADES_SITE.filter(c => regiaoDaCidade(c.nome) === reg);
-      if(filtradas.length){
-        lista.innerHTML = "<strong style='color:var(--red2);text-transform:uppercase;font-size:.72rem;margin-right:6px'>" + reg + " (" + filtradas.length + "):</strong>" +
-          filtradas.map(c => "<a href='" + c.url + "' style='background:var(--card);border:1px solid var(--bd);padding:4px 10px;border-radius:999px;text-decoration:none;color:#f3f4f6;font-weight:600'>" + c.nome + "</a>").join("");
-      } else {
-        lista.innerHTML = "<span style='color:var(--mut)'>Cobertura " + reg + ": novas cidades sendo ativadas em breve.</span>";
-      }
-      box.style.display = "block";
-      document.querySelectorAll(".cards .card").forEach(c => {
-        const k = c.querySelector(".kicker");
-        c.style.display = (k && regiaoDaCidade(k.textContent) === reg) ? "" : "none";
+    document.querySelectorAll("[data-rel]").forEach(function(el){
+      var r = rel(new Date(el.getAttribute("datetime")));
+      if (r) el.textContent = el.textContent + " · " + r;
+    });
+    document.querySelectorAll("[data-wa]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var t = document.querySelector("h1"), txt = (t ? t.textContent.trim() : document.title) + " - " + location.href;
+        window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt), "_blank");
       });
-      return false;
-    }
-    function compartilharWA(el){const box=el.closest("article,.hero"),a=box?box.querySelector("h1 a,h2 a"):null;window.open("https://api.whatsapp.com/send?text="+encodeURIComponent((a?a.textContent.trim():document.title)+" - "+(a?a.href:location.href)),"_blank");return false;}
-    function filtrarNoticias(q){q=q.toLowerCase().trim();document.querySelectorAll(".cards .card").forEach(c=>{c.style.display=c.textContent.toLowerCase().includes(q)?"":"none";});}
-    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/brl.json").then(r=>r.json()).then(d=>{if(d.brl&&d.brl.usd)document.getElementById("usd").textContent="R$ "+(1/d.brl.usd).toFixed(2).replace(".",",");if(d.brl&&d.brl.eur)document.getElementById("eur").textContent="R$ "+(1/d.brl.eur).toFixed(2).replace(".",",");}).catch(()=>{});
+    });
+    document.querySelectorAll("[data-copy]").forEach(function(b){
+      b.addEventListener("click", function(){
+        var ok = function(){ b.textContent = "Link copiado"; };
+        if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(ok, function(){});
+      });
+    });
+  })();
   </script>
+  {{ block "scripts" . }}{{ end }}
 </body>
 </html>
