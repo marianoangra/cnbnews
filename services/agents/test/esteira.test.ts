@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { criarLlm, type Llm } from '../src/ollama.ts';
-import { processarItem } from '../src/orquestrador.ts';
+import { aplicarCorrecoes, processarItem } from '../src/orquestrador.ts';
 import { PROMPT_EDITOR_SEO, PROMPT_REDATOR, PROMPT_REVISOR } from '../src/prompts.ts';
 import { dataBrt, gravar } from '../src/publicador.ts';
 import { coletarFonte, extrairItens, htmlParaTexto, limparRelacionadas } from '../src/rss.ts';
@@ -73,16 +73,44 @@ test('manchete longa: pede de novo ao SEO e, se insistir, corta em 70', async ()
   assert.equal(a.categoria, 'economia', 'categoria fora da lista cai na padrão da fonte');
 });
 
-test('revisor que devolve o texto do molde: segue o texto do redator, com alerta', async () => {
+test('revisor aplica correções pontuais e ignora trecho que não existe no texto', async () => {
   const llm = llmFalso({
     redator: [{ categoria: 'economia', corpo_artigo_markdown: CORPO }],
-    revisor: [{ texto_final_revisado: 'matéria integral corrigida em Markdown', score_risco_juridico: 1, alertas_ao_editor: ['...'] }],
+    revisor: [
+      {
+        correcoes: [
+          { trecho: 'por mais um mês', correcao: 'por mais 30 dias' },
+          { trecho: ', de acordo com a equipe econômica', correcao: '' },
+          { trecho: 'frase que o modelo inventou e não está lá', correcao: 'x' },
+        ],
+        score_risco_juridico: 1,
+        alertas_ao_editor: ['...'],
+      },
+    ],
+    seo: [{ manchete_home: 'Governo prorroga subsídio ao diesel por mais 30 dias', subtitulo: 'Medida evita alta nas bombas em dezembro' }],
+  });
+  const a = await processarItem(item, llm);
+  assert.match(a.corpo_artigo_md, /por mais 30 dias a subvenção/);
+  assert.match(a.corpo_artigo_md, /R\$ 1,2 bilhão\./);
+  assert.ok(!a.corpo_artigo_md.includes('equipe econômica'));
+  assert.ok(a.motivos_revisao.some((m) => m.includes('1 correção(ões) ignorada(s)')));
+  assert.ok(!a.motivos_revisao.some((m) => m.includes('...')));
+});
+
+test('revisor sem correções (ou só com molde) mantém o texto do redator', async () => {
+  const llm = llmFalso({
+    redator: [{ corpo_artigo_markdown: CORPO }],
+    revisor: [{ correcoes: [{ trecho: '...', correcao: '...' }], score_risco_juridico: 1 }],
     seo: [{ manchete_home: 'Governo prorroga subsídio ao diesel por mais 30 dias', subtitulo: 'Medida evita alta nas bombas em dezembro' }],
   });
   const a = await processarItem(item, llm);
   assert.equal(a.corpo_artigo_md.startsWith(CORPO), true);
-  assert.ok(a.motivos_revisao.some((m) => m.includes('texto do redator')));
-  assert.ok(!a.motivos_revisao.some((m) => m.includes('...')));
+});
+
+test('revisor que tenta reescrever mais de 40% não altera nada e manda para aprovação', () => {
+  const r = aplicarCorrecoes(CORPO, [{ trecho: CORPO.slice(0, Math.ceil(CORPO.length * 0.5)), correcao: 'outra coisa' }]);
+  assert.equal(r.excedeu, true);
+  assert.equal(r.corpo, CORPO);
 });
 
 test('manchete com texto do molde é rejeitada', async () => {

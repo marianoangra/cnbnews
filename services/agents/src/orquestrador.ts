@@ -101,20 +101,16 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
     promptRevisao(original, redacao.corpo),
     (x) => {
       const o = objeto(x);
-      // Plano B: se o revisor não devolver um texto utilizável, segue o do redator,
-      // mas a nota de risco e os alertas dele continuam valendo.
-      let corpo: string;
+      // O revisor NÃO reescreve a matéria (o modelo pequeno falhava em devolver o texto
+      // inteiro): aponta correções pontuais e o código aplica só as que batem com o texto.
       const alertas = listaTexto(o, 'alertas_ao_editor').filter((a) => !pareceMolde(a) && a !== '...');
-      try {
-        corpo = texto(o, 'texto_final_revisado', 200);
-      } catch {
-        corpo = redacao.corpo;
-        alertas.push('revisor não devolveu o texto revisado; publicado o texto do redator');
-      }
+      const r = aplicarCorrecoes(redacao.corpo, lerCorrecoes(o.correcoes));
+      if (r.ignoradas > 0) alertas.push(`revisor: ${r.ignoradas} correção(ões) ignorada(s) (trecho não encontrado no texto)`);
+      if (r.excedeu) alertas.push('revisor tentou alterar mais de 40% da matéria; correções não aplicadas');
       return {
-        corpo,
+        corpo: r.corpo,
         score: numero(o, 'score_risco_juridico', 3),
-        humano: booleano(o, 'requer_aprovacao_humana'),
+        humano: booleano(o, 'requer_aprovacao_humana') || r.excedeu,
         alertas,
       };
     },
@@ -171,6 +167,47 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
     autor_atribuicao: AUTOR_PADRAO,
     publicado_em: new Date().toISOString(),
   };
+}
+
+export interface Correcao {
+  trecho: string;
+  correcao: string;
+}
+
+export function lerCorrecoes(v: unknown): Correcao[] {
+  if (!Array.isArray(v)) return [];
+  const out: Correcao[] = [];
+  for (const c of v.slice(0, 8)) {
+    if (typeof c !== 'object' || c === null) continue;
+    const { trecho, correcao } = c as Record<string, unknown>;
+    if (typeof trecho !== 'string' || typeof correcao !== 'string') continue;
+    out.push({ trecho: trecho.trim(), correcao: correcao.trim() });
+  }
+  return out;
+}
+
+const LIMITE_ALTERACAO = 0.4;
+
+// Aplica só correções cujo trecho existe literalmente no texto. Apagar = correcao vazia.
+// Se a soma do que mudaria passar de 40% do texto, não aplica nada (vai para revisão humana).
+export function aplicarCorrecoes(
+  corpo: string,
+  correcoes: Correcao[],
+): { corpo: string; aplicadas: number; ignoradas: number; excedeu: boolean } {
+  const validas: Correcao[] = [];
+  let ignoradas = 0;
+  for (const c of correcoes) {
+    const util = c.trecho.length >= 8 && c.trecho !== c.correcao && !pareceMolde(c.trecho) && !pareceMolde(c.correcao);
+    if (util && corpo.includes(c.trecho)) validas.push(c);
+    else if (c.trecho) ignoradas++;
+  }
+  const alterado = validas.reduce((n, c) => n + c.trecho.length, 0);
+  if (alterado > corpo.length * LIMITE_ALTERACAO) return { corpo, aplicadas: 0, ignoradas, excedeu: true };
+  let novo = corpo;
+  for (const c of validas) novo = novo.replace(c.trecho, c.correcao);
+  // apagar um trecho pode deixar espaço duplo ou espaço antes de pontuação
+  novo = novo.replace(/[ \t]{2,}/g, ' ').replace(/ +([.,;:!?])/g, '$1');
+  return { corpo: novo, aplicadas: validas.length, ignoradas, excedeu: false };
 }
 
 // O trecho citado pela triagem existe mesmo no texto? (citação, não paráfrase nem invenção)

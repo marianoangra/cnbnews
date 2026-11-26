@@ -33,14 +33,22 @@ VERIFIQUE:
 3. Presunção de inocência e proteção de menores (ECA).
 4. Risco jurídico de 1 (cotidiano) a 5 (crítico: acusações, crimes, mortes, menores).
 
+NÃO reescreva a matéria. Aponte só o que precisa mudar, como uma lista de correções:
+- "trecho": as palavras EXATAS da MATÉRIA A REVISAR que estão erradas (copie igualzinho, de 3 a 40 palavras).
+- "correcao": como esse trecho deve ficar. Para APAGAR um fato que não está no texto original, deixe "correcao" vazio.
+Se a matéria estiver certa, devolva "correcoes" vazia. No máximo 8 correções.
+
 CAMPOS DA RESPOSTA:
-- texto_final_revisado: a MATÉRIA A REVISAR inteira, palavra por palavra, já com as suas correções aplicadas. Nunca resuma e nunca descreva o texto: devolva o próprio texto.
+- correcoes: lista de {"trecho": "", "correcao": ""}.
 - score_risco_juridico: número inteiro de 1 a 5.
 - requer_aprovacao_humana: true ou false.
 - alertas_ao_editor: lista de avisos curtos (vazia se não houver).
 
+EXEMPLO (matéria dizia "o prefeito culpado pelo desvio" e o original não dava a data citada):
+{"correcoes": [{"trecho": "o prefeito culpado pelo desvio", "correcao": "o prefeito investigado pelo suposto desvio"}, {"trecho": "na última terça-feira (12)", "correcao": ""}], "score_risco_juridico": 4, "requer_aprovacao_humana": true, "alertas_ao_editor": ["acusação sem condenação"]}
+
 Responda SOMENTE com um JSON neste formato, preenchendo os valores:
-{"texto_final_revisado": "", "score_risco_juridico": 1, "requer_aprovacao_humana": false, "alertas_ao_editor": []}`;
+{"correcoes": [], "score_risco_juridico": 1, "requer_aprovacao_humana": false, "alertas_ao_editor": []}`;
 
 export const PROMPT_EDITOR_SEO = `Você é o Editor de Capa e SEO do portal cnbmobile.com.
 
