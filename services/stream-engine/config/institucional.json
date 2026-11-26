@@ -1,0 +1,17 @@
+[
+  {
+    "id": "institucional/o-que-e",
+    "titulo": "CNB News: notícias das cidades, 24 horas por dia",
+    "resumo": "A CNB News acompanha o que acontece em dezenas de cidades do Sul e do Sudeste e reúne as principais notícias do Brasil, com resumos rápidos e a fonte de cada informação."
+  },
+  {
+    "id": "institucional/cidades",
+    "titulo": "As cidades que a CNB News acompanha",
+    "resumo": "{cidades}"
+  },
+  {
+    "id": "institucional/site",
+    "titulo": "Leia as matérias completas em cnbmobile.com",
+    "resumo": "Cada notícia que aparece aqui tem a matéria completa no portal, com a fonte original. Acesse cnbmobile.com e escolha a sua cidade."
+  }
+]
