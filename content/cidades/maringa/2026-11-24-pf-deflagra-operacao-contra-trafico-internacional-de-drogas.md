@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMi9AFBVV95cUxOOVNPRE53bWhPVVU
 draft: false
 ---
 
-['A Polícia Federal deflagrou uma operação específica para combater o tráfico internacional de drogas em Umuarama, região do Paraná, reforçando ações de segurança pública que impactam diretamente na qualidade de vida dos moradores.', 'Essa iniciativa é um exemplo concreto de serviço ao cidadão, ao garantir que as comunidades sejam protegidas contra atividades ilícitas que comprometem a saúde e a segurança coletiva. A colaboração entre as instituições de segurança e a população é essencial para o sucesso dessas ações.']
+
+A Polícia Federal deflagrou uma operação específica para combater o tráfico internacional de drogas em Umuarama, região do Paraná, reforçando ações de segurança pública que impactam diretamente na qualidade de vida dos moradores.
+
+Essa iniciativa é um exemplo concreto de serviço ao cidadão, ao garantir que as comunidades sejam protegidas contra atividades ilícitas que comprometem a saúde e a segurança coletiva. A colaboração entre as instituições de segurança e a população é essencial para o sucesso dessas ações.

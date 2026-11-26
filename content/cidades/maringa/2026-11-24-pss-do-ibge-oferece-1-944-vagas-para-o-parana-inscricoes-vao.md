@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMirAFBVV95cUxOMXFzM2VTeGNfUHZ
 draft: false
 ---
 
-['O IBGE está realizando uma seleção para 1.944 vagas no Paraná até o dia 25, com o objetivo de fortalecer a coleta de informações que sustentam políticas públicas e serviços diretos à população.', 'A participação de profissionais qualificados nesse processo contribui para a melhoria da qualidade dos dados estatísticos, permitindo decisões mais precisas e alinhadas às necessidades reais dos cidadãos.', 'Cidadãos que desejam atuar no setor público podem se inscrever até o prazo estipulado, garantindo que o Paraná continue a oferecer serviços estatísticos de qualidade para o bem-estar coletivo.']
+
+O IBGE está realizando uma seleção para 1.944 vagas no Paraná até o dia 25, com o objetivo de fortalecer a coleta de informações que sustentam políticas públicas e serviços diretos à população.
+
+A participação de profissionais qualificados nesse processo contribui para a melhoria da qualidade dos dados estatísticos, permitindo decisões mais precisas e alinhadas às necessidades reais dos cidadãos.
+
+Cidadãos que desejam atuar no setor público podem se inscrever até o prazo estipulado, garantindo que o Paraná continue a oferecer serviços estatísticos de qualidade para o bem-estar coletivo.

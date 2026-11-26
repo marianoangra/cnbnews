@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMi_wFBVV95cUxQa0JaNXZEcngwS05
 draft: false
 ---
 
-['De acordo com a previsão do G1, hoje em Maringá (PR) haverá sol com muitas nuvens, seguido de pancadas de chuva à tarde e à noite. Essa informação é relevante para que os cidadãos possam se preparar para as condições climáticas do dia.', 'O serviço de previsão climática do G1 contribui para o bem-estar dos moradores ao fornecer dados atualizados sobre as condições climáticas. Ao informar sobre possíveis pancadas de chuva, o G1 permite que os cidadãos ajustem suas atividades e evitem riscos.']
+
+De acordo com a previsão do G1, hoje em Maringá (PR) haverá sol com muitas nuvens, seguido de pancadas de chuva à tarde e à noite. Essa informação é relevante para que os cidadãos possam se preparar para as condições climáticas do dia.
+
+O serviço de previsão climática do G1 contribui para o bem-estar dos moradores ao fornecer dados atualizados sobre as condições climáticas. Ao informar sobre possíveis pancadas de chuva, o G1 permite que os cidadãos ajustem suas atividades e evitem riscos.

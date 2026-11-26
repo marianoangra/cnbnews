@@ -68,12 +68,34 @@ def slugify(texto):
     texto = re.sub(r"[^a-z0-9]+", "-", texto).strip("-")
     return texto[:65].rstrip("-") or "noticia"
 
-def extrair_palavras_chave(texto):
+def extrair_palavras_chave(texto, ignorar=""):
+    """Palavras de 4+ letras sem stopwords. `ignorar` = nome da cidade: aparece em
+    todo título da pasta e inflava a semelhança (falso duplicado e falso inédito)."""
     t = normalizar(texto)
-    return {p for p in re.findall(r"[a-z]{4,}", t) if p not in STOPWORDS}
+    fora = STOPWORDS | set(re.findall(r"[a-z]{4,}", normalizar(ignorar)))
+    return {p for p in re.findall(r"[a-z]{4,}", t) if p not in fora}
 
-def eh_duplicada(pasta, titulo_novo):
-    chaves_novas = extrair_palavras_chave(titulo_novo)
+def _ler_front_matter(caminho):
+    """(title, fonte_url) do front matter de uma matéria já gravada."""
+    title, url = "", ""
+    try:
+        with open(caminho, encoding="utf-8") as f:
+            for i, linha in enumerate(f):
+                if i > 30 or (i > 0 and linha.startswith("---")):
+                    break
+                if linha.startswith("title:"):
+                    title = linha[6:].strip().strip('"')
+                elif linha.startswith("fonte_url:"):
+                    url = linha[10:].strip().strip('"')
+    except OSError:
+        pass
+    return title, url
+
+def eh_duplicada(pasta, titulo_novo, fonte_url="", cidade=""):
+    """Compara com os TÍTULOS gravados (front matter), não só com o nome do arquivo,
+    que corta em 65 caracteres. Chamada duas vezes: com a manchete da fonte e,
+    depois da IA, com o título reescrito (as duas versões da mesma pauta escapavam)."""
+    chaves_novas = extrair_palavras_chave(titulo_novo, cidade)
     if len(chaves_novas) < 2:
         return True
     # também olha a fila de aprovação: senão a mesma pauta sensível é regerada a cada ciclo
@@ -81,15 +103,19 @@ def eh_duplicada(pasta, titulo_novo):
     arquivos = []
     for d in (pasta, fila):
         if os.path.isdir(d):
-            arquivos += [f for f in os.listdir(d) if f.endswith(".md") and f != "_index.md"]
-    arquivos = sorted(arquivos, reverse=True)[:60]
+            arquivos += [os.path.join(d, f) for f in os.listdir(d) if f.endswith(".md") and f != "_index.md"]
+    arquivos = sorted(arquivos, key=os.path.basename, reverse=True)[:80]
     for arq in arquivos:
-        chaves_existentes = extrair_palavras_chave(arq)
-        if not chaves_existentes:
-            continue
-        intersecao = chaves_novas.intersection(chaves_existentes)
-        if len(intersecao) / min(len(chaves_novas), len(chaves_existentes)) >= 0.50:
+        title, url = _ler_front_matter(arq)
+        if fonte_url and url == fonte_url:
             return True
+        for referencia in (title, os.path.basename(arq)[11:-3]):
+            chaves_existentes = extrair_palavras_chave(referencia, cidade)
+            if len(chaves_existentes) < 2:
+                continue
+            intersecao = chaves_novas.intersection(chaves_existentes)
+            if len(intersecao) >= 2 and len(intersecao) / min(len(chaves_novas), len(chaves_existentes)) >= 0.50:
+                return True
     return False
 
 # ---------------------------------------------------------------------------
@@ -156,11 +182,16 @@ def avaliar_sensibilidade(title, desc, texto):
 def precisa_contraditorio(title, desc, texto):
     return bool(_RE_ACUSACAO.search(normalizar(f"{title}\n{desc}\n{texto}")))
 
-def pauta_eh_valida_para_cidade(cidade_nome, manchete):
+def fonte_eh_da_cidade(cidade_nome, fonte):
+    """Veículo/órgão da própria cidade (ex.: "Prefeitura de Pelotas", "Câmara de Curitiba")."""
+    return normalizar(cidade_nome.split("(")[0].strip()) in normalizar(fonte)
+
+def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte=""):
     cidade_pura = cidade_nome.split("(")[0].strip()
     c_norm = normalizar(cidade_pura)
     m_norm = normalizar(manchete)
-    if c_norm not in m_norm:
+    # a Prefeitura de Pelotas não escreve "Pelotas" no título das próprias notícias
+    if c_norm not in m_norm and not fonte_eh_da_cidade(cidade_nome, fonte):
         return False
     if len(m_norm.split()) < 5:
         return False
@@ -171,7 +202,68 @@ def pauta_eh_valida_para_cidade(cidade_nome, manchete):
         return False
     return True
 
+def como_texto(valor):
+    """O qwen3 às vezes devolve o artigo como LISTA de parágrafos (JSON array) ou como
+    a string "['par 1', 'par 2']" — saía no site como lista Python. Junta em parágrafos."""
+    if isinstance(valor, (list, tuple)):
+        return "\n\n".join(como_texto(v) for v in valor if str(v).strip())
+    if isinstance(valor, dict):
+        return "\n\n".join(como_texto(v) for v in valor.values() if str(v).strip())
+    txt = str(valor or "").strip()
+    if txt[:2] in ("['", '["') and txt.endswith("]"):
+        try:
+            import ast
+            lista = ast.literal_eval(txt)
+            if isinstance(lista, list):
+                return como_texto(lista)
+        except (ValueError, SyntaxError):
+            pass
+    return txt
+
+_RE_VEICULOS = re.compile(
+    r"(g1|ge|gzh|uol|r7|terra|cnn|folha|estadao|meon|band|record|sbt|globo|rpc|ric|nsc|bem parana"
+    r"|banda b|tribuna|gazeta|diario|jornal|radio|tv |portal|prefeitura|camara|pci concursos"
+    r"|concursos|noticias|news|agencia|online|\.com)"
+)
+
+def tirar_veiculo_do_titulo(titulo, fonte):
+    """Tira o ' - Nome do Veículo' / ' | Veículo' do fim do título (vinha do Google News
+    ou a IA colava a fonte de volta). Só corta se o pedaço for a fonte ou um veículo."""
+    titulo = titulo.strip()
+    for _ in range(2):
+        m = re.match(r"^(.{25,}?)\s+[-|–—]\s+([^-|–—]{2,60})$", titulo)
+        if not m:
+            break
+        sufixo = normalizar(m.group(2))
+        if sufixo == normalizar(fonte) or (len(sufixo.split()) <= 6 and _RE_VEICULOS.search(sufixo)):
+            titulo = m.group(1).strip()
+        else:
+            break
+    return titulo
+
+def _numeros(txt):
+    """Números do texto normalizados (9.921,22 -> 992122; 4º -> 4)."""
+    return {re.sub(r"\D", "", n) for n in re.findall(r"\d[\d.,]*\d|\d", txt)}
+
+def checar_fatos(manchete, fonte, data_hoje, title, desc, texto, cidade_nome=""):
+    """Travas anti-alucinação. O modelo só recebe a MANCHETE: todo número e todo nome
+    do texto tem que sair dela. Devolve o motivo do descarte ou None."""
+    permitidos = _numeros(manchete) | _numeros(data_hoje) | {data_hoje[-4:], data_hoje[-2:]}
+    for n in _numeros(f"{title}\n{desc}\n{texto}"):
+        if len(n) >= 2 and n not in permitidos:
+            return f"número que não está na manchete ({n})"
+    # "Hospital GZH": a IA transformava o nome do veículo em instituição da cidade.
+    # A fonte só pode aparecer no parágrafo de atribuição (o último), salvo se já está na manchete.
+    # Fonte que é órgão da cidade (Prefeitura de X) pode aparecer: ela é a autora do fato.
+    f_norm = normalizar(fonte)
+    if f_norm and f_norm not in normalizar(manchete) and not fonte_eh_da_cidade(cidade_nome or "-", fonte):
+        corpo_sem_atribuicao = "\n\n".join(texto.split("\n\n")[:-1])
+        if re.search(r"\b" + re.escape(f_norm) + r"\b", normalizar(f"{title}\n{desc}\n{corpo_sem_atribuicao}")):
+            return f"nome da fonte ({fonte}) usado como fato"
+    return None
+
 def limpar_texto_ia(txt):
+    txt = como_texto(txt)
     txt = re.sub(r"\b2\.0(2[0-9]|3[0-9])\b", r"20\1", txt)
     txt = re.sub(r"\((\d)\.(\d)\)", r"(\1\2)", txt)
     txt = re.sub(r"\s[-|]\s(MEON|ge|spriomais|Nova Concursos|JC Concursos|Estratégia Concursos|Central de Concursos|G1|UOL|R7|Terra|CNN|Folha|Estadão).*$", "", txt, flags=re.I)
@@ -202,7 +294,7 @@ def buscar_pautas_oficiais(cidade_nome, query_cidade):
                 if not t_limpo or t_limpo in vistos:
                     continue
                 vistos.add(t_limpo)
-                if pauta_eh_valida_para_cidade(cidade_nome, t_limpo):
+                if pauta_eh_valida_para_cidade(cidade_nome, t_limpo, fonte):
                     itens.append((t_limpo, link, fonte))
                 else:
                     print(f"[FILTRO] Descartando pauta sem foco local: {t_limpo[:55]}...", flush=True)
@@ -222,22 +314,23 @@ Veículo/Fonte: {fonte}
 
 REGRAS ANTI-ALUCINAÇÃO (OBRIGATÓRIAS):
 - Se a manchete NÃO for uma notícia real ocorrida em {cidade_nome} (por exemplo, página institucional, login, atendimento genérico ou notícia de outra cidade), responda APENAS: {{"valido": false}}
-- NUNCA invente datas (como dias da semana ou meses diferentes de {data_hoje}), números, leis, nomes de programas ou prefeituras de outras cidades.
-- Use estritamente o que está implícito na manchete e o contexto jornalístico factual de {cidade_nome}.
+- NUNCA invente datas (como dias da semana ou meses diferentes de {data_hoje}), números, valores, horários, telefones, endereços, nomes de pessoas, leis, nomes de programas ou prefeituras de outras cidades. Todo número do texto tem que estar na manchete.
+- "{fonte}" é o VEÍCULO que publicou a notícia, não um lugar nem uma instituição da cidade. Cite "{fonte}" só no 3º parágrafo, como fonte.
+- Use estritamente o que está na manchete. Se faltar detalhe, escreva de forma geral em vez de inventar.
 
 FORMATO DE SAÍDA (JSON válido):
 - "valido": true
-- "title": Título jornalístico claro e objetivo (55 a 85 caracteres), mencionando {cidade_pura}.
+- "title": Título jornalístico claro e objetivo (55 a 85 caracteres), mencionando {cidade_pura}, sem o nome do veículo no fim.
 - "description": Lide em 1 frase objetiva (110 a 170 caracteres) sem repetir o título.
-- "artigo": Texto jornalístico em 3 parágrafos curtos e bem escritos (500 a 800 caracteres no total), separados por quebra de linha dupla (\\n\\n):
+- "artigo": UMA string (não lista) com o texto jornalístico em 3 parágrafos curtos e bem escritos (500 a 800 caracteres no total), separados por quebra de linha dupla (\\n\\n):
   1º parágrafo: O fato principal ocorrido em {cidade_nome}.
-  2º parágrafo: Impacto prático e orientações gerais para os moradores da cidade.
+  2º parágrafo: O que isso significa para os moradores, sem acrescentar fatos, números ou nomes que não estão na manchete.
   3º parágrafo: Registro da fonte ({fonte}) e recomendação para acompanhar atualizações oficiais.
 
 Responda EXCLUSIVAMENTE o JSON válido."""
 
     payload = json.dumps({
-        "model": "qwen3:4b",
+        "model": os.environ.get("ROBO_MODELO", "qwen3:4b"),
         "prompt": prompt,
         "stream": False,
         "think": False,
@@ -245,7 +338,7 @@ Responda EXCLUSIVAMENTE o JSON válido."""
         "options": {"temperature": 0.15, "top_p": 0.85, "repeat_penalty": 1.15, "num_ctx": 4096}
     }).encode("utf-8")
 
-    req = urllib.request.Request("http://127.0.0.1:11434/api/generate", data=payload, headers={"Content-Type": "application/json"})
+    req = urllib.request.Request(os.environ.get("ROBO_OLLAMA_URL", "http://127.0.0.1:11434") + "/api/generate", data=payload, headers={"Content-Type": "application/json"})
     # 600 s: logo após o boot o qwen3:4b leva >90 s para sair do pendrive para a GPU;
     # se o cliente desiste antes, o Ollama ABORTA o carregamento e o ciclo nunca termina.
     resp = json.loads(urllib.request.urlopen(req, timeout=600).read().decode("utf-8"))
@@ -253,7 +346,7 @@ Responda EXCLUSIVAMENTE o JSON válido."""
     if not dados.get("valido", True):
         return None, None, None
     return (
-        limpar_texto_ia(dados["title"]),
+        tirar_veiculo_do_titulo(limpar_texto_ia(dados["title"]), fonte),
         limpar_texto_ia(dados["description"]),
         limpar_texto_ia(dados["artigo"])
     )
@@ -303,7 +396,7 @@ def rodar_ciclo():
 
         print(f"[CIDADE] Coletando pautas de {nome}...", flush=True)
         for manchete, link, fonte in buscar_pautas_oficiais(nome, query):
-            if eh_duplicada(pasta, manchete):
+            if eh_duplicada(pasta, manchete, link, nome.split("(")[0]):
                 print(f"[DUPLICADA] Ignorando: {manchete[:50]}...", flush=True)
                 continue
             print(f"[REDIGINDO {slug}] {manchete[:55]}...", flush=True)
@@ -312,6 +405,13 @@ def rodar_ciclo():
                 title, desc, texto = redigir_com_ia(nome, manchete, fonte, agora.strftime("%d/%m/%Y"))
                 if not title or not texto:
                     print("[IA REJEITOU] Pauta considerada invalida/nao-local pela IA.", flush=True)
+                    continue
+                if eh_duplicada(pasta, title, "", nome.split("(")[0]):
+                    print(f"[DUPLICADA] Título reescrito repete matéria já publicada: {title[:50]}...", flush=True)
+                    continue
+                motivo = checar_fatos(manchete, fonte, agora.strftime("%d/%m/%Y"), title, desc, texto, nome)
+                if motivo:
+                    print(f"[DESCARTADO] {motivo}: {title[:50]}...", flush=True)
                     continue
                 low_check = (title + " " + texto).lower()
                 if len(texto) < 380 or len(desc) < 60 or any(w in low_check for w in [" the ", " with ", " from ", " are ", "<think>", "oitos", "oitavos"]):

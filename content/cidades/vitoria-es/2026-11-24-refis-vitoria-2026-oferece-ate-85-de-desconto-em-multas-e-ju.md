@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMirAFBVV95cUxPSTc0T3V1c2JLNVh
 draft: false
 ---
 
-['O REFIS Vitória 2026 oferece descontos de até 85% em multas e juros, permitindo que os cidadãos reduzam significativamente o valor devido em suas dívidas. Essa medida facilita o acesso aos serviços públicos e garante que os contribuintes possam resolver questões fiscais de forma mais rápida e eficiente.', 'A iniciativa reflete o compromisso da prefeitura com a transparência e a eficiência no atendimento ao cidadão, promovendo um ambiente de confiança e responsabilidade mútua. Ao oferecer benefícios diretos para os contribuintes, o programa contribui para a melhoria da qualidade de vida na cidade.']
+
+O REFIS Vitória 2026 oferece descontos de até 85% em multas e juros, permitindo que os cidadãos reduzam significativamente o valor devido em suas dívidas. Essa medida facilita o acesso aos serviços públicos e garante que os contribuintes possam resolver questões fiscais de forma mais rápida e eficiente.
+
+A iniciativa reflete o compromisso da prefeitura com a transparência e a eficiência no atendimento ao cidadão, promovendo um ambiente de confiança e responsabilidade mútua. Ao oferecer benefícios diretos para os contribuintes, o programa contribui para a melhoria da qualidade de vida na cidade.

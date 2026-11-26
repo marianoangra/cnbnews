@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMiygFBVV95cUxOQVNlS3Nubm40emR
 draft: false
 ---
 
-['Após a tempestade que atingiu 19,6 mil pessoas em 33 cidades do Rio Grande do Sul, é essencial que os serviços públicos implementem medidas imediatas para garantir a segurança dos cidadãos e atender às necessidades emergenciais.', 'Equipes de emergência e órgãos governamentais estão sendo mobilizados para oferecer apoio a quem se encontra em situação de risco, incluindo orientações e acesso a recursos essenciais.', 'Cidadãos devem se manter informados sobre as ações das autoridades e cooperar com iniciativas de segurança coletiva para minimizar os impactos da tempestade.']
+
+Após a tempestade que atingiu 19,6 mil pessoas em 33 cidades do Rio Grande do Sul, é essencial que os serviços públicos implementem medidas imediatas para garantir a segurança dos cidadãos e atender às necessidades emergenciais.
+
+Equipes de emergência e órgãos governamentais estão sendo mobilizados para oferecer apoio a quem se encontra em situação de risco, incluindo orientações e acesso a recursos essenciais.
+
+Cidadãos devem se manter informados sobre as ações das autoridades e cooperar com iniciativas de segurança coletiva para minimizar os impactos da tempestade.

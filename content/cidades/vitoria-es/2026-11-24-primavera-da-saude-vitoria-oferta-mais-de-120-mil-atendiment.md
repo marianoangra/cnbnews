@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQRDNnM19UMWxSaGJ
 draft: false
 ---
 
-['A Prefeitura de Vitória realiza, aos sábados, a **Primavera da Saúde**, evento que atende mais de 120 mil cidadãos em 29 unidades de saúde da cidade. A iniciativa busca garantir proximidade e acessibilidade à saúde, permitindo que a população utilize serviços essenciais em horários convenientes.', 'Essa ação demonstra o compromisso da gestão municipal em oferecer atendimentos eficientes e acessíveis, facilitando a participação de todos, especialmente aqueles que enfrentam barreiras para acessar serviços de saúde.', 'A iniciativa reforça a importância de políticas públicas que garantam o direito à saúde, contribuindo para o bem-estar e inclusão social da comunidade vitoriana.']
+
+A Prefeitura de Vitória realiza, aos sábados, a **Primavera da Saúde**, evento que atende mais de 120 mil cidadãos em 29 unidades de saúde da cidade. A iniciativa busca garantir proximidade e acessibilidade à saúde, permitindo que a população utilize serviços essenciais em horários convenientes.
+
+Essa ação demonstra o compromisso da gestão municipal em oferecer atendimentos eficientes e acessíveis, facilitando a participação de todos, especialmente aqueles que enfrentam barreiras para acessar serviços de saúde.
+
+A iniciativa reforça a importância de políticas públicas que garantam o direito à saúde, contribuindo para o bem-estar e inclusão social da comunidade vitoriana.

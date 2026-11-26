@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNNlF5MWZ0OElmZm9
 draft: false
 ---
 
-['Um forte vento derrubou uma árvore gigante de Natal em um cartão-postal de Maringá, o que exige atenção para garantir a segurança do espaço público.', 'A prefeitura está monitorando a situação e priorizando medidas que protejam os cidadãos, mantendo a transparência nos processos de recuperação.', 'A comunidade é incentivada a relatar possíveis riscos, contribuindo para a segurança coletiva e a preservação de áreas importantes.']
+
+Um forte vento derrubou uma árvore gigante de Natal em um cartão-postal de Maringá, o que exige atenção para garantir a segurança do espaço público.
+
+A prefeitura está monitorando a situação e priorizando medidas que protejam os cidadãos, mantendo a transparência nos processos de recuperação.
+
+A comunidade é incentivada a relatar possíveis riscos, contribuindo para a segurança coletiva e a preservação de áreas importantes.

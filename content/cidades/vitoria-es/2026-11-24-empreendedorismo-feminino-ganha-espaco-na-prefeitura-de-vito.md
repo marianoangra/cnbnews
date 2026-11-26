@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPUjJtdlVWQW5zbjV
 draft: false
 ---
 
-['Durante os 16 Dias de Ativismo, a Prefeitura de Vitória está ampliando o espaço para o empreendedorismo feminino, integrando mulheres em projetos que visam a inclusão social e a participação cidadã.', 'Essa abordagem fortalece o serviço ao cidadão, ao promover um ambiente em que as mulheres possam contribuir com suas habilidades e conhecimentos para a construção de políticas públicas e serviços comunitários.', 'Ao valorizar o empreendedorismo feminino, a Prefeitura reforça a equidade e a justiça social, garantindo que o desenvolvimento local seja inclusivo e sustentável.']
+
+Durante os 16 Dias de Ativismo, a Prefeitura de Vitória está ampliando o espaço para o empreendedorismo feminino, integrando mulheres em projetos que visam a inclusão social e a participação cidadã.
+
+Essa abordagem fortalece o serviço ao cidadão, ao promover um ambiente em que as mulheres possam contribuir com suas habilidades e conhecimentos para a construção de políticas públicas e serviços comunitários.
+
+Ao valorizar o empreendedorismo feminino, a Prefeitura reforça a equidade e a justiça social, garantindo que o desenvolvimento local seja inclusivo e sustentável.

@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMigAJBVV95cUxON2tnRFZZcHBVRV9
 draft: false
 ---
 
-['De acordo com a informação da G1, a Prefeitura de Taubaté implementou o uso de reconhecimento facial como método de controle de ponto para servidores, substituindo o sistema digital atual. Essa medida busca melhorar a eficiência na gestão interna da administração pública.', 'A modernização dos processos administrativos pode contribuir para a qualidade dos serviços oferecidos aos cidadãos, garantindo maior transparência e agilidade nas ações da prefeitura.']
+
+De acordo com a informação da G1, a Prefeitura de Taubaté implementou o uso de reconhecimento facial como método de controle de ponto para servidores, substituindo o sistema digital atual. Essa medida busca melhorar a eficiência na gestão interna da administração pública.
+
+A modernização dos processos administrativos pode contribuir para a qualidade dos serviços oferecidos aos cidadãos, garantindo maior transparência e agilidade nas ações da prefeitura.
