@@ -37,7 +37,7 @@ test('sincronizar: origem inacessível não lança e mantém o conteúdo antigo'
   const destino = join(await mkdtemp(join(tmpdir(), 'cnb-dest-')), 'repo');
   await sincronizar(src, destino);
   git(destino, 'remote', 'set-url', 'origin', join(tmpdir(), 'nao-existe-cnb'));
-  const r = await sincronizar(src.replace(/.$/, 'X'), destino);
+  const r = await sincronizar(join(tmpdir(), 'nao-existe-cnb-' + Date.now()), destino);
   assert.equal(r.ok, false);
   assert.ok(r.erro);
   assert.equal(await readFile(join(destino, 'a.md'), 'utf8'), 'um');
