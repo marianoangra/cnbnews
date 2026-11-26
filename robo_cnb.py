@@ -87,7 +87,7 @@ def eh_duplicada(pasta, titulo_novo):
     return False
 
 def pauta_eh_valida_para_cidade(cidade_nome, manchete):
-    cidade_pura = cidade_nome.split("(")[0][0].strip()
+    cidade_pura = cidade_nome.split("(")[0].strip()
     c_norm = normalizar(cidade_pura)
     m_norm = normalizar(manchete)
     if c_norm not in m_norm:
@@ -110,7 +110,7 @@ def limpar_texto_ia(txt):
 
 def buscar_pautas_oficiais(cidade_nome, query_cidade):
     hdr = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
-    cidade_pura = cidade_nome.split("(")[0][0].strip()
+    cidade_pura = cidade_nome.split("(")[0].strip()
     consultas = [
         f'"{cidade_pura}" prefeitura OR obras OR saude OR concurso OR policia when:7d',
         f'"{cidade_pura}" noticias OR edital OR transito OR educacao when:7d'
@@ -143,7 +143,7 @@ def buscar_pautas_oficiais(cidade_nome, query_cidade):
     return itens[:3]
 
 def redigir_com_ia(cidade_nome, manchete, fonte, data_hoje):
-    cidade_pura = cidade_nome.split("(")[0][0].strip()
+    cidade_pura = cidade_nome.split("(")[0].strip()
     prompt = f"""Você é editor-chefe de jornalismo local no Brasil. Hoje é {data_hoje}.
 Reescreva a notícia abaixo exclusivamente com base nos fatos da manchete sobre {cidade_nome}.
 
