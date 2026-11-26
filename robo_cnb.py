@@ -76,7 +76,13 @@ def eh_duplicada(pasta, titulo_novo):
     chaves_novas = extrair_palavras_chave(titulo_novo)
     if len(chaves_novas) < 2:
         return True
-    arquivos = sorted([f for f in os.listdir(pasta) if f.endswith(".md") and f != "_index.md"], reverse=True)[:50]
+    # também olha a fila de aprovação: senão a mesma pauta sensível é regerada a cada ciclo
+    fila = os.path.join(FILA_APROVACAO, os.path.basename(pasta))
+    arquivos = []
+    for d in (pasta, fila):
+        if os.path.isdir(d):
+            arquivos += [f for f in os.listdir(d) if f.endswith(".md") and f != "_index.md"]
+    arquivos = sorted(arquivos, reverse=True)[:60]
     for arq in arquivos:
         chaves_existentes = extrair_palavras_chave(arq)
         if not chaves_existentes:
@@ -85,6 +91,70 @@ def eh_duplicada(pasta, titulo_novo):
         if len(intersecao) / min(len(chaves_novas), len(chaves_existentes)) >= 0.50:
             return True
     return False
+
+# ---------------------------------------------------------------------------
+# TRAVAS EDITORIAIS (CLAUDE.md §5) — mesmas regras de services/agents/src/guardrails.ts.
+# Score >= 4 NÃO vai para content/: fica em fila-aprovacao/ (fora do git) até o
+# Editor-Chefe revisar e mover o arquivo à mão.
+# ---------------------------------------------------------------------------
+FILA_APROVACAO = "fila-aprovacao/cidades"
+LIMITE_SCORE_HUMANO = 4
+CLAUSULA_CONTRADITORIO = (
+    "A reportagem procurou a defesa/assessoria do(s) citado(s) e o espaço permanece "
+    "aberto para manifestação e devida atualização desta matéria."
+)
+
+# Presunção de inocência (CF art. 5º, LVII)
+_RE_CONDENATORIOS = re.compile(
+    r"\b(culpad[oa]s?|assassin[oa]s?|corrupt[oa]s?|ladr(ao|oes|a|as)|bandid[oa]s?|criminos[oa]s?"
+    r"|estuprador(es)?|pedofil[oa]s?|traficantes?|golpistas?|mafios[oa]s?)\b"
+)
+_CRITICOS = [
+    ("crime violento", 5, re.compile(
+        r"\b(chacina|massacre|homicidios?|assassinat[oa]s?|latrocinios?|feminicidios?|estupros?|sequestros?"
+        r"|tiroteios?|mort[oa]s? a tiros|baleados?|esfaquead[oa]s?)\b")),
+    ("ocorrência policial", 4, re.compile(
+        r"\b(operacao policial|confronto com a policia|troca de tiros|preso em flagrante|prisao em flagrante"
+        r"|flagrante|armas? de fogo|apreensao de (armas?|drogas?)|trafico de drogas)\b")),
+    ("crime hediondo", 5, re.compile(r"\b(hediondo|abuso sexual|exploracao sexual|trabalho escravo|tortura)\b")),
+    ("acusação de corrupção", 4, re.compile(
+        r"\b(corrupcao|propinas?|lavagem de dinheiro|desvio de (recursos|verbas|dinheiro)|peculato|improbidade)\b")),
+]
+# ECA: menor + contexto de crime/vítima na MESMA frase
+_RE_MENOR = re.compile(
+    r"\b(menor(es)? de idade|menor(es)?|criancas?|adolescentes?|bebes?|recem-nascid[oa]s?|alun[oa]s?"
+    r"|estudantes?|garot[oa]s?|menin[oa]s?)\b"
+)
+_RE_CONTEXTO_CRIME = re.compile(
+    r"\b(crimes?|infracion\w*|apreend\w*|apreensao|vitimas?|violencia|abus\w*|agredid[oa]s?|agress\w*"
+    r"|mort[oa]s?|assassinad[oa]s?|estuprad[oa]s?|desaparecid[oa]s?|sequestrad[oa]s?|armas?|drogas?"
+    r"|trafico|policia\w*|detid[oa]s?|pres[oa]s?)\b"
+)
+# Acusação/investigação → exige cláusula de contraditório (Lei 13.188/2015)
+_RE_ACUSACAO = re.compile(
+    r"\b(investigad[oa]s?|denunciad[oa]s?|suspeit[oa]s?|acusad[oa]s?|reus?|indiciad[oa]s?|pres[oa]s?"
+    r"|processad[oa]s?|alvos? de (uma )?operacao|denuncia|acusacao|inquerito)\b"
+)
+
+def avaliar_sensibilidade(title, desc, texto):
+    """Devolve (score 1-5, motivos). Score >= LIMITE_SCORE_HUMANO = aprovação humana."""
+    tudo = normalizar(f"{title}\n{desc}\n{texto}")
+    score, motivos = 1, []
+    if _RE_CONDENATORIOS.search(tudo):
+        score = 5
+        motivos.append("termo condenatório (presunção de inocência)")
+    for motivo, pontos, rx in _CRITICOS:
+        if rx.search(tudo):
+            score = max(score, pontos)
+            motivos.append(motivo)
+    frases = re.split(r"(?<=[.!?])\s+|\n+", tudo)
+    if any(_RE_MENOR.search(f) and _RE_CONTEXTO_CRIME.search(f) for f in frases):
+        score = 5
+        motivos.append("menor de idade em contexto de crime/vítima (ECA)")
+    return score, motivos
+
+def precisa_contraditorio(title, desc, texto):
+    return bool(_RE_ACUSACAO.search(normalizar(f"{title}\n{desc}\n{texto}")))
 
 def pauta_eh_valida_para_cidade(cidade_nome, manchete):
     cidade_pura = cidade_nome.split("(")[0].strip()
@@ -247,7 +317,20 @@ def rodar_ciclo():
                 if len(texto) < 380 or len(desc) < 60 or any(w in low_check for w in [" the ", " with ", " from ", " are ", "<think>", "oitos", "oitavos"]):
                     print("[DESCARTADO] Texto curto ou fora do padrao pt-BR.", flush=True)
                     continue
-                arq = f"{pasta}/{agora.strftime('%Y-%m-%d')}-{slugify(title)}.md"
+                score, motivos = avaliar_sensibilidade(title, desc, texto)
+                if precisa_contraditorio(title, desc, texto) and CLAUSULA_CONTRADITORIO not in texto:
+                    texto = f"{texto}\n\n*{CLAUSULA_CONTRADITORIO}*"
+                vai_para_fila = score >= LIMITE_SCORE_HUMANO
+                destino = os.path.join(FILA_APROVACAO, slug) if vai_para_fila else pasta
+                os.makedirs(destino, exist_ok=True)
+                arq = f"{destino}/{agora.strftime('%Y-%m-%d')}-{slugify(title)}.md"
+                extra = ""
+                if vai_para_fila:
+                    extra = (
+                        f"score_sensibilidade: {score}\n"
+                        "requer_aprovacao_humana: true\n"
+                        "motivos_revisao:\n" + "".join(f'  - "{m}"\n' for m in motivos)
+                    )
                 md = (
                     f'---\n'
                     f'title: "{title.replace(chr(34), chr(92)+chr(34))}"\n'
@@ -255,10 +338,14 @@ def rodar_ciclo():
                     f'description: "{desc.replace(chr(34), chr(92)+chr(34))}"\n'
                     f'fonte: "{fonte.replace(chr(34), chr(92)+chr(34))}"\n'
                     f'fonte_url: "{link}"\n'
+                    f'{extra}'
                     f'---\n\n{texto}\n'
                 )
                 with open(arq, "w", encoding="utf-8") as f_out:
                     f_out.write(md)
+                if vai_para_fila:
+                    print(f"[FILA] score {score} ({'; '.join(motivos)}) -> {arq}", flush=True)
+                    continue
                 print(f"[OK] {arq}", flush=True)
                 novos += 1
                 time.sleep(2)
