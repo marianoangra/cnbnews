@@ -8,17 +8,19 @@
   },
   "workspaces": [
     "packages/types",
-    "services/agents"
+    "services/agents",
+    "services/stream-engine"
   ],
   "scripts": {
     "build": "npm run typecheck && npm run test && npm run build:portal",
     "build:portal": "hugo --minify",
     "dev:portal": "hugo server",
-    "typecheck": "tsc -p services/agents",
-    "test": "npm test -w services/agents",
+    "typecheck": "tsc -p services/agents && tsc -p services/stream-engine",
+    "test": "npm test -w services/agents && npm test -w services/stream-engine",
     "agents:ciclo": "npm run ciclo -w services/agents",
     "agents:simular": "npm run simular -w services/agents",
-    "agents:rig": "npm run rig -w services/agents"
+    "agents:rig": "npm run rig -w services/agents",
+    "live": "npm run ao-vivo -w services/stream-engine"
   },
   "devDependencies": {
     "@types/node": "^26.6.10",

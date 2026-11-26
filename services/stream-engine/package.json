@@ -1,0 +1,21 @@
+{
+  "name": "cnbnews-stream-engine",
+  "private": true,
+  "type": "module",
+  "description": "Live 24h da CNB News no YouTube: blocos de vídeo por notícia + transmissor RTMP. Node >= 23.6 (TypeScript nativo).",
+  "engines": {
+    "node": ">=23.6"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.ts\"",
+    "gerar": "node src/gerar.ts",
+    "amostra": "node src/amostra.ts",
+    "ao-vivo": "node src/ao-vivo.ts"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "dotenv": "^18.0.10",
+    "gray-matter": "^4.0.3",
+    "satori": "^0.63.2"
+  }
+}
