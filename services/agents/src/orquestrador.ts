@@ -88,7 +88,7 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
       return {
         categoria: textoOpcional(o, 'categoria'),
         urgencia: textoOpcional(o, 'urgencia'),
-        corpo: texto(o, 'corpo_artigo_markdown', 200),
+        corpo: corrigirAnos(texto(o, 'corpo_artigo_markdown', 200)),
         fontes: listaTexto(o, 'fontes_creditadas'),
       };
     },
@@ -104,13 +104,15 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
       // O revisor NÃO reescreve a matéria (o modelo pequeno falhava em devolver o texto
       // inteiro): aponta correções pontuais e o código aplica só as que batem com o texto.
       const alertas = listaTexto(o, 'alertas_ao_editor').filter((a) => !pareceMolde(a) && a !== '...');
-      const r = aplicarCorrecoes(redacao.corpo, lerCorrecoes(o.correcoes));
-      if (r.ignoradas > 0) alertas.push(`revisor: ${r.ignoradas} correção(ões) ignorada(s) (trecho não encontrado no texto)`);
+      const r = aplicarCorrecoes(redacao.corpo, lerCorrecoes(o.correcoes), item.fonte);
+      if (r.ignoradas > 0) alertas.push(`revisor: ${r.ignoradas} correção(ões) ignorada(s) (trecho inexistente ou que tirava a fonte)`);
+      // Reescrever demais é verbosidade do modelo, não sinal de risco: segue o texto do
+      // redator (a nota de risco do revisor e as travas continuam valendo).
       if (r.excedeu) alertas.push('revisor tentou alterar mais de 40% da matéria; correções não aplicadas');
       return {
         corpo: r.corpo,
         score: numero(o, 'score_risco_juridico', 3),
-        humano: booleano(o, 'requer_aprovacao_humana') || r.excedeu,
+        humano: booleano(o, 'requer_aprovacao_humana'),
         alertas,
       };
     },
@@ -169,6 +171,15 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
   };
 }
 
+// O modelo formata anos como milhar ("2.027"). Mesmo ajuste do limpar_texto_ia do robo_cnb.py.
+export function corrigirAnos(s: string): string {
+  // "2.027" -> "2027" (anos 2020-2039); não mexe em dinheiro ("R$ 2.030") nem em
+  // números maiores ("1.2.030" / "12.030")
+  return s.replace(/(^|[^\d.,$])(\s*)2\.0([23]\d)(?![\d.,])/g, (m, antes: string, esp: string, ano: string, i: number, all: string) =>
+    /R\$\s*$/.test(all.slice(Math.max(0, i - 3), i + antes.length + esp.length)) ? m : `${antes}${esp}20${ano}`,
+  );
+}
+
 export interface Correcao {
   trecho: string;
   correcao: string;
@@ -193,12 +204,16 @@ const LIMITE_ALTERACAO = 0.4;
 export function aplicarCorrecoes(
   corpo: string,
   correcoes: Correcao[],
+  fonte = '',
 ): { corpo: string; aplicadas: number; ignoradas: number; excedeu: boolean } {
   const validas: Correcao[] = [];
   let ignoradas = 0;
+  const f = normalizar(fonte);
   for (const c of correcoes) {
     const util = c.trecho.length >= 8 && c.trecho !== c.correcao && !pareceMolde(c.trecho) && !pareceMolde(c.correcao);
-    if (util && corpo.includes(c.trecho)) validas.push(c);
+    // nunca deixa o revisor apagar o crédito da fonte primária (CLAUDE.md §5B)
+    const tiraFonte = f !== '' && normalizar(c.trecho).includes(f) && !normalizar(c.correcao).includes(f);
+    if (util && !tiraFonte && corpo.includes(c.trecho)) validas.push(c);
     else if (c.trecho) ignoradas++;
   }
   const alterado = validas.reduce((n, c) => n + c.trecho.length, 0);
