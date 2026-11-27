@@ -42,7 +42,7 @@ export async function cicloProducao(locutor: Locutor, gpu: number, limite = Infi
   const agora = new Date();
   const todas = await coletar(CAMINHOS.repo, agora);
   const aprovadas = filtrar(todas, await carregarBloqueio(CAMINHOS.bloqueio));
-  const r = await gerarPendentes(aprovadas.slice(0, limite), CAMINHOS.blocos, locutor, trilhas, { gpu });
+  const r = await gerarPendentes(aprovadas, CAMINHOS.blocos, locutor, trilhas, { gpu, limite });
   // só com o repo atualizado a lista aprovada é confiável para tirar matéria do ar
   const manter = s.ok && aprovadas.length > 0 ? new Set(aprovadas.map((m) => m.id)) : undefined;
   const apagados = await limpar(CAMINHOS.blocos, agora, 48, manter);

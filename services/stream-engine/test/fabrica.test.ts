@@ -143,3 +143,13 @@ test('garantirInstitucional: refaz o fixo cujo .ts sumiu (meta sozinho não bast
   await garantirInstitucional(fixos, locutor, [], opts);
   assert.equal(chamadas.length, 4);
 });
+
+test('gerarPendentes: o limite conta blocos NOVOS (os já prontos não gastam a cota)', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'cnb-fab-'));
+  const chamadas: string[] = [];
+  const montar = montarFalso(chamadas);
+  const ms = ['a', 'b', 'c', 'd', 'e'].map((id) => m(id));
+  await gerarPendentes(ms.slice(0, 2), dir, locutor, [], { gpu: 0, montar }); // a e b já prontos
+  const r = await gerarPendentes(ms, dir, locutor, [], { gpu: 0, montar, limite: 2 });
+  assert.deepEqual(r.gerados, ['c', 'd']);
+});

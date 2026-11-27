@@ -11,6 +11,8 @@ export type MontarVinheta = (texto: string, duracao: number, saida: string, tril
 
 interface Opcoes {
   gpu: number;
+  /** Máximo de blocos NOVOS por chamada (mais novas primeiro). */
+  limite?: number;
   montar?: Montar;
   vinheta?: MontarVinheta;
 }
@@ -37,8 +39,12 @@ export async function gerarPendentes(
   const montar = opts.montar ?? montarBloco;
   const gerados: string[] = [];
   const falhas: string[] = [];
+  const limite = opts.limite ?? Infinity;
+  let tentativas = 0;
   for (const [i, m] of materias.entries()) {
     if (blocoExiste(dirBlocos, m.id)) continue;
+    if (tentativas >= limite) break; // a cota conta só blocos novos: os prontos não a gastam
+    tentativas++;
     const ticker = materias
       .filter((x) => x !== m)
       .slice(0, MANCHETES_NO_TICKER)
