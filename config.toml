@@ -12,7 +12,7 @@ enableRobotsTXT = true
   # Use o endereço do canal terminando em /live (ex.: "https://www.youtube.com/@CANAL/live"):
   # o YouTube abre a transmissão atual ou, sem live, a página do canal.
   youtube = "https://www.youtube.com/@rafaelmarianobr/live"
-  # Deixe false: o botão sai "TV CNB" no HTML e ACENDE SOZINHO ("CNB News ao vivo", vermelho)
+  # Deixe false: o botão sai "TV CNB News" no HTML e ACENDE SOZINHO ("CNB News ao vivo", vermelho)
   # quando o canal estiver transmitindo, perguntando a /aovivo.json (rig checa o YouTube a cada 2 min).
   # true força o "ao vivo" no HTML mesmo sem transmissão: não usar.
   aoVivo = false
