@@ -1,17 +1,28 @@
 import type { BlocoPronto } from './tipos.ts';
 
+/** Matéria do robô nacional (content/noticias/), não de cidade. */
+const ehNacional = (b: BlocoPronto) => b.tipo === 'noticia' && b.id.startsWith('noticias/');
+
 /** Decide o próximo bloco da live. Guarda o histórico de exibição em memória. */
 export class Programador {
   private readonly vinhetaACada: number;
   private readonly semRepetirMs: number;
   private readonly pisoRepriseMs: number;
+  private readonly nacionalACada: number;
+  private readonly semRepetirNacionalMs: number;
   private readonly exibidoEm = new Map<string, number>();
   private desdeVinheta = 0;
+  private desdeNacional = 0;
   private ultimaCidade: string | null = null;
   private ultimoId: string | null = null;
 
-  constructor(opts: { vinhetaACada?: number; semRepetirMin?: number; pisoRepriseMin?: number } = {}) {
+  constructor(opts: {
+    vinhetaACada?: number; semRepetirMin?: number; pisoRepriseMin?: number;
+    nacionalACada?: number; semRepetirNacionalMin?: number;
+  } = {}) {
     this.vinhetaACada = opts.vinhetaACada ?? 5;
+    this.nacionalACada = opts.nacionalACada ?? 3;
+    this.semRepetirNacionalMs = (opts.semRepetirNacionalMin ?? 30) * 60_000;
     this.semRepetirMs = (opts.semRepetirMin ?? 60) * 60_000;
     this.pisoRepriseMs = (opts.pisoRepriseMin ?? 15) * 60_000;
   }
@@ -22,16 +33,24 @@ export class Programador {
     if (vinheta && this.desdeVinheta >= this.vinhetaACada) return vinheta;
 
     const noticias = blocos.filter((b) => b.tipo === 'noticia');
-    const ineditas = noticias
-      .filter((b) => !this.exibidoEm.has(b.id))
-      .sort((a, b) => b.criadoEm.getTime() - a.criadoEm.getTime());
-    if (ineditas[0]) return ineditas[0];
-
     const quando = (b: BlocoPronto) => this.exibidoEm.get(b.id) ?? 0;
-    const reprise = (minimoMs: number) => {
-      const r = noticias.filter((b) => agora.getTime() - quando(b) >= minimoMs).sort((a, b) => quando(a) - quando(b));
+    const inedita = (lista: BlocoPronto[]) =>
+      lista.filter((b) => !this.exibidoEm.has(b.id)).sort((a, b) => b.criadoEm.getTime() - a.criadoEm.getTime())[0];
+    const reprise = (minimoMs: number, lista = noticias) => {
+      const r = lista.filter((b) => agora.getTime() - quando(b) >= minimoMs).sort((a, b) => quando(a) - quando(b));
       return r.find((b) => b.cidade !== this.ultimaCidade) ?? r[0];
     };
+
+    // Brasil na grade: a cada N notícias, uma nacional (inédita, ou reprise com janela menor).
+    if (this.desdeNacional >= this.nacionalACada - 1) {
+      const nacionais = noticias.filter(ehNacional);
+      const n = inedita(nacionais) ?? reprise(this.semRepetirNacionalMs, nacionais);
+      if (n) return n;
+    }
+
+    const nova = inedita(noticias);
+    if (nova) return nova;
+
     // 60 min sem repetir quando dá; senão reprisa a notícia mais antiga (>= 15 min) antes do loop
     // institucional, que com pouco volume ocuparia a maior parte da hora (conteúdo repetitivo).
     const r = reprise(this.semRepetirMs) ?? reprise(this.pisoRepriseMs);
@@ -53,6 +72,7 @@ export class Programador {
     }
     this.desdeVinheta++;
     if (bloco) this.ultimaCidade = bloco.cidade;
+    if (bloco?.tipo === 'noticia') this.desdeNacional = ehNacional(bloco) ? 0 : this.desdeNacional + 1;
   }
 
   /** Minutos de notícia ainda não exibida na última hora (buffer da live). */

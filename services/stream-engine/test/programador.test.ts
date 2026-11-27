@@ -96,3 +96,36 @@ test('proximo: notícia exibida há menos de 15 min não volta; aí entra o inst
   p.registrarExibicao('a', min(-5));
   assert.equal(p.proximo([b('a'), ...INST], T0).tipo, 'institucional');
 });
+
+const NAC = (id: string, o: Partial<BlocoPronto> = {}) => b(`noticias/${id}`, { cidade: null, ...o });
+const CID = (id: string, o: Partial<BlocoPronto> = {}) => b(`cidades/x/${id}`, o);
+
+test('proximo: a cada 3 blocos de notícia, pelo menos 1 é nacional (mesmo com cidades mais novas)', () => {
+  const p = new Programador({ vinhetaACada: 100 });
+  const cidades = Array.from({ length: 8 }, (_, i) => CID(`c${i}`, { criadoEm: min(-i) }));
+  const nac = [NAC('n1', { criadoEm: min(-60) }), NAC('n2', { criadoEm: min(-61) })];
+  const ordem: string[] = [];
+  for (let i = 0; i < 6; i++) {
+    const x = p.proximo([...cidades, ...nac, ...INST], min(i));
+    p.registrarExibicao(x.id, min(i), x);
+    ordem.push(x.id);
+  }
+  const nacionais = ordem.map((id) => id.startsWith('noticias/'));
+  assert.deepEqual(nacionais, [false, false, true, false, false, true]);
+});
+
+test('proximo: na vez da nacional, ela repete depois de 30 min (não espera 60)', () => {
+  const p = new Programador({ vinhetaACada: 100 });
+  const n = NAC('n1');
+  p.registrarExibicao(n.id, min(-35), n);
+  for (const c of ['c1', 'c2']) p.registrarExibicao(`cidades/x/${c}`, min(-1), CID(c));
+  assert.equal(p.proximo([n, CID('c3'), CID('c4'), ...INST], T0).id, 'noticias/n1');
+});
+
+test('proximo: na vez da nacional, se nenhuma pode voltar, segue com cidade', () => {
+  const p = new Programador({ vinhetaACada: 100 });
+  const n = NAC('n1');
+  p.registrarExibicao(n.id, min(-10), n);
+  for (const c of ['c1', 'c2']) p.registrarExibicao(`cidades/x/${c}`, min(-1), CID(c));
+  assert.equal(p.proximo([n, CID('c3'), ...INST], T0).id, 'cidades/x/c3');
+});
