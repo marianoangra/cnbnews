@@ -71,7 +71,12 @@ const mtime = (f: string) => (existsSync(f) ? statSync(f).mtime.toISOString() : 
 async function proximaColuna(): Promise<string | undefined> {
   try {
     const v = (await run('systemctl', ['show', 'cnbnews-colunista.timer', '-p', 'NextElapseUSecRealtime', '--value'], { timeout: 5000 })).stdout.trim();
-    return v || undefined;
+    if (!v) return undefined;
+    // systemd: "Mon 2026-11-30 12:00:00 UTC" → "seg., 30/11 às 09:00" (Brasília)
+    const d = new Date(v.replace(/^\w{3} /, '').replace(' UTC', 'Z').replace(' ', 'T'));
+    if (Number.isNaN(d.getTime())) return v;
+    const f = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return f.format(d).replace(',', '').replace(' ', ', ').replace(/(\d{2}\/\d{2}),? /, '$1 às ');
   } catch {
     return undefined;
   }

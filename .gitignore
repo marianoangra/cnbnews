@@ -9,3 +9,6 @@ node_modules/
 .env
 fila-aprovacao/
 agents.log
+admin.log
+colunista.log
+ollama.log
