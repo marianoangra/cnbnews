@@ -13,3 +13,10 @@ A sua privacidade é importante para nós. É política do **CNB News Brasil** r
 
 ### Dados de Navegação
 Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei. O uso continuado de nosso site será considerado como aceitação de nossas práticas em torno de privacidade e informações pessoais.
+
+### Newsletter {#newsletter}
+* **O que coletamos:** o seu e-mail, a cidade que você escolheu (opcional) e a data e hora em que você aceitou receber a newsletter.
+* **Para quê:** exclusivamente para enviar o resumo diário da CNB News e, quando houver, alertas de notícias urgentes.
+* **Base legal:** o seu consentimento (art. 7º, I, da LGPD), dado ao marcar a caixa de aceite e confirmado pelo link enviado ao seu e-mail.
+* **Quem processa:** os envios são feitos pela plataforma **Brevo**, que atua como operadora dos dados em nome da CNB Mobile LTDA.
+* **Como sair:** todo e-mail traz um link de descadastro, com efeito imediato. Você também pode pedir a exclusão dos seus dados pelo e-mail contato@rafaelmariano.com.br.

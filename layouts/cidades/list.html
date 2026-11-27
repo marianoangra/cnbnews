@@ -89,6 +89,7 @@
           <li><span>Bombeiros</span><span>193</span></li>
         </ul>
       </div>
+      {{ partial "newsletter.html" (dict "variante" "lateral" "slug" $slug "nome" $nome) }}
     </aside>
   </div>
   {{ end }}

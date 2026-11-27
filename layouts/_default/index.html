@@ -69,6 +69,8 @@
 </section>
 {{ end }}
 
+{{ partial "newsletter.html" (dict "variante" "faixa") }}
+
 {{ with first 3 (where .Site.RegularPages "Section" "colunas").ByDate.Reverse }}
 <section class="opiniao" id="colunas" aria-label="Opinião">
   <div class="sec-h"><h2 class="sec-t"><span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v8H6l-4 3z"/></svg></span>Opinião</h2><a class="ver" href="{{ "colunas/" | absURL }}">Todas as colunas →</a></div>

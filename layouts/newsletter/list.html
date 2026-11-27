@@ -1,0 +1,12 @@
+{{ define "titulo" }}Newsletter · CNB News{{ end }}
+{{ define "main" }}
+<div class="pg-h"><h1 class="pg-t">Newsletter</h1><p>{{ .Description }}</p></div>
+<div class="materia" style="padding-top:8px">
+  {{ partial "newsletter.html" (dict "variante" "fim") }}
+  <div class="corpo">
+    <p><b>O que chega:</b> um e-mail por dia, às 7h, com as principais notícias do Brasil e, se você escolher, da sua cidade. Cada notícia leva o link para a matéria completa, com a fonte citada.</p>
+    <p><b>Sua confirmação:</b> depois do cadastro mandamos um e-mail com um botão para confirmar. Sem o clique, você não entra na lista.</p>
+    <p><b>Seus dados:</b> guardamos só o e-mail, a cidade escolhida e a data do aceite, para enviar a newsletter. Não vendemos nem repassamos. Para sair, basta um clique no link de descadastro de qualquer e-mail. Detalhes na <a href="{{ "privacidade/#newsletter" | absURL }}">Política de Privacidade</a>.</p>
+  </div>
+</div>
+{{ end }}

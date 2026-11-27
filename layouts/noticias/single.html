@@ -59,6 +59,7 @@
     {{ with .Params.fonte }}<span><b>Fonte original:</b> {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}</span>{{ end }}
     <span>Viu um erro? <a href="/contato/">Avise a redação</a>.</span>
   </div>
+  {{ partial "newsletter.html" (dict "variante" "fim") }}
   <div class="wa-bar"><span>Mande para alguém</span><button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}WhatsApp</button></div>
 </article>
 {{ end }}

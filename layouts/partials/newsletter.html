@@ -1,0 +1,28 @@
+{{/* Cadastro na newsletter (resumo diário às 7h). Entrada: dict "slug" (cidade, opcional) "nome" "variante" (faixa | lateral | fim).
+     Envia para /api/newsletter (api/newsletter.js → Brevo, com confirmação por e-mail). O script do baseof cuida do envio. */}}
+{{- $id := printf "nl-%s" (.variante | default "x") -}}
+<section class="nl nl-{{ .variante | default "faixa" }}" aria-labelledby="{{ $id }}-t">
+  <div class="nl-txt">
+    <span class="nl-k">Newsletter CNB</span>
+    <h2 class="nl-t" id="{{ $id }}-t">{{ if .nome }}As notícias de {{ .nome }} no seu e-mail, às 7h{{ else }}O resumo da manhã, às 7h no seu e-mail{{ end }}</h2>
+    <p>{{ if .nome }}As principais de {{ .nome }} e do Brasil, todo dia. Grátis.{{ else }}As principais notícias do Brasil e da sua cidade, todo dia. Grátis, e você sai quando quiser.{{ end }}</p>
+  </div>
+  <form class="nl-form" data-newsletter novalidate>
+    <div class="nl-linha">
+      <label class="sr" for="{{ $id }}-e">Seu e-mail</label>
+      <input id="{{ $id }}-e" type="email" name="email" required autocomplete="email" inputmode="email" placeholder="seu@email.com">
+      <button type="submit">Quero receber</button>
+    </div>
+    {{ if .slug }}<input type="hidden" name="cidade" value="{{ .slug }}">
+    {{ else }}{{ with site.GetPage "/cidades" }}
+    <label class="sr" for="{{ $id }}-c">Sua cidade</label>
+    <select id="{{ $id }}-c" name="cidade" class="nl-cid">
+      <option value="">Só as notícias do Brasil</option>
+      {{ range .Sections.ByTitle }}<option value="{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}">{{ .Title }}</option>{{ end }}
+    </select>
+    {{ end }}{{ end }}
+    <label class="nl-ok"><input type="checkbox" name="consentimento" required> Aceito receber a newsletter e li a <a href="https://{{ site.Params.baseDomain }}/privacidade/#newsletter">Política de Privacidade</a>.</label>
+    <input class="nl-isca" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="nl-msg" role="status" aria-live="polite"></p>
+  </form>
+</section>

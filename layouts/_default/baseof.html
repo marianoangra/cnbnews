@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ block "titulo" . }}{{ .Title }} · CNB News{{ end }}</title>
   <meta name="description" content="{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.descricao }}{{ end }}">
-  <meta name="robots" content="max-image-preview:large">
+  <meta name="robots" content="{{ .Params.robots | default "max-image-preview:large" }}">
   <meta name="theme-color" content="#0c0d10">
   <link rel="canonical" href="{{ block "canonical" . }}{{ .Permalink }}{{ end }}">
   {{/* Estáticos SEMPRE pelo domínio principal: no subdomínio da cidade a rota do vercel.json manda /fotos/... para /cidades/<slug>/fotos/... e dá 404. */}}
@@ -195,6 +195,31 @@
     .col-card .por{font-size:.78rem;color:#9da2ac}
     .col-card .por b{color:#fff;font-weight:700}
 
+    /* Newsletter: faixa na capa, caixa na lateral da cidade e fim da matéria */
+    .nl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:20px 36px;align-items:center;background:var(--surface);border-left:6px solid var(--red);border-radius:8px;padding:28px 30px;margin-top:38px}
+    .nl-lateral,.nl-fim{grid-template-columns:minmax(0,1fr);padding:20px 20px 18px;margin-top:28px}
+    .nl-k{font-size:.68rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--red-ink)}
+    .nl-t{font-size:clamp(1.35rem,1rem + 1.2vw,1.9rem);line-height:1.12;letter-spacing:-.035em;margin:6px 0 8px}
+    .nl-lateral .nl-t,.nl-fim .nl-t{font-size:1.25rem}
+    .nl-txt p{margin:0;font-family:var(--f-text);font-size:1.05rem;line-height:1.45;color:var(--ink-2)}
+    .nl-form{display:grid;gap:10px}
+    .nl-linha{display:flex;gap:8px}
+    .nl input[type=email],.nl-cid{font:inherit;font-size:16px;min-width:0;height:48px;padding:0 14px;border:1px solid var(--rule);border-radius:6px;background:var(--bg);color:var(--ink)}
+    .nl input[type=email]{flex:1}
+    .nl-cid{width:100%;font-size:.92rem}
+    .nl input:focus,.nl-cid:focus{outline:2px solid var(--red);outline-offset:1px}
+    .nl button{flex:none;font:inherit;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;height:48px;padding:0 18px;border:0;border-radius:6px;background:var(--red);color:#fff;cursor:pointer}
+    .nl button:hover{filter:brightness(1.08)}.nl button[disabled]{opacity:.6;cursor:wait}
+    .nl-lateral .nl-linha{flex-direction:column}
+    .nl-ok{display:flex;gap:8px;align-items:flex-start;font-size:.78rem;line-height:1.4;color:var(--muted)}
+    .nl-ok input{margin:2px 0 0;accent-color:var(--red);flex:none}
+    .nl-ok a{text-decoration:underline;color:var(--ink-2)}
+    .nl-isca{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+    .nl-msg{margin:0;font-size:.86rem;font-weight:700;min-height:1.2em}
+    .nl-msg.ok{color:var(--up)}.nl-msg.erro{color:var(--red-ink)}
+    .nl.feito .nl-linha,.nl.feito .nl-cid,.nl.feito .nl-ok{display:none}
+    @media (max-width:760px){.nl{grid-template-columns:minmax(0,1fr);padding:22px 18px}.nl-linha{flex-direction:column}}
+
     /* Escolha sua cidade: abas por estado + lista em colunas + busca */
     .escolha{padding:34px 0 6px;scroll-margin-top:60px}
     .busca-cid{font:inherit;font-size:.9rem;padding:10px 16px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--ink);min-width:min(300px,100%)}
@@ -356,6 +381,7 @@
       <a href="{{ $base }}#cidades">Cidades</a>
       {{ with $canal }}<a href="{{ . }}" target="_blank" rel="noopener">TV CNB</a>{{ end }}
       <a href="{{ $base }}busca/">Busca</a>
+      <a href="{{ $base }}newsletter/">Newsletter</a>
     </nav>
     <div class="topo-r">
       {{ partial "radio.html" . }}
@@ -409,7 +435,7 @@
       <p>Notícias de cada cidade do Brasil, a qualquer hora. Redação CNB News · Editor-chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a>.</p>
     </div>
     <div class="rod-cols">
-      <nav aria-label="Seções"><h4>Seções</h4><a href="{{ $base }}noticias/">Brasil</a><a href="{{ $base }}colunas/">Opinião e colunas</a><a href="{{ $base }}cidades/">Todas as cidades</a><a href="{{ $base }}busca/">Busca</a></nav>
+      <nav aria-label="Seções"><h4>Seções</h4><a href="{{ $base }}noticias/">Brasil</a><a href="{{ $base }}colunas/">Opinião e colunas</a><a href="{{ $base }}cidades/">Todas as cidades</a><a href="{{ $base }}busca/">Busca</a><a href="{{ $base }}newsletter/">Newsletter</a></nav>
       <nav aria-label="Institucional"><h4>A CNB</h4><a href="{{ $base }}sobre/">Sobre e expediente</a><a href="{{ $base }}contato/">Contato e correções</a><a href="{{ $base }}privacidade/">Privacidade</a><a href="{{ $base }}termos/">Termos</a></nav>
       <nav aria-label="Redes"><h4>Siga a CNB</h4>{{ with .Site.Params.instagram }}<a href="{{ . }}" target="_blank" rel="me noopener">Instagram @cnbnewstv</a>{{ end }}{{ with $canal }}<a href="{{ . }}" target="_blank" rel="me noopener">TV CNB News no YouTube</a>{{ end }}</nav>
     </div>
@@ -474,6 +500,28 @@
       b.addEventListener("click", function(){
         var ok = function(){ b.textContent = "Link copiado"; };
         if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(ok, function(){});
+      });
+    });
+    /* Newsletter: POST /api/newsletter (Brevo, confirmação por e-mail). */
+    document.querySelectorAll("[data-newsletter]").forEach(function(f){
+      var msg = f.querySelector(".nl-msg"), btn = f.querySelector("button"), caixa = f.closest(".nl");
+      var diz = function(t, tipo){ msg.textContent = t; msg.className = "nl-msg " + (tipo || ""); };
+      f.addEventListener("submit", function(ev){
+        ev.preventDefault();
+        var email = f.email.value.trim(), cid = f.cidade ? f.cidade.value : "";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { diz("Confira o e-mail digitado.", "erro"); f.email.focus(); return; }
+        if (!f.consentimento.checked) { diz("Marque a caixa de aceite para receber.", "erro"); return; }
+        btn.disabled = true; diz("Enviando…");
+        fetch("/api/newsletter", { method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, cidade: cid, consentimento: true, site: f.site.value }) })
+          .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){ return { s: r.status, j: j }; }); })
+          .then(function(x){
+            btn.disabled = false;
+            if (x.j && x.j.ok) { caixa.classList.add("feito"); diz("Quase lá! Abra o e-mail que mandamos para " + email + " e clique em confirmar.", "ok"); try { gtag("event", "sign_up", { method: "newsletter" }); } catch(e){} }
+            else if (x.s === 503) diz("O cadastro abre em breve. Volte amanhã!", "erro");
+            else if (x.j && x.j.erro === "email") diz("Confira o e-mail digitado.", "erro");
+            else diz("Não deu certo agora. Tente de novo em instantes.", "erro");
+          }, function(){ btn.disabled = false; diz("Sem conexão. Tente de novo.", "erro"); });
       });
     });
     /* Câmbio (AwesomeAPI, sem chave): guardado 10 min na sessão. Falhou: o bloco continua escondido. */

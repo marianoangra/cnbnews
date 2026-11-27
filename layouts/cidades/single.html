@@ -52,6 +52,7 @@
     {{ if .Params.fonte }}<span><b>Fonte original:</b> {{ if .Params.fonte_url }}<a href="{{ .Params.fonte_url }}" rel="nofollow noopener" target="_blank">{{ .Params.fonte }}</a>{{ else }}{{ .Params.fonte }}{{ end }}</span>{{ end }}
     <span>Texto produzido com apoio de inteligência artificial a partir da fonte citada. Viu um erro? <a href="https://{{ site.Params.baseDomain }}/contato/">Avise a redação</a>.</span>
   </div>
+  {{ partial "newsletter.html" (dict "variante" "fim" "slug" $slug "nome" $nome) }}
   {{ $outras := first 4 (where .Parent.Pages.ByDate.Reverse "Permalink" "ne" .Permalink) }}
   {{ with $outras }}
   <section class="leia" aria-label="Leia também">
