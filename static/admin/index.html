@@ -51,6 +51,7 @@ h2.sec{font-family:var(--f-head);font-size:1.5rem;margin:0 0 4px}
 .item p{margin:0 0 6px;color:var(--ink-2);font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tags{display:flex;flex-wrap:wrap;gap:5px}
 .tags span{font-size:.72rem;background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--ink-2);border-radius:4px;padding:1px 6px}
+.lote.urg{border-left-color:var(--red)}.lote.urg a{color:inherit;font-weight:700;text-decoration:underline}
 .lote{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--ok);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .lote p{margin:0;font-size:.92rem;flex:1;min-width:240px}
 .lote div{display:flex;gap:8px;flex-wrap:wrap}
@@ -193,8 +194,9 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
   function carregar() {
     if (!lerToken()) return telaLogin();
     if (!estado.painel) app.innerHTML = '<p class="carregando">Falando com a rig…</p>';
-    return Promise.all([api("/api/painel"), api("/api/fila")]).then(function (r) {
-      estado.painel = r[0]; estado.fila = r[1].itens || []; render();
+    var urg = api("/api/urgentes").then(function (x) { return x.itens || []; }, function () { return []; });
+    return Promise.all([api("/api/painel"), api("/api/fila"), urg]).then(function (r) {
+      estado.painel = r[0]; estado.fila = r[1].itens || []; estado.urgentes = r[2]; render();
     }, function (e) {
       if (e.message === "401") return;
       if (!estado.painel) app.innerHTML = '<div class="wrap"><div class="vazio" style="margin-top:12vh">' + esc(e.message) + '<br><br><button class="btn" id="tentar" type="button">Tentar de novo</button></div></div>';
@@ -249,6 +251,27 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
     return '<div class="lote"><p><b>' + l.length + " notícias</b> estão aqui só porque o revisor pediu: nota baixa (menor que 4), sem cópia da fonte e sem tema sensível." + (repetidas() ? " Repetidas ficam de fora: recuse a cópia." : "") + "</p>" +
       '<div><button class="btn" type="button" id="lote-ver">Ver só essas</button><button class="btn ok" type="button" id="lote-aprovar">Aprovar as ' + l.length + "</button></div></div>";
   }
+  // Notícia marcada como urgente pelo robô e já no site: o alerta por e-mail só sai com o clique do editor-chefe.
+  function htmlUrgentes() {
+    var l = (estado.urgentes || []).filter(function (u) { return !u.decisao; });
+    return l.map(function (u) {
+      var conf = estado.confirmandoAlerta === u.arquivo;
+      return '<div class="lote urg"><p><b>⚡ Urgente no site</b> · ' + quando(u.publicadaEm) + '<br><a href="' + esc(u.url) + '" target="_blank" rel="noopener">' + esc(u.titulo) + "</a>" +
+        (conf ? "<br><b>Enviar o alerta por e-mail para todos os inscritos agora?</b> Não dá para desfazer." : "") + "</p><div>" +
+        (conf ? '<button class="btn ok" type="button" data-alerta-sim="' + esc(u.arquivo) + '">Sim, enviar</button><button class="btn" type="button" data-alerta-nao>Cancelar</button>'
+              : '<button class="btn" type="button" data-alerta-ignorar="' + esc(u.arquivo) + '">Não enviar</button><button class="btn ok" type="button" data-alerta="' + esc(u.arquivo) + '">Enviar alerta por e-mail</button>') +
+        "</div></div>";
+    }).join("");
+  }
+  function decidirAlerta(arquivo, acao, botao) {
+    if (botao) { botao.disabled = true; botao.textContent = acao === "enviar" ? "Enviando…" : "…"; }
+    api("/api/alerta", { arquivo: arquivo, acao: acao }).then(function (r) {
+      estado.confirmandoAlerta = null;
+      (estado.urgentes || []).forEach(function (u) { if (u.arquivo === arquivo) u.decisao = { acao: acao === "enviar" ? "enviado" : "ignorado" }; });
+      render();
+      toast(acao === "enviar" ? (r.pulado ? "Esse alerta já tinha saído antes." : "Alerta enviado para " + (r.enviados || 0) + " inscrito(s).") : "Ok, sem alerta para essa.", 7000);
+    }, function (e) { estado.confirmandoAlerta = null; render(); toast("Alerta não enviado: " + esc(e.message), 9000); });
+  }
   function htmlAprovar() {
     var so = estado.filtro === "revisor" ? soRevisor().map(function (i) { return i.id; }) : null;
     var f = estado.fila.filter(function (i) { return so ? so.indexOf(i.id) > -1 : (estado.filtro === "todas" || i.tipo === estado.filtro); });
@@ -265,7 +288,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
         "</button>";
     }).join("") : '<div class="vazio">Nada esperando você aqui. Os robôs seguem publicando sozinhos o que passa nas travas.</div>';
     return '<h2 class="sec">Você só aprova</h2><p class="sub">O que os robôs não publicaram sozinhos: nota de sensibilidade alta, pedido do revisor, texto parecido demais com a fonte ou coluna. Abra, leia, edite se quiser e decida.</p>' +
-      '<div class="filtros">' + filtros + (so ? '<button type="button" data-filtro="revisor" aria-pressed="true">Só o revisor pediu · ' + so.length + "</button>" : "") + "</div>" + htmlLote() + '<div class="lista">' + lista + "</div>";
+      htmlUrgentes() + '<div class="filtros">' + filtros + (so ? '<button type="button" data-filtro="revisor" aria-pressed="true">Só o revisor pediu · ' + so.length + "</button>" : "") + "</div>" + htmlLote() + '<div class="lista">' + lista + "</div>";
   }
 
   function htmlEquipe() {
@@ -395,6 +418,10 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
   }
   function ligar() {
     var x;
+    document.querySelectorAll("[data-alerta]").forEach(function (b) { b.onclick = function () { estado.confirmandoAlerta = b.dataset.alerta; render(); }; });
+    document.querySelectorAll("[data-alerta-nao]").forEach(function (b) { b.onclick = function () { estado.confirmandoAlerta = null; render(); }; });
+    document.querySelectorAll("[data-alerta-sim]").forEach(function (b) { b.onclick = function () { decidirAlerta(b.dataset.alertaSim, "enviar", b); }; });
+    document.querySelectorAll("[data-alerta-ignorar]").forEach(function (b) { b.onclick = function () { decidirAlerta(b.dataset.alertaIgnorar, "ignorar", b); }; });
     if ((x = document.getElementById("lote-aprovar"))) x.onclick = function () { estado.confirmandoLote = true; render(); };
     if ((x = document.getElementById("lote-nao"))) x.onclick = function () { estado.confirmandoLote = false; render(); };
     if ((x = document.getElementById("lote-sim"))) x.onclick = aprovarLote;

@@ -12,6 +12,7 @@ import { promisify } from 'node:util';
 import dotenv from 'dotenv';
 import { CANAL_LIVE_PADRAO, criarVigiaAoVivo } from './aovivo.ts';
 import { lerItem, listarFila, moverParaSite, recusar, type Raizes } from './fila.ts';
+import { dispararAlerta, listarUrgentes, registrarDecisao } from './urgentes.ts';
 import { painel } from './painel.ts';
 
 const run = promisify(execFile);
@@ -196,6 +197,22 @@ export function criarServidor(token: string) {
         if (r.ok.length) empurrarDepois();
         console.log(`[admin] lote: ${r.ok.length} aprovada(s), ${r.erros.length} erro(s)`);
         return json(res, 200, { ok: true, publicadas: r.ok.map(({ destino: _d, ...x }) => x), erros: r.erros });
+      }
+      if (req.method === 'GET' && rota === '/api/urgentes') return json(res, 200, { itens: listarUrgentes(raizes, new Date().toISOString()) });
+      if (req.method === 'POST' && rota === '/api/alerta') {
+        const b = await corpoJson(req);
+        const arquivo = String(b.arquivo ?? '');
+        const u = listarUrgentes(raizes, new Date().toISOString(), 72).find((x) => x.arquivo === arquivo);
+        if (!u) return json(res, 404, { erro: 'notícia urgente não encontrada' });
+        if (u.decisao) return json(res, 409, { erro: `já decidido: ${u.decisao.acao}` });
+        if (b.acao === 'ignorar') {
+          registrarDecisao(raizes, arquivo, { acao: 'ignorado', em: new Date().toISOString() });
+          return json(res, 200, { ok: true });
+        }
+        const r = await dispararAlerta(u.url, process.env);
+        registrarDecisao(raizes, arquivo, { acao: 'enviado', em: new Date().toISOString(), enviados: r.enviados ?? 0 });
+        console.log(`[admin] alerta urgente enviado: ${u.titulo} (${r.enviados ?? 0})`);
+        return json(res, 200, { ok: true, enviados: r.enviados ?? 0, pulado: r.pulado });
       }
       if (req.method === 'POST' && rota === '/api/recusar') {
         const b = await corpoJson(req);

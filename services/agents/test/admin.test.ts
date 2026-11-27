@@ -143,3 +143,33 @@ test('ao vivo: só com isLiveNow + vídeo; erro de rede segura 10 min e depois c
   assert.equal(s.aoVivo, false);
   assert.equal(s.url, 'https://www.youtube.com/@x/live');
 });
+
+test('urgentes: só urgente/plantão das últimas 24 h; decisão some do aviso; alerta chama a Vercel', async () => {
+  const { listarUrgentes, registrarDecisao, dispararAlerta } = await import('../src/admin/urgentes.ts');
+  const repo = repoFalso();
+  const nd = join(repo, 'content', 'noticias');
+  const fm = (t: string, u: string, d: string) => `---\ntitle: "${t}"\ndate: ${d}\nurgencia: "${u}"\n---\n\nx\n`;
+  writeFileSync(join(nd, '2026-11-27-chuva.md'), fm('Alerta de chuva no Sul', 'urgente', '2026-11-27T10:00:00-03:00'));
+  writeFileSync(join(nd, '2026-11-27-plantao.md'), fm('Plantão', 'plantao', '2026-11-27T11:00:00-03:00'));
+  writeFileSync(join(nd, '2026-11-27-normal.md'), fm('Normal', 'normal', '2026-11-27T11:00:00-03:00'));
+  writeFileSync(join(nd, '2026-11-25-velha.md'), fm('Velha', 'urgente', '2026-11-25T08:00:00-03:00'));
+  const r = { repo };
+  const l = listarUrgentes(r, '2026-11-27T15:00:00Z');
+  assert.deepEqual(l.map((x) => x.arquivo), ['2026-11-27-plantao.md', '2026-11-27-chuva.md']);
+  assert.equal(l[1].url, 'https://news.cnbmobile.com/noticias/2026-11-27-chuva/');
+  registrarDecisao(r, '2026-11-27-chuva.md', { acao: 'ignorado', em: 'x' });
+  assert.equal(listarUrgentes(r, '2026-11-27T15:00:00Z').find((x) => x.arquivo === '2026-11-27-chuva.md')!.decisao!.acao, 'ignorado');
+  assert.throws(() => registrarDecisao(r, '../x.md', { acao: 'ignorado', em: 'x' }));
+  await assert.rejects(dispararAlerta('u', {}), /ALERTA_SECRET/);
+  let pedido: { url: string; auth: string; body: string } | undefined;
+  const falso = (async (url: string, o: RequestInit) => {
+    pedido = { url, auth: String((o.headers as Record<string, string>).authorization), body: String(o.body) };
+    return new Response(JSON.stringify({ ok: true, enviados: 3 }), { status: 200 });
+  }) as unknown as typeof fetch;
+  const ok = await dispararAlerta('https://news.cnbmobile.com/noticias/a/', { ALERTA_SECRET: 's3' }, falso);
+  assert.equal(ok.enviados, 3);
+  assert.equal(pedido!.auth, 'Bearer s3');
+  assert.match(pedido!.body, /noticias\/a/);
+  const subindo = (async () => new Response('{"erro":"ainda_nao_publicada"}', { status: 409 })) as unknown as typeof fetch;
+  await assert.rejects(dispararAlerta('u', { ALERTA_SECRET: 's' }, subindo), /1 minuto/);
+});
