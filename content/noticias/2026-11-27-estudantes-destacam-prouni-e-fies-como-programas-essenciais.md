@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Estudantes destacam programas educacionais do governo federal em encontro com Lula
-
 ## Fato principal
 
 Estudantes da Universidade Federal Fluminense (UFF) reforçaram na sexta-feira (27) a importância dos programas educacionais federais, como o Prouni e o Fies, para o acesso ao ensino superior, durante encontro com o presidente Luiz Inácio Lula da Silva. O estudante de direito João Paulo Pimenta Armando destacou que sua geração é filha da Lei de Cotas e reafirmou a necessidade de proteger os direitos de acesso à educação.

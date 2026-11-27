@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Distribuidoras de energia oferecem descontos para renegociar dívidas
-
 ## Fato principal
 As distribuidoras de energia elétrica iniciaram campanhas de renegociação de dívidas com condições especiais para consumidores que buscam regularizar débitos com recursos do décimo terceiro salário. A primeira parcela do benefício deve ser paga até a próxima segunda-feira (30).
 

@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Bolsa sobe 6% e tem maior alta desde o 1º turno; dólar cai a R$ 5,74
-
 O mercado financeiro brasileiro registrou forte valorização nesta quinta-feira (26), com o Ibovespa avançando 6,07% e atingindo 176.799,84 pontos. A alta representa a maior variação diária desde 5 de outubro, quando o índice subiu 7,70% após o primeiro turno das eleições presidenciais.
 
 O movimento foi impulsionado por expectativas sobre a possibilidade de Luiz Carlos Trabuco assumir o Ministério da Fazenda no próximo mandato do presidente Luiz Inácio Lula da Silva, além de sinais de ajuste fiscal e a prévia do IPCA-15 de novembro que ficou abaixo das expectativas do mercado. O indicador subiu 0,22% em novembro, abaixo de 0,35% projetado.

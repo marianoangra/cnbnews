@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Vendas do Tesouro Direto registram melhor outubro da história
-
 O Tesouro Nacional divulgou nesta sexta-feira (27) que as vendas de títulos públicos a pessoas físicas pela internet em outubro alcançaram R$ 10,57 bilhões, o maior volume histórico para o mês de outubro. O recorde foi impulsionado pelo novo título Tesouro Reserva, que contribuiu com R$ 1,26 bilhões (11,9% do total).
 
 ## Contexto das vendas

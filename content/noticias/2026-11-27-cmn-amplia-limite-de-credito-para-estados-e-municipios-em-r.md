@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# CMN amplia limite de crédito para estados e municípios em R$ 1 bilhão
-
 O Conselho Monetário Nacional (CMN) aprovou, na noite de quinta-feira (26), a ampliação de R$ 1 bilhão no limite específico de crédito para operações contratadas por estados, municípios e Distrito Federal. A mudança permite que esses entes públicos acessem mais recursos no sistema financeiro até o fim do ano.
 
 Com a alteração, o teto anual de crédito passa de R$ 30,625 bilhões para R$ 31,625 bilhões. O aumento específico para operações com garantia da União eleva o limite de R$ 10 bilhões para R$ 11 bilhões.

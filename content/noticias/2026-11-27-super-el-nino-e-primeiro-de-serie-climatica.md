@@ -22,8 +22,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Super El Niño é primeiro de série de eventos climáticos, alerta especialista
-
 O climatologista Paulo Nobre, pesquisador sênior do Instituto Nacional de Pesquisas Espaciais (Inpe), afirma que o Super El Niño, fenômeno climático que atinge o planeta com intensidade elevada, é apenas o primeiro de uma série que impactará países nos próximos anos. A declaração foi feita pelo pesquisador sênior do Instituto Nacional de Pesquisas Espaciais (Inpe) durante palestra no Festival Iguassu Inova, em Foz do Iguaçu, no oeste do Paraná.
 
 ## Contexto do fenômeno

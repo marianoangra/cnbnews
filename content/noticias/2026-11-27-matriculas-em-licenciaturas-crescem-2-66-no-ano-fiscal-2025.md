@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Licenciaturas crescem em 2,66% no ano fiscal 2025, segundo Censo da Educação Superior
-
 O Censo da Educação Superior divulgado pelo Ministério da Educação (MEC) e pelo Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (Inep) revelou que o número de matrículas em licenciaturas no Brasil cresceu 2,66% no ano fiscal 2024-2025, atingindo 1,77 milhão de matrículas. O aumento foi de 60,64 mil matrículas em comparação com 2024 (1,47 milhão de inscritos), quando havia 1,47 milhão de inscritos.
 
 ## Contexto do crescimento

@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Governo avalia que novo tarifaço dos EUA busca proteger big techs
-
 O governo brasileiro considera que a proposta de tarifa dos Estados Unidos de 10% sobre a importação de aviões prontos e açúcar tem como objetivo, entre outros, desencorajar o Brasil de regular as grandes empresas tecnológicas (big techs) e pressionar por um acordo sobre minerais críticos que ajude Washington a enfrentar a concorrência da China.
 
 ## Contexto da proposta

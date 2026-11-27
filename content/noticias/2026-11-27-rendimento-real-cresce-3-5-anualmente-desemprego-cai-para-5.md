@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Rendimento real do trabalhador cresceu 3,5% em um ano
-
 O rendimento real habitual de todos os trabalhos registrou R$ 3.812 no trimestre encerrado em outubro deste ano, segundo dados da Pesquisa Nacional por Amostra de Domicílios (Pnad) contínua divulgados pelo Instituto Brasileiro de Geografia e Estatística (IBGE) nesta sexta-feira (27).
 
 O valor representa alta de 1% em comparação com o trimestre de julho deste ano e de 3,5% em relação ao mesmo período do ano passado. A massa de rendimento real habitual, que totalizou R$ 390,3 bilhões, cresceu 1,4% trimestralmente (acrescendo R$ 5,5 bilhões) e 4,6% anualmente (R$ 17,2 bilhões).

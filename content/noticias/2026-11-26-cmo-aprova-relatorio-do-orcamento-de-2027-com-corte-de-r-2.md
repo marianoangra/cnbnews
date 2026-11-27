@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# CMO aprova relatório do Orçamento de 2027 com corte de R$ 2,09 bilhões
-
 A Comissão Mista de Orçamento (CMO) do Congresso Nacional aprovou nesta quinta-feira (26) o relatório preliminar do Projeto de Lei Orçamentária Anual (PLOA) de 2027, que prevê o cancelamento de R$ 2,09 bilhões em despesas discricionárias do Executivo federal para atender emendas parlamentares.
 
 O corte representa 0,78% das despesas discricionárias do Executivo e pode impactar ministérios como Saúde e Infraestrutura, além de programações do Programa de Aceleração do Crescimento (PAC). O Fundo Nacional de Saúde concentra R$ 658,3 milhões dos cancelamentos previstos, quase um terço do total.

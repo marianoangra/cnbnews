@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Expectativa de vida no Brasil sobe para 76,9 anos, diz IBGE
-
 A expectativa de vida ao nascer do brasileiro em 2025 foi de 76,9 anos, segundo estimativa divulgada pelo Instituto Brasileiro de Geografia e Estatística (IBGE). O valor representa um aumento de 0,3 anos em relação ao ano passado, quando a estimativa era de 76,6 anos.
 
 Os dados completos serão lançados na manhã desta sexta-feira (27) pelo IBGE, mas a tabela com a expectativa de vida para todas as idades foi antecipada pelo Diário Oficial da União.

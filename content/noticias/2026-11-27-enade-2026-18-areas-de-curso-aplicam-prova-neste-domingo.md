@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Enade 2026: estudantes de 18 áreas fazem a prova neste domingo
-
 O Exame Nacional de Desempenho dos Estudantes (Enade) 2026 será aplicado neste domingo (29) em todos os estados e no Distrito Federal, para universitários de 18 cursos de bacharelado e superiores de tecnologia. A participação é obrigatória para que os concluintes recebam o diploma, já que a ausência sem justificativa torna o estudante irregular, impedindo a colação de grau.
 
 Os estudantes que iniciaram o curso em 2026, matriculados e com até 25% da carga horária mínima do curso integral, também farão a prova, mas a participação é opcional. Todos os habilitados devem estar inscritos nas instituições de ensino superior.

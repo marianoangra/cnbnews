@@ -12,8 +12,6 @@ requer_aprovacao_humana: false
 draft: false
 ---
 
-# Raio atinge plataforma da Petrobras a 200 quilômetros da costa do Rio
-
 Um raio atingiu o navio-plataforma P-77 da Petrobras, gerando um princípio de incêndio que foi rapidamente controlado pelas equipes de segurança da unidade. Segundo a empresa, não houve vítimas nem danos aos equipamentos.
 
 A plataforma instalada no Campo de Búzios, no pré-sal da Bacia de Santos, está em operação desde março de 2019. Localizada a aproximadamente 200 quilômetros da costa do Rio, a unidade flutuante de produção, armazenamento e transferência de petróleo tem capacidade para produzir diariamente 150 mil barris de petróleo e comprimir até 6 milhões de m³ por dia de gás. Está ancorada em área com lâmina d'água de 1.980 metros de profundidade.

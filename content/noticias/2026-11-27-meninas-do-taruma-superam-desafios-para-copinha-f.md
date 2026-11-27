@@ -19,8 +19,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Meninas do Tarumã superam incertezas por oportunidade na Copinha F
-
 ## O fato principal
 
 A equipe feminina do Esporte Clube Tarumã, de Manaus, superou desafios financeiros e logísticos para participar da Copinha F Petrobras, torneio feminino da Copa São Paulo de Futebol Júnior, após conseguir viabilizar a viagem para São Paulo com apenas 14 horas de antecedência em relação ao jogo de estreia contra o Palmeiras.

@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Rádio Nacional transmite Fluminense x Cruzeiro no Brasileirão 2026
-
 ## O fato principal
 A Rádio Nacional transmite, nesta sexta-feira (27), o duelo entre Fluminense e Cruzeiro, válido pela 37ª rodada do Campeonato Brasileiro Série A 2026, a partir das 20h. O jogo ocorre no Maracanã, no Rio de Janeiro.
 

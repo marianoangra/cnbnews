@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Mostra no Recife destaca diversidade de filmes de animação africanos
-
 No mês da Consciência Negra, Recife recebe neste fim de semana uma mostra especial de curta-metragens de animação de diretores africanos. São dez obras de diferentes países, incluindo *A Morte de Gandji*, de 1965, considerada a primeira animação do continente.
 
 ## Contexto da mostra

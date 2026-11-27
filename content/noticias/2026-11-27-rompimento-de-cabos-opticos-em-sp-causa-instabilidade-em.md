@@ -19,8 +19,6 @@ lauda_youtube:
 draft: false
 ---
 
-# SP: rompimento de cabos de fibra óptica causa instabilidade em serviços públicos
-
 O rompimento de dois cabos de fibra óptica provocou interrupções e instabilidade em serviços públicos no estado de São Paulo na manhã desta sexta-feira (27). Entre os serviços afetados estão os portais institucionais do governo do estado, sistemas das áreas de segurança pública, saúde e educação e plataformas e serviços do Detran-SP e do Poupatempo.
 
 A Companhia de Processamento de Dados do Estado de São Paulo (Prodesp) informou que o incidente ocorreu durante uma escavação em obra na região de Taboão da Serra, na região metropolitana da capital, danificando a infraestrutura de comunicação. A empresa destaca que equipes técnicas da Prodesp estão mobilizadas para restabelecer a conexão e normalizar o funcionamento dos serviços.

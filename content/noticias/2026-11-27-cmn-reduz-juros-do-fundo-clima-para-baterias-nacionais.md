@@ -16,8 +16,6 @@ lauda_youtube:
 draft: false
 ---
 
-# CMN reduz juros do Fundo Clima para incentivar baterias nacionais
-
 O Conselho Monetário Nacional (CMN) aprovou, em reunião extraordinária dessa quinta-feira (26), a redução da taxa de juros do Fundo Nacional sobre Mudança do Clima (Fundo Clima) para projetos de armazenamento de energia que utilizem baterias produzidas no Brasil. A mudança reduz a taxa anual de financiamento de 6,5% para 3% ao ano, mas só se aplica a leilões a serem realizados em 2 de dezembro (2026).
 
 ## Contexto da medida

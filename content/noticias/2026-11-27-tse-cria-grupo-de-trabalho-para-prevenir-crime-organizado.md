@@ -25,8 +25,6 @@ aprovado_em: 2026-11-27T11:22:04-03:00
 draft: false
 ---
 
-# TSE cria grupo de trabalho para prevenir envolvimento do crime organizado nas eleições
-
 O Tribunal Superior Eleitoral (TSE) iniciou medidas para combater a infiltração do crime organizado no processo eleitoral, criando um grupo de trabalho com prazo de 120 dias para propor ações concretas de prevenção e enfrentamento. A portaria que instituiu o colegiado foi publicada na quinta-feira (26).
 
 O grupo, coordenado pela juíza auxiliar Graziela de Rezende Henriquez, terá foco na avaliação de riscos como financiamento ilícito de campanhas, infiltração em estruturas político-administrativas, coação de eleitores e intimidação de candidatos. As atribuições incluem aprimorar a análise das contas eleitorais e partidárias, reforçar a segurança de magistrados e servidores, além de capacitar equipes em tecnologias de investigação.

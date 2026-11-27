@@ -19,8 +19,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Com bandeira tarifária verde, energia não terá custo extra em dezembro
-
 O mês de dezembro continuará sem cobrança de taxa extra nas contas de energia elétrica dos brasileiros. A Agência Nacional de Energia Elétrica (Aneel) manteve a bandeira tarifária verde pelo terceiro mês seguido.
 
 A manutenção da bandeira verde reflete as condições favoráveis de geração de energia no país. Segundo a Aneel, o período chuvoso melhorou os níveis dos reservatórios e as condições de geração das usinas hidrelétricas, reduzindo a necessidade de acionar usinas termelétricas, que têm custos mais elevados.

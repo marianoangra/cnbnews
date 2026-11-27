@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T18:11:41-03:00
 draft: false
 ---
 
-# Selo Não é Não – Mulheres Seguras é lançado em bares brasileiros
-
 O Ministério das Mulheres lançou hoje, a partir das 18h, o selo **Não é Não – Mulheres Seguras** em diversos bares de todas as capitais brasileiras. O selo, que será entregue simbolicamente a dois bares de Brasília, tem como objetivo reconhecer estabelecimentos que adotam medidas de prevenção ao constrangimento e violência contra mulheres.
 
 ## Contexto e impacto

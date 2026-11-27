@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Manaus suspende atividades em parques por piora na qualidade do ar
-
 A prefeitura de Man. A medida foi adotada para reduzir a exposição da população e evitar atividades físicas ao ar livre, considerando o aumento da concentração de fumaça na região.
 
 ## Contexto e impacto

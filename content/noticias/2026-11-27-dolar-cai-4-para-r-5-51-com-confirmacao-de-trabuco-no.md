@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Dólar cai quase 4% e fecha em R$ 5,51 após confirmação de Trabuco no Ministério da Fazenda
-
 O dólar registrou queda de 3,97% nesta sexta-feira (27), fechando em R$ 5,516, após a confirmação de que Luiz Carlos Trabuco assumirá o Ministério da Fazenda no próximo governo de Luiz Inácio Lula da Silva. A moeda americana acumulou recuo de 7,07% na semana, o maior desde outubro de 2008.
 
 ## Contexto da queda

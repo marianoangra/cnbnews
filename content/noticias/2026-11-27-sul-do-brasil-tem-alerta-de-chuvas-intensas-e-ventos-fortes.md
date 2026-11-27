@@ -19,8 +19,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Sul do país tem alerta de perigo de chuvas intensas
-
 ## Alerta de perigo de chuvas intensas
 
 O Instituto Nacional de Meteorologia (Inmet) emitiu alerta de perigo de chuvas intensas para regiões do sul do Brasil. A previsão aponta volume de precipitação entre 30 e 60 milímetros por hora e entre 50 e 100 mm por dia, acompanhado de ventos intensos com velocidade máxima de 100 km/h.

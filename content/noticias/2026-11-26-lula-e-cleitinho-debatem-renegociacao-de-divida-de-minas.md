@@ -14,8 +14,6 @@ motivos_revisao:
 draft: false
 ---
 
-# Lula e Cleitinho debatem negociação de dívida de Minas Gerais
-
 O presidente Luiz Inácio Lula da Silva e o governador eleito de Minas Gerais, Cleitinho, discutiram na tarde desta quinta-feira (26) no Palácio da Alvorada as formas de negociar a dívida bilionária do estado com a União, que chega a cerca de R$ 180 bilhões.
 
 O encontro, que contou com a participação do ministro da Fazenda, Dario Durigan, focou na renegociação do pagamento da dívida no âmbito do Programa de Pleno Pagamento da Dívida dos Estados (Propag). Segundo o presidente, a equipe do governador eleito irá se reunir com técnicos do Ministério da Fazenda para tratar do assunto, garantindo que qualquer proposta do futuro governo mineiro esteja enquadrada nos marcos legais e fiscais do programa.

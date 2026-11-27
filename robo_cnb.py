@@ -306,6 +306,10 @@ def outra_cidade_homonima(cidade_pura, manchete):
         depois = manchete[m.end():]
         if re.match(rf"\s+(d[aeo]s?\s+[A-ZÁÉÍÓÚÂÊÔÃÕ][\wÀ-ÿ]{{2,}}|(?:{_SUFIXOS_HOMONIMOS})\b)", depois):
             return True
+        # "rua Almirante Tamandaré" em Blumenau não é Almirante Tamandaré (PR): logradouro/prédio com o nome
+        if re.search(r"\b(rua|avenida|av\.|pra[çc]a|travessa|alameda|estrada|rodovia|viaduto|ponte|largo|escola|col[ée]gio|edif[ií]cio)\s+$",
+                     manchete[:m.start()], re.I):
+            return True
         # "Geraldo Resende" (deputado) não é Resende: nome próprio colado antes = sobrenome de pessoa
         antes = re.search(r"([A-ZÁÉÍÓÚÂÊÔÃÕ][a-zà-ÿ]{2,})\s+$", manchete[:m.start()])
         if antes and normalizar(antes.group(1)) not in {

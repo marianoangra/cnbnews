@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Feijoada e peixe? Ministério quer ampliar consumo de pescado no país
-
 O Ministério da Pesca e Aquicultura propõe que o peixe seja incluído no cardápio semanal de brasileiros, incentivando seu consumo regular para melhorar a saúde e a sustentabilidade. Segundo o ministro Édipo Araújo, a iniciativa busca universalizar o consumo de pescados, que são ricos em nutrientes essenciais e têm menor impacto ambiental comparado a outras proteínas.
 
 O governo destaca que o pescado é fonte de proteínas de alto valor biológico, contendo ácidos graxos ômega-3, vitaminas A, D e complexo B, além de minerais como cálcio, fósforo, ferro, zinco e selênio. Esses componentes estão associados ao desenvolvimento físico e cognitivo, fortalecimento do sistema imunológico e saúde cardiovascular e óssea. Além disso, a atividade pesqueira é considerada uma fonte de renda para milhões de famílias brasileiras.

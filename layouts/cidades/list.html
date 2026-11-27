@@ -1,4 +1,8 @@
 {{ define "titulo" }}{{ if .Sections }}Cidades · CNB News{{ else }}Notícias de {{ replaceRE " \\([A-Z]{2}\\)$" "" .Title }} hoje · CNB News{{ end }}{{ end }}
+{{ define "canonical" }}{{ if .Sections }}{{ .Permalink }}{{ else }}https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/{{ end }}{{ end }}
+{{ define "descricao" }}{{ if .Sections }}Edições locais da CNB News: notícias de cada cidade, com a fonte citada.{{ else }}Notícias de {{ .Title }} hoje: prefeitura, serviços, saúde, trânsito e o que acontece na cidade, com a fonte citada.{{ end }}{{ end }}
+{{/* Cidade sem notícia é página vazia (soft 404 para o Google): fora do índice até ter conteúdo. */}}
+{{ define "robots" }}{{ if and (not .Sections) (not .Pages) }}noindex, follow{{ else }}max-image-preview:large{{ end }}{{ end }}
 {{ define "main" }}
 {{ if .Sections }}
   {{/* /cidades/ : índice de todas as edições locais */}}
@@ -16,7 +20,7 @@
   {{ $todas := .Pages.ByDate.Reverse }}
   {{ $usadas := newScratch }}
   {{ $hoje := now.Format "2006-01-02" }}
-  {{ if not $todas }}<p style="padding:40px 0">Ainda sem notícias de {{ $nome }}.</p>{{ else }}
+  {{ if not $todas }}<div class="pg-h"><h1 class="pg-t">Notícias de {{ $nome }}</h1></div><p style="padding:0 0 40px">Ainda sem notícias de {{ $nome }}. As primeiras chegam em breve.</p>{{ else }}
 
   {{/* agrupa por editoria: Scratch.Add com slice acumula a lista */}}
   {{ $g := newScratch }}

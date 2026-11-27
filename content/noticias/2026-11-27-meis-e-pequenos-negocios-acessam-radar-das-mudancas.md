@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Ferramenta gratuita reúne mudanças para MEIs e pequenos negócios
-
 ## O fato principal
 Microempreendedores individuais (MEIs) e donos de pequenos negócios podem acessar gratuitamente o Radar das Mudanças para Pequenos Negócios, plataforma desenvolvida pela Barkus, que reúne informações sobre 11 medidas tributárias e de regularização de dívidas previstas na reforma tributária e no pacote Prospera MEI.
 

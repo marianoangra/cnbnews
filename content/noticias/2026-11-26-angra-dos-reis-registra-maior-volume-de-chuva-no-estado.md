@@ -21,8 +21,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Angra dos Reis registra maior volume de chuva no estado
-
 O município de Angra dos Reis, na região da Costa Verde, registrou o maior volume de chuva no município nesta quinta-feira (26), segundo dados do Centro Nacional de Monitoramento e Alertas de Desastres Naturais (Cemaden-RJ).
 
 ## Contexto da chuva

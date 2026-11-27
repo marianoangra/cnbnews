@@ -22,8 +22,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Governo e produtores repudiam crítica de Macron à carne brasileira
-
 O governo brasileiro e associações de exportadores de carne criticaram as afirmações do presidente francês, Emmanuel Macron, que declarou que a carne brasileira é "dopada" e elogiou restrições à importação de produtos animais do Brasil e Mercosul pela União Europeia.
 
 De acordo com a Agência Brasil, Macron afirmou que os produtos do Mercosul são "dopados", se referindo ao uso de antimicrobianos. O governo brasileiro e as associações de exportadores reforçaram que as declarações do presidente francês "disseminam desinformação" e contrariam evidências científicas já disponíveis sobre a produção de proteína animal no Brasil.

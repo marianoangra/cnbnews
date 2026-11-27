@@ -16,8 +16,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Taxa de desemprego cai para 5,1% no trimestre de outubro
-
 Segundo o Instituto Brasileiro de Geografia e Estatística (IBGE), a taxa de desocupação ficou em 5,1% no trimestre encerrado em outubro deste ano, atingindo o menor patamar da série histórica desde 2012.
 
 O dado, divulgado nesta sexta-feira (27), mostra que a taxa de desemprego caiu 0,2 pontos percentuais em relação ao trimestre anterior (5,3% em julho) e 0,3 pontos percentuais em comparação com o mesmo período do ano passado (5,4%).

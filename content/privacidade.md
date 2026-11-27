@@ -11,8 +11,17 @@ A sua privacidade é importante para nós. É política do **CNB News Brasil** r
 * Com o cookie DART / de publicidade, o Google pode exibir anúncios personalizados com base nas suas visitas a este e a outros sites na Internet.
 * Você pode desativar a publicidade personalizada acessando as **Configurações de Anúncios do Google**.
 
+### Google Analytics
+* Usamos o **Google Analytics 4** para medir a audiência (páginas mais lidas, cidade e tipo de aparelho dos visitantes, de onde veio a visita). Ele usa cookies e recebe dados de navegação, como endereço IP e páginas visitadas.
+* Usamos esses números só de forma agregada, para decidir o que cobrir. Você pode bloquear a coleta com o complemento oficial de desativação do Google Analytics ou nas configurações de cookies do seu navegador.
+
 ### Dados de Navegação
-Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei. O uso continuado de nosso site será considerado como aceitação de nossas práticas em torno de privacidade e informações pessoais.
+Não vendemos nem publicamos informações de identificação pessoal. Os dados de navegação são tratados pelo Google (AdSense e Analytics) e pela Vercel, empresa que hospeda o site, nos termos das políticas de privacidade dessas empresas. Fora isso, só compartilhamos dados quando exigido por lei.
+
+### Quem é o responsável e quais são os seus direitos
+* **Controladora dos dados:** CNB Mobile LTDA - ME, CNPJ 64.471.793/0001-00.
+* **Contato do encarregado (LGPD):** contato@rafaelmariano.com.br.
+* Pela Lei Geral de Proteção de Dados (art. 18), você pode pedir a confirmação de que tratamos seus dados, o acesso, a correção ou a exclusão deles e a revogação do consentimento. Basta escrever para o e-mail acima.
 
 ### Newsletter {#newsletter}
 * **O que coletamos:** o seu e-mail, a cidade que você escolheu (opcional) e a data e hora em que você aceitou receber a newsletter.

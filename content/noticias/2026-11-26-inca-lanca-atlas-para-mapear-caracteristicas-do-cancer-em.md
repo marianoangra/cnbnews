@@ -19,8 +19,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Inca lança atlas para mapear características do câncer em brasileiros
-
 O Instituto Nacional de Câncer (Inca) lançou, nesta quinta-feira (26), no Rio de Janeiro, o Atlas Tumoral da População Brasileira, uma plataforma online para coletar dados clínicos sobre cânceres em brasileiros. A iniciativa busca preencher lacunas na pesquisa nacional, já que os bancos de dados internacionais usados atualmente têm poucas referências de pacientes latino-americanos.
 
 O atlas, desenvolvido no próprio Instituto Nacional de Câncer (Inca), já conta com registros de 2,8 mil pacientes distribuídos em grupos de doenças oncológicas, incluindo câncer de mama hereditário, leucemias, câncer de colo de útero, ovário, endométrio, próstata, pênis e câncer anal. Segundo o diretor-geral do instituto, Roberto Gil, a diversidade genética da população influencia a frequência de determinadas variantes e o risco de câncer e o risco de desenvolvimento da doença, o que é essencial para melhorar diagnósticos e tratamentos no Brasil.

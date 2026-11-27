@@ -42,7 +42,8 @@ export function paraMarkdownHugo(a: ArticlePayload): string {
       `  palavras_chave_visuais: [${l.palavras_chave_visuais.map(q).join(', ')}]`,
     );
   }
-  linhas.push('draft: false', '---', '', a.corpo_artigo_md.trim(), '');
+  // O layout já põe a manchete como H1; um "# título" no começo do corpo virava 2º H1 (SEO).
+  linhas.push('draft: false', '---', '', a.corpo_artigo_md.trim().replace(/^#\s[^\n]*\n+/, ''), '');
   return linhas.join('\n');
 }
 

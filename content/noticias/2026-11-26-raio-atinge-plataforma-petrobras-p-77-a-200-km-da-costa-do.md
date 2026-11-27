@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Raio atinge plataforma da Petrobras a 200 quilômetros da costa do Rio
-
 Um raio atingiu a plataforma flutuante da Petrobras P-77, localizada a 200 quilômetros da costa do Rio de Janeiro, gerando um princípio de incêndio, rapidamente controlado pelas equipes de segurança da plataforma. A empresa informou que não houve vítimas nem danos aos equipamentos.
 
 ## Contexto da plataforma

@@ -19,8 +19,6 @@ aprovado_em: 2026-11-27T11:22:23-03:00
 draft: false
 ---
 
-# Brasileiros gastam mais com alimentação e saúde, aponta pesquisa do IBGE
-
 Segundo a Pesquisa de Orçamentos Familiares (POF) 2024-2025 do Instituto Brasileiro de Geografia e Estatística (IBGE), os gastos com alimentação e assistência à saúde cresceram em relação ao período anterior (2017-2018), ocupando os dois primeiros lugares entre os grupos de despesas familiares.
 
 Na pesquisa atual, a alimentação representa 14% do total das despesas das famílias brasileiras, um aumento de 0,9 pontos percentuais em relação ao período anterior (2017-2018), quando era 13,1%. Já os gastos com saúde passaram de 8% para 9,6% do orçamento familiar (2017-2018).

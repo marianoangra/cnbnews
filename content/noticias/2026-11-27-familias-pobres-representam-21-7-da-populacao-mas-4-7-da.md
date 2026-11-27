@@ -16,8 +16,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Famílias mais pobres são 21,7% da população, mas recebem apenas 4,7% da renda
-
 A Pesquisa de Orçamentos Familiares (POF) 2024-2025, divulgada pelo Instituto Brasileiro de Geografia e Estatística (IBGE) nesta sexta-feira (27), revela que famílias com renda até dois salários mínimos representam 21,7% da população brasileira, mas apenas 4,7% do rendimento total e variação patrimonial do país.
 
 Os dados também apontam que famílias com renda acima de 25 salários mínimos constituem 2,6% da população, mas concentram 19,1% dos recursos. Além disso, famílias com renda até seis salários mínimos representam 70,2% da população e se apropriam de 33,7% do rendimento mensal.

@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Guia orienta estados e municípios a acolher migrantes e refugiados
-
 O Ministério da Justiça e Segurança Pública (MJSP) e a Agência da Organização das Nações Unidas (ONU) para Refugiados (Acnur) divulgaram, nesta sexta-feira (27), um guia com orientações para auxiliar estados e municípios a elaborarem políticas e desenvolver ações de acolhimento e integração de pessoas que deixaram seus locais de origem de forma voluntária ou forçada.
 
 ## Contexto e números

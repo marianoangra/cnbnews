@@ -16,8 +16,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Expectativa de vida das mulheres no Brasil supera 80 anos
-
 Segundo o Instituto Brasileiro de Geografia e Estatística (IBGE), a expectativa de vida ao nascer para as mulheres brasileiras atingiu 80,1 anos em 2025, um aumento de pouco mais de dois meses em relação ao ano anterior (79,9 anos).
 
 O aumento da expectativa de vida reflete o retomar da trajetória histórica de ganhos na sobrevivência da população após a pandemia de covid-19, com avanços na saúde e no saneamento. De 1940 para 2025, os brasileiros passaram a viver, em média, 31,4 anos a mais, com a esperança de vida ao nascer em 1940 de 45,5 anos.

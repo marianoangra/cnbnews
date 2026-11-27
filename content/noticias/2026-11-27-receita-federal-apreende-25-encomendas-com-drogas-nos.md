@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T18:11:17-03:00
 draft: false
 ---
 
-# Receita Federal apreende encomendas com drogas nos Correios
-
 A Receita Federal apreendeu, no Centro de Distribuição dos Correios no Rio de Janeiro, nessa quinta-feira (26), 25 encomendas contendo substâncias entorpecentes, avaliadas em R$ 800 mil. A ação contou com o apoio do cão de faro Abby, especializado na detecção de drogas.
 
 As encomendas identificadas incluíram:

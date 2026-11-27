@@ -19,8 +19,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Aumento de casos graves de covid-19 pode estar relacionado a nova variante
-
 O aumento dos casos de Síndrome Respiratória Aguda Grave (SRAG) por covid-19 no Brasil está sendo monitorado por uma nova variante do vírus, potencialmente mais transmissível, segundo o Boletim Infogripe da Fundação Oswaldo Cruz (Fiocruz). A análise, que abrange dados do período de 15 a 21 de novembro, indica que a circulação da variante PJ.2.1, monitorada pela Organização Mundial da Saúde (OMS) desde o dia 19, pode estar contribuindo para a elevação dos casos graves.
 
 ## Regiões afetadas

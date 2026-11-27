@@ -55,14 +55,14 @@
   </url>
   {{ end }}
   {{ with site.GetPage "/cidades" }}
-    {{ range .Sections }}
+    {{ range .Sections }}{{ if .Pages }}
       {{ $slug := path.Base (strings.TrimSuffix "/" .RelPermalink) }}
   <url>
     <loc>https://{{ $slug }}.{{ site.Params.baseDomain }}/</loc>
     <changefreq>hourly</changefreq>
     <priority>0.9</priority>
   </url>
-    {{ end }}
+    {{ end }}{{ end }}
   {{ end }}
   {{ range where site.RegularPages "Section" "cidades" }}
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}

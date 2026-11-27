@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T16:21:22-03:00
 draft: false
 ---
 
-# Turismo estrangeiro movimentou R$ 53 bi na economia brasileira em 2026
-
 Os gastos de visitantes estrangeiros no Brasil alcançaram R$ 53,8 bilhões nos dez primeiros meses de 2026, segundo o Ministério do Turismo. O valor representa o maior registrado para o período, com aumento de 9,3% em relação aos R$ 49,2 bilhões (em valores atualizados) de janeiro a outubro de 2026.
 
 O resultado inclui um recorde mensal em outubro, quando os turistas internacionais deixaram R$ 5,052 bilhões (em valores atualizados) na economia brasileira. Esse valor supera em 2% o registrado no mesmo mês do ano passado.

@@ -23,8 +23,6 @@ aprovado_em: 2026-11-27T16:59:30-03:00
 draft: false
 ---
 
-# Brasil tem 387 mil crianças e adolescentes em união conjugal
-
 Quase 400 mil crianças e adolescentes brasileiros viviam em união conjugal no ano de 2022, segundo levantamento inédito do Fundo de População das Nações Unidas (UNFPA) com dados do Censo Demográfico 2022.
 
 O perfil mais comum é de meninas na adolescência, próximas dos 17 anos, pretas ou pardas, moradoras de famílias de baixa renda e vivendo em uniões informais, sem registro civil ou religioso. Dentre os 387,3 mil jovens que viviam em união conjugal, 82,1% são meninas, 68,2% são pretos ou pardos e 84,5% vivem em domicílios com renda inferior a um salário mínimo por pessoa. Além disso, 92,3% das uniões são informais.

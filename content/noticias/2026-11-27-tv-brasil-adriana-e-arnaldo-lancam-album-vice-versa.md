@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# TV Brasil: Programa 'Sem Censura' reúne Adriana Calcanhotto e Arnaldo Antunes para lançar álbum 'Vice-Versa'
-
 O programa *Sem Censura*, da TV Brasil, apresentou na sexta-feira (27) a dupla Adriana Calcanhotto e Arnaldo Antunes para discutir o lançamento do álbum *Vice-Versa*, primeiro trabalho conjunto dos artistas. O evento ocorreu às 16h, com a jornalista Cissa Guimarães como moderadora, além do ator Gregório Duvivier e a psicóloga Virgínia Kastrup.
 
 ## Contexto do projeto

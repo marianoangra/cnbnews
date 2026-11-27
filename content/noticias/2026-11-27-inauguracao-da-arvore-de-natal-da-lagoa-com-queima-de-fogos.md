@@ -19,8 +19,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Inauguração da Árvore de Natal da Lagoa terá queima de fogos e drones
-
 A tradicional Árvore de Natal da Lagoa, na zona sul do Rio de Janeiro, completará 30 anos este ano com uma inauguração marcada por concerto, queima de fogos e show noturno. A cerimônia acontecerá neste sábado (28), a partir das 17h no Complexo Lagoon, com apresentação da Orquestra Petrobras Sinfônica até as 21h.
 
 ## Logística e inovação

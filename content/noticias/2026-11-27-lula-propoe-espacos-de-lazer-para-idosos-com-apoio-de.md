@@ -20,8 +20,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Lula propõe espaços de lazer para idosos com apoio de prefeituras
-
 O presidente Luiz Inácio Lula da Silva anunciou, nesta sexta-feira (27), um projeto de criação de locais de convivência para idosos, onde possam praticar atividades físicas, se entreter com música ou outras formas de lazer, além de ter acesso a atendimento médico. Segundo a Agência Brasil, Lula destacou que não se trata de um asilo, mas de um espaço acessível a quem desejar ir a qualquer momento.
 
 O projeto prevê a construção de locais com apoio das prefeituras, visando atender idosos que moram com familiares. O presidente explicou que o objetivo é permitir que uma pessoa idosa, por exemplo, que more com a filha, possa levantar e ir ao local para nadar, cantar ou brincar, conforme suas necessidades. Se precisar de atendimento médico, haverá acesso a esse serviço.

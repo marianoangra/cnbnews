@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Pé-de-Meia: alunos nascidos em setembro e outubro recebem a oitava parcela mensal de R$ 200
-
 O programa Pé-de-Meia de 2026 do ensino médio regular e da educação de jovens e adultos (EJA) está sendo pago aos estudantes nascidos em setembro e outubro, que recebem nesta sexta-feira (27) a oitava parcela mensal do incentivo à frequência escolar.
 
 ## Como funciona o programa

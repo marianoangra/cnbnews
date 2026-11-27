@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Alckmin considera imposição de tarifas para aviões do Brasil 'descabida'
-
 O vice-presidente da República, Geraldo Alckmin, afirmou que a proposta dos Estados Unidos de aplicar tarifas sobre aeronaves importadas é 'totalmente descabida', destacando que não há no mundo tarifas em setores estratégicos como o aeronáutico.
 
 Segundo Alckmin, o governo brasileiro está trabalhando para reverter a tendência de imposição de novas tarifas norte-americanas, reforçando que é uma tradição não haver tarifas em um setor tão estratégico quanto o aeronáutico.

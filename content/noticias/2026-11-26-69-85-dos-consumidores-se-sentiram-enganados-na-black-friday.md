@@ -19,8 +19,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Quase 70% dos consumidores já se sentiram enganados na Black Friday
-
 Segundo pesquisa do Programa de Proteção e Defesa do Consumidor de São Paulo (Procon-SP), 69,85% dos consumidores já se sentiram enganados em compras feitas durante a Black Friday. O levantamento, realizado com 585 pessoas do estado de São Paulo, revela que 91,45% dos participantes monitoraram promoções no período, mas 54,58% relataram que os preços diminuíram apenas parcialmente e 39,63% consideraram que não houve redução de preço.
 
 Entre os casos de engano, 131 consumidores afirmaram que o preço estava disfarçado de desconto, 8 relataram que o produto veio diferente ou com restrições, 13 informaram que não houve entrega do produto e 31 alegaram que a oferta não foi cumprida.

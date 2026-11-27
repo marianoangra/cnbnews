@@ -21,8 +21,6 @@ aprovado_em: 2026-11-27T18:11:17-03:00
 draft: false
 ---
 
-# Eólicas e avanço do mar desafiam reserva ambiental no litoral potiguar
-
 O avanço acelerado do mar e a instalação de parques eólicos estão desafiando a Reserva de Desenvolvimento Sustentável Estadual Ponta do Tubarão (RDSEPT) no litoral do Rio Grande do Norte, segundo relatos de moradores e análises técnicas.
 
 A região, que abrange 13 km contínuos de dunas, restingas e manguezais, tem registrado um recuo médio de 1,5 a 3,5 metros por ano na linha de costa, sendo a maior taxa de erosão das 12 regiões analisadas pelo estado. Para Geovani Silva, pescador de 45 anos, o mar já engoliu ranchos em três mudanças este ano, enquanto sua esposa, Gercina Izídio, de 41 anos, relata que, há 23 anos, as dunas eram imensas e o mar estava longe.

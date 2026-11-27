@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Lula garante benefícios em novo governo, mas defende revisão
-
 O presidente Luiz Inácio Lula da Silva afirmou, nesta sexta-feira (27), em discurso em Niterói (RJ), que haverá revisão nos programas sociais do governo federal para garantir que apenas quem tem direito receba benefícios. Segundo ele, não é possível permitir que pessoas que não têm direito recebam recursos, enquanto quem tem direito não recebe.
 
 Lula destacou que não haverá cortes em benefícios para populações pobres e educação, mas reforçou a necessidade de ajustes nos programas para evitar desperdícios. Ele também garantiu investimento em educação, incluindo escolas de tempo integral, e defendeu a industrialização como estratégia para o crescimento econômico do país.

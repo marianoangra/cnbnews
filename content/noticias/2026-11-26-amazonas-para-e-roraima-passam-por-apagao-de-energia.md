@@ -25,8 +25,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Amazonas, Pará e Roraima passam por apagão de energia elétrica
-
 ## Fato principal
 
 Amazonas, Pará e Roraima passaram por um apagão de energia elétrica na tarde desta quinta-feira (2.6), resultado do desligamento de cerca de 2.323 MW em linhas de transmissão na Região Norte.

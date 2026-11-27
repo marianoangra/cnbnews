@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Com 40 anos na política, Benedita abriu caminhos para mulheres negras
-
 A deputada federal Benedita da Silva (PT-RJ), com 40 anos de trajeto político, se destaca como pioneira para mulheres negras no Brasil. Segundo a Agência Brasil, ela disputou 13 eleições, vencendo nove e perdendo quatro, mas não se envolve com a apuração eleitoral, preferindo recolher-se para assistir a filmes ou orações.
 
 Em 4 de outubro, após uma campanha extenuante ao Senado pelo Rio de Janeiro, Benedita se fechou no escritório para assistir a um culto online. Ela terminou em terceiro lugar nas pesquisas de intenção de voto, com 3.220.765 votos, enquanto as vagas do estado do Rio ficaram com Carlos Portinho e Carlos Jordy, ambos do PL.

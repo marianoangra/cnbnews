@@ -20,8 +20,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Contas do governo têm superávit de R$ 52,3 bilhões em outubro
-
 O Tesouro Nacional informou hoje (27) que as contas do Governo Central registraram superávit primário de R$ 52,3 bilhões em outubro, superando as estimativas do mercado, que projetavam R$ 43,4 bilhões para o mês. O resultado representa um crescimento real de 36,4% em relação a outubro de 2025, quando o saldo positivo foi de R$ 36,6 bilhões, já descontado o impacto da inflação.
 
 O superávit é o maior registrado para um mês de outubro desde o início da série histórica, em 1997. Em valores corrigidos pela inflação, ele é o segundo melhor para o mês, atrás apenas do registrado em outubro de 2016, quando as contas públicas foram impulsionadas por uma arrecadação extraordinária obtida com o programa de regularização de recursos mantidos por brasileiros no exterior.

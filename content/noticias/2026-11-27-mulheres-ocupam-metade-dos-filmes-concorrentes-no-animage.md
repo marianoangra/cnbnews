@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Mulheres ganham espaço na animação, mas ainda são minoria
-
 O 16º Festival Internacional de Cinema de Animação de Pernambuco (Animage) registrou metade dos dez filmes concorrentes ao prêmio principal com diretoras mulheres. Segundo a Agência Brasil, o resultado reflete esforço proposital do evento, que busca diversidade na indústria.
 
 Entre os filmes, destacam-se *Olívia e o Terremoto Invisível* (2025), dirigido pela espanhola Irene Iborra; *Bouchra* (2025), com as marroquinas Meriem Bennani e Orian Barki; *Anzu - O Gato Fantasma* (2024) e *Planetas* (2025), co-direcionados pela japonesa Yõko Kuno e Mamoko Seto; e *O Filho da Puta* (2026), produzido por Erica Maradona e Tania Anaya junto com Otto Guerra e Sávio Leite.

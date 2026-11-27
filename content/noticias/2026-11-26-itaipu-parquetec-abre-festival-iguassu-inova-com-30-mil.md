@@ -19,8 +19,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Itaipu Parquetec atrai estudantes e empreendedores para festival de inovação
-
 O Itaipu Parquetec, centro de pesquisa e inovação da Hidrelétrica de Itaipu, recebeu milhares de estudantes, acadêmicos, pesquisadores e empreendedores na quarta-feira (25) para a abertura do Festival Iguassu Inova. O evento, promovido pelo Itaipu Parquetec, instituto ligado à Hidrelétrica de Itaipu, está na terceira edição e segue até o sábado (28), com objetivo de reunir ciência, inovação, empreendedorismo, turismo, negócios, música e cultura.
 
 O festival, criado em 2024, está na terceira edição e espera mais de 30 mil pessoas nos quatro dias de evento gratuito. Cerca de 1,5 mil pessoas estão envolvidas na organização do Iguassu Inova, que ocupa área de aproximadamente 90 mil metros quadrados. Até sábado serão 300 horas de programação em mais de 15 salas de palestras, abrangendo temas como inteligência artificial, segurança cibernética, transição energética, mudanças climáticas, energias renováveis, agro sustentável, inclusão e redução das desigualdades, abrangendo temas como inteligência artificial, segurança cibernética, transição energética, mudanças climáticas, energias renováveis, agro sustentável, inclusão e redução das desigualdades.

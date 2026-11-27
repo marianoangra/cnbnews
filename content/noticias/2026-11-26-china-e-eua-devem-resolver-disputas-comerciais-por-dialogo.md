@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# China e EUA devem resolver questões comerciais por diálogo, afirma porta-voz chinês
-
 O porta-voz do Ministério das Relações Exteriores da China, Guo Jiakun, afirmou nesta quinta-feira (26) que as questões comerciais entre China e Estados Unidos devem ser resolvidas por meio de consultas baseadas na igualdade, respeito mútuo e reciprocidade. A declaração foi feita em resposta às recentes medidas tarifárias adotadas pelo governo norte-americano.
 
 Segundo a Agência Brasil, Jiakun destacou que a premissa de "excesso de capacidade" é falsa e que a China se opõe a que essa questão seja usada como pretexto para manipulação política. Já o porta-voz do Ministério do Comércio chinês, He Yadong, declarou que a China se reserva o direito de adotar medidas necessárias para salvaguardar seus direitos e interesses legítimos após os EUA propor novas tarifas sobre produtos chineses com base em uma investigação nos termos da Seção 301.

@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Estudo aponta falta de dados recentes sobre 85% dos estoques pesqueiros brasileiros
-
 O Brasil não possui informações atualizadas sobre 85% dos estoques pesqueiros comerciais explorados em suas áreas de pesca continentais, marítimas e oceânicas, segundo a organização não governamental Oceana, que divulgou nesta quinta-feira (26) a sexta edição do relatório *Auditoria da Pesca Brasil*.
 
 ## Contexto da situação

@@ -23,8 +23,6 @@ aprovado_em: 2026-11-27T15:14:05-03:00
 draft: false
 ---
 
-# Trivia Trens retoma operação das linhas 1 e 2 de São Paulo
-
 A Trivia Trens retomou a operação das linhas 11-Coral e 12-Safira nesta quinta-feira (26) em São Paulo, após um período de suspensão desde julho. O serviço estava sob responsabilidade da Companhia Paulista de Trens Metropolitanos (CPTM) após uma série de problemas que afetaram a circulação três dias após a concessão à empresa privada.
 
 Na retomada, houve uma falha no fornecimento de energia que interrompeu o transporte e um incêndio atingiu parte de uma composição da Linha 12-Safira, obrigando os passageiros a desembarcarem e caminhar pelos trilhos. A empresa informou que reforçou os procedimentos operacionais e protocolos de segurança, além de intensificar a capacitação de equipes e estruturar um Plano de Retomada aprovado pela Agência Reguladora de Transporte de São Paulo (Artesp).

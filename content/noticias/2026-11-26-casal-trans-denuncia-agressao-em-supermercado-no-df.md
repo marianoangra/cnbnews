@@ -23,8 +23,6 @@ aprovado_em: 2026-11-27T18:11:17-03:00
 draft: false
 ---
 
-# Casal trans denuncia agressão por dois homens em supermercado no DF
-
 Um casal negro e trans, Diadorim Silva, professor da rede pública do Distrito Federal, e sua esposa Victoria Komar, cantora e artista visual, relatou agressão por dois homens em um supermercado no bairro Gama, região administrativa do DF, na noite de segunda-feira (23). O episódio ocorreu por volta das 21h na unidade Dia a Dia, onde os dois foram intimidados e agredidos com socos, chutes e puxação de cabelos, além de serem lançados contra produtos e estruturas do estabelecimento.
 
 De acordo com o relato, os agressores iniciaram a briga após uma discussão sobre olhares transfóbicos. O casal passou a se defender por cerca de cinco minutos, sem intervenção de funcionários ou outras pessoas. Diadorim mencionou que foi perseguido por um segurança do supermercado, que o derrubou com uma rasteira, enquanto outros seguranças não impediram a agressão, mas puxaram seu cabelo.

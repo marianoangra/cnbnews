@@ -18,8 +18,6 @@ lauda_youtube:
 draft: false
 ---
 
-# Gana é eleita para presidir a ONU Turismo em 2027; Brasil assume vice-presidência
-
 O país africano Gana foi eleito para presidir o Conselho Executivo da ONU Turismo a partir de 2027, vencendo a Argentina com 19 votos em uma reunião realizada nos Emirados Árabes Unidos na quarta-feira (25). O Brasil, que deixa a presidência do conselho no biênio 2025-2026, permanecerá na vice-presidência ao longo do próximo ano, junto com a Bulgária.
 
 Durante o biênio 2025-2026, o Brasil priorizou temas alinhados à Agenda 2030 da ONU, incluindo sustentabilidade, agenda climática, agenda climática, integração do turismo com metas ambientais e fortalecimento do ecoturismo e turismo de base comunitária. No biênio seguinte (2026-2027), o Brasil conduzirá o Grupo de Trabalho Interinstitucional sobre Turismo e Ação Climática da ONU Turismo, criado a partir de uma proposta brasileira em 2025.
