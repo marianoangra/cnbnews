@@ -5,7 +5,7 @@
 //   node src/colunista.ts --tema fe    → força o tema (financas | negocios | fe)
 // Para publicar: revisar o .md e mover para content/colunas/ (o produto e a nota de
 // transparência entram pelo layout, com rel="sponsored"; o texto não leva link nenhum).
-// Na rig: timer systemd 1x por dia, 9h BRT (decisão do Rafael em 27/11/2026).
+// Na rig: timer systemd seg e qui, 9h BRT (CLAUDE.md §4A: 1 a 2 colunas por semana).
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import dotenv from 'dotenv';
