@@ -36,6 +36,19 @@
       }
     },
     {
+      "src": "/((?!admin|ads[.]txt|aovivo[.]json).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "^(www[.])?cnbmobile[.]com$"
+        }
+      ],
+      "status": 308,
+      "headers": {
+        "Location": "https://news.cnbmobile.com/$1"
+      }
+    },
+    {
       "src": "/(.*)",
       "has": [
         {
