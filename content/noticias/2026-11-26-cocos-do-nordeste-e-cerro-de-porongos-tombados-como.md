@@ -4,7 +4,7 @@ date: 2026-11-26T19:15:11-03:00
 description: "Os Cocos do Nordeste e o Cerro de Porongos, local da emboscada que matou 150 lanceiros negros em 1844, foram reconhecidos como patrimônio cultural do Brasil."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/cultura/noticia/2026-11/cocos-do-nordeste-sao-reconhecidos-como-patrimonio-cultural-do-pais"
-categoria: "brasil"
+categoria: "entretenimento"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 5

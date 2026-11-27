@@ -3,7 +3,7 @@ title: "Lula garante benefícios, mas defende revisão de programas sociais"
 description: "Lula compromete benefícios para pobres e educação, mas reforça revisão de programas sociais para evitar desperdícios. Confirma escolha de Luiz Carlos"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/lula-garante-beneficios-em-novo-governo-mas-defende-revisao"
-categoria: "brasil"
+categoria: "politica"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

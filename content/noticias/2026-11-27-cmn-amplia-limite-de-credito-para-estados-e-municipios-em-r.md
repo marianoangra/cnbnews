@@ -4,7 +4,7 @@ date: 2026-11-27T08:00:29-03:00
 description: "O Conselho Monetário Nacional aprovou aumento de R$ 1 bilhão no limite específico de crédito para operações contratadas por estados, municípios e Distrito"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/cmn-amplia-em-r-1-bilhao-limite-de-credito-estados-e-municipios"
-categoria: "brasil"
+categoria: "economia"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

@@ -4,7 +4,7 @@ date: 2026-11-27T14:40:13-03:00
 description: "Plataforma Barkus reúne 11 medidas tributárias e regularização de dívidas previstas na reforma tributária e no pacote Prospera MEI, com filtro por"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/ferramenta-gratuita-reune-mudancas-para-meis-e-pequenos-negocios"
-categoria: "brasil"
+categoria: "economia"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

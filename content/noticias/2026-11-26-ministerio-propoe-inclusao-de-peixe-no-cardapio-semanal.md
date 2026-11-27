@@ -3,7 +3,7 @@ title: "Ministério propõe inclusão de peixe no cardápio semanal brasileiro"
 description: "Ministério da Pesca e Aquicultura sugere incluir peixe no cardápio semanal para melhorar saúde e sustentabilidade, com consumo médio nacional de 12 kg por"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/feijoada-e-peixe-ministerio-quer-ampliar-consumo-de-pescado-no-pais"
-categoria: "agro"
+categoria: "politica"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 3

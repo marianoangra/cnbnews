@@ -4,7 +4,7 @@ date: 2026-11-26T19:06:50-03:00
 description: "Presidente e governador eleito discutem formas de negociar dívida bilionária do estado com a União, dentro do Programa de Pleno Pagamento da Dívida dos"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/lula-e-cleitinho-debatem-negociacao-de-divida-de-minas-gerais"
-categoria: "brasil"
+categoria: "politica"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

@@ -4,7 +4,7 @@ date: 2026-11-27T10:03:45-03:00
 description: "Dados do IBGE mostram que rendimento real habitual registrou R$ 3.812 no trimestre de outubro, com alta de 3,5% em relação ao mesmo período do ano passado."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/rendimento-real-do-trabalhador-cresceu-35-em-um-ano"
-categoria: "brasil"
+categoria: "economia"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

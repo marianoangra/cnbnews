@@ -4,7 +4,7 @@ date: 2026-11-27T13:08:26-03:00
 description: "Programa Sem Censura reúne os artistas para lançamento do álbum conjunto, com participação de Gregório Duvivier e Virgínia Kastrup."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/cultura/noticia/2026-11/tv-brasil-sem-censura-reune-adriana-calcanhotto-e-arnaldo-antunes"
-categoria: "brasil"
+categoria: "entretenimento"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

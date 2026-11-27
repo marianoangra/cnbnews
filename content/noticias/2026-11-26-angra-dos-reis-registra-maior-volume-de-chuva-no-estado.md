@@ -3,7 +3,7 @@ title: "Angra dos Reis registra maior volume de chuva no estado"
 description: "O município registrou acumulo de 180 mm na Vila Histórica, com alagamentos pontuais e aulas suspensas. Em Petrópolis houve deslizamentos, enquanto a"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/angra-dos-reis-registra-maior-volume-de-chuva-no-estado-nesta-quinta"
-categoria: "brasil"
+categoria: "natureza"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

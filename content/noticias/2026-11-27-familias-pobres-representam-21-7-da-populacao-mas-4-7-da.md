@@ -4,7 +4,7 @@ date: 2026-11-27T10:34:39-03:00
 description: "Pesquisa IBGE 2024-2025 mostra desigualdade: famílias com renda até dois salários mínimos são 21,7% da população, mas recebem apenas 4,7% do rendimento"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/familias-mais-pobres-sao-217-mas-ficam-com-apenas-47-da-renda"
-categoria: "brasil"
+categoria: "economia"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

@@ -4,7 +4,7 @@ date: 2026-11-27T17:08:14-03:00
 description: "Presidente anuncia projeto de locais de convivência para idosos com acesso a atividades físicas, música e atendimento médico, visando atender quem mora…"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/lula-quer-espaco-de-lazer-e-atencao-para-idosos"
-categoria: "brasil"
+categoria: "politica"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

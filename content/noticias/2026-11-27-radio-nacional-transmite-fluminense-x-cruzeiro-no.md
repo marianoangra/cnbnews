@@ -4,7 +4,7 @@ date: 2026-11-27T10:03:59-03:00
 description: "Rádio Nacional transmite Fluminense x Cruzeiro na 37ª rodada do Brasileirão 2026, a partir das 20h no Maracanã. Com narração de André Luiz Mendes e"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/esportes/noticia/2026-11/radio-nacional-transmite-fluminense-e-cruzeiro-pelo-brasileirao"
-categoria: "brasil"
+categoria: "esportes"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

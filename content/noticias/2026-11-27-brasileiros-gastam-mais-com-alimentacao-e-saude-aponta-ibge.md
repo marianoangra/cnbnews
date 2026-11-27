@@ -3,7 +3,7 @@ title: "Brasileiros gastam mais com alimentação e saúde, aponta IBGE"
 description: "Pesquisa do IBGE revela que alimentação e saúde cresceram em despesas familiais, com aumento de 0,9% e 0,6% respectivamente em relação a 2017-2018."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/brasileiros-estao-gastando-mais-com-alimentacao-e-saude-aponta-ibge"
-categoria: "brasil"
+categoria: "economia"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 3

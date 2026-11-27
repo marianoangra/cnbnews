@@ -4,7 +4,7 @@ date: 2026-11-27T12:37:28-03:00
 description: "O 16º Festival Internacional de Cinema de Animação de Pernambuco registrou metade dos filmes concorrentes ao prêmio principal com diretoras mulheres"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/cultura/noticia/2026-11/mulheres-ganham-espaco-na-animacao-mas-ainda-sao-minoria"
-categoria: "brasil"
+categoria: "entretenimento"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

@@ -4,7 +4,7 @@ date: 2026-11-27T14:40:43-03:00
 description: "Prefeitura suspende atividades em parques e complexos por qualidade do ar ruim, impactando crianças, idosos e gestantes. Medida temporária até sexta-feira."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/manaus-suspende-atividades-em-parques-apos-piora-na-qualidade-do-ar"
-categoria: "brasil"
+categoria: "natureza"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

@@ -3,7 +3,7 @@ title: "Inca lança atlas para mapear características do câncer em brasileiros
 description: "Inca lança plataforma online com dados de 2,8 mil pacientes para melhorar diagnósticos e tratamentos específicos no Brasil."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/saude/noticia/2026-11/inca-lanca-atlas-sobre-caracteristicas-do-cancer-em-brasileiros"
-categoria: "brasil"
+categoria: "saude"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

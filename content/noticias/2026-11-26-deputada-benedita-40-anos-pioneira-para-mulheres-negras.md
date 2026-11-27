@@ -4,7 +4,7 @@ date: 2026-11-26T19:43:01-03:00
 description: "Benedita da Silva (PT-RJ) é considerada uma das primeiras mulheres negras a atuar na política nacional, tendo sido eleita deputada constituinte em 1986 e"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/politica/noticia/2026-11/com-40-anos-na-politica-benedita-abriu-caminhos-para-mulheres-negras"
-categoria: "brasil"
+categoria: "politica"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

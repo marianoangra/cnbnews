@@ -3,7 +3,7 @@ title: "Contas do governo têm superávit de R$ 52,3 bilhões em outubro"
 description: "Tesouro Nacional registra superávit primário de R$ 52,3 bilhões em outubro, superando projeções e representando crescimento de 36,4% em relação a outubro"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/contas-do-governo-tem-superavit-de-r-523-bilhoes-em-outubro"
-categoria: "brasil"
+categoria: "economia"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

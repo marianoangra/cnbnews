@@ -4,7 +4,7 @@ date: 2026-11-27T10:04:17-03:00
 description: "Inmet alerta para chuvas de 30 a 60 mm/h no sul, com risco de cortes na energia, galhos caídos e raios. Alerta amarelo também no Nordeste por baixa"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/sul-do-pais-tem-alerta-de-perigo-de-chuvas-intensas"
-categoria: "brasil"
+categoria: "natureza"
 urgencia: "urgente"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

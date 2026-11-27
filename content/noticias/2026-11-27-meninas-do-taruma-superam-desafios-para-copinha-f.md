@@ -3,7 +3,7 @@ title: "Meninas do Tarumã superam desafios para Copinha F"
 description: "Equipe feminina do Esporte Clube Tarumã, de Manaus, viajou para São Paulo com 14h de antecedência após superar dificuldades financeiras e logísticas para"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/esportes/noticia/2026-11/meninas-do-taruma-superam-incertezas-por-oportunidade-na-copinha-f"
-categoria: "brasil"
+categoria: "esportes"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

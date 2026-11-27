@@ -4,7 +4,7 @@ date: 2026-11-26T21:17:10-03:00
 description: "Gana foi eleita para presidir o Conselho Executivo da ONU Turismo a partir de 2027, vencendo a Argentina com 19 votos. O Brasil permanece na"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/esportes/noticia/2026-11/gana-e-eleita-na-onu-turismo-e-brasil-assume-vice-presidencia"
-categoria: "brasil"
+categoria: "mundo"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

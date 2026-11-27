@@ -4,7 +4,7 @@ date: 2026-11-27T08:00:42-03:00
 description: "Estimativa do IBGE para 2025 mostra aumento de 0,3 anos em relação a 2024, com expectativa de 76,9 anos para brasileiros ao nascer."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/expectativa-de-vida-no-brasil-sobe-para-769-anos-diz-ibge"
-categoria: "brasil"
+categoria: "economia"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

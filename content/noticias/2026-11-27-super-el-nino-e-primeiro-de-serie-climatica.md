@@ -3,7 +3,7 @@ title: "Super El Niño é primeiro de série climática"
 description: "Climatologista do Inpe alerta que Super El Niño, fenômeno de aquecimento anormal no Pacífico, é início de série de eventos climáticos que impactarão países"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/meio-ambiente/noticia/2026-11/super-el-nino-e-o-primeiro-de-uma-serie-alerta-climatologista"
-categoria: "mundo"
+categoria: "natureza"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2
