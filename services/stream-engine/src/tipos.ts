@@ -23,8 +23,11 @@ export interface BlocoPronto {
   arquivo: string;
   duracao: number;
   criadoEm: Date;
-  tipo: 'noticia' | 'vinheta' | 'institucional';
+  tipo: 'noticia' | 'vinheta' | 'institucional' | 'musica';
   cidade: string | null;
+  /** Só música: título e artista (do nome do arquivo "Artista - Título.mp3"). */
+  titulo?: string;
+  artista?: string;
   /** Publicação da matéria (só notícias): a limpeza conta 48 h a partir daqui. */
   publicadaEm?: Date;
 }

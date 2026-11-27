@@ -7,7 +7,7 @@ import { test } from 'node:test';
 import { renderizarConteudo, renderizarFundo, renderizarTicker } from '../src/card.ts';
 import { rodarFfmpeg, sondar, temNvenc } from '../src/ffmpeg.ts';
 import { ErroLocucao, type Locutor } from '../src/locutor.ts';
-import { argsBloco, montarBloco, montarVinheta } from '../src/montador.ts';
+import { argsBloco, montarBloco, montarMusica, montarVinheta } from '../src/montador.ts';
 import type { Materia } from '../src/tipos.ts';
 
 const GPU = Number(process.env.FFMPEG_GPU_DEVICE ?? 0);
@@ -118,4 +118,20 @@ test('argsBloco: toda entrada tem duração finita (evita trava do filtro)', () 
     const antes = a.slice(Math.max(0, i - 8), i);
     assert.ok(antes.includes('-t') && antes[antes.lastIndexOf('-t') + 1] === '7', `entrada ${a[i + 1]} sem -t 7`);
   }
+});
+
+test('montarMusica: faixa inteira, mesmos parâmetros de stream, tipo musica com título e artista', { skip: !NVENC && 'sem NVENC' }, async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'cnb-mus-'));
+  const mp3 = join(dir, 'Artista Teste - Faixa Teste.mp3');
+  await rodarFfmpeg(['-y', '-f', 'lavfi', '-i', 'sine=frequency=330:duration=5', '-c:a', 'libmp3lame', mp3]);
+  const noticia = await montarBloco(MATERIA, [], locutorTom, dir, [], GPU);
+  const b = await montarMusica(mp3, dir, GPU);
+  assert.equal(b.tipo, 'musica');
+  assert.equal(b.titulo, 'Faixa Teste');
+  assert.equal(b.artista, 'Artista Teste');
+  assert.ok(Math.abs(b.duracao - 5) < 0.3, `duração ${b.duracao}`);
+  const s = await sondar(b.arquivo);
+  assert.ok(Math.abs(s.duracao - 5) < 0.5, `arquivo ${s.duracao}`);
+  assert.deepEqual(PARAMS(s), PARAMS(await sondar(noticia.arquivo)));
+  assert.ok(existsSync(b.arquivo + '.json'));
 });

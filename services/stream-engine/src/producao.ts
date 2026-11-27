@@ -1,7 +1,7 @@
 import { mkdir, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { coletar } from './coletor.ts';
-import { garantirInstitucional, gerarPendentes, limpar } from './fabrica.ts';
+import { garantirInstitucional, garantirMusicas, gerarPendentes, limpar } from './fabrica.ts';
 import { carregarBloqueio, filtrar } from './filtro.ts';
 import type { Locutor } from './locutor.ts';
 import { REPO_PADRAO, sincronizar } from './sincronizador.ts';
@@ -12,6 +12,9 @@ export const CAMINHOS = {
   repo: join(RAIZ, 'data', 'repo'),
   blocos: join(RAIZ, 'data', 'blocos'),
   fixos: join(RAIZ, 'data', 'fixos'),
+  /** Faixas do modo rádio (Biblioteca de Áudio do YouTube, "sem atribuição"). Fora do git. */
+  musicas: join(RAIZ, 'musicas'),
+  blocosMusica: join(RAIZ, 'data', 'musicas'),
   trilhas: join(RAIZ, 'trilhas'),
   bloqueio: join(RAIZ, 'config', 'bloqueio.txt'),
   status: join(RAIZ, 'data', 'status.json'),
@@ -37,6 +40,8 @@ export async function cicloProducao(locutor: Locutor, gpu: number, limite = Infi
   await mkdir(CAMINHOS.fixos, { recursive: true });
   const trilhas = await listarTrilhas();
   await garantirInstitucional(CAMINHOS.fixos, locutor, trilhas, { gpu });
+  await mkdir(CAMINHOS.blocosMusica, { recursive: true });
+  await garantirMusicas(CAMINHOS.musicas, CAMINHOS.blocosMusica, { gpu }); // faixa nova na pasta entra sozinha
   const s = await sincronizar(process.env.CNB_REPO_URL || REPO_PADRAO, CAMINHOS.repo);
   if (!s.ok) console.warn(`[produção] sincronização falhou, seguindo com o clone antigo: ${s.erro}`);
   const agora = new Date();

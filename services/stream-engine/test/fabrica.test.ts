@@ -4,9 +4,9 @@ import { mkdtemp, utimes, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
-import { garantirInstitucional, gerarPendentes, limpar, listarBlocos, type Montar } from '../src/fabrica.ts';
+import { garantirInstitucional, garantirMusicas, gerarPendentes, limpar, listarBlocos, type Montar } from '../src/fabrica.ts';
 import { ErroLocucao, type Locutor } from '../src/locutor.ts';
-import { nomeArquivo } from '../src/montador.ts';
+import { idMusica, nomeArquivo } from '../src/montador.ts';
 import type { BlocoPronto, Materia } from '../src/tipos.ts';
 
 const locutor: Locutor = { falar: async () => {} };
@@ -152,4 +152,24 @@ test('gerarPendentes: o limite conta blocos NOVOS (os já prontos não gastam a 
   await gerarPendentes(ms.slice(0, 2), dir, locutor, [], { gpu: 0, montar }); // a e b já prontos
   const r = await gerarPendentes(ms, dir, locutor, [], { gpu: 0, montar, limite: 2 });
   assert.deepEqual(r.gerados, ['c', 'd']);
+});
+
+test('garantirMusicas: um bloco por mp3, só uma vez, e ignora o que não é áudio', async () => {
+  const origem = await mkdtemp(join(tmpdir(), 'cnb-mus-'));
+  const saida = await mkdtemp(join(tmpdir(), 'cnb-mbl-'));
+  await writeFile(join(origem, 'A - Um.mp3'), 'x');
+  await writeFile(join(origem, 'B - Dois.mp3'), 'x');
+  await writeFile(join(origem, 'leia-me.txt'), 'x');
+  const feitas: string[] = [];
+  const montar = async (mp3: string, dir: string) => {
+    feitas.push(mp3);
+    const arquivo = join(dir, `${nomeArquivo(idMusica(mp3))}.ts`); // contrato: o .ts usa o id da faixa
+    await writeFile(arquivo, 'x');
+    const b: BlocoPronto = { id: idMusica(mp3), arquivo, duracao: 60, criadoEm: new Date(), tipo: 'musica', cidade: null };
+    await writeFile(arquivo + '.json', JSON.stringify(b));
+    return b;
+  };
+  assert.equal(await garantirMusicas(origem, saida, { gpu: 0, montarMusica: montar }), 2);
+  assert.equal(await garantirMusicas(origem, saida, { gpu: 0, montarMusica: montar }), 0);
+  assert.equal(feitas.length, 2);
 });

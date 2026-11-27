@@ -6,7 +6,7 @@
 import 'dotenv/config';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
-import { garantirInstitucional, listarBlocos } from './fabrica.ts';
+import { garantirInstitucional, garantirMusicas, listarBlocos } from './fabrica.ts';
 import { gpuConfigurada, listarGpus, temNvenc } from './ffmpeg.ts';
 import { EdgeLocutor } from './locutor.ts';
 import { CAMINHOS, cicloProducao, listarTrilhas } from './producao.ts';
@@ -47,6 +47,9 @@ const locutor = new EdgeLocutor();
 await mkdir(CAMINHOS.blocos, { recursive: true });
 await mkdir(CAMINHOS.fixos, { recursive: true });
 await garantirInstitucional(CAMINHOS.fixos, locutor, await listarTrilhas(), { gpu });
+await mkdir(CAMINHOS.blocosMusica, { recursive: true });
+const musicasNovas = await garantirMusicas(CAMINHOS.musicas, CAMINHOS.blocosMusica, { gpu });
+if (musicasNovas) log(`modo rádio: ${musicasNovas} músicas novas preparadas`);
 
 const status = { noAr: '', desde: '', quedas: 0, minutosProntos: 0, ultimaGeracao: null as null | object, destino: alvo.replace(/live2\/.+$/, 'live2/***') };
 async function gravarStatus(): Promise<void> {
@@ -95,7 +98,7 @@ process.on('SIGTERM', () => void encerrar());
 
 log(`no ar → ${status.destino}`);
 while (!encerrando && (Date.now() - inicio) / 1000 < limiteS) {
-  const blocos = await listarBlocos([CAMINHOS.blocos, CAMINHOS.fixos]);
+  const blocos = await listarBlocos([CAMINHOS.blocos, CAMINHOS.fixos, CAMINHOS.blocosMusica]);
   const agora = new Date();
   if (blocos.length === 0) {
     // fixos sumiram ou ainda não existem: refaz e espera, em vez de derrubar a live

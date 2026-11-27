@@ -3,3 +3,6 @@ data/
 node_modules/
 trilhas/*
 !trilhas/.gitkeep
+# faixas licenciadas da Biblioteca de Áudio: a licença proíbe distribuir os arquivos (repo é público)
+musicas/*
+!musicas/.gitkeep

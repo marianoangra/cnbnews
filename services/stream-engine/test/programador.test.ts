@@ -129,3 +129,28 @@ test('proximo: na vez da nacional, se nenhuma pode voltar, segue com cidade', ()
   for (const c of ['c1', 'c2']) p.registrarExibicao(`cidades/x/${c}`, min(-1), CID(c));
   assert.equal(p.proximo([n, CID('c3'), ...INST], T0).id, 'cidades/x/c3');
 });
+
+const MUS = (id: string) => b(`musica/${id}`, { tipo: 'musica', cidade: null, duracao: 120 });
+
+test('proximo: modo rádio — depois de 5 notícias, 1 música (a que tocou há mais tempo)', () => {
+  const p = new Programador({ vinhetaACada: 100, nacionalACada: 100 });
+  const ns = Array.from({ length: 12 }, (_, i) => CID(`c${i}`, { criadoEm: min(-i) }));
+  const ms = [MUS('m1'), MUS('m2')];
+  const ordem: string[] = [];
+  for (let i = 0; i < 12; i++) {
+    const x = p.proximo([...ns, ...ms, ...INST], min(i));
+    p.registrarExibicao(x.id, min(i), x);
+    ordem.push(x.tipo === 'musica' ? x.id : 'N');
+  }
+  assert.deepEqual(ordem, ['N', 'N', 'N', 'N', 'N', 'musica/m1', 'N', 'N', 'N', 'N', 'N', 'musica/m2']);
+});
+
+test('proximo: sem músicas na pasta, a grade segue só com notícias', () => {
+  const p = new Programador({ vinhetaACada: 100, nacionalACada: 100 });
+  const ns = Array.from({ length: 8 }, (_, i) => CID(`c${i}`, { criadoEm: min(-i) }));
+  for (let i = 0; i < 8; i++) {
+    const x = p.proximo([...ns, ...INST], min(i));
+    assert.equal(x.tipo, 'noticia');
+    p.registrarExibicao(x.id, min(i), x);
+  }
+});

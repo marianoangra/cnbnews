@@ -13,14 +13,17 @@ export class Programador {
   private readonly exibidoEm = new Map<string, number>();
   private desdeVinheta = 0;
   private desdeNacional = 0;
+  private readonly musicaACada: number;
+  private desdeMusica = 0;
   private ultimaCidade: string | null = null;
   private ultimoId: string | null = null;
 
   constructor(opts: {
     vinhetaACada?: number; semRepetirMin?: number; pisoRepriseMin?: number;
-    nacionalACada?: number; semRepetirNacionalMin?: number;
+    nacionalACada?: number; semRepetirNacionalMin?: number; musicaACada?: number;
   } = {}) {
     this.vinhetaACada = opts.vinhetaACada ?? 5;
+    this.musicaACada = opts.musicaACada ?? 5;
     this.nacionalACada = opts.nacionalACada ?? 3;
     this.semRepetirNacionalMs = (opts.semRepetirNacionalMin ?? 30) * 60_000;
     this.semRepetirMs = (opts.semRepetirMin ?? 60) * 60_000;
@@ -32,8 +35,15 @@ export class Programador {
     const vinheta = blocos.find((b) => b.tipo === 'vinheta');
     if (vinheta && this.desdeVinheta >= this.vinhetaACada) return vinheta;
 
-    const noticias = blocos.filter((b) => b.tipo === 'noticia');
     const quando = (b: BlocoPronto) => this.exibidoEm.get(b.id) ?? 0;
+
+    // Modo rádio: depois de N notícias, uma música (a que tocou há mais tempo).
+    const musicas = blocos.filter((b) => b.tipo === 'musica').sort((a, b) => quando(a) - quando(b));
+    if (musicas.length && this.desdeMusica >= this.musicaACada) {
+      return musicas.find((b) => b.id !== this.ultimoId) ?? musicas[0]!;
+    }
+
+    const noticias = blocos.filter((b) => b.tipo === 'noticia');
     const inedita = (lista: BlocoPronto[]) =>
       lista.filter((b) => !this.exibidoEm.has(b.id)).sort((a, b) => b.criadoEm.getTime() - a.criadoEm.getTime())[0];
     const reprise = (minimoMs: number, lista = noticias) => {
@@ -72,7 +82,11 @@ export class Programador {
     }
     this.desdeVinheta++;
     if (bloco) this.ultimaCidade = bloco.cidade;
-    if (bloco?.tipo === 'noticia') this.desdeNacional = ehNacional(bloco) ? 0 : this.desdeNacional + 1;
+    if (bloco?.tipo === 'noticia') {
+      this.desdeNacional = ehNacional(bloco) ? 0 : this.desdeNacional + 1;
+      this.desdeMusica++;
+    }
+    if (bloco?.tipo === 'musica') this.desdeMusica = 0;
   }
 
   /** Minutos de notícia ainda não exibida na última hora (buffer da live). */

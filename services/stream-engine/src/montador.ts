@@ -8,6 +8,7 @@ import {
   X_TICKER,
   renderizarConteudo,
   renderizarFundo,
+  renderizarMusica,
   renderizarTicker,
   renderizarVinheta,
 } from './card.ts';
@@ -124,6 +125,53 @@ export async function montarBloco(
     const { rename } = await import('node:fs/promises');
     await rename(parcial, arquivo);
     const bloco: BlocoPronto = { id: m.id, arquivo, duracao, criadoEm: new Date(), tipo: 'noticia', cidade: m.cidade, publicadaEm: m.publicadaEm };
+    await gravarMeta(bloco);
+    return bloco;
+  } finally {
+    await rm(tmp, { recursive: true, force: true });
+  }
+}
+
+/** "Artista - Título.mp3" → { artista, titulo }; sem " - ", o nome inteiro é o título. */
+export function lerNomeMusica(arquivo: string): { artista: string; titulo: string } {
+  const base = (arquivo.split(/[\\/]/).at(-1) ?? arquivo).replace(/\.[^.]+$/, '').trim();
+  const i = base.indexOf(' - ');
+  return i > 0 ? { artista: base.slice(0, i).trim(), titulo: base.slice(i + 3).trim() } : { artista: '', titulo: base };
+}
+
+/** Id estável do bloco de uma faixa (o arquivo .ts é `nomeArquivo(id).ts`). */
+export function idMusica(mp3: string): string {
+  const { artista, titulo } = lerNomeMusica(mp3);
+  return `musica/${titulo}${artista ? ` - ${artista}` : ''}`;
+}
+
+/**
+ * Bloco do modo rádio: a faixa inteira sobre a tela "tocando agora". Volume normalizado (loudnorm)
+ * para não estourar perto da voz; mesmos parâmetros de stream dos outros blocos.
+ */
+export async function montarMusica(mp3: string, dirSaida: string, gpu: number): Promise<BlocoPronto> {
+  const { artista, titulo } = lerNomeMusica(mp3);
+  const id = idMusica(mp3);
+  const duracao = Math.floor((await sondar(mp3)).duracao * 10) / 10;
+  if (!(duracao > 1)) throw new Error(`faixa curta ou ilegível: ${mp3}`);
+  const tmp = await mkdtemp(join(tmpdir(), 'cnb-mus-'));
+  try {
+    const img = join(tmp, 'musica.png');
+    await writeFile(img, await renderizarMusica(titulo, artista || 'Rádio CNB'));
+    const arquivo = join(dirSaida, `${nomeArquivo(id)}.ts`);
+    const d = String(duracao);
+    await rodarFfmpeg([
+      '-y', '-loop', '1', '-framerate', '30', '-t', d, '-i', img, '-t', d, '-i', mp3,
+      '-filter_complex',
+      `[0]fade=t=in:st=0:d=0.5,fade=t=out:st=${Math.max(0, duracao - 0.5)}:d=0.5,format=yuv420p[v];` +
+        `[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000,aformat=channel_layouts=stereo,` +
+        `afade=t=in:st=0:d=0.3,afade=t=out:st=${Math.max(0, duracao - 2)}:d=2[a]`,
+      '-map', '[v]', '-map', '[a]',
+      ...saidaPadrao(gpu, duracao, arquivo + '.parcial'),
+    ]);
+    const { rename } = await import('node:fs/promises');
+    await rename(arquivo + '.parcial', arquivo);
+    const bloco: BlocoPronto = { id, arquivo, duracao, criadoEm: new Date(), tipo: 'musica', cidade: null, titulo, ...(artista ? { artista } : {}) };
     await gravarMeta(bloco);
     return bloco;
   } finally {

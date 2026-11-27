@@ -285,6 +285,48 @@ export async function renderizarTicker(manchetes: string[]): Promise<{ png: Buff
 }
 
 /** Tela cheia da marca, para vinhetas e loop institucional. */
+/** Tela do modo rádio enquanto toca uma música. */
+export async function renderizarMusica(titulo: string, artista: string): Promise<Buffer> {
+  const arvore = el(
+    'div',
+    {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 36,
+      width: LARGURA,
+      height: ALTURA,
+      backgroundImage: `linear-gradient(135deg, ${CORES.fundoA} 0%, #1D1446 100%)`,
+      fontFamily: 'Montserrat',
+      color: CORES.texto,
+    },
+    marca(110),
+    el('div', { display: 'flex', width: 420, height: 8, backgroundColor: CORES.roxo, borderRadius: 4 }),
+    el(
+      'div',
+      { display: 'flex', fontSize: 40, fontWeight: 700, color: CORES.amarelo, letterSpacing: 6 },
+      'TOCANDO AGORA',
+    ),
+    el(
+      'div',
+      { display: 'flex', fontSize: 84, fontWeight: 700, textAlign: 'center', maxWidth: 1600, justifyContent: 'center' },
+      cortar(limparTexto(titulo), 60),
+    ),
+    el(
+      'div',
+      { display: 'flex', fontSize: 48, fontWeight: 400, textAlign: 'center', maxWidth: 1600, justifyContent: 'center', opacity: 0.85 },
+      cortar(limparTexto(artista), 70),
+    ),
+    el(
+      'div',
+      { display: 'flex', fontSize: 36, fontWeight: 600, marginTop: 40 },
+      'Notícias das cidades 24 horas • cnbmobile.com',
+    ),
+  );
+  return paraPng(arvore, LARGURA, ALTURA);
+}
+
 export async function renderizarVinheta(texto: string): Promise<Buffer> {
   const arvore = el(
     'div',

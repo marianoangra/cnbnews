@@ -3,7 +3,7 @@ import { readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { todasAsCidades } from './cidades.ts';
 import type { Locutor } from './locutor.ts';
-import { montarBloco, montarVinheta, nomeArquivo } from './montador.ts';
+import { idMusica, montarBloco, montarMusica, montarVinheta, nomeArquivo } from './montador.ts';
 import type { BlocoPronto, Materia } from './tipos.ts';
 
 export type Montar = typeof montarBloco;
@@ -93,6 +93,31 @@ export async function garantirInstitucional(dirFixos: string, locutor: Locutor, 
     const b: BlocoPronto = { id: 'vinheta', arquivo: arqVinheta, duracao: DURACAO_VINHETA, criadoEm: new Date(), tipo: 'vinheta', cidade: null };
     await writeFile(arqVinheta + '.json', JSON.stringify(b, null, 2));
   }
+}
+
+/**
+ * Modo rádio: um bloco por faixa (mp3/m4a/wav…) em `dirOrigem`, gerado uma vez em `dirSaida`.
+ * Faixa que falha não impede as outras. Retorna quantos blocos novos criou.
+ */
+export async function garantirMusicas(
+  dirOrigem: string,
+  dirSaida: string,
+  opts: { gpu: number; montarMusica?: (mp3: string, dir: string, gpu: number) => Promise<BlocoPronto> },
+): Promise<number> {
+  const montar = opts.montarMusica ?? montarMusica;
+  const faixas = (await readdir(dirOrigem).catch(() => [] as string[])).filter((n) => /\.(mp3|m4a|wav|ogg|flac)$/i.test(n)).sort();
+  let novos = 0;
+  for (const nome of faixas) {
+    const mp3 = join(dirOrigem, nome);
+    if (blocoExiste(dirSaida, idMusica(mp3))) continue;
+    try {
+      await montar(mp3, dirSaida, opts.gpu);
+      novos++;
+    } catch (e) {
+      console.warn(`[música] ${nome}: ${e instanceof Error ? e.message : e}`);
+    }
+  }
+  return novos;
 }
 
 /**

@@ -5,6 +5,7 @@ import {
   renderizarConteudo,
   renderizarFundo,
   renderizarTicker,
+  renderizarMusica,
   renderizarVinheta,
 } from '../src/card.ts';
 import type { Materia } from '../src/tipos.ts';
@@ -55,4 +56,9 @@ test('escolherDestaque: primeira palavra com 5+ letras ou número', () => {
   assert.equal(escolherDestaque('O dólar bateu R$ 6 na semana'), 'dólar');
   assert.equal(escolherDestaque('Enem 2026 em Pelotas'), '2026');
   assert.equal(escolherDestaque('Ai de mim'), null);
+});
+
+test('renderizarMusica: "tocando agora" vira PNG 1920x1080, mesmo com nome enorme', async () => {
+  assert.deepEqual(dimensoesPng(await renderizarMusica('Jazz In Paris', 'Media Right Productions')), { w: 1920, h: 1080 });
+  assert.deepEqual(dimensoesPng(await renderizarMusica('X'.repeat(300), 'Y'.repeat(300))), { w: 1920, h: 1080 });
 });
