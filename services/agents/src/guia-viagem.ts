@@ -11,7 +11,7 @@ import { join, resolve } from 'node:path';
 import dotenv from 'dotenv';
 import { configDoAmbiente, criarLlm, ErroLlm, objeto, texto, type Llm } from './ollama.ts';
 import { dataBrt } from './publicador.ts';
-import { semLinks, semTituloRepetido, contarPalavras, descarregar, MODELO_COLUNISTA } from './colunista.ts';
+import { semLinks, semTituloRepetido, contarPalavras, descarregar } from './colunista.ts';
 
 export const ESTADOS: Record<string, string> = {
   SP: 'São Paulo', RJ: 'Rio de Janeiro', PR: 'Paraná', MG: 'Minas Gerais', RS: 'Rio Grande do Sul',
@@ -75,7 +75,7 @@ const PRIORIDADE: RegExp[] = [
   /transport|rodovi|acesso|aeroport/i,
   /geografi|clima|relevo|hidrografi/i,
 ];
-const SECAO_FORA = /pol[ií]tica|administra|prefeit|demografi|popula|economia|educa|sa[uú]de|religi|etnias|refer[eê]ncias|bibliografia|liga[cç][oõ]es externas|ver tamb[eé]m|notas|filhos ilustres|personalidades|normal climatol/i;
+const SECAO_FORA = /objetivos|desenvolvimento sustent|candidatura|pol[ií]tica|administra|prefeit|demografi|popula|economia|educa|sa[uú]de|religi|etnias|refer[eê]ncias|bibliografia|liga[cç][oõ]es externas|ver tamb[eé]m|notas|filhos ilustres|personalidades|normal climatol/i;
 
 // limite 6000: o qwen3:4b roda com num_ctx 4096 (texto + prompt + resposta); com 9000 o guia saía curto.
 export function escolherTrechos(extract: string, limite = 6000, porSecao = 2000): string {
@@ -128,7 +128,8 @@ Regras obrigatórias:
 - NÃO invente números. Só use um número se ele estiver no texto.
 - Sem preços, sem horários de funcionamento, sem telefone, sem links.
 - Markdown com 3 a 5 subtítulos "## " (por exemplo: Onde fica, Um pouco de história, O que visitar, Festas e tradições, Como chegar), 1 a 3 parágrafos em cada.
-- Entre 450 e 700 palavras: desenvolva cada seção com detalhes do texto de referência.
+- Entre 300 e 500 palavras. Melhor curto e certo do que longo com enchimento: se o texto tem pouco assunto, escreva menos.
+- Nunca fale do texto de referência nem do que ele não diz (nada de "o texto não informa").
 - Último parágrafo: uma dica prática para aproveitar a visita, sem fato novo.
 Responda SOMENTE com JSON: {"manchete": "...", "subtitulo": "...", "corpo": "..."}
 - manchete: até 80 caracteres, sem ponto final, no formato "O que fazer em <cidade>: <2 ou 3 atrativos citados no texto>".
@@ -145,13 +146,16 @@ export interface Guia {
   corpo: string;
 }
 
+// O modelo às vezes usa "# " nos subtítulos: no site, h1 é só a manchete.
+const subtitulos = (md: string) => md.replace(/^#\s+/gm, '## ');
+
 export function validarGuia(x: unknown): Guia {
   const o = objeto(x);
   const manchete = texto(o, 'manchete', 15).replace(/\.$/, '');
   const subtitulo = texto(o, 'subtitulo', 50);
-  const corpo = texto(o, 'corpo', 1200).replaceAll('\\"', '"');
+  const corpo = subtitulos(texto(o, 'corpo', 1000).replaceAll('\\"', '"'));
   const n = contarPalavras(corpo);
-  if (n < 330) throw new ErroLlm(`guia curto demais (${n} palavras)`);
+  if (n < 200) throw new ErroLlm(`guia curto demais (${n} palavras)`);
   return { manchete, subtitulo, corpo };
 }
 
@@ -187,7 +191,8 @@ export function alertasDoGuia(g: Guia, v: Verbete): string[] {
   if (/\b(hotel|pousada|restaurante)\s+[A-Z]/.test(g.corpo)) a.push('cita hotel/pousada/restaurante pelo nome (conferir se existe)');
   const n = contarPalavras(g.corpo);
   if (n > 800) a.push(`longo (${n} palavras)`);
-  if (n < 420) a.push(`curto (${n} palavras)`);
+  if (n < 260) a.push(`curto (${n} palavras)`);
+  if (/\b(o texto|texto de refer[eê]ncia|a wikip[eé]dia|n[aã]o (fornece|informa|menciona|especifica))\b/i.test(g.corpo)) a.push('fala do texto de referência ("o texto não informa"): cortar a frase');
   return a;
 }
 
@@ -236,9 +241,9 @@ async function main(): Promise<void> {
     return;
   }
   const heavy = configDoAmbiente(process.env, 'heavy');
-  // qwen2.5:7b (o do colunista): o qwen3:4b entregava 250-300 palavras mesmo pedindo 450+ (testado em 27/11).
-  // Cópia do verbete, o defeito do 7b, vira alerta (trechosCopiados) e o editor reescreve.
-  const cfg = { ...heavy, modelo: process.env.OLLAMA_GUIA_MODEL || MODELO_COLUNISTA, timeoutMs: Math.max(heavy.timeoutMs, 600_000) };
+  // Mesmo modelo das notícias (qwen3:4b, já carregado): testado em 27/11, o qwen2.5:7b também saiu curto
+  // (a fonte de cidade pequena é curta), levou 104 s em vez de 8 s e vazou "o texto não fornece detalhes".
+  const cfg = { ...heavy, modelo: process.env.OLLAMA_GUIA_MODEL || heavy.modelo, timeoutMs: Math.max(heavy.timeoutMs, 600_000) };
   const llm = criarLlm(cfg);
   try {
     // Verbete fraco (sem seção de turismo/história) não rende guia: tenta a próxima cidade, até 5.
