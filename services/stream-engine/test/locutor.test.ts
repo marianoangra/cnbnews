@@ -21,7 +21,7 @@ test('textoLocucao: título + resumo + fonte + chamada, sem URL nem emoji', () =
   const t = textoLocucao(BASE);
   assert.ok(t.startsWith('Pelotas oferece serviço online para a Carteira de Identidade. Moradores podem'));
   assert.ok(t.includes('Fonte: RS.GOV.BR.'));
-  assert.ok(t.endsWith('Mais em cnbmobile ponto com.'));
+  assert.ok(t.endsWith('Mais em C N B News.'));
   assert.ok(!t.includes('https://'));
   assert.ok(!t.includes('🚀'));
   assert.ok(!/\.\./.test(t), 'não pode ter ponto duplo');
@@ -34,7 +34,7 @@ test('textoLocucao: com lauda, usa a locução do robô e não repete o título'
   });
   assert.ok(t.startsWith('O dólar fechou em alta nesta quarta.'));
   assert.ok(!t.includes('Pelotas oferece'));
-  assert.ok(t.endsWith('Fonte: RS.GOV.BR. Mais em cnbmobile ponto com.'));
+  assert.ok(t.endsWith('Fonte: RS.GOV.BR. Mais em C N B News.'));
 });
 
 test('EdgeLocutor: falha do sintetizador vira ErroLocucao', async () => {

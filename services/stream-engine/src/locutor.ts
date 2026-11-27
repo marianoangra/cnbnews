@@ -6,7 +6,7 @@ import { limparTexto } from './card.ts';
 import type { Materia } from './tipos.ts';
 
 export const VOZ_PADRAO = 'pt-BR-FranciscaNeural';
-const CHAMADA = 'Mais em cnbmobile ponto com.';
+const CHAMADA = 'Mais em C N B News.'; // letras soletradas: a voz lê "cê ene bê"
 
 function frase(s: string): string {
   const t = limparTexto(s.replace(/https?:\/\/\S+/g, '')).replace(/[\s.]+$/, '');

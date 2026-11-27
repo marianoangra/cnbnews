@@ -146,7 +146,7 @@ export function idMusica(mp3: string): string {
 }
 
 /**
- * Bloco do modo rádio: a faixa inteira sobre a tela "tocando agora". Volume normalizado (loudnorm)
+ * Bloco do modo rádio: a faixa inteira sobre a tela "tocando agora". Volume normalizado (loudnorm a -19 LUFS, o nível medido da locução)
  * para não estourar perto da voz; mesmos parâmetros de stream dos outros blocos.
  */
 export async function montarMusica(mp3: string, dirSaida: string, gpu: number): Promise<BlocoPronto> {
@@ -164,7 +164,7 @@ export async function montarMusica(mp3: string, dirSaida: string, gpu: number): 
       '-y', '-loop', '1', '-framerate', '30', '-t', d, '-i', img, '-t', d, '-i', mp3,
       '-filter_complex',
       `[0]fade=t=in:st=0:d=0.5,fade=t=out:st=${Math.max(0, duracao - 0.5)}:d=0.5,format=yuv420p[v];` +
-        `[1:a]loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000,aformat=channel_layouts=stereo,` +
+        `[1:a]loudnorm=I=-19:TP=-2:LRA=11,aresample=48000,aformat=channel_layouts=stereo,` +
         `afade=t=in:st=0:d=0.3,afade=t=out:st=${Math.max(0, duracao - 2)}:d=2[a]`,
       '-map', '[v]', '-map', '[a]',
       ...saidaPadrao(gpu, duracao, arquivo + '.parcial'),
