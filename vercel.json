@@ -36,7 +36,7 @@
       }
     },
     {
-      "src": "/((?!admin|ads[.]txt|aovivo[.]json).*)",
+      "src": "/((?!admin|api/|ads[.]txt|aovivo[.]json).*)",
       "has": [
         {
           "type": "host",
@@ -62,5 +62,16 @@
     {
       "handle": "filesystem"
     }
-  ]
+  ],
+  "crons": [
+    {
+      "path": "/api/resumo-diario",
+      "schedule": "0 10 * * *"
+    }
+  ],
+  "functions": {
+    "api/resumo-diario.mjs": {
+      "maxDuration": 60
+    }
+  }
 }
