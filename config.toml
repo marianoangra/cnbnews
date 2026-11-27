@@ -11,7 +11,7 @@ enableRobotsTXT = true
   # Botão da TV CNB no cabeçalho (layouts/partials/ao-vivo.html). Vazio = botão escondido.
   # Use o endereço do canal terminando em /live (ex.: "https://www.youtube.com/@CANAL/live"):
   # o YouTube abre a transmissão atual ou, sem live, a página do canal.
-  youtube = ""
+  youtube = "https://www.youtube.com/@rafaelmarianobr/live"
   # true só quando houver live PÚBLICA no ar: o botão fica vermelho e pulsa "AO VIVO".
   # false: botão neutro "TV CNB".
   aoVivo = false
