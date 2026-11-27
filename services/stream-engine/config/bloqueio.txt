@@ -41,3 +41,27 @@ abuso sexual
 violencia sexual
 menor apreendido
 adolescente apreendido
+# armas, drogas e roubo (27/11: "PM apreende dois revólveres" passou)
+revolver
+revolveres
+pistola
+pistolas
+fuzil
+fuzis
+arma de fogo
+armas de fogo
+municao
+municoes
+colete balistico
+drogas
+entorpecentes
+cocaina
+maconha
+crack
+assalto
+assaltos
+assaltante
+roubo
+roubos
+furto
+furtos
