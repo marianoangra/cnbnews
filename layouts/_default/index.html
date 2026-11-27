@@ -45,20 +45,61 @@
 </div>
 {{ end }}
 {{ with first 3 (where .Site.RegularPages "Section" "colunas").ByDate.Reverse }}
-<h2 class="h-sec" id="colunas"><a href="{{ "colunas/" | absURL }}">Colunas</a></h2>
-<div class="blocos" style="padding-top:12px">
+<section class="colunas-faixa" id="colunas" aria-label="Colunas">
+  <div class="faixa-h"><h2><a href="{{ "colunas/" | absURL }}">Colunas</a></h2><a class="ver" href="{{ "colunas/" | absURL }}">Ver todas →</a></div>
+  <div class="col-grid">
   {{ range . }}
-  <article class="bloco"><span class="ed">{{ partial "coluna-tema.html" .Params.tema }}</span>
-    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-    <span class="time">Por {{ .Params.autor | default "Rafael Mariano" }}</span></article>
+    <article class="col-card">
+      <span class="ed">{{ partial "coluna-tema.html" .Params.tema }}</span>
+      <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      {{ with .Description }}<p>{{ . }}</p>{{ end }}
+      <span class="time">Por {{ .Params.autor | default "Rafael Mariano" }} · {{ .Date.Format "02/01" }}</span>
+    </article>
   {{ end }}
-</div>
+  </div>
+</section>
 {{ end }}
-<h2 class="h-sec" id="cidades">Escolha sua cidade</h2>
-<div class="cids">
-{{ with .Site.GetPage "/cidades" }}{{ range .Sections.ByTitle }}
-  <div class="cid"><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a>
-  {{ with .Pages.ByDate.Reverse }}{{ with index . 0 }}<span class="time">última notícia {{ .Date.Format "02/01 · 15h04" }}</span>{{ end }}{{ end }}</div>
-{{ end }}{{ end }}
-</div>
+{{ $ufs := dict "SP" "São Paulo" "RJ" "Rio de Janeiro" "PR" "Paraná" "MG" "Minas Gerais" "RS" "Rio Grande do Sul" "ES" "Espírito Santo" "SC" "Santa Catarina" "GO" "Goiás" "BA" "Bahia" "DF" "Distrito Federal" }}
+{{ $ontem := (now.AddDate 0 0 -1).Unix }}
+<section class="escolha" id="cidades" aria-label="Escolha sua cidade">
+  <div class="faixa-h"><h2>Escolha sua cidade</h2>
+    <input class="busca-cid" type="search" placeholder="Digite o nome da cidade" aria-label="Buscar cidade" data-busca-cid></div>
+  {{ with .Site.GetPage "/cidades" }}{{ $cidades := .Sections.ByTitle }}
+  {{ range $uf := slice "SP" "RJ" "PR" "MG" "RS" "ES" "SC" "GO" "BA" "DF" }}
+    {{ $s := newScratch }}
+    {{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}{{ $s.Add "n" 1 }}{{ end }}{{ end }}
+    {{ with $s.Get "n" }}
+    <div class="uf" data-uf>
+      <h3>{{ index $ufs $uf }} <span>{{ . }} {{ if eq . 1 }}cidade{{ else }}cidades{{ end }}</span></h3>
+      <ul>
+      {{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}
+        {{ $nome := replaceRE ` \([A-Z]{2}\)$` "" .Title }}
+        {{ $hoje := false }}{{ with .Pages.ByDate.Reverse }}{{ with index . 0 }}{{ if gt .Date.Unix $ontem }}{{ $hoje = true }}{{ end }}{{ end }}{{ end }}
+        <li><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" data-nome="{{ $nome }}"{{ if $hoje }} class="novo" title="Notícia nas últimas 24 h"{{ end }}>{{ $nome }}</a></li>
+      {{ end }}{{ end }}
+      </ul>
+    </div>
+    {{ end }}
+  {{ end }}
+  {{ end }}
+  <p class="cid-vazia" hidden>Nenhuma cidade com esse nome ainda. <a href="/contato/">Peça a sua</a>.</p>
+  <p class="legenda"><span class="ponto"></span> notícia nas últimas 24 horas</p>
+</section>
+{{ end }}
+{{ define "scripts" }}
+<script>
+(function(){
+  var campo=document.querySelector("[data-busca-cid]"); if(!campo) return;
+  var tira=function(t){return t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();};
+  campo.addEventListener("input",function(){
+    var q=tira(campo.value.trim()), total=0;
+    document.querySelectorAll("[data-uf]").forEach(function(g){
+      var n=0;
+      g.querySelectorAll("a[data-nome]").forEach(function(a){var ok=!q||tira(a.getAttribute("data-nome")).indexOf(q)>-1;a.parentNode.hidden=!ok;if(ok)n++;});
+      g.hidden=n===0; total+=n;
+    });
+    document.querySelector(".cid-vazia").hidden=total>0;
+  });
+})();
+</script>
 {{ end }}
