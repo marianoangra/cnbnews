@@ -1,8 +1,10 @@
 {{ define "titulo" }}{{ .Title }} · CNB News{{ end }}
 {{ define "bodyclass" }}tem-wa{{ end }}
 {{ define "meta" }}
-{{/* Matéria nacional ainda não tem foto: card da marca 1200x675 (Discover/Top Stories pedem >= 1200 px). */}}
-{{ $img := "img/cnb-news-1200x675.png" | absURL }}
+{{/* Foto de arquivo do banco nacional do tema (data/fotos/brasil-*.json, 1280 px); sem foto (polícia, mundo): card da marca 1200x675. */}}
+{{ $l := partial "link-capa.html" . }}
+{{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" (partial "editoria.html" $)) }}{{ end }}
+{{ $img := "img/cnb-news-1200x675.png" | absURL }}{{ with $f }}{{ $img = .arquivo | absURL }}{{ end }}
 {{ $secao := partial "categoria-nome.html" .Params.categoria }}
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CNB News">
@@ -11,8 +13,8 @@
 <meta property="og:description" content="{{ .Description }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:image" content="{{ $img }}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="675">
+{{ if not $f }}<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">{{ end }}
 <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">
 <meta property="article:section" content="{{ $secao }}">
 <meta name="twitter:card" content="summary_large_image">
@@ -50,6 +52,8 @@
       <button class="btn" type="button" data-copy>Copiar link</button>
     </div>
   </div>
+  {{ $l := partial "link-capa.html" . }}{{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" (partial "editoria.html" $)) }}{{ end }}
+  {{ with $f }}<figure><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="720">{{ partial "foto-cred.html" . }}</figure>{{ end }}
   <div class="corpo">{{ .Content }}</div>
   <div class="fonte">
     {{ with .Params.fonte }}<span><b>Fonte original:</b> {{ with $.Params.fonte_url }}<a href="{{ . }}" rel="nofollow noopener" target="_blank">{{ $.Params.fonte }}</a>{{ else }}{{ . }}{{ end }}</span>{{ end }}

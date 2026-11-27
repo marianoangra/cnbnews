@@ -8,7 +8,7 @@
     <div class="alto">
       {{ with index . 0 }}
         {{ $l := partial "link-capa.html" . }}
-        {{ $f := false }}{{ with $l.slug }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" (partial "editoria.html" $)) }}{{ end }}
+        {{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" (partial "editoria.html" $)) }}{{ end }}
         <article class="manchete">
           {{ with $f }}<figure><a href="{{ $l.u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="853"></a>{{ partial "foto-cred.html" . }}</figure>{{ end }}
           <span class="ed">{{ $l.rotulo }}</span>
@@ -20,7 +20,7 @@
       <div class="secs">
         {{ range $i, $p := first 3 (after 1 .) }}
           {{ $l := partial "link-capa.html" $p }}
-          {{ $f := false }}{{ with $l.slug }}{{ $f = partial "foto.html" (dict "p" $p "slug" . "ed" (partial "editoria.html" $p) "n" (add $i 1)) }}{{ end }}
+          {{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $p "slug" . "ed" (partial "editoria.html" $p) "n" (add $i 1)) }}{{ end }}
           <article class="sec{{ if $f }} com-foto{{ end }}">
             <div><span class="ed">{{ $l.rotulo }}</span><h2><a href="{{ $l.u }}">{{ $p.Title }}</a></h2>{{ partial "tempo.html" $p }}</div>
             {{ with $f }}<a href="{{ $l.u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="112" height="112" loading="lazy"></a>{{ end }}
