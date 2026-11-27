@@ -5,7 +5,7 @@
 //   4 Manchete, SEO e metadados      → heavy
 //   5 Lauda da live/rádio + GC       → fast
 // Depois do LLM, as travas determinísticas (guardrails.ts) têm a palavra final.
-import { aplicarGuardrails, limitarLinhaFina, limitarManchete, normalizar, slugificar } from './guardrails.ts';
+import { aplicarGuardrails, corrigirMeses, limitarLinhaFina, limitarManchete, normalizar, slugificar } from './guardrails.ts';
 import { booleano, listaTexto, numero, objeto, pareceMolde, texto, textoOpcional, type Llm } from './ollama.ts';
 import {
   PROMPT_EDITOR_SEO,
@@ -149,14 +149,14 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
   if (seo.manchete.length > 70) {
     seo = await llm('seo').gerarJson(PROMPT_EDITOR_SEO, promptSeo(revisao.corpo, seo.manchete), validarSeo, 0.3);
   }
-  const manchete = limitarManchete(seo.manchete, 70);
-  const subtitulo = limitarLinhaFina(seo.subtitulo, 155);
+  const manchete = limitarManchete(corrigirMeses(seo.manchete), 70);
+  const subtitulo = limitarLinhaFina(corrigirMeses(seo.subtitulo), 155);
 
   // Score final = maior entre triagem, revisor e travas determinísticas.
   const g = aplicarGuardrails({
     manchete,
     subtitulo,
-    corpo: revisao.corpo,
+    corpo: corrigirMeses(revisao.corpo),
     fonte: item.fonte,
     textoOriginal: item.conteudo_bruto,
     scoreLlm: Math.max(triagem.score, revisao.score),

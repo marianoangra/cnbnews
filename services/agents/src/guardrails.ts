@@ -172,3 +172,26 @@ export function limitarManchete(s: string, max = 70): string {
   const ultimo = corte.lastIndexOf(' ');
   return (ultimo > 30 ? corte.slice(0, ultimo) : t.slice(0, max)).replace(/[\s,;:–—-]+$/, '');
 }
+
+// O qwen3:4b às vezes mistura o mês em inglês/espanhol com o português ("Decembro" na manchete
+// de 27/11/2026). Troca determinística, preservando a maiúscula inicial. Fora: "Julio"/"Junio" (nomes de gente).
+const MESES_ERRADOS: [RegExp, string][] = [
+  [/\b(january|janeiro?u|enero)\b/gi, 'janeiro'],
+  [/\b(february|febrero|feverero)\b/gi, 'fevereiro'],
+  [/\b(march|marzo)\b/gi, 'março'],
+  [/\b(june)\b/gi, 'junho'],
+  [/\b(july)\b/gi, 'julho'],
+  [/\b(august)\b/gi, 'agosto'],
+  [/\b(september|septiembre|setiembre|setembre)\b/gi, 'setembro'],
+  [/\b(october|octubre|octubro|otubro)\b/gi, 'outubro'],
+  [/\b(november|noviembre|novembre)\b/gi, 'novembro'],
+  [/\b(december|diciembre|decembro|dezember)\b/gi, 'dezembro'],
+];
+
+export function corrigirMeses(s: string): string {
+  let t = s;
+  for (const [re, certo] of MESES_ERRADOS) {
+    t = t.replace(re, (m) => (m[0] === m[0].toUpperCase() ? certo[0].toUpperCase() + certo.slice(1) : certo));
+  }
+  return t;
+}

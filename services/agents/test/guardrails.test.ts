@@ -129,3 +129,11 @@ test('categoria: feed de editoria manda; feed geral deixa o modelo decidir', asy
   assert.equal(categoriaValida('tecnologia', 'brasil', 'STF julga réus da trama golpista e do golpe de Estado'), 'brasil');
   assert.equal(categoriaValida('tecnologia', 'politica', 'Projeto de regulação das big techs será votado'), 'politica');
 });
+
+test('corrigirMeses: mês em inglês/espanhol vira português, nome de gente fica', async () => {
+  const { corrigirMeses } = await import('../src/guardrails.ts');
+  assert.equal(corrigirMeses('Decembro sem taxa extra em contas de energia'), 'Dezembro sem taxa extra em contas de energia');
+  assert.equal(corrigirMeses('vendas de octubre e de November'), 'vendas de outubro e de Novembro');
+  assert.equal(corrigirMeses('Julio Cesar e Junio falam em marcha'), 'Julio Cesar e Junio falam em marcha');
+  assert.equal(corrigirMeses('Em dezembro, a Aneel'), 'Em dezembro, a Aneel');
+});
