@@ -89,6 +89,9 @@ CIDADES_AMBIGUAS = {
     "piquete": "", "queluz": "", "roseira": "", "silveiras": "", "jambeiro": "", "lavrinhas": "",
     "paraibuna": "",
     "tremembe": "",  # "do Tremembé"/"no Tremembé" (com artigo) é o bairro de SP
+    # Cruzeiro (SP) x Cruzeiro (time de MG, navio de cruzeiro, Cruzeiro do Sul)
+    "cruzeiro-sp": r"cruzeiro (do sul|do oeste|internacional|esporte|ec|e\.c\.|vence|derrota|empata|perde|joga|enfrenta|recebe|anuncia|contrata)"
+                   r"|(contra|derrota|vence|enfrenta|empata com|x|diante do|sobre o) (o )?cruzeiro|navio|transatl[aâ]ntico|torcida|mineir[aã]o|libertadores|brasileir[aã]o|superliga|v[oô]lei",
     "monteiro-lobato": r"(livros?|obras?|contos?|personagens?|autor|escritor|sitio do picapau|legado|centenario) (de|do) monteiro lobato", "cacapava": r"cacapava do sul",
 }
 
