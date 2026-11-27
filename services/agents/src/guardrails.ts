@@ -150,6 +150,21 @@ export function slugificar(s: string, max = 60): string {
   return (ultimo > 20 ? corte.slice(0, ultimo) : corte).replace(/-+$/, '');
 }
 
+/**
+ * Linha fina cabendo em `max` sem deixar frase pela metade. Cortar na última palavra gerava
+ * "Dados revelam perfil de meninas, pretas" (o original dizia "pretas ou pardas"): o pedaço
+ * distorce o dado. Corta na última frase completa; sem frase longa o bastante, corta na palavra e põe "…".
+ */
+export function limitarLinhaFina(s: string, max = 155): string {
+  const t = s.replace(/\s+/g, ' ').trim();
+  if (t.length <= max) return t;
+  const corte = t.slice(0, max + 1);
+  const fim = Math.max(corte.lastIndexOf('. '), corte.lastIndexOf('! '), corte.lastIndexOf('? '));
+  if (fim >= 60) return corte.slice(0, fim + 1);
+  const ultimo = corte.slice(0, max).lastIndexOf(' ');
+  return (ultimo > 30 ? corte.slice(0, ultimo) : t.slice(0, max - 1)).replace(/[\s,;:–—-]+$/, '') + '…';
+}
+
 export function limitarManchete(s: string, max = 70): string {
   const t = s.replace(/\s+/g, ' ').trim();
   if (t.length <= max) return t;

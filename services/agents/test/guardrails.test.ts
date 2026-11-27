@@ -97,3 +97,15 @@ test('manchete cortada na palavra, dentro do limite', () => {
   assert.ok(!m.endsWith(' '));
   assert.ok('Governo federal anuncia prorrogação do subsídio ao diesel importado por mais trinta dias'.startsWith(m));
 });
+
+test('linha fina: corta na frase, nunca no meio de uma enumeração (caso "meninas, pretas")', async () => {
+  const { limitarLinhaFina } = await import('../src/guardrails.ts');
+  const real = 'Quase 400 mil crianças e adolescentes brasileiros viviam em união conjugal em 2022, segundo levantamento do UNFPA. Dados revelam perfil de meninas, pretas ou pardas, de baixa renda.';
+  const r = limitarLinhaFina(real, 155);
+  assert.ok(r.endsWith('UNFPA.'), r);
+  assert.ok(!/pretas$/.test(r));
+  const semPonto = 'Um texto bem comprido sem ponto final no meio que segue falando de muitas coisas diferentes ao mesmo tempo até passar do limite de tamanho da linha fina do portal';
+  const c = limitarLinhaFina(semPonto, 100);
+  assert.ok(c.endsWith('…') && c.length <= 101, c);
+  assert.equal(limitarLinhaFina('Curta.', 155), 'Curta.');
+});

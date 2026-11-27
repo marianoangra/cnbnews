@@ -1,6 +1,6 @@
 ---
 title: "Brasil tem 387 mil crianças em união conjugal"
-description: "Quase 400 mil crianças e adolescentes brasileiros viviam em união conjugal em 2022, segundo levantamento do UNFPA. Dados revelam perfil de meninas, pretas"
+description: "Quase 400 mil crianças e adolescentes viviam em união conjugal em 2022, segundo o UNFPA. Perfil mais comum: meninas de 17 anos, pretas ou pardas, de baixa renda."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/direitos-humanos/noticia/2026-11/brasil-tem-387-mil-criancas-e-adolescentes-em-uniao-conjugal"
 categoria: "brasil"
