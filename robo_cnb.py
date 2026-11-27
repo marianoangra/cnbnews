@@ -320,6 +320,41 @@ def outra_cidade_homonima(cidade_pura, manchete):
             return True
     return False
 
+# Corretor ortográfico (LanguageTool 6.6 na rig, 127.0.0.1:8081). Mesma regra do robô nacional
+# (services/agents/src/ortografia.ts): só palavra MINÚSCULA desconhecida que não está na manchete
+# original vai para a fila (nome/sigla ficam de fora; a sugestão do LT erra, então não corrige
+# sozinho). Gramática não trava. Corretor fora do ar não trava.
+ORTO_CONHECIDAS = {
+    "covid", "nanoempreendedor", "nanoempreendedores", "afroindigena", "afroindigenas", "metapneumovirus",
+    "sublimite", "sublimites", "sobrepescada", "sobrepesca", "taubatenses", "pix", "app", "apps", "online",
+    "offline", "podcast", "streaming", "bets", "bet", "site", "sites", "e-mail", "e-mails", "link", "links",
+}
+
+def checar_ortografia(title, desc, texto, manchete_original, fonte=""):
+    fonte_norm = normalizar(f"{manchete_original} {fonte}")
+    texto = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", texto)
+    achados = []
+    try:
+        for campo, t in (("manchete", title), ("linha fina", desc), ("texto", texto)):
+            if not t.strip():
+                continue
+            dados = urllib.parse.urlencode({"text": t, "language": "pt-BR",
+                                            "enabledCategories": "TYPOS", "enabledOnly": "true"}).encode()
+            resp = json.load(urllib.request.urlopen("http://127.0.0.1:8081/v2/check", dados, timeout=30))
+            for m in resp.get("matches", []):
+                c = m["context"]
+                w = c["text"][c["offset"]:c["offset"] + c["length"]]
+                if not w or not w[0].islower() or re.search(r"\d", w):
+                    continue
+                if normalizar(w) in ORTO_CONHECIDAS or normalizar(w) in fonte_norm:
+                    continue
+                sug = " / ".join(r["value"] for r in m.get("replacements", [])[:2])
+                achados.append(f'ortografia ({campo}): "{w}"' + (f" -> {sug}?" if sug else ""))
+    except Exception as e:
+        print(f"[ORTOGRAFIA] corretor fora do ar: {e}", flush=True)
+        return []
+    return list(dict.fromkeys(achados))[:6]
+
 def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte="", slug=""):
     cidade_pura = cidade_nome.split("(")[0].strip()
     # hífen opcional: manchete escreve "Biritiba Mirim" / "Embu Guaçu"
@@ -711,9 +746,12 @@ def rodar_ciclo():
                     continue
                 texto = montar_texto(texto, fonte, link)
                 score, motivos = avaliar_sensibilidade(title, desc, texto)
+                orto = checar_ortografia(title, desc, texto, manchete, fonte)
+                if orto:
+                    motivos = list(motivos) + orto
                 if precisa_contraditorio(title, desc, texto) and CLAUSULA_CONTRADITORIO not in texto:
                     texto = f"{texto}\n\n*{CLAUSULA_CONTRADITORIO}*"
-                vai_para_fila = score >= LIMITE_SCORE_HUMANO
+                vai_para_fila = score >= LIMITE_SCORE_HUMANO or bool(orto)
                 destino = os.path.join(FILA_APROVACAO, slug) if vai_para_fila else pasta
                 os.makedirs(destino, exist_ok=True)
                 arq = f"{destino}/{agora.strftime('%Y-%m-%d')}-{slugify(title)}.md"

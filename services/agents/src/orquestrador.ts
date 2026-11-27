@@ -5,6 +5,7 @@
 //   4 Manchete, SEO e metadados      → heavy
 //   5 Lauda da live/rádio + GC       → fast
 // Depois do LLM, as travas determinísticas (guardrails.ts) têm a palavra final.
+import { revisarOrtografia } from './ortografia.ts';
 import { aplicarGuardrails, corrigirMeses, limitarLinhaFina, limitarManchete, normalizar, slugificar } from './guardrails.ts';
 import { booleano, listaTexto, numero, objeto, pareceMolde, texto, textoOpcional, type Llm } from './ollama.ts';
 import {
@@ -163,9 +164,13 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
     llmPediuHumano: revisao.humano,
   });
   const motivosTriagem = triagem.score >= 4 ? [`triagem deu score ${triagem.score}`] : [];
+  // Corretor ortográfico (LanguageTool na rig): erro de ortografia manda para a fila; não corrige sozinho.
+  const orto = await revisarOrtografia({ manchete, subtitulo, corpo: g.corpoFinal, fonteTexto: `${item.titulo_original}
+${item.conteudo_bruto}` });
+  const requerHumano = g.requerHumano || orto.bloqueia;
 
   // 5. Lauda da live/rádio (fast) — só para o que vai ao ar sem revisão humana.
-  const lauda = g.requerHumano ? undefined : await gerarLauda(llm('lauda'), manchete, g.corpoFinal, item.fonte);
+  const lauda = requerHumano ? undefined : await gerarLauda(llm('lauda'), manchete, g.corpoFinal, item.fonte);
 
   const fontes = [...new Set([item.fonte, ...redacao.fontes])];
   return {
@@ -180,10 +185,11 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
     fontes_verificadas: fontes,
     fonte_url: item.link_original,
     score_sensibilidade: g.score,
-    requer_aprovacao_humana: g.requerHumano,
+    requer_aprovacao_humana: requerHumano,
     motivos_revisao: [
       ...motivosTriagem,
       ...g.motivos,
+      ...orto.motivos,
       ...triagem.motivos,
       ...revisao.alertas.map((a) => `alerta do revisor: ${a}`),
     ],
