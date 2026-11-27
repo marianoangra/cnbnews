@@ -45,7 +45,7 @@ test('guia: números fora da fonte e trechos copiados viram alerta', () => {
 });
 
 test('guia: validação recusa texto curto e o Markdown credita a Wikipédia', () => {
-  assert.throws(() => validarGuia({ manchete: 'O que fazer em Paraty', subtitulo: 'y'.repeat(80), corpo: 'curto '.repeat(240) }));
+  assert.throws(() => validarGuia({ manchete: 'O que fazer em Paraty', subtitulo: 'y'.repeat(80), corpo: 'curto '.repeat(320) }));
   const g = validarGuia({ manchete: 'O que fazer em Paraty.', subtitulo: 'y'.repeat(80), corpo: '# Título\n\n' + 'Veja [isto](https://x.com) '.repeat(300) });
   assert.equal(g.manchete, 'O que fazer em Paraty');
   const md = paraMarkdownGuia({ slug: 'paraty', nome: 'Paraty', uf: 'RJ' }, { titulo: 'Paraty', url: 'https://pt.wikipedia.org/wiki/Paraty', texto: '' }, g, '2026-11-27T15:00:00Z', ['conferir']);

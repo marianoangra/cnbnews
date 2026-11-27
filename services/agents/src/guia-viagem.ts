@@ -77,7 +77,8 @@ const PRIORIDADE: RegExp[] = [
 ];
 const SECAO_FORA = /pol[ií]tica|administra|prefeit|demografi|popula|economia|educa|sa[uú]de|religi|etnias|refer[eê]ncias|bibliografia|liga[cç][oõ]es externas|ver tamb[eé]m|notas|filhos ilustres|personalidades|normal climatol/i;
 
-export function escolherTrechos(extract: string, limite = 9000, porSecao = 2500): string {
+// limite 6000: o qwen3:4b roda com num_ctx 4096 (texto + prompt + resposta); com 9000 o guia saía curto.
+export function escolherTrechos(extract: string, limite = 6000, porSecao = 2000): string {
   // Seções de nível 2 ("== X ==") com as subseções ("=== Y ===") dentro, como texto corrido.
   const partes = extract.split(/\n(?=== [^=\n]+ ==\s*\n)/);
   const intro = partes[0].replace(/\n=+ [^=\n]+ =+\s*\n/g, '\n').trim().slice(0, 2500);
@@ -127,10 +128,10 @@ Regras obrigatórias:
 - NÃO invente números. Só use um número se ele estiver no texto.
 - Sem preços, sem horários de funcionamento, sem telefone, sem links.
 - Markdown com 3 a 5 subtítulos "## " (por exemplo: Onde fica, Um pouco de história, O que visitar, Festas e tradições, Como chegar), 1 a 3 parágrafos em cada.
-- Entre 400 e 700 palavras.
+- Entre 450 e 700 palavras: desenvolva cada seção com detalhes do texto de referência.
 - Último parágrafo: uma dica prática para aproveitar a visita, sem fato novo.
 Responda SOMENTE com JSON: {"manchete": "...", "subtitulo": "...", "corpo": "..."}
-- manchete: até 80 caracteres, sem ponto final, com o nome da cidade (ex.: "O que fazer em Paraty: centro histórico, igrejas e baía").
+- manchete: até 80 caracteres, sem ponto final, no formato "O que fazer em <cidade>: <2 ou 3 atrativos citados no texto>".
 - subtitulo: 1 frase de 100 a 160 caracteres.
 - corpo: o guia em Markdown, sem repetir a manchete como título.`;
 
@@ -150,7 +151,7 @@ export function validarGuia(x: unknown): Guia {
   const subtitulo = texto(o, 'subtitulo', 50);
   const corpo = texto(o, 'corpo', 1200).replaceAll('\\"', '"');
   const n = contarPalavras(corpo);
-  if (n < 250) throw new ErroLlm(`guia curto demais (${n} palavras)`);
+  if (n < 330) throw new ErroLlm(`guia curto demais (${n} palavras)`);
   return { manchete, subtitulo, corpo };
 }
 
@@ -186,7 +187,7 @@ export function alertasDoGuia(g: Guia, v: Verbete): string[] {
   if (/\b(hotel|pousada|restaurante)\s+[A-Z]/.test(g.corpo)) a.push('cita hotel/pousada/restaurante pelo nome (conferir se existe)');
   const n = contarPalavras(g.corpo);
   if (n > 800) a.push(`longo (${n} palavras)`);
-  if (n < 380) a.push(`curto (${n} palavras)`);
+  if (n < 420) a.push(`curto (${n} palavras)`);
   return a;
 }
 
