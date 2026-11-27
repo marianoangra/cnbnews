@@ -1,15 +1,7 @@
 [
   {
-    "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-01.jpg",
-    "legenda": "Panorâmico de Pirapora do Bom Jesus",
-    "autor": "joao batista Shimoto",
-    "licenca": "CC BY-SA 3.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Panor%C3%A2mico_de_Pirapora_do_Bom_Jesus._-_panoramio.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-02.jpg",
-    "legenda": "Morro do Capuava_Pirapora do Bom Jesus",
+    "legenda": "Morro do Capuava, em Pirapora do Bom Jesus",
     "autor": "joao batista Shimoto",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Morro_do_Capuava_Pirapora_do_Bom_Jesus._-_panoramio_(1).jpg",
@@ -17,7 +9,7 @@
   },
   {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-03.jpg",
-    "legenda": "Rio Tietê",
+    "legenda": "Casas à beira do Rio Tietê, em Pirapora do Bom Jesus",
     "autor": "BêS",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Rio_Tiet%C3%AA_-_panoramio.jpg",
@@ -33,7 +25,7 @@
   },
   {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-05.jpg",
-    "legenda": "Pequena cidade na grande São Paulo",
+    "legenda": "Santuário de Bom Jesus, em Pirapora do Bom Jesus",
     "autor": "Cláudio Soares Martins",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Pirapora_do_Bom_Jesus_sp.jpg",
@@ -41,7 +33,7 @@
   },
   {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-06.jpg",
-    "legenda": "Estrada de Acesso_Morro do Capuava",
+    "legenda": "Estrada de acesso ao Morro do Capuava",
     "autor": "joao batista Shimoto",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Estrada_de_Acesso_Morro_do_Capuava._-_panoramio.jpg",
@@ -49,23 +41,15 @@
   },
   {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-07.jpg",
-    "legenda": "A fé move as montanhas?",
+    "legenda": "Cruzes dos romeiros no Morro do Capuava",
     "autor": "joao batista Shimoto",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:A_f%C3%A9_move_as_montanhas_-_panoramio.jpg",
     "tema": ""
   },
   {
-    "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-08.jpg",
-    "legenda": "Pirapora do Bom Jesus",
-    "autor": "User:OS2Warp",
-    "licenca": "domínio público",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Pirapora_do_Bom_Jesus_(cropped).jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-09.jpg",
-    "legenda": "pequena feira aos romeiros que visitam a Igreja de Pirapóra do Bom Jesus",
+    "legenda": "Feira para os romeiros em Pirapora do Bom Jesus",
     "autor": "Cláudio Soares Martins",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Feira_de_Pirapora.jpg",
@@ -73,7 +57,7 @@
   },
   {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-10.jpg",
-    "legenda": "This photo has been taken in the country: Brazil",
+    "legenda": "Painel do Santuário de Pirapora do Bom Jesus",
     "autor": "Éverton Eduardo Lisbôa",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Pinturas_que_conta_o_surgimento_do_Santuario_de_Pirapora_de_Bom_Jesus_atualmente.jpg",
@@ -81,7 +65,7 @@
   },
   {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-11.jpg",
-    "legenda": "Trecho da estrada dos Romeiros",
+    "legenda": "Trecho da Estrada dos Romeiros",
     "autor": "joao batista Shimoto",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Trecho_da_estrada_dos_Romeiros._-_panoramio.jpg",
@@ -89,7 +73,7 @@
   },
   {
     "arquivo": "/fotos/pirapora-do-bom-jesus/pirapora-do-bom-jesus-12.jpg",
-    "legenda": "A fé em formas de cruzes dos romeiros",
+    "legenda": "Cruzes dos romeiros em Pirapora do Bom Jesus",
     "autor": "Cláudio Soares Martins",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Cruzes_dos_Romeiros.jpg",

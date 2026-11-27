@@ -1,23 +1,15 @@
 [
   {
     "arquivo": "/fotos/poa/poa-01.jpg",
-    "legenda": "Semáforo regressivo em Poá",
+    "legenda": "Semáforo no centro de Poá",
     "autor": "João Paulo Chagas",
     "licenca": "CC BY 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Sem%C3%A1foro_regressivo_po%C3%A1.JPG",
     "tema": ""
   },
   {
-    "arquivo": "/fotos/poa/poa-02.jpg",
-    "legenda": "Slippery Road Ahead (",
-    "autor": "Diego Torres Silvestre from Sao Paulo, Brazil",
-    "licenca": "CC BY 2.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Slippery_Road_Ahead_(5395518925).jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/poa/poa-03.jpg",
-    "legenda": "Fachada da ETEC de Poá",
+    "legenda": "Fachada da Etec de Poá",
     "autor": "Lucas Landin",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Fachada_ETEC_Poa.jpg",
@@ -25,7 +17,7 @@
   },
   {
     "arquivo": "/fotos/poa/poa-04.jpg",
-    "legenda": "Exposição de Orquídeas e Plantas Ornamentais de Poá 2012",
+    "legenda": "Exposição de orquídeas e plantas ornamentais em Poá",
     "autor": "João Paulo Chagas",
     "licenca": "CC BY 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:EXPOA2012-1.jpg",
@@ -33,7 +25,7 @@
   },
   {
     "arquivo": "/fotos/poa/poa-05.jpg",
-    "legenda": "Estação Calmon Viana (Linha 11 Coral, CPTM) • placa e trem Série 2000",
+    "legenda": "Estação Calmon Viana da Linha 11-Coral, em Poá",
     "autor": "Geogast",
     "licenca": "CC BY 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Esta%C3%A7%C3%A3o_Calmon_Viana_(Linha_11_Coral,_CPTM)_%E2%80%A2_placa_e_trem_S%C3%A9rie_2000.jpg",
@@ -41,39 +33,15 @@
   },
   {
     "arquivo": "/fotos/poa/poa-06.jpg",
-    "legenda": "Pedro Fava - Cidade Kemel Bus Terminal",
+    "legenda": "Terminal de ônibus Pedro Fava, na Cidade Kemel, em Poá",
     "autor": "João Paulo Chagas",
     "licenca": "CC BY 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Terminal_pedro_fava_cidade_kemel_po%C3%A1.jpg",
     "tema": ""
   },
   {
-    "arquivo": "/fotos/poa/poa-07.jpg",
-    "legenda": "Fachada da empresa Água Mineral Poá",
-    "autor": "João Paulo Chagas",
-    "licenca": "CC BY 3.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:%C3%81guamineralpo%C3%A1.jpg",
-    "tema": ""
-  },
-  {
-    "arquivo": "/fotos/poa/poa-08.jpg",
-    "legenda": "placa com o nome da Estação Poá (Linha 11 Coral, CPTM)",
-    "autor": "Geogast",
-    "licenca": "CC BY 4.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Esta%C3%A7%C3%A3o_Po%C3%A1_(Linha_11_Coral,_CPTM)_%E2%80%A2_placa_(1).jpg",
-    "tema": ""
-  },
-  {
-    "arquivo": "/fotos/poa/poa-09.jpg",
-    "legenda": "Imagem do Córrego Paredão, na divisa de Ferraz de Vasconcelos e Poá",
-    "autor": "Fernando Araújo - Secretaria de comunicação - Poá",
-    "licenca": "domínio público",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Corregoparedao.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/poa/poa-10.jpg",
-    "legenda": "Avenida 9 de Julho - Poá",
+    "legenda": "Avenida 9 de Julho, em Poá",
     "autor": "João Paulo Chagas",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Paco_municipal_po%C3%A1.jpg",
@@ -81,7 +49,7 @@
   },
   {
     "arquivo": "/fotos/poa/poa-11.jpg",
-    "legenda": "Imagem da cidade de Poá",
+    "legenda": "Exposição de orquídeas à noite em Poá",
     "autor": "Renato Paulos",
     "licenca": "domínio público",
     "fonte": "https://commons.wikimedia.org/wiki/File:Expo%C3%A12.jpg",
@@ -89,7 +57,7 @@
   },
   {
     "arquivo": "/fotos/poa/poa-12.jpg",
-    "legenda": "Calmon Viana Station (CPTM)",
+    "legenda": "Estação Calmon Viana, em Poá",
     "autor": "João Paulo Chagas",
     "licenca": "CC BY 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Estacao_calmon_viana_2010.jpg",

@@ -1,7 +1,7 @@
 [
   {
     "arquivo": "/fotos/mairipora/mairipora-01.jpg",
-    "legenda": "SP",
+    "legenda": "Gazebo no Parque da Cantareira, em Mairiporã",
     "autor": "Rafael Vianna Croffi from São Paulo, Brazil",
     "licenca": "CC BY 2.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Parque_da_Serra_da_Cantareira_(6932196859).jpg",
@@ -16,40 +16,16 @@
     "tema": ""
   },
   {
-    "arquivo": "/fotos/mairipora/mairipora-03.jpg",
-    "legenda": "Fungo encontrado durante a Trilha do Bugio",
-    "autor": "Ns.michely",
-    "licenca": "CC BY-SA 4.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Trilha_do_Bugio.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/mairipora/mairipora-04.jpg",
-    "legenda": "Rodoanel Norte - Avenida Coronel Sezefredo Fagundes, Altura do nº 7000",
+    "legenda": "Obras do Rodoanel Norte em Mairiporã",
     "autor": "CORRETOR-CARVALHO",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Rodoanel_Norte_-_Avenida_Coronel_Sezefredo_Fagundes,_Altura_do_n%C2%BA_7000_-_panoramio_(13).jpg",
     "tema": ""
   },
   {
-    "arquivo": "/fotos/mairipora/mairipora-05.jpg",
-    "legenda": "EXTRA HIPER - Avenida Cel. Sezefredo Fagundes, 535",
-    "autor": "CORRETOR-CARVALHO",
-    "licenca": "CC BY-SA 3.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:EXTRA_HIPER_-_Avenida_Cel._Sezefredo_Fagundes,_535_-_panoramio_(1).jpg",
-    "tema": ""
-  },
-  {
-    "arquivo": "/fotos/mairipora/mairipora-06.jpg",
-    "legenda": "Parque Estadual da Cantareira Lucas 10",
-    "autor": "Panlcs",
-    "licenca": "CC BY-SA 4.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Parque_Estadual_da_Cantareira_Lucas_10.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/mairipora/mairipora-07.jpg",
-    "legenda": "RANCHÃO DO PEIXE",
+    "legenda": "Lago em Mairiporã",
     "autor": "CORRETOR-CARVALHO",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:RANCH%C3%83O_DO_PEIXE_-_panoramio_(7).jpg",
@@ -57,7 +33,7 @@
   },
   {
     "arquivo": "/fotos/mairipora/mairipora-08.jpg",
-    "legenda": "Trilha no Núcleo Águas Claras",
+    "legenda": "Trilha no Núcleo Águas Claras, em Mairiporã",
     "autor": "Davis Santana",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Trilha_no_Parque_Estadual_da_Cantareira.JPG",
@@ -65,7 +41,7 @@
   },
   {
     "arquivo": "/fotos/mairipora/mairipora-09.jpg",
-    "legenda": "RANCHÃO DO PEIXE",
+    "legenda": "Lago cercado de mata em Mairiporã",
     "autor": "CORRETOR-CARVALHO",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:RANCH%C3%83O_DO_PEIXE_-_panoramio_(1).jpg",
@@ -73,23 +49,15 @@
   },
   {
     "arquivo": "/fotos/mairipora/mairipora-10.jpg",
-    "legenda": "Vista da Pedra Grande",
+    "legenda": "Vista da Pedra Grande, na Cantareira",
     "autor": "RRdaS",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Parque_da_Cantareira-Vista_da_Pedra_Grande_01.jpg",
     "tema": ""
   },
   {
-    "arquivo": "/fotos/mairipora/mairipora-11.jpg",
-    "legenda": "Parque Estadual da Cantareira 17",
-    "autor": "Sturm",
-    "licenca": "CC BY-SA 4.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Parque_Estadual_da_Cantareira_17.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/mairipora/mairipora-12.jpg",
-    "legenda": "Gazebo",
+    "legenda": "Gazebo no Parque da Cantareira",
     "autor": "RRdaS",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Parque_da_Cantareira-Gazebo.jpg",

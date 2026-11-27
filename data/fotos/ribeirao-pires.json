@@ -1,15 +1,7 @@
 [
   {
-    "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-01.jpg",
-    "legenda": "Cachorro sem dono",
-    "autor": "Joao Otavio Roa",
-    "licenca": "CC BY-SA 4.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Cachorro_de_rua.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-02.jpg",
-    "legenda": "Rodovia Índio Tibiriçá (oficialmente SP-31) é uma rodovia brasileira que liga o município de São Bernardo do Campo até o município de Suzano, ambos na Região Metropolitana de São Paulo. É a prin - panoramio",
+    "legenda": "Rodovia Índio Tibiriçá, em Ribeirão Pires",
     "autor": "DECIO CALDEIRA",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Rodovia_%C3%8Dndio_Tibiri%C3%A7%C3%A1_(oficialmente_SP-31)_%C3%A9_uma_rodovia_brasileira_que_liga_o_munic%C3%ADpio_de_S%C3%A3o_Bernardo_do_Campo_at%C3%A9_o_munic%C3%ADpio_de_Suzano,_ambos_na_Regi%C3%A3o_Metropolitana_de_S%C3%A3o_Paulo._%C3%89_a_prin_-_panoramio_(2).jpg",
@@ -17,7 +9,7 @@
   },
   {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-03.jpg",
-    "legenda": "Vista da estação Ribeirão Pires em 1910",
+    "legenda": "Estação Ribeirão Pires em foto antiga",
     "autor": "Domínio Público",
     "licenca": "CC0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Esta%C3%A7%C3%A3o_Ribeir%C3%A3o_Pires_em_1910.jpg",
@@ -25,23 +17,15 @@
   },
   {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-04.jpg",
-    "legenda": "Vista do Centro de Exposições e História a partir da Avenida Prefeito Valdírio Prisco",
+    "legenda": "Centro de Exposições e História, em Ribeirão Pires",
     "autor": "Marcilio Duarte",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Centro-de-exposies-e-historia-ricardo-nardelli.jpg",
     "tema": ""
   },
   {
-    "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-05.jpg",
-    "legenda": "Foto preto e branca conceitual",
-    "autor": "Joao Otavio Roa",
-    "licenca": "CC BY-SA 4.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:%22B%C3%AA%22_de_Black.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-06.jpg",
-    "legenda": "Festival do Chocolate de Ribeirão Pires",
+    "legenda": "Portal do Festival do Chocolate de Ribeirão Pires",
     "autor": "Humberto do Lago Müller",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:FestivaldoChocolate.JPG",
@@ -57,23 +41,15 @@
   },
   {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-08.jpg",
-    "legenda": "Olaria Bertoldo. Antigo forno de uma olaria desativada",
+    "legenda": "Antigo forno da Olaria Bertoldo, em Ribeirão Pires",
     "autor": "Mcduarte",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:WP_002120.jpg",
     "tema": ""
   },
   {
-    "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-09.jpg",
-    "legenda": "A Pedra",
-    "autor": "Robson-Miguel",
-    "licenca": "CC BY-SA 4.0",
-    "fonte": "https://commons.wikimedia.org/wiki/File:Pedra-do-Cacique.jpg",
-    "tema": ""
-  },
-  {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-10.jpg",
-    "legenda": "A foto retrata o Ribeirão Grande, principal aquífero da cidade, que corre sob a ponte da São Paulo Railway",
+    "legenda": "Ribeirão Grande sob a ponte da antiga São Paulo Railway, em Ribeirão Pires",
     "autor": "Marcílio de Castro Duarte",
     "licenca": "CC BY-SA 4.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:Ribeir%C3%A3o_Grande.jpg",
@@ -81,7 +57,7 @@
   },
   {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-11.jpg",
-    "legenda": "Morro de Santo Antônio",
+    "legenda": "Morro de Santo Antônio, em Ribeirão Pires",
     "autor": "Humberto do Lago Müller",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:FestivaldoChocolate2.JPG",
@@ -89,7 +65,7 @@
   },
   {
     "arquivo": "/fotos/ribeirao-pires/ribeirao-pires-12.jpg",
-    "legenda": "Morro de Santo Antônio em Ribeirão Pires",
+    "legenda": "Pôr do sol no Morro de Santo Antônio, em Ribeirão Pires",
     "autor": "Humberto do Lago Müller",
     "licenca": "CC BY-SA 3.0",
     "fonte": "https://commons.wikimedia.org/wiki/File:StoantonioRibeiraoPires.JPG",
