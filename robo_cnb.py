@@ -138,7 +138,7 @@ _RE_CONDENATORIOS = re.compile(
 _CRITICOS = [
     ("crime violento", 5, re.compile(
         r"\b(chacina|massacre|homicidios?|assassinat[oa]s?|latrocinios?|feminicidios?|estupros?|sequestros?"
-        r"|tiroteios?|mort[oa]s? a tiros|baleados?|esfaquead[oa]s?)\b")),
+        r"|tiroteios?|mort[oa]s? a tiros|balead[oa]s?|esfaquead[oa]s?)\b")),
     ("ocorrência policial", 4, re.compile(
         r"\b(operacao policial|confronto com a policia|troca de tiros|preso em flagrante|prisao em flagrante"
         r"|flagrante|armas? de fogo|apreensao de (armas?|drogas?)|trafico de drogas)\b")),
@@ -154,7 +154,7 @@ _RE_MENOR = re.compile(
 _RE_CONTEXTO_CRIME = re.compile(
     r"\b(crimes?|infracion\w*|apreend\w*|apreensao|vitimas?|violencia|abus\w*|agredid[oa]s?|agress\w*"
     r"|mort[oa]s?|assassinad[oa]s?|estuprad[oa]s?|desaparecid[oa]s?|sequestrad[oa]s?|armas?|drogas?"
-    r"|trafico|policia\w*|detid[oa]s?|pres[oa]s?)\b"
+    r"|trafico|policia\w*|detid[oa]s?|pres[oa]s?|balead[oa]s?|esfaquead[oa]s?|tiros?)\b"
 )
 # Acusação/investigação → exige cláusula de contraditório (Lei 13.188/2015)
 _RE_ACUSACAO = re.compile(
