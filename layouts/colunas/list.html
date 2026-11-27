@@ -1,0 +1,15 @@
+{{ define "titulo" }}Colunas · CNB News{{ end }}
+{{ define "main" }}
+<h2 class="h-sec">Colunas</h2>
+<p class="fina" style="max-width:700px;margin:12px 0 4px">{{ .Description }}</p>
+<div class="materia" style="padding-top:0">
+{{ range .Pages.ByDate.Reverse }}
+  <article class="sec" style="padding:16px 0">
+    <span class="ed">{{ partial "coluna-tema.html" .Params.tema }}</span>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ with .Description }}<p style="margin:4px 0 6px;color:var(--ink-2)">{{ . }}</p>{{ end }}
+    <span class="time">Por {{ .Params.autor | default "Rafael Mariano" }} · {{ .Date.Format "02/01/2006" }}</span>
+  </article>
+{{ else }}<p>As primeiras colunas chegam em breve.</p>{{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,17 @@
+# Produtos que as colunas podem recomendar (CLAUDE.md §4A: no máximo 10% do texto,
+# link sempre rel="sponsored"). A chave vai no front matter da coluna: produto: sai-do-vermelho
+sai-do-vermelho:
+  nome: "Planilha Sai do Vermelho"
+  chamada: "Quer colocar isso no papel? A Planilha Sai do Vermelho organiza as contas do mês em poucos minutos."
+  url: "https://lp-sai-do-vermelho.vercel.app/?utm_source=cnbnews&utm_medium=coluna"
+  temas: ["financas"]
+fe-prosperidade:
+  nome: "Diário Fé & Prosperidade — 21 dias"
+  chamada: "Para levar essa reflexão para a rotina, o Diário Fé & Prosperidade traz um versículo e uma ação prática por dia, durante 21 dias."
+  url: "https://lp-fe-prosperidade.vercel.app/?utm_source=cnbnews&utm_medium=coluna"
+  temas: ["fe"]
+mentoria:
+  nome: "Mentoria com Rafael Mariano"
+  chamada: "Para quem quer estruturar um negócio digital passo a passo, a Mentoria reúne 236 aulas gravadas sobre o tema."
+  url: "https://lp-mentoria-amber.vercel.app/?utm_source=cnbnews&utm_medium=coluna"
+  temas: ["negocios"]

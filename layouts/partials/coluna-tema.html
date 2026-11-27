@@ -1,0 +1,2 @@
+{{- $m := dict "financas" "Finanças pessoais" "negocios" "Negócios digitais" "fe" "Fé e vida" -}}
+{{- index $m . | default "Coluna" -}}

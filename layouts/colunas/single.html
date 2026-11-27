@@ -1,0 +1,61 @@
+{{ define "titulo" }}{{ .Title }} · Colunas · CNB News{{ end }}
+{{ define "bodyclass" }}tem-wa{{ end }}
+{{ define "meta" }}
+{{ $img := "img/cnb-news-1200x675.png" | absURL }}
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CNB News">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ $img }}">
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "OpinionNewsArticle",
+  "mainEntityOfPage": {"@type": "WebPage", "@id": {{ .Permalink }}},
+  "headline": {{ .Title }},
+  "description": {{ .Description }},
+  "image": [{{ $img }}],
+  "datePublished": {{ .Date.Format "2006-01-02T15:04:05-07:00" }},
+  "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }},
+  "articleSection": {{ partial "coluna-tema.html" .Params.tema }},
+  "inLanguage": "pt-BR",
+  "author": [{"@type": "Person", "name": "Rafael Mariano", "url": "https://www.rafaelmariano.com.br"}],
+  "publisher": {"@type": "Organization", "name": "CNB News", "url": "https://news.cnbmobile.com/", "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
+}
+</script>
+{{ end }}
+{{ define "main" }}
+{{ $prod := false }}{{ with .Params.produto }}{{ $prod = index site.Data.produtos . }}{{ end }}
+<article class="materia">
+  <div class="crumbs"><a href="{{ "colunas/" | absURL }}">Colunas</a> · {{ partial "coluna-tema.html" .Params.tema }}</div>
+  <h1>{{ .Title }}</h1>
+  {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
+  <div class="byline">
+    <div>
+      <b>Por <a href="https://www.rafaelmariano.com.br" rel="author">{{ .Params.autor | default "Rafael Mariano" }}</a></b>
+      <time class="time" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}" data-rel>Publicado em {{ .Date.Format "02/01/2006 às 15h04" }}</time>
+    </div>
+    <div class="share">
+      <button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}Enviar no WhatsApp</button>
+      <button class="btn" type="button" data-copy>Copiar link</button>
+    </div>
+  </div>
+  <div class="corpo">{{ .Content }}</div>
+  {{ with $prod }}
+  <div class="fonte">
+    <span><b>Recomendação do autor:</b> {{ .chamada }} <a href="{{ .url }}" rel="sponsored noopener" target="_blank">Conhecer {{ .nome }}</a></span>
+  </div>
+  {{ end }}
+  <div class="fonte">
+    <span><b>Sobre o autor:</b> {{ .Params.autor_bio | default "Rafael Mariano é editor-chefe da CNB News e produz conteúdo sobre finanças, negócios digitais e fé." }}</span>
+    <span><i>Nota de transparência: Esta coluna expressa a análise do autor e pode conter links para treinamentos e materiais recomendados pela equipe editorial.</i></span>
+  </div>
+  {{ $outras := first 4 (where (where site.RegularPages "Section" "colunas") "Permalink" "ne" .Permalink) }}
+  {{ with $outras }}<div class="leia"><h2 class="bloco-t">Outras colunas</h2>{{ range . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</div>{{ end }}
+  <div class="wa-bar"><span>Mande para alguém</span><button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}WhatsApp</button></div>
+</article>
+{{ end }}

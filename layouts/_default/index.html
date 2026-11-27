@@ -44,6 +44,16 @@
   </aside>
 </div>
 {{ end }}
+{{ with first 3 (where .Site.RegularPages "Section" "colunas").ByDate.Reverse }}
+<h2 class="h-sec" id="colunas"><a href="{{ "colunas/" | absURL }}">Colunas</a></h2>
+<div class="blocos" style="padding-top:12px">
+  {{ range . }}
+  <article class="bloco"><span class="ed">{{ partial "coluna-tema.html" .Params.tema }}</span>
+    <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    <span class="time">Por {{ .Params.autor | default "Rafael Mariano" }}</span></article>
+  {{ end }}
+</div>
+{{ end }}
 <h2 class="h-sec" id="cidades">Escolha sua cidade</h2>
 <div class="cids">
 {{ with .Site.GetPage "/cidades" }}{{ range .Sections.ByTitle }}
