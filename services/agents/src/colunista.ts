@@ -5,7 +5,7 @@
 //   node src/colunista.ts --tema fe    → força o tema (financas | negocios | fe)
 // Para publicar: revisar o .md e mover para content/colunas/ (o produto e a nota de
 // transparência entram pelo layout, com rel="sponsored"; o texto não leva link nenhum).
-// Na rig: timer systemd 2x por semana (CLAUDE.md: 1 a 2 colunas por semana).
+// Na rig: timer systemd 1x por dia, 9h BRT (decisão do Rafael em 27/11/2026).
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import dotenv from 'dotenv';
@@ -50,6 +50,46 @@ export const PAUTAS: Pauta[] = [
   { id: 'trabalho-proposito', tema: 'fe', assunto: 'Trabalho com propósito: a visão cristã sobre esforço, descanso e sustento' },
   { id: 'contentamento', tema: 'fe', assunto: 'Contentamento num mundo de comparação: redes sociais, consumo e paz interior' },
   { id: 'familia-financas-fe', tema: 'fe', assunto: 'Ensinar os filhos sobre dinheiro com valores cristãos' },
+  { id: 'lista-mercado', tema: 'financas', assunto: 'Como economizar no supermercado sem passar vontade: lista, marcas e horários' },
+  { id: 'conta-luz', tema: 'financas', assunto: 'Conta de luz alta: hábitos simples que reduzem o consumo em casa' },
+  { id: 'emprestimo-consignado', tema: 'financas', assunto: 'Empréstimo consignado: quando ajuda e quando vira armadilha' },
+  { id: 'nome-sujo', tema: 'financas', assunto: 'Nome negativado: como consultar, negociar e limpar o nome com segurança' },
+  { id: 'compras-parceladas', tema: 'financas', assunto: 'Parcelado sem juros não é de graça: como as parcelas comem o orçamento' },
+  { id: 'planilha-mensal', tema: 'financas', assunto: 'Como fazer o orçamento do mês em 15 minutos, com papel ou celular' },
+  { id: 'renda-variavel-autonomo', tema: 'financas', assunto: 'Orçamento para quem tem renda variável: autônomos, motoristas e vendedores' },
+  { id: 'aposentadoria-cedo', tema: 'financas', assunto: 'Pensar na aposentadoria cedo: por que pequenos valores hoje fazem diferença' },
+  { id: 'compras-impulso', tema: 'financas', assunto: 'Compra por impulso: a regra das 48 horas e outros freios práticos' },
+  { id: 'financiamento-carro', tema: 'financas', assunto: 'Financiar ou juntar para comprar o carro? O que colocar na conta antes de decidir' },
+  { id: 'aluguel-casa-propria', tema: 'financas', assunto: 'Aluguel ou casa própria: perguntas para fazer antes de assumir um financiamento' },
+  { id: 'filhos-mesada', tema: 'financas', assunto: 'Mesada: como usar para ensinar as crianças a lidar com dinheiro' },
+  { id: 'fim-de-ano', tema: 'financas', assunto: 'Gastos de fim de ano: como aproveitar as festas sem começar janeiro no vermelho' },
+  { id: 'inicio-de-ano', tema: 'financas', assunto: 'Contas de começo de ano: IPVA, IPTU e material escolar sem aperto' },
+  { id: 'seguro-necessario', tema: 'financas', assunto: 'Seguros: quais fazem sentido para a família e quais podem esperar' },
+  { id: 'apostas-online', tema: 'financas', assunto: 'Apostas online e o orçamento da família: sinais de alerta e como buscar ajuda' },
+  { id: 'vender-whatsapp', tema: 'negocios', assunto: 'Como vender pelo WhatsApp sem ser chato: catálogo, status e listas' },
+  { id: 'instagram-negocio-local', tema: 'negocios', assunto: 'Instagram para negócio de bairro: o básico que traz cliente de verdade' },
+  { id: 'primeiro-cliente', tema: 'negocios', assunto: 'Como conseguir o primeiro cliente de um serviço novo' },
+  { id: 'separar-contas', tema: 'negocios', assunto: 'Separar o dinheiro da empresa do dinheiro de casa: por que e como começar' },
+  { id: 'fluxo-de-caixa', tema: 'negocios', assunto: 'Fluxo de caixa simples para pequeno negócio: o que entra, o que sai e quando' },
+  { id: 'marketplace', tema: 'negocios', assunto: 'Vender em marketplace: cuidados com taxas, frete e reputação' },
+  { id: 'depoimentos-clientes', tema: 'negocios', assunto: 'Depoimentos de clientes: como pedir e usar para ganhar confiança' },
+  { id: 'produto-digital-ideia', tema: 'negocios', assunto: 'Como validar a ideia de um produto digital antes de gastar tempo produzindo' },
+  { id: 'foto-celular', tema: 'negocios', assunto: 'Fotos de produto com o celular: luz, fundo e enquadramento' },
+  { id: 'golpes-empreendedor', tema: 'negocios', assunto: 'Golpes que miram pequenos empreendedores e como se proteger' },
+  { id: 'ia-pequeno-negocio', tema: 'negocios', assunto: 'Inteligência artificial no pequeno negócio: usos práticos e limites' },
+  { id: 'rotina-empreendedor', tema: 'negocios', assunto: 'Rotina de quem trabalha por conta própria: horário, foco e descanso' },
+  { id: 'pos-venda', tema: 'negocios', assunto: 'Pós-venda: o atendimento que faz o cliente voltar e indicar' },
+  { id: 'nota-fiscal-mei', tema: 'negocios', assunto: 'Nota fiscal para MEI: quando emitir e como fazer sem complicação' },
+  { id: 'dizimo-oferta', tema: 'fe', assunto: 'Dízimo e oferta no orçamento: como organizar com planejamento e sem culpa' },
+  { id: 'descanso-sabado', tema: 'fe', assunto: 'Descanso como princípio: por que parar também é obediência' },
+  { id: 'perdao-dividas', tema: 'fe', assunto: 'Perdão e dívidas na família: como lidar com empréstimos entre parentes' },
+  { id: 'fe-desemprego', tema: 'fe', assunto: 'Fé no desemprego: como atravessar a fase de busca com esperança e ação' },
+  { id: 'honestidade-trabalho', tema: 'fe', assunto: 'Honestidade no trabalho e nos negócios: pequenas escolhas que constroem reputação' },
+  { id: 'oracao-decisoes', tema: 'fe', assunto: 'Oração e decisões financeiras: buscar sabedoria antes de assumir compromissos' },
+  { id: 'comunidade-igreja', tema: 'fe', assunto: 'A igreja como rede de apoio: ajuda mútua, mentoria e trabalho voluntário' },
+  { id: 'ansiedade-futuro', tema: 'fe', assunto: 'Ansiedade com o futuro: confiança e planejamento podem andar juntos' },
+  { id: 'casamento-proposito', tema: 'fe', assunto: 'Casamento e propósito: decidir juntos sobre dinheiro, tempo e sonhos' },
+  { id: 'servir-com-talentos', tema: 'fe', assunto: 'Servir com os talentos: usar o que você sabe fazer para ajudar o próximo' },
 ];
 
 export const SYSTEM_COLUNISTA = `Você escreve colunas para o portal de notícias CNB News, assinadas por Rafael Mariano.
