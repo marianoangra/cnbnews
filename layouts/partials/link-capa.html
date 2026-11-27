@@ -10,11 +10,17 @@
 {{/* banco de fotos: a cidade, ou o banco nacional do tema (data/fotos/brasil-<editoria>.json, senão brasil.json) */}}
 {{- $banco := $r.slug -}}
 {{- if not $banco -}}
+  {{- $cat := .Params.categoria | default "" -}}
   {{- $ed := partial "editoria.html" . -}}
-  {{- if eq .Params.categoria "agro" -}}{{- $ed = "agro" -}}{{- end -}}
+  {{- $porCat := dict "agro" "agro" "natureza" "clima" "saude" "saude" "politica" "politica" "economia" "economia" -}}
+  {{- with index $porCat $cat -}}{{- $ed = . -}}{{- end -}}
   {{- $banco = "brasil" -}}
   {{- with site.Data.fotos -}}{{- with index . (printf "brasil-%s" $ed) -}}{{- $banco = printf "brasil-%s" $ed -}}{{- end -}}{{- end -}}
-  {{- if eq .Params.categoria "mundo" -}}{{- $banco = "" -}}{{- end -}}
+  {{/* Sem banco próprio, esporte/cultura/mundo ficam com o bloco da marca: foto de Brasília em jogo de futebol engana. */}}
+  {{- if in (slice "mundo" "esportes" "entretenimento") $cat -}}
+    {{- $banco = "" -}}
+    {{- with site.Data.fotos -}}{{- with index . (printf "brasil-%s" $cat) -}}{{- $banco = printf "brasil-%s" $cat -}}{{- end -}}{{- end -}}
+  {{- end -}}
 {{- end -}}
 {{- $r = merge $r (dict "banco" $banco) -}}
 {{- return $r -}}

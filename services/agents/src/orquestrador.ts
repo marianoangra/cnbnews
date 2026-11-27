@@ -54,8 +54,27 @@ export function maxEntradaPara(numCtx: number): number {
   return numCtx >= 8192 ? 9000 : 4500; // ~2.600 / ~1.300 tokens
 }
 
-function categoriaValida(v: string | undefined, padrao: Categoria): Categoria {
-  const c = (v ?? '').trim().toLowerCase();
+// Feed de editoria (esportes, política...) = a Agência Brasil já classificou: vale a dela.
+// O modelo só decide o que vem dos feeds gerais (categoria_padrao 'brasil') — antes ele jogava
+// quase tudo em "brasil" e Política tinha 1 matéria em 53.
+// Do feed geral, o modelo errava (festival de cinema em "agro"). Só aceita a editoria se o título ou o
+// começo do texto tiver palavras do assunto; senão fica "brasil".
+const CONFIRMA: Partial<Record<Categoria, RegExp>> = {
+  agro: /\b(agro\w*|safra|soja|milho|caf[eé]|boi|gado|pecu[aá]ri\w*|rural|produtor\w* rura\w*|lavoura|colheita|pesca|pesqueir\w*|aquicultura|embrapa|conab|fertiliz\w*|agr[ií]col\w*)\b/i,
+  esportes: /\b(futebol|jogo|partida|campeonato|copa|sele[cç][aã]o|atleta|olimp\w*|paral[ií]mp\w*|medalha|t[eé]cnico|gol|v[oô]lei|basquete|t[eê]nis|corrida|brasileir[aã]o|libertadores|clube)\b/i,
+  saude: /\b(sa[uú]de|sus|hospita\w*|vacina\w*|doen[cç]a\w*|m[eé]dic\w*|anvisa|dengue|covid|epidemi\w*|tratamento|paciente\w*|ubs|minist[eé]rio da sa[uú]de)\b/i,
+  natureza: /\b(ambient\w*|clima\w*|floresta|desmatamento|amaz[oô]nia|cerrado|pantanal|rio|chuva|seca|queimada\w*|inc[eê]ndio florestal|esp[eé]cie|fauna|flora|cop\d*|ibama|icmbio|carbono)\b/i,
+  entretenimento: /\b(m[uú]sic\w*|cinema|filme\w*|festival|show|novela|s[eé]rie|teatro|livro\w*|artista\w*|cultura\w*|exposi[cç][aã]o|carnaval|cantor\w*|[aá]lbum)\b/i,
+  politica: /\b(lula|congresso|c[aâ]mara|senado|deputad\w*|senador\w*|stf|ministro\w*|governo|presidente|elei[cç]\w*|partido|pol[ií]tic\w*|planalto|tse)\b/i,
+  economia: /\b(econom\w*|infla[cç][aã]o|juros|selic|pib|d[oó]lar|bolsa|ibovespa|emprego|desemprego|renda|imposto\w*|receita federal|banco central|mercado)\b/i,
+};
+
+export function categoriaValida(v: string | undefined, padrao: Categoria, texto = ''): Categoria {
+  if (padrao !== 'brasil') return padrao;
+  const c0 = (v ?? '').trim().toLowerCase() as Categoria;
+  const conf = CONFIRMA[c0];
+  if (conf && texto && !conf.test(texto)) return 'brasil';
+  const c = c0 as string;
   return (CATEGORIAS as readonly string[]).includes(c) && c !== 'entrevistas' ? (c as Categoria) : padrao;
 }
 
@@ -149,7 +168,7 @@ export async function processarItem(item: ItemBruto, llms: Llm | Llms, opcoes: O
   const fontes = [...new Set([item.fonte, ...redacao.fontes])];
   return {
     id: item.id,
-    categoria: categoriaValida(redacao.categoria, item.categoria_padrao),
+    categoria: categoriaValida(redacao.categoria, item.categoria_padrao, `${item.titulo_original} ${item.conteudo_bruto.slice(0, 600)}`),
     urgencia: urgenciaValida(redacao.urgencia),
     manchete_home: manchete,
     subtitulo,

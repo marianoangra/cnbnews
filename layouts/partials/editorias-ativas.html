@@ -1,0 +1,11 @@
+{{/* Editorias com volume: >= 3 matérias nos últimos 3 dias. Devolve a lista de data/editorias.yaml filtrada,
+     cada uma com "n" (quantas no período). Usado pelo menu e pelas faixas da capa. */}}
+{{- $desde := (now.AddDate 0 0 -3).Unix -}}
+{{- $nac := where site.RegularPages "Section" "noticias" -}}
+{{- $out := slice -}}
+{{- range site.Data.editorias -}}
+  {{- $cat := .categoria -}}{{- $n := 0 -}}
+  {{- range where $nac "Params.categoria" $cat -}}{{- if ge .Date.Unix $desde -}}{{- $n = add $n 1 -}}{{- end -}}{{- end -}}
+  {{- if ge $n 3 -}}{{- $out = $out | append (merge . (dict "n" $n)) -}}{{- end -}}
+{{- end -}}
+{{- return $out -}}

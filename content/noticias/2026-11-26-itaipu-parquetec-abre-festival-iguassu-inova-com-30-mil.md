@@ -3,7 +3,7 @@ title: "Itaipu Parquetec abre Festival Iguassu Inova com 30 mil pessoas"
 description: "O evento gratuito, até sábado (28), reúne estudantes, empreendedores e especialistas em inovação, inteligência artificial, energia renovável e"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/geral/noticia/2026-11/itaipu-atrai-estudantes-e-empreendedores-para-festival-de-inovacao"
-categoria: "agro"
+categoria: "brasil"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

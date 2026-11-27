@@ -1,0 +1,49 @@
+{{ define "titulo" }}{{ .Title }} · CNB News{{ end }}
+{{ define "main" }}
+{{/* Página de editoria (content/<slug>.md, layout "editoria", param categoria). Mesmo vocabulário da capa:
+     manchete grande + tópicos, cards com foto (sem repetir), lista do resto; lateral com TV e newsletter. */}}
+{{ $cat := .Params.categoria }}
+{{ $itens := (where (where .Site.RegularPages "Section" "noticias") "Params.categoria" $cat).ByDate.Reverse }}
+{{ $usadas := newScratch }}
+<div class="pg-h"><h1 class="pg-t">{{ .Title }}</h1><p>{{ .Description }}</p></div>
+{{ if not $itens }}<p class="cid-vazia" style="padding:20px 0 40px">As primeiras notícias de {{ lower .Title }} chegam em breve.</p>{{ else }}
+<div class="hm">
+  <div class="hm-main">
+    {{ with index $itens 0 }}{{ $l := partial "link-capa.html" . }}
+    <article class="lead">
+      <span class="ed">{{ $l.rotulo }}</span>
+      <h1><a href="{{ $l.u }}">{{ .Title }}</a></h1>
+      {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+      {{ partial "tempo.html" . }}
+      {{ with first 3 (after 1 $itens) }}<ul class="rel">{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul>{{ end }}
+    </article>
+    {{ end }}
+    <div class="cards">
+      {{ range $i, $p := first 6 (after 4 $itens) }}{{ $l := partial "link-capa.html" $p }}
+        {{ $f := partial "foto-unica.html" (dict "p" $p "slug" $l.banco "ed" (partial "editoria.html" $p) "n" $i "usadas" $usadas) }}
+        <article class="card">
+          {{ partial "fig.html" (dict "f" $f "u" $l.u "selo" $l.rotulo "lazy" (ge $i 3)) }}
+          <h2><a href="{{ $l.u }}">{{ $p.Title }}</a></h2>
+          {{ partial "tempo.html" $p }}
+        </article>
+      {{ end }}
+    </div>
+    {{ with after 10 $itens }}
+    <div class="lista band">
+      {{ range first 30 . }}
+      <article class="sem-foto"><div>
+        <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+        {{ with .Description }}<p>{{ . }}</p>{{ end }}
+        {{ partial "tempo.html" . }}{{ with .Params.fonte }} <span class="time">· {{ . }}</span>{{ end }}
+      </div></article>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+  <aside class="hm-side" aria-label="TV e newsletter">
+    {{ partial "tv-box.html" . }}
+    {{ partial "newsletter.html" (dict "variante" "lateral") }}
+  </aside>
+</div>
+{{ end }}
+{{ end }}

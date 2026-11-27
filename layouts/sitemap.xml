@@ -57,6 +57,14 @@
     <priority>0.8</priority>
   </url>
   {{ end }}
+  {{/* Editorias só quando têm volume (as mesmas do menu): página vazia no sitemap é sinal ruim para o Google. */}}
+  {{ range partial "editorias-ativas.html" . }}
+  <url>
+    <loc>{{ printf "%s/" .slug | absURL }}</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {{ end }}
   {{ range where site.RegularPages "Section" "in" (slice "sobre" "contato" "privacidade" "termos") }}
   <url>
     <loc>{{ .Permalink }}</loc>

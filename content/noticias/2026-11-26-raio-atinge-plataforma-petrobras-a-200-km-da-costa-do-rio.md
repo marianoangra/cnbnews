@@ -4,7 +4,7 @@ date: 2026-11-26T19:40:49-03:00
 description: "Plataforma P-77 da Petrobras no Campo de Búzios registrou incêndio inicial controlado sem vítimas ou danos aos equipamentos."
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/raio-atinge-plataforma-da-petrobras-200-quilometros-da-costa-do-rio"
-categoria: "agro"
+categoria: "brasil"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

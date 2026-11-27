@@ -4,7 +4,7 @@ date: 2026-11-26T19:05:55-03:00
 description: "Receita Federal apreendeu 3 contêineres com mercadorias não declaradas, incluindo camisas de times e tênis chineses, avaliadas em R$ 18 milhões. Itens"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/receita-apreende-58-toneladas-de-roupas-e-tenis-nao-declarados"
-categoria: "agro"
+categoria: "brasil"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 1

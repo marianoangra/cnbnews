@@ -421,6 +421,7 @@
     {{ else }}
       <li><a href="{{ $base }}"{{ if .IsHome }} class="on"{{ end }}>Capa</a></li>
       <li><a href="{{ $base }}noticias/"{{ if eq .Section "noticias" }} class="on"{{ end }}>Brasil</a></li>
+      {{ range partial "editorias-ativas.html" . }}<li><a href="{{ $base }}{{ .slug }}/"{{ if and (eq $.Params.layout "editoria") (eq $.Params.categoria .categoria) }} class="on"{{ end }}>{{ .nome }}</a></li>{{ end }}
       <li><a href="{{ $base }}colunas/"{{ if eq .Section "colunas" }} class="on"{{ end }}>Opinião</a></li>
       {{ range slice (slice "SP" "São Paulo") (slice "RJ" "Rio de Janeiro") (slice "PR" "Paraná") (slice "MG" "Minas Gerais") (slice "RS" "Rio Grande do Sul") (slice "ES" "Espírito Santo") }}<li><a href="{{ $base }}#uf-{{ index . 0 }}">{{ index . 1 }}</a></li>{{ end }}
       <li><a href="{{ $base }}cidades/"{{ if and (eq .Section "cidades") (not .IsPage) }} class="on"{{ end }}>Cidades A–Z</a></li>

@@ -69,6 +69,24 @@
 </section>
 {{ end }}
 
+{{/* Faixas das editorias com volume (data/editorias.yaml + partials/editorias-ativas.html): 4 cards cada. */}}
+{{ range partial "editorias-ativas.html" . }}{{ $e := . }}
+{{ $lista := first 4 (where (where $.Site.RegularPages "Section" "noticias") "Params.categoria" $e.categoria).ByDate.Reverse }}
+<section class="band" aria-label="{{ $e.nome }}">
+  <div class="sec-h"><h2 class="sec-t"><a href="{{ printf "%s/" $e.slug | absURL }}">{{ $e.nome }}</a></h2><a class="ver" href="{{ printf "%s/" $e.slug | absURL }}">Mais de {{ lower $e.nome }} →</a></div>
+  <div class="mini-cards">
+    {{ range $i, $p := $lista }}{{ $l := partial "link-capa.html" $p }}
+      {{ $f := partial "foto-unica.html" (dict "p" $p "slug" $l.banco "ed" (partial "editoria.html" $p) "n" $i "usadas" $usadas) }}
+      <article class="mini">
+        {{ partial "fig.html" (dict "f" $f "u" $l.u "selo" $e.nome "lazy" true) }}
+        <h3><a href="{{ $l.u }}">{{ $p.Title }}</a></h3>
+        <span class="time">{{ $p.Date.Format "02/01 · 15h04" }}</span>
+      </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
 {{ partial "newsletter.html" (dict "variante" "faixa") }}
 
 {{ with first 3 (where .Site.RegularPages "Section" "colunas").ByDate.Reverse }}

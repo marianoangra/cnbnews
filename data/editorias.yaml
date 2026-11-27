@@ -1,0 +1,34 @@
+# Editorias do portal (fonte única do menu, das páginas e das faixas da capa).
+# Só aparecem no menu/capa quando têm volume: >= minimo matérias nos últimos 3 dias (calculado no build).
+- slug: politica
+  categoria: politica
+  nome: Política
+  descricao: Congresso, Planalto, STF e governos estaduais, com a fonte citada em cada matéria.
+- slug: economia
+  categoria: economia
+  nome: Economia
+  descricao: Inflação, juros, emprego, renda e o bolso do brasileiro.
+- slug: esportes
+  categoria: esportes
+  nome: Esportes
+  descricao: Futebol, olimpíadas, paradesporto e os atletas brasileiros.
+- slug: saude
+  categoria: saude
+  nome: Saúde
+  descricao: SUS, vacinação, doenças e saúde pública.
+- slug: natureza
+  categoria: natureza
+  nome: Natureza
+  descricao: Meio ambiente, clima, florestas, rios e bichos do Brasil.
+- slug: entretenimento
+  categoria: entretenimento
+  nome: Entretenimento
+  descricao: Música, cinema, TV, livros e cultura brasileira.
+- slug: agro
+  categoria: agro
+  nome: Agro
+  descricao: Safra, preços, pecuária e o campo brasileiro.
+- slug: mundo
+  categoria: mundo
+  nome: Mundo
+  descricao: O que acontece fora do Brasil e afeta a gente.

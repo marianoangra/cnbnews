@@ -4,7 +4,7 @@ date: 2026-11-27T07:30:01-03:00
 description: "CMN aprova redução da taxa de juros do Fundo Clima para projetos de armazenamento de energia com baterias produzidas no Brasil, beneficiando leilões em"
 fonte: "Agência Brasil"
 fonte_url: "https://agenciabrasil.ebc.com.br/economia/noticia/2026-11/cmn-reduz-juros-do-fundo-clima-para-baterias-nacionais"
-categoria: "agro"
+categoria: "brasil"
 urgencia: "normal"
 autor: "Redação CNB News (Editor-Chefe: Rafael Mariano)"
 score_sensibilidade: 2

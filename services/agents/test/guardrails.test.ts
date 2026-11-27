@@ -109,3 +109,16 @@ test('linha fina: corta na frase, nunca no meio de uma enumeração (caso "menin
   assert.ok(c.endsWith('…') && c.length <= 101, c);
   assert.equal(limitarLinhaFina('Curta.', 155), 'Curta.');
 });
+
+test('categoria: feed de editoria manda; feed geral deixa o modelo decidir', async () => {
+  const { categoriaValida } = await import('../src/orquestrador.ts');
+  assert.equal(categoriaValida('brasil', 'politica'), 'politica');
+  assert.equal(categoriaValida('saude', 'esportes'), 'esportes');
+  assert.equal(categoriaValida('esportes', 'brasil'), 'esportes');
+  assert.equal(categoriaValida('entrevistas', 'brasil'), 'brasil');
+  assert.equal(categoriaValida('inventada', 'brasil'), 'brasil');
+  // caso real: festival de cinema classificado como agro pelo modelo
+  assert.equal(categoriaValida('agro', 'brasil', 'Mulheres ocupam metade dos filmes concorrentes no Animage 2025'), 'brasil');
+  assert.equal(categoriaValida('agro', 'brasil', 'Ministério propõe inclusão de peixe no cardápio; pesca e aquicultura'), 'agro');
+  assert.equal(categoriaValida('entretenimento', 'brasil', 'Mulheres ocupam metade dos filmes concorrentes no Animage 2025'), 'entretenimento');
+});

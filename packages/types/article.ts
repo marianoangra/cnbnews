@@ -9,6 +9,10 @@ export const CATEGORIAS = [
   'cristao',
   'brasil',
   'mundo',
+  'esportes',
+  'saude',
+  'natureza',
+  'entretenimento',
   'entrevistas',
 ] as const;
 
