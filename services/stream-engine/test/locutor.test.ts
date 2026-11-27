@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtemp, stat } from 'node:fs/promises';
+import { mkdtemp, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
@@ -64,4 +64,17 @@ test('EdgeLocutor: voz real gera MP3 (precisa de internet)', { skip: process.env
   const saida = join(dir, 'voz.mp3');
   await new EdgeLocutor().falar('Teste da CNB News.', saida);
   assert.ok((await stat(saida)).size > 5_000);
+});
+
+test('EdgeLocutor: escapa & < > para o SSML (senão "P&G" nunca vai ao ar)', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'cnb-esc-'));
+  let recebido = '';
+  const loc = new EdgeLocutor({
+    sintetizar: async (texto, _voz, d) => {
+      recebido = texto;
+      await writeFile(join(d, 'audio.mp3'), Buffer.alloc(2_000));
+    },
+  });
+  await loc.falar('P&G <diz> "oi"', join(dir, 'a.mp3'));
+  assert.equal(recebido, 'P&amp;G &lt;diz&gt; &quot;oi&quot;');
 });

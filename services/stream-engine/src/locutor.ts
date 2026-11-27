@@ -20,6 +20,11 @@ export function textoLocucao(m: Materia): string {
   return [...corpo, fonte ? `Fonte: ${fonte}` : '', CHAMADA].filter(Boolean).join(' ');
 }
 
+/** O msedge-tts injeta o texto cru no SSML: "P&G" viraria XML inválido e a matéria nunca iria ao ar. */
+function escaparSsml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
 export class ErroLocucao extends Error {
   override name = 'ErroLocucao';
 }
@@ -63,7 +68,7 @@ export class EdgeLocutor implements Locutor {
       const estouro = new Promise<never>((_, rej) => {
         timer = setTimeout(() => rej(new ErroLocucao(`TTS passou de ${this.timeoutMs} ms`)), this.timeoutMs);
       });
-      await Promise.race([this.sintetizar(texto, this.voz, dir), estouro]);
+      await Promise.race([this.sintetizar(escaparSsml(texto), this.voz, dir), estouro]);
       const gerado = join(dir, 'audio.mp3');
       const tamanho = await stat(gerado).then((s) => s.size, () => 0);
       if (tamanho < 1_000) throw new ErroLocucao('TTS não gerou áudio');

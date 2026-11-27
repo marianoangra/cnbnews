@@ -123,7 +123,7 @@ export async function montarBloco(
     await rodarFfmpeg(argsBloco({ fundo, conteudo, ticker, larguraTicker: t.largura, voz, trilha, duracao, saida: parcial, gpu }));
     const { rename } = await import('node:fs/promises');
     await rename(parcial, arquivo);
-    const bloco: BlocoPronto = { id: m.id, arquivo, duracao, criadoEm: new Date(), tipo: 'noticia', cidade: m.cidade };
+    const bloco: BlocoPronto = { id: m.id, arquivo, duracao, criadoEm: new Date(), tipo: 'noticia', cidade: m.cidade, publicadaEm: m.publicadaEm };
     await gravarMeta(bloco);
     return bloco;
   } finally {

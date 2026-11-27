@@ -97,6 +97,14 @@ log(`no ar → ${status.destino}`);
 while (!encerrando && (Date.now() - inicio) / 1000 < limiteS) {
   const blocos = await listarBlocos([CAMINHOS.blocos, CAMINHOS.fixos]);
   const agora = new Date();
+  if (blocos.length === 0) {
+    // fixos sumiram ou ainda não existem: refaz e espera, em vez de derrubar a live
+    log('⚠ nenhum bloco disponível; tentando de novo em 5 s');
+    await garantirInstitucional(CAMINHOS.fixos, locutor, await listarTrilhas(), { gpu })
+      .catch((e) => log(`fixos: ${e instanceof Error ? e.message : e}`));
+    await new Promise((ok) => setTimeout(ok, 5_000));
+    continue;
+  }
   const b = programador.proximo(blocos, agora);
   status.noAr = b.id;
   status.desde = agora.toISOString();

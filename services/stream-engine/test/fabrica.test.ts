@@ -97,3 +97,49 @@ test('listarBlocos: ignora .ts sem meta e meta quebrado', async () => {
   await writeFile(join(dir, 'ruim.ts.json'), '{quebrado');
   assert.deepEqual(await listarBlocos([dir]), []);
 });
+
+async function blocoNoDisco(dir: string, id: string, extra: Partial<BlocoPronto> = {}): Promise<string> {
+  const arquivo = join(dir, `${nomeArquivo(id)}.ts`);
+  await writeFile(arquivo, 'x');
+  const b: BlocoPronto = { id, arquivo, duracao: 10, criadoEm: new Date(), tipo: 'noticia', cidade: null, ...extra };
+  await writeFile(arquivo + '.json', JSON.stringify(b));
+  return arquivo;
+}
+
+test('limpar: com a lista aprovada, tira do ar a notícia que saiu dela (corrigida/apagada/bloqueada)', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'cnb-lim-'));
+  const fica = await blocoNoDisco(dir, 'fica');
+  const sai = await blocoNoDisco(dir, 'sai');
+  assert.equal(await limpar(dir, new Date(), 48, new Set(['fica'])), 1);
+  assert.ok(existsSync(fica));
+  assert.ok(!existsSync(sai) && !existsSync(sai + '.json'));
+});
+
+test('limpar: usa a data de publicação da matéria, não a do arquivo', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'cnb-lim-'));
+  const velha = await blocoNoDisco(dir, 'velha', { publicadaEm: new Date(Date.now() - 50 * 3600_000) });
+  assert.equal(await limpar(dir, new Date()), 1);
+  assert.ok(!existsSync(velha));
+});
+
+test('listarBlocos: pasta movida (caminho absoluto antigo no meta) ainda acha o .ts ao lado', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'cnb-mov-'));
+  await writeFile(join(dir, 'a.ts'), 'x');
+  const meta: BlocoPronto = { id: 'a', arquivo: join(tmpdir(), 'pasta-que-nao-existe', 'a.ts'), duracao: 5, criadoEm: new Date(), tipo: 'noticia', cidade: null };
+  await writeFile(join(dir, 'a.ts.json'), JSON.stringify(meta));
+  const l = await listarBlocos([dir]);
+  assert.equal(l.length, 1);
+  assert.equal(l[0]!.arquivo, join(dir, 'a.ts'));
+});
+
+test('garantirInstitucional: refaz o fixo cujo .ts sumiu (meta sozinho não basta)', async () => {
+  const fixos = await mkdtemp(join(tmpdir(), 'cnb-fix-'));
+  const chamadas: string[] = [];
+  const opts = { gpu: 0, montar: montarFalso(chamadas), vinheta: async (_t: string, _d: number, s: string) => { await writeFile(s, 'x'); } };
+  await garantirInstitucional(fixos, locutor, [], opts);
+  const { rm } = await import('node:fs/promises');
+  const umFixo = (await listarBlocos([fixos])).find((x) => x.tipo === 'institucional')!;
+  await rm(umFixo.arquivo);
+  await garantirInstitucional(fixos, locutor, [], opts);
+  assert.equal(chamadas.length, 4);
+});

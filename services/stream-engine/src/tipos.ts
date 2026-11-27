@@ -25,4 +25,6 @@ export interface BlocoPronto {
   criadoEm: Date;
   tipo: 'noticia' | 'vinheta' | 'institucional';
   cidade: string | null;
+  /** Publicação da matéria (só notícias): a limpeza conta 48 h a partir daqui. */
+  publicadaEm?: Date;
 }

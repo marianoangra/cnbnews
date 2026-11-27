@@ -83,3 +83,16 @@ test('minutosProntosAFrente: soma notícias não exibidas nos últimos 60 min', 
   const blocos = [b('a', { duracao: 60 }), b('b', { duracao: 120 }), b('c', { duracao: 60 }), ...INST];
   assert.equal(p.minutosProntosAFrente(blocos, T0), 3);
 });
+
+test('proximo: com toda notícia exibida na última hora, reprisa a mais antiga (>=15 min) antes do institucional', () => {
+  const p = new Programador({ vinhetaACada: 100 });
+  p.registrarExibicao('a', min(-20));
+  p.registrarExibicao('c', min(-40));
+  assert.equal(p.proximo([b('a'), b('c', { cidade: 'curitiba' }), ...INST], T0).id, 'c');
+});
+
+test('proximo: notícia exibida há menos de 15 min não volta; aí entra o institucional', () => {
+  const p = new Programador({ vinhetaACada: 100 });
+  p.registrarExibicao('a', min(-5));
+  assert.equal(p.proximo([b('a'), ...INST], T0).tipo, 'institucional');
+});
