@@ -36,21 +36,48 @@
     .ed{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--red-ink)}
     .time{font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
 
-    .dia{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 0;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--rule)}
-    .dia strong{color:var(--ink);font-weight:700}
-    .clima b{font-family:var(--f-head);font-size:1.12rem;font-weight:600;color:var(--ink)}
-    .mast{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:18px 0 14px;flex-wrap:wrap}
-    .brand{display:flex;align-items:baseline;gap:10px}
-    .badge{background:var(--red);color:#fff;font-weight:800;font-size:.9rem;letter-spacing:.04em;padding:3px 7px 2px;border-radius:3px;align-self:center}
-    .city{font-family:var(--f-head);font-weight:700;font-size:clamp(2.1rem,6vw,3.1rem);line-height:1;letter-spacing:-.02em}
-    .city small{font-family:var(--f-ui);font-size:.85rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:4px}
-    .trocar{font-size:.82rem;font-weight:600;color:var(--ink-2);border:1px solid var(--rule);padding:6px 12px;border-radius:999px}
-    .trocar:hover{border-color:var(--ink-2)}
+    /* Cabeçalho em 3 andares: faixa de serviço (data, clima, atalhos) · marca da cidade + ações · editorias fixas.
+       A ação principal é a TV CNB (botão escuro; vira vermelho e pulsa só com params.aoVivo = true). */
+    .topo{border-bottom:1px solid var(--rule);margin:0 -16px;padding:0 16px;font-size:.8rem;color:var(--muted)}
+    .topo-in{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;min-height:38px;padding:6px 0}
+    .topo strong{color:var(--ink);font-weight:700}
+    .clima b{font-family:var(--f-head);font-size:1.08rem;font-weight:600;color:var(--ink)}
+    .util{margin-left:auto;display:flex;gap:18px}
+    .util a{font-weight:600;color:var(--ink-2)}
+    .util a:hover{color:var(--red-ink)}
+    .mast{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;padding:24px 0 20px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:14px;min-width:0}
+    .badge{background:var(--red);color:#fff;font-weight:800;font-size:1rem;letter-spacing:.06em;padding:7px 9px 6px;border-radius:4px;line-height:1;flex:none}
+    .brand-txt{display:flex;flex-direction:column;gap:6px;min-width:0}
+    .city{font-family:var(--f-head);font-weight:700;font-size:clamp(2.2rem,6vw,3.4rem);line-height:.95;letter-spacing:-.025em}
+    .city small{font-family:var(--f-ui);font-size:.82rem;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-left:6px;vertical-align:.9em}
+    .tag{font-size:.84rem;color:var(--muted)}
+    .acoes{display:flex;align-items:center;gap:10px}
+    .live,.live-mini{display:inline-flex;align-items:center;gap:9px;border-radius:999px;font-weight:800;white-space:nowrap;background:var(--ink);color:var(--bg)}
+    .live{padding:10px 18px 10px 14px;font-size:.86rem}
+    .live .lv-s{font-weight:500;opacity:.75}
+    .live.on,.live-mini.on{background:var(--red);color:#fff}
+    .live.on .lv-t,.live-mini.on .lv-t{text-transform:uppercase;letter-spacing:.08em}
+    .live:hover,.live-mini:hover{filter:brightness(1.15)}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--red);position:relative;flex:none}
+    .on .dot{background:#fff}
+    .on .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:inherit;animation:pulso 1.6s ease-out infinite}
+    @keyframes pulso{from{transform:scale(1);opacity:.7}to{transform:scale(2.8);opacity:0}}
+    @media (prefers-reduced-motion:reduce){.on .dot::after{animation:none}}
+    .trocar{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:700;color:var(--ink-2);border:1px solid var(--rule);padding:9px 14px;border-radius:999px;white-space:nowrap}
+    .trocar svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
+    .trocar:hover{border-color:var(--ink-2);color:var(--ink)}
     .nav{position:sticky;top:0;z-index:20;background:var(--bg);border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);margin:0 -16px;padding:0 16px}
-    .nav ul{list-style:none;margin:0 auto;padding:0;display:flex;gap:2px;overflow-x:auto;max-width:var(--max);scrollbar-width:none}
+    .nav-in{display:flex;align-items:center;gap:12px;max-width:var(--max);margin:0 auto}
+    .nav-marca{display:none;flex:none;background:var(--red);color:#fff;font-weight:800;font-size:.72rem;letter-spacing:.06em;padding:4px 6px 3px;border-radius:3px}
+    .nav ul{list-style:none;margin:0;padding:0;display:flex;gap:2px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none}
+    .nav ul::-webkit-scrollbar{display:none}
     .nav li a{display:block;padding:11px 12px;font-size:.86rem;font-weight:700;white-space:nowrap;color:var(--ink-2);border-bottom:3px solid transparent;margin-bottom:-1px}
     .nav li a:hover{color:var(--ink);border-bottom-color:var(--rule)}
     .nav li a.on{color:var(--ink);border-bottom-color:var(--red)}
+    .live-mini{display:none;padding:6px 12px 6px 10px;font-size:.74rem;flex:none}
+    /* Quando o cabeçalho sai da tela, a barra fixa ganha a marca e o botão da TV (classe posta pelo JS). */
+    .nav.fixa .nav-marca,.nav.fixa .live-mini{display:inline-flex}
 
     figure{margin:0}
     .ph{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:var(--surface);border-radius:3px}
@@ -130,6 +157,11 @@
 
     @media (max-width:960px){.capa{grid-template-columns:minmax(0,1fr)}aside.ult{border-left:0;padding-left:0}.blocos{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width:680px){
+      .util a:not(.util-cid){display:none}
+      .mast{padding:18px 0 14px}
+      .acoes{width:100%}
+      .acoes .live{flex:1;justify-content:center}
+      .live .lv-s,.trocar .tr-l{display:none}
       .alto,.blocos{grid-template-columns:minmax(0,1fr)}
       .manchete figure,.materia figure{margin-left:-16px;margin-right:-16px}
       .manchete .ph,.materia .ph{border-radius:0}
@@ -142,26 +174,49 @@
   </style>
 </head>
 <body class="{{ block "bodyclass" . }}{{ end }}">
+  {{- $base := printf "https://%s/" .Site.Params.baseDomain -}}
+  {{- $nomeCidade := replaceRE " \\([A-Z]{2}\\)$" "" $cidade -}}
+  <div class="topo"><div class="wrap topo-in">
+    <strong id="hoje">{{ now.Format "02/01/2006" }}</strong>
+    {{ if $slug }}{{ partial "clima.html" $slug }}{{ end }}
+    <nav class="util" aria-label="Atalhos">
+      <a href="{{ $base }}noticias/">Brasil</a>
+      <a href="{{ $base }}colunas/">Colunas</a>
+      <a class="util-cid" href="{{ $base }}#cidades">Todas as cidades</a>
+    </nav>
+  </div></div>
   <div class="wrap">
-    <div class="dia">
-      <span><strong id="hoje">{{ now.Format "02/01/2006" }}</strong></span>
-      {{ if $slug }}{{ partial "clima.html" $slug }}{{ end }}
-    </div>
-    <header class="mast">
+    <header class="mast" id="mast">
       <a class="brand" href="{{ $home }}">
         <span class="badge">CNB</span>
-        {{ if $cidade }}<span class="city">{{ replaceRE " \\([A-Z]{2}\\)$" "" $cidade }}{{ with findRE "[A-Z]{2}\\)$" $cidade }}<small>{{ trim (index . 0) ")" }}</small>{{ end }}</span>
-        {{ else }}<span class="city">News<small>Brasil</small></span>{{ end }}
+        <span class="brand-txt">
+          {{ if $cidade }}<span class="city">{{ $nomeCidade }}{{ with findRE "[A-Z]{2}\\)$" $cidade }}<small>{{ trim (index . 0) ")" }}</small>{{ end }}</span>
+          <span class="tag">Notícias de {{ $nomeCidade }} e região, a qualquer hora</span>
+          {{ else }}<span class="city">News<small>Brasil</small></span>
+          <span class="tag">As notícias da sua cidade, a qualquer hora</span>{{ end }}
+        </span>
       </a>
-      <a class="trocar" href="https://{{ .Site.Params.baseDomain }}/#cidades">{{ if $cidade }}Trocar cidade{{ else }}Escolher cidade{{ end }}</a>
+      <div class="acoes">
+        {{ partial "ao-vivo.html" (dict "classe" "live") }}
+        <a class="trocar" href="{{ $base }}#cidades"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>{{ if $cidade }}Trocar<span class="tr-l">&nbsp;cidade</span>{{ else }}Escolher<span class="tr-l">&nbsp;cidade</span>{{ end }}</a>
+      </div>
     </header>
   </div>
-  {{ if $slug }}
-  <nav class="nav" aria-label="Editorias de {{ $cidade }}"><ul>
-    <li><a href="{{ $home }}"{{ if not .IsPage }} class="on"{{ end }}>Capa</a></li>
-    {{ range slice "cidade" "policia" "politica" "saude" "educacao" "transito" "empregos" "economia" "servico" "clima" }}<li><a href="{{ $home }}#ed-{{ . }}">{{ partial "editoria-nome.html" . }}</a></li>{{ end }}
-  </ul></nav>
-  {{ end }}
+  <nav class="nav" id="nav" aria-label="{{ if $slug }}Editorias de {{ $cidade }}{{ else }}Seções{{ end }}"><div class="nav-in">
+    <a class="nav-marca" href="{{ $home }}" aria-label="CNB News, capa">CNB</a>
+    <ul>
+    {{ if $slug }}
+      <li><a href="{{ $home }}"{{ if not .IsPage }} class="on"{{ end }}>Capa</a></li>
+      {{ range slice "cidade" "policia" "politica" "saude" "educacao" "transito" "empregos" "economia" "servico" "clima" }}<li><a href="{{ $home }}#ed-{{ . }}">{{ partial "editoria-nome.html" . }}</a></li>{{ end }}
+    {{ else }}
+      <li><a href="{{ $base }}"{{ if .IsHome }} class="on"{{ end }}>Capa</a></li>
+      <li><a href="{{ $base }}noticias/"{{ if eq .Section "noticias" }} class="on"{{ end }}>Brasil</a></li>
+      <li><a href="{{ $base }}colunas/"{{ if eq .Section "colunas" }} class="on"{{ end }}>Colunas</a></li>
+      <li><a href="{{ $base }}#cidades">Cidades</a></li>
+    {{ end }}
+    </ul>
+    {{ partial "ao-vivo.html" (dict "classe" "live-mini") }}
+  </div></nav>
   <main class="wrap">{{ block "main" . }}{{ end }}</main>
   <footer><div class="wrap">
     <nav><a href="https://{{ .Site.Params.baseDomain }}/colunas/">Colunas</a><a href="https://{{ .Site.Params.baseDomain }}/sobre/">Sobre e expediente</a><a href="https://{{ .Site.Params.baseDomain }}/privacidade/">Privacidade</a><a href="https://{{ .Site.Params.baseDomain }}/termos/">Termos</a><a href="https://{{ .Site.Params.baseDomain }}/contato/">Contato e correções</a></nav>
@@ -193,6 +248,10 @@
         window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt), "_blank");
       });
     });
+    var mast = document.getElementById("mast"), nav = document.getElementById("nav");
+    if (mast && nav && "IntersectionObserver" in window) {
+      new IntersectionObserver(function(e){ nav.classList.toggle("fixa", !e[0].isIntersecting); }).observe(mast);
+    }
     document.querySelectorAll("[data-copy]").forEach(function(b){
       b.addEventListener("click", function(){
         var ok = function(){ b.textContent = "Link copiado"; };
