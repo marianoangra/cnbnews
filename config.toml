@@ -8,3 +8,13 @@ enableRobotsTXT = true
 [params]
   baseDomain = "news.cnbmobile.com"
   descricao = "Notícias de cada cidade do Brasil."
+
+# Sitemap do Google Notícias (layouts/index.newssitemap.xml → /news-sitemap.xml)
+[outputFormats.NewsSitemap]
+  mediaType = "application/xml"
+  baseName = "news-sitemap"
+  isPlainText = true
+  notAlternative = true
+
+[outputs]
+  home = ["HTML", "NewsSitemap"]

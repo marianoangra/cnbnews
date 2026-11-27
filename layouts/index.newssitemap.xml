@@ -1,0 +1,24 @@
+{{/* Sitemap do Google Notícias: só matérias das últimas 48 h (regra do Google), no máximo 1000.
+     Saída texto puro (sem escape automático): títulos passam por htmlEscape.
+     Gerado a cada build — e o site rebuilda a cada push dos robôs. */}}
+{{- $limite := sub now.Unix 172800 -}}
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+{{- range first 1000 (where site.RegularPages.ByDate.Reverse "Section" "in" (slice "noticias" "cidades")) }}
+{{- if ge .Date.Unix $limite }}
+{{- $loc := .Permalink }}
+{{- if eq .Section "cidades" }}{{ $loc = printf "https://%s.%s/%s/" (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink) }}{{ end }}
+  <url>
+    <loc>{{ $loc }}</loc>
+    <news:news>
+      <news:publication>
+        <news:name>CNB News</news:name>
+        <news:language>pt</news:language>
+      </news:publication>
+      <news:publication_date>{{ .Date.Format "2006-01-02T15:04:05-07:00" }}</news:publication_date>
+      <news:title>{{ .Title | htmlEscape }}</news:title>
+    </news:news>
+  </url>
+{{- end }}
+{{- end }}
+</urlset>

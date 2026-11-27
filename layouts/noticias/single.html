@@ -1,8 +1,42 @@
 {{ define "titulo" }}{{ .Title }} · CNB News{{ end }}
 {{ define "bodyclass" }}tem-wa{{ end }}
+{{ define "meta" }}
+{{/* Matéria nacional ainda não tem foto: card da marca 1200x675 (Discover/Top Stories pedem >= 1200 px). */}}
+{{ $img := "img/cnb-news-1200x675.png" | absURL }}
+{{ $secao := partial "categoria-nome.html" .Params.categoria }}
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CNB News">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ $img }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">
+<meta property="article:section" content="{{ $secao }}">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "mainEntityOfPage": {"@type": "WebPage", "@id": {{ .Permalink }}},
+  "headline": {{ .Title }},
+  "description": {{ .Description }},
+  "image": [{{ $img }}],
+  "datePublished": {{ .Date.Format "2006-01-02T15:04:05-07:00" }},
+  "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }},
+  "articleSection": {{ $secao }},
+  "inLanguage": "pt-BR",
+  {{ with .Params.fonte_url }}"isBasedOn": {{ . }},{{ end }}
+  "author": [{"@type": "Person", "name": "Rafael Mariano", "jobTitle": "Editor-chefe", "url": "https://www.rafaelmariano.com.br"}],
+  "publisher": {"@type": "Organization", "name": "CNB News", "url": "https://news.cnbmobile.com/", "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
+}
+</script>
+{{ end }}
 {{ define "main" }}
 <article class="materia">
-  <div class="crumbs"><a href="/noticias/">{{ with .Params.categoria }}{{ . | humanize }}{{ else }}Notícias{{ end }}</a> · Brasil</div>
+  <div class="crumbs"><a href="/noticias/">{{ with .Params.categoria }}{{ partial "categoria-nome.html" . }}{{ else }}Notícias{{ end }}</a> · Brasil</div>
   <h1>{{ .Title }}</h1>
   {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
   <div class="byline">
