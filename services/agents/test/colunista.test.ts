@@ -5,7 +5,7 @@ import {
 } from '../src/colunista.ts';
 import type { Llm } from '../src/ollama.ts';
 
-const corpo = ('## Comece pequeno\n\n' + 'Guardar um pouco todo mês cria o hábito antes do valor. '.repeat(60)).trim();
+const corpo = ('## Comece pequeno\n\n' + 'Guardar um pouco todo mês cria o hábito antes do valor. '.repeat(70)).trim();
 
 test('semLinks tira markdown, html e url solta', () => {
   const t = semLinks('Veja [a planilha](https://x.com) e <a href="y">aqui</a> ou https://z.com/a e www.w.com.');
@@ -16,7 +16,7 @@ test('semLinks tira markdown, html e url solta', () => {
 });
 
 test('validarColuna recusa coluna curta e aceita a normal', () => {
-  assert.throws(() => validarColuna({ manchete: 'Reserva de emergência', subtitulo: 'x'.repeat(80), corpo: 'curto '.repeat(300) }));
+  assert.throws(() => validarColuna({ manchete: 'Reserva de emergência', subtitulo: 'x'.repeat(80), corpo: 'curto '.repeat(200) }));
   const c = validarColuna({ manchete: 'Reserva de emergência sem mistério.', subtitulo: 'x'.repeat(80), corpo });
   assert.equal(c.manchete.endsWith('.'), false);
 });

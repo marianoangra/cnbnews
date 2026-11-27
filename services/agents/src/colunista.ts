@@ -56,7 +56,7 @@ export const SYSTEM_COLUNISTA = `Você escreve colunas para o portal de notícia
 Público: brasileiros comuns, linguagem simples, direta e respeitosa, português do Brasil.
 Regras obrigatórias:
 - Texto EDUCATIVO e PRÁTICO: o leitor precisa sair sabendo fazer algo, sem precisar comprar nada.
-- Entre 600 e 800 palavras, em Markdown, com 3 a 5 subtítulos "## ".
+- Texto LONGO: no mínimo 750 palavras, em Markdown, com 4 ou 5 subtítulos "## " e 2 ou 3 parágrafos em cada um, com exemplos do dia a dia.
 - NÃO prometa ganho, renda, enriquecimento ou resultado garantido. NÃO recomende ação, criptomoeda, banco ou investimento específico.
 - NÃO invente números, pesquisas, leis, datas ou citações de pessoas. Se não tiver certeza de um dado, não use.
 - Em temas de fé: tom acolhedor e respeitoso, pode citar versículos bíblicos conhecidos com a referência (livro capítulo:versículo), sem prometer prosperidade material.
@@ -83,7 +83,7 @@ export function validarColuna(x: unknown): Coluna {
   const subtitulo = texto(o, 'subtitulo', 60);
   const corpo = texto(o, 'corpo', 1500);
   const palavras = contarPalavras(corpo);
-  if (palavras < 450) throw new ErroLlm(`coluna curta demais (${palavras} palavras)`);
+  if (palavras < 350) throw new ErroLlm(`coluna curta demais (${palavras} palavras)`);
   return { manchete, subtitulo, corpo };
 }
 
@@ -112,6 +112,7 @@ export function alertasDaColuna(c: Coluna): string[] {
   const achados = ALERTAS.filter(([re]) => re.test(tudo)).map(([, m]) => m);
   const n = contarPalavras(c.corpo);
   if (n > 1000) achados.push(`longa demais (${n} palavras)`);
+  if (n < 550) achados.push(`curta (${n} palavras; o alvo é 600 a 800)`);
   return achados;
 }
 
