@@ -88,7 +88,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
 .func{display:grid;grid-template-columns:12px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid var(--rule)}
 .func:first-of-type{border-top:0}
 .dot{width:10px;height:10px;border-radius:3px;margin-top:5px;background:var(--off)}
-.dot.trabalhando{background:var(--ok)}.dot.de_plantao{background:var(--blue)}.dot.reserva{background:var(--warn)}.dot.parado{background:var(--red)}.dot.em_teste{background:#8b5cf6}
+.dot.trabalhando{background:var(--ok)}.dot.de_plantao{background:var(--blue)}.dot.reserva{background:var(--warn)}.dot.parado{background:var(--red)}.dot.em_teste{background:#8b5cf6}.dot.em_montagem,.dot.aguardando_rig{background:transparent;box-shadow:inset 0 0 0 2px var(--muted,#94a3b8)}.dot.aguardando_rig{box-shadow:inset 0 0 0 2px var(--muted,#94a3b8);opacity:.6}.func.vaga{opacity:.62}
 .func b{font-size:.92rem}
 .func small{display:block;color:var(--muted);font-size:.78rem;line-height:1.35}
 .func i{display:block;font-style:normal;font-family:var(--f-mono);font-size:.66rem;color:var(--ink-2);margin:1px 0 2px}
@@ -270,18 +270,22 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
 
   function htmlEquipe() {
     var p = estado.painel;
+    var vaga = function (f) { return f.estado === "em_montagem" || f.estado === "aguardando_rig"; };
     var setores = p.setores.map(function (s) {
-      return '<div class="setor"><div class="setor-h"><b>' + esc(s.nome) + "</b><span>" + s.funcionarios.length + (s.funcionarios.length === 1 ? " funcionário" : " funcionários") + "</span></div>" +
+      var ativos = s.funcionarios.filter(function (f) { return !vaga(f); }).length, vagas = s.funcionarios.length - ativos;
+      var cont = ativos ? ativos + (ativos === 1 ? " funcionário" : " funcionários") : "";
+      if (vagas) cont += (cont ? " · " : "") + vagas + (vagas === 1 ? " vaga" : " vagas");
+      return '<div class="setor"><div class="setor-h"><b>' + esc(s.nome) + "</b><span>" + cont + "</span></div>" +
         s.funcionarios.map(function (f) {
-          return '<div class="func"><span class="dot ' + f.estado + '" title="' + rotuloEstado(f.estado) + '"></span><div><b>' + esc(f.nome) + "</b> <i>" + esc(f.motor) + "</i><small>" + esc(f.faz) + (f.detalhe ? " · " + esc(f.detalhe) : "") + "</small></div></div>";
+          return '<div class="func' + (vaga(f) ? " vaga" : "") + '"><span class="dot ' + f.estado + '" title="' + rotuloEstado(f.estado) + '"></span><div><b>' + esc(f.nome) + "</b> <i>" + esc(f.motor) + "</i><small>" + esc(f.faz) + (f.detalhe ? " · " + esc(f.detalhe) : "") + "</small></div></div>";
         }).join("") + "</div>";
     }).join("");
-    return '<div class="org"><div class="chefe"><span>EDITOR-CHEFE</span><b>Rafael Mariano</b><span>' + p.resumo.agentes + " agentes · " + p.resumo.setores + ' setores · 1 pessoa</span><br>' +
+    return '<div class="org"><div class="chefe"><span>EDITOR-CHEFE</span><b>Rafael Mariano</b><span>' + p.resumo.agentes + " agentes" + (p.resumo.vagas ? " + " + p.resumo.vagas + " vagas" : "") + " · " + p.resumo.setores + ' setores · 1 pessoa</span><br>' +
       '<button class="pedido" type="button" data-ir="aprovar">' + (p.resumo.naFila ? p.resumo.naFila + " esperando sua aprovação" : "nada esperando você") + "</button></div>" +
       '<div class="liga"></div><div class="setores">' + setores + "</div></div>" +
-      '<div class="legenda">' + ["trabalhando", "de_plantao", "reserva", "em_teste", "parado"].map(function (e) { return '<span><i class="dot ' + e + '"></i>' + rotuloEstado(e) + "</span>"; }).join("") + "</div>";
+      '<div class="legenda">' + ["trabalhando", "de_plantao", "reserva", "em_teste", "parado", "em_montagem", "aguardando_rig"].map(function (e) { return '<span><i class="dot ' + e + '"></i>' + rotuloEstado(e) + "</span>"; }).join("") + "</div>";
   }
-  function rotuloEstado(e) { return { trabalhando: "trabalhando", de_plantao: "de plantão", reserva: "na reserva (GPU de backup)", em_teste: "em teste", parado: "parado" }[e] || e; }
+  function rotuloEstado(e) { return { trabalhando: "trabalhando", de_plantao: "de plantão", reserva: "na reserva (GPU de backup)", em_teste: "em teste", parado: "parado", em_montagem: "em montagem (próxima)", aguardando_rig: "aguardando rig nova" }[e] || e; }
 
   function htmlNumeros() {
     var p = estado.painel, pr = p.producao, s = p.saude;

@@ -107,6 +107,9 @@ test('produção conta por dia de Brasília e equipe reflete serviço parado', (
   const todos = setores.flatMap((s) => s.funcionarios);
   assert.equal(todos.find((f) => f.nome === 'Repórter das cidades')!.estado, 'parado');
   assert.equal(todos.find((f) => f.nome === 'Triagem')!.estado, 'reserva');
+  // vagas do plano aparecem no organograma, mas nunca como agente em funcionamento
+  assert.equal(todos.find((f) => f.nome === 'Designer')!.estado, 'em_montagem');
+  assert.equal(todos.find((f) => f.nome === 'Locutor')!.estado, 'aguardando_rig');
 });
 
 test('token em tempo constante', () => {

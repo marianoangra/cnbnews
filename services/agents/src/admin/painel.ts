@@ -10,7 +10,10 @@ import { listarFila, type Raizes } from './fila.ts';
 
 const run = promisify(execFile);
 
-export type Estado = 'trabalhando' | 'de_plantao' | 'reserva' | 'parado' | 'em_teste';
+export type Estado = 'trabalhando' | 'de_plantao' | 'reserva' | 'parado' | 'em_teste' | 'em_montagem' | 'aguardando_rig';
+
+/** Vagas do plano (ainda não existem): não contam como agente em funcionamento. */
+export const PLANEJADO: Estado[] = ['em_montagem', 'aguardando_rig'];
 
 export interface Funcionario {
   nome: string;
@@ -179,6 +182,27 @@ export function equipe(s: Saude, cidadesNoAr: number, live?: StatusAoVivo): Seto
       ],
     },
     {
+      nome: 'Checagem',
+      funcionarios: [
+        { nome: 'Checador de fatos', faz: 'Confere cada número, nome e data contra a fonte antes de publicar', motor: 'a definir', estado: 'em_montagem' },
+        { nome: 'Erratas e direito de resposta', faz: 'Publica a correção e registra pedido de resposta de quem foi citado', motor: 'a definir', estado: 'em_montagem' },
+      ],
+    },
+    {
+      nome: 'Arte',
+      funcionarios: [
+        { nome: 'Editor de fotos', faz: 'Escolhe a foto de arquivo do banco (Wikimedia) com legenda e crédito; polícia e mundo ficam sem foto', motor: 'regra fixa', estado: 'de_plantao' },
+        { nome: 'Designer', faz: 'Card da matéria para o Instagram, capa da live, tarja e vinheta, sempre em modelo fixo (nunca imagem inventada)', motor: 'modelo fixo', estado: 'em_montagem' },
+      ],
+    },
+    {
+      nome: 'Social mídia',
+      funcionarios: [
+        { nome: 'Social media', faz: 'Posta no @cnbnewstv as matérias aprovadas, stories e o resumo do dia', motor: 'Instagram', estado: 'em_montagem' },
+        { nome: 'Moderador', faz: 'Comentários, mensagens e chat da live; escala reclamação de citado para o editor-chefe', motor: 'a definir', estado: 'em_montagem' },
+      ],
+    },
+    {
       nome: 'Jurídico e travas',
       funcionarios: [
         regra('Presunção de inocência', 'Barra "culpado", "assassino", "ladrão" antes de condenação'),
@@ -192,6 +216,11 @@ export function equipe(s: Saude, cidadesNoAr: number, live?: StatusAoVivo): Seto
       funcionarios: [
         { nome: 'Publicador', faz: 'Commit e push: a Vercel põe no ar em ~1 min', motor: 'git', estado: nac === 'parado' && cid === 'parado' ? 'parado' : 'de_plantao' },
         { nome: 'Sitemap Google Notícias', faz: 'Lista as matérias das últimas 48 h', motor: 'Hugo', estado: 'de_plantao' },
+      ],
+    },
+    {
+      nome: 'TV CNB News 24h',
+      funcionarios: [
         {
           nome: 'Âncora da live 24h',
           faz: 'Lê as laudas no YouTube',
@@ -199,7 +228,30 @@ export function equipe(s: Saude, cidadesNoAr: number, live?: StatusAoVivo): Seto
           estado: live?.aoVivo ? 'trabalhando' : 'em_teste',
           detalhe: live?.aoVivo ? 'NO AR agora' : 'canal sem transmissão',
         },
+        { nome: 'Diretor de programação', faz: 'Monta a grade de hora em hora: blocos de notícia, colunas e reprises', motor: 'a definir', estado: 'aguardando_rig' },
+        { nome: 'Editor de cortes', faz: 'Transforma trechos da live em Reels e Shorts', motor: 'a definir', estado: 'aguardando_rig' },
+        { nome: 'Operador de transmissão', faz: 'Reinicia o stream se cair, chaveia o loop institucional e avisa', motor: 'a definir', estado: 'aguardando_rig' },
+      ],
+    },
+    {
+      nome: 'Rádio web',
+      funcionarios: [
+        { nome: 'Locutor', faz: 'Boletim de hora em hora em voz sintética, a partir da lauda', motor: 'a definir', estado: 'aguardando_rig' },
+        { nome: 'Programador', faz: 'Trilha com licença comercial, vinhetas e grade da rádio', motor: 'a definir', estado: 'aguardando_rig' },
+      ],
+    },
+    {
+      nome: 'Audiência',
+      funcionarios: [
+        { nome: 'Analista', faz: 'Lê o GA4 e mostra o que deu audiência por cidade e assunto, para a pauta', motor: 'a definir', estado: 'em_montagem' },
+        { nome: 'Resumo da manhã', faz: 'Boletim diário por WhatsApp ou e-mail com as principais notícias', motor: 'a definir', estado: 'em_montagem' },
+      ],
+    },
+    {
+      nome: 'Infra',
+      funcionarios: [
         { nome: 'Vigia da rig', faz: 'Abre alerta no GitHub se os robôs param de publicar', motor: 'GitHub Actions', estado: 'de_plantao' },
+        { nome: 'Coordenador das rigs', faz: 'Distribui o trabalho entre as rigs e assume o serviço de uma que cair', motor: 'a definir', estado: 'aguardando_rig' },
       ],
     },
   ];
@@ -210,12 +262,15 @@ export async function painel(r: Raizes, env: NodeJS.ProcessEnv, agoraIso = new D
   const prod = producao(r, agoraIso);
   const fila = listarFila(r);
   const setores = equipe(s, prod.totais.cidadesNoAr, live);
-  const agentes = setores.reduce((n, x) => n + x.funcionarios.length, 0);
+  const todos = setores.flatMap((x) => x.funcionarios);
+  const vagas = todos.filter((f) => PLANEJADO.includes(f.estado)).length;
+  const agentes = todos.length - vagas;
   return {
     agora: agoraIso,
     resumo: {
       pessoas: 1,
       agentes,
+      vagas,
       setores: setores.length,
       publicadasHoje: prod.nacional.at(-1)! + prod.cidades.at(-1)! + prod.colunas.at(-1)!,
       naFila: fila.length,
