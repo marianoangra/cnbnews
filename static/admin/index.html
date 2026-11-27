@@ -224,18 +224,29 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
 
   // Na fila SÓ porque o revisor pediu: nacional, nota < 4, sem cópia e sem trava de tema sensível.
   var TRAVA = /igual à fonte|cópia|condenatório|crime|menor|ECA|acusação|ocorrência|sensível|hediondo|violento/i;
+  // Mesma pauta escrita duas vezes ("R$ 53,8 bilhões" / "R$ 53,8 bi"): o lote leva só a primeira.
+  function chaveTitulo(t) { return t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 30); }
   function soRevisor() {
+    var vistos = {};
     return estado.fila.filter(function (i) {
-      return i.tipo === "nacional" && (i.score == null || i.score < 4) &&
+      var ok = i.tipo === "nacional" && (i.score == null || i.score < 4) &&
         i.motivos.some(function (m) { return /revisor LLM pediu/i.test(m); }) &&
         !i.motivos.some(function (m) { return TRAVA.test(m); });
+      if (!ok) return false;
+      var k = chaveTitulo(i.titulo); if (vistos[k]) return false;
+      vistos[k] = true; return true;
     });
+  }
+  function repetidas() {
+    var vistos = {}, n = 0;
+    estado.fila.forEach(function (i) { var k = chaveTitulo(i.titulo); if (vistos[k]) n++; vistos[k] = true; });
+    return n;
   }
   function htmlLote() {
     var l = soRevisor(); if (!l.length || (estado.filtro !== "todas" && estado.filtro !== "nacional")) return "";
     if (estado.confirmandoLote) return '<div class="lote"><p><b>Publicar ' + l.length + " notícias agora?</b> Elas vão ao ar juntas, num envio só, em cerca de 1 minuto.</p>" +
       '<div><button class="btn ok" type="button" id="lote-sim">Sim, publicar ' + l.length + '</button><button class="btn" type="button" id="lote-nao">Cancelar</button></div></div>';
-    return '<div class="lote"><p><b>' + l.length + " notícias</b> estão aqui só porque o revisor pediu: nota baixa (menor que 4), sem cópia da fonte e sem tema sensível.</p>" +
+    return '<div class="lote"><p><b>' + l.length + " notícias</b> estão aqui só porque o revisor pediu: nota baixa (menor que 4), sem cópia da fonte e sem tema sensível." + (repetidas() ? " Repetidas ficam de fora: recuse a cópia." : "") + "</p>" +
       '<div><button class="btn" type="button" id="lote-ver">Ver só essas</button><button class="btn ok" type="button" id="lote-aprovar">Aprovar as ' + l.length + "</button></div></div>";
   }
   function htmlAprovar() {
