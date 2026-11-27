@@ -1,0 +1,10 @@
+{{/* Link, rótulo e cidade de uma notícia na capa. Matéria de cidade vive no subdomínio
+     (<slug>.news.cnbmobile.com); nacional vive em /noticias/. Devolve dict u, rotulo, slug ("" se nacional). */}}
+{{- $r := dict "u" .Permalink "rotulo" "Brasil" "slug" "" -}}
+{{- if eq .Section "cidades" -}}
+  {{- $slug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) -}}
+  {{- $r = dict "u" (printf "https://%s.%s/%s/" $slug site.Params.baseDomain (path.Base .RelPermalink)) "rotulo" .Parent.Title "slug" $slug -}}
+{{- else -}}
+  {{- with .Params.categoria -}}{{- $r = merge $r (dict "rotulo" (partial "categoria-nome.html" .)) -}}{{- end -}}
+{{- end -}}
+{{- return $r -}}

@@ -1,31 +1,29 @@
 {{ define "titulo" }}CNB News · Notícias da sua cidade{{ end }}
 {{ define "main" }}
-{{ $todas := (where .Site.RegularPages "Section" "cidades").ByDate.Reverse }}
+{{/* Capa: cidades + nacionais, mais recentes primeiro (sem as nacionais a capa esvaziava quando as cidades ficavam sem notícia). */}}
+{{ $todas := (where .Site.RegularPages "Section" "in" (slice "cidades" "noticias")).ByDate.Reverse }}
 {{ with $todas }}
 <div class="capa">
   <div>
     <div class="alto">
       {{ with index . 0 }}
-        {{ $slug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
-        {{ $u := printf "https://%s.%s/%s/" $slug site.Params.baseDomain (path.Base .RelPermalink) }}
-        {{ $ed := partial "editoria.html" . }}
-        {{ $f := partial "foto.html" (dict "p" . "slug" $slug "ed" $ed) }}
+        {{ $l := partial "link-capa.html" . }}
+        {{ $f := false }}{{ with $l.slug }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" (partial "editoria.html" $)) }}{{ end }}
         <article class="manchete">
-          {{ with $f }}<figure><a href="{{ $u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="853"></a>{{ partial "foto-cred.html" . }}</figure>{{ end }}
-          <span class="ed">{{ .Parent.Title }}</span>
-          <h1><a href="{{ $u }}">{{ .Title }}</a></h1>
+          {{ with $f }}<figure><a href="{{ $l.u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="853"></a>{{ partial "foto-cred.html" . }}</figure>{{ end }}
+          <span class="ed">{{ $l.rotulo }}</span>
+          <h1><a href="{{ $l.u }}">{{ .Title }}</a></h1>
           {{ with .Description }}<p>{{ . }}</p>{{ end }}
           {{ partial "tempo.html" . }}
         </article>
       {{ end }}
       <div class="secs">
         {{ range $i, $p := first 3 (after 1 .) }}
-          {{ $slug := path.Base (strings.TrimSuffix "/" $p.Parent.RelPermalink) }}
-          {{ $u := printf "https://%s.%s/%s/" $slug site.Params.baseDomain (path.Base $p.RelPermalink) }}
-          {{ $f := partial "foto.html" (dict "p" $p "slug" $slug "ed" (partial "editoria.html" $p) "n" (add $i 1)) }}
+          {{ $l := partial "link-capa.html" $p }}
+          {{ $f := false }}{{ with $l.slug }}{{ $f = partial "foto.html" (dict "p" $p "slug" . "ed" (partial "editoria.html" $p) "n" (add $i 1)) }}{{ end }}
           <article class="sec{{ if $f }} com-foto{{ end }}">
-            <div><span class="ed">{{ $p.Parent.Title }}</span><h2><a href="{{ $u }}">{{ $p.Title }}</a></h2>{{ partial "tempo.html" $p }}</div>
-            {{ with $f }}<a href="{{ $u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="112" height="112" loading="lazy"></a>{{ end }}
+            <div><span class="ed">{{ $l.rotulo }}</span><h2><a href="{{ $l.u }}">{{ $p.Title }}</a></h2>{{ partial "tempo.html" $p }}</div>
+            {{ with $f }}<a href="{{ $l.u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="112" height="112" loading="lazy"></a>{{ end }}
           </article>
         {{ end }}
       </div>
@@ -36,9 +34,9 @@
     <ol>
       {{ $hoje := now.Format "2006-01-02" }}
       {{ range first 12 (after 4 .) }}
-        {{ $slug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
+        {{ $l := partial "link-capa.html" . }}
         <li><span class="hora">{{ if eq (.Date.Format "2006-01-02") $hoje }}{{ .Date.Format "15h04" }}{{ else }}{{ .Date.Format "02/01" }}{{ end }}</span>
-        <div><h3><a href="https://{{ $slug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h3><span class="ed">{{ .Parent.Title }}</span></div></li>
+        <div><h3><a href="{{ $l.u }}">{{ .Title }}</a></h3><span class="ed">{{ $l.rotulo }}</span></div></li>
       {{ end }}
     </ol>
   </aside>
