@@ -10,6 +10,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from 'node:ht
 import { join, relative, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import dotenv from 'dotenv';
+import { CANAL_LIVE_PADRAO, criarVigiaAoVivo } from './aovivo.ts';
 import { lerItem, listarFila, moverParaSite, recusar, type Raizes } from './fila.ts';
 import { painel } from './painel.ts';
 
@@ -59,28 +60,44 @@ function comGit<T>(fn: () => Promise<T>): Promise<T> {
 }
 const git = async (...args: string[]) => (await run('git', args, { cwd: REPO, timeout: 90_000 })).stdout.trim();
 
-async function publicarNoGit(caminho: string, msg: string): Promise<{ enviado: boolean; aviso?: string }> {
-  const rel = relative(REPO, caminho).split('\\').join('/');
+const espera = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+// Commit na hora (dentro da fila do git); o push vai depois, sem segurar a resposta do painel
+// (o proxy da Vercel tem limite de tempo). Lote = UM commit e UM push = um deploy só.
+async function commitar(caminhos: string[], msg: string): Promise<void> {
+  const rels = caminhos.map((c) => relative(REPO, c).split('\\').join('/'));
   let ultimo: unknown;
   for (let i = 1; i <= 3; i++) {
     try {
-      await git('add', '--', rel);
-      const staged = await git('diff', '--cached', '--name-only', '--', rel);
-      if (staged) await git('commit', '-m', msg, '--', rel);
-      // (se o robô de cidades já tiver commitado junto no "git add content/", não há nada staged: só empurra)
-      await git('fetch', '-q', 'origin');
-      if ((await git('rev-list', '--count', 'origin/main..HEAD')) !== '0') {
-        await git('pull', '--rebase', '--autostash', 'origin', 'main');
-        await git('push', 'origin', 'HEAD:main');
-      }
-      return { enviado: true };
+      await git('add', '--', ...rels);
+      // (se o robô de cidades já commitou junto no "git add content/", não há nada staged)
+      if (await git('diff', '--cached', '--name-only', '--', ...rels)) await git('commit', '-m', msg, '--', ...rels);
+      return;
     } catch (e) {
-      ultimo = e;
-      await new Promise((r) => setTimeout(r, 4000 * i));
+      ultimo = e; // index.lock de um robô: tenta de novo
+      await espera(3000 * i);
     }
   }
-  const m = ultimo instanceof Error ? ultimo.message.split('\n')[0] : String(ultimo);
-  return { enviado: false, aviso: `ficou gravada na rig e sobe no próximo push dos robôs (${m.slice(0, 160)})` };
+  throw ultimo instanceof Error ? ultimo : new Error(String(ultimo));
+}
+
+function empurrarDepois(): void {
+  void comGit(async () => {
+    for (let i = 1; i <= 3; i++) {
+      try {
+        await git('fetch', '-q', 'origin');
+        if ((await git('rev-list', '--count', 'origin/main..HEAD')) === '0') return;
+        await git('pull', '--rebase', '--autostash', 'origin', 'main');
+        await git('push', 'origin', 'HEAD:main');
+        console.log('[admin] push feito: a Vercel publica em ~1 min');
+        return;
+      } catch (e) {
+        console.log(`[admin] push falhou (tentativa ${i}): ${(e instanceof Error ? e.message : String(e)).split('\n')[0]}`);
+        await espera(5000 * i);
+      }
+    }
+    console.log('[admin] push não saiu: o commit ficou na rig e sobe no próximo push dos robôs');
+  });
 }
 
 function cors(req: IncomingMessage, res: ServerResponse) {
@@ -113,6 +130,7 @@ async function corpoJson(req: IncomingMessage): Promise<Record<string, unknown>>
 }
 
 const raizes: Raizes = { repo: REPO };
+const vigia = criarVigiaAoVivo(process.env.YOUTUBE_LIVE_URL || CANAL_LIVE_PADRAO);
 
 export function criarServidor(token: string) {
   return createServer(async (req, res) => {
@@ -121,6 +139,12 @@ export function criarServidor(token: string) {
     const url = new URL(req.url ?? '/', 'http://x');
     const rota = url.pathname.startsWith(PREFIXO) ? url.pathname.slice(PREFIXO.length) || '/' : url.pathname;
     if (rota === '/api/saude') return json(res, 200, { ok: true });
+    // Público (o site inteiro pergunta): a Vercel guarda 60 s no cache, a rig não leva pancada.
+    if (rota === '/api/aovivo') {
+      const s = vigia.status();
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=30, s-maxage=60', 'Access-Control-Allow-Origin': '*' });
+      return void res.end(JSON.stringify({ aoVivo: s.aoVivo, url: s.url, desde: s.desde ?? null, verificadoEm: s.verificadoEm ?? null }));
+    }
 
     const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? '?').split(',')[0].trim();
     const agora = Date.now();
@@ -134,7 +158,7 @@ export function criarServidor(token: string) {
     falhas.delete(ip);
 
     try {
-      if (req.method === 'GET' && rota === '/api/painel') return json(res, 200, await painel(raizes, process.env));
+      if (req.method === 'GET' && rota === '/api/painel') return json(res, 200, await painel(raizes, process.env, undefined, vigia.status()));
       if (req.method === 'GET' && rota === '/api/fila') return json(res, 200, { itens: listarFila(raizes) });
       if (req.method === 'GET' && rota === '/api/item') return json(res, 200, lerItem(raizes, url.searchParams.get('id') ?? ''));
       if (req.method === 'POST' && rota === '/api/aprovar') {
@@ -143,11 +167,35 @@ export function criarServidor(token: string) {
         const editado = typeof b.markdown === 'string' ? b.markdown : undefined;
         const r = await comGit(async () => {
           const m = moverParaSite(raizes, id, editado, new Date().toISOString());
-          const g = await publicarNoGit(m.destino, `aprovação: ${m.titulo.slice(0, 70)}`);
-          return { ...m, ...g };
+          await commitar([m.destino], `aprovação: ${m.titulo.slice(0, 70)}`);
+          return m;
         });
-        console.log(`[admin] aprovada ${id} → ${r.url}${r.aviso ? ' · ' + r.aviso : ''}`);
-        return json(res, 200, { ok: true, url: r.url, titulo: r.titulo, enviado: r.enviado, aviso: r.aviso });
+        empurrarDepois();
+        console.log(`[admin] aprovada ${id} → ${r.url}`);
+        return json(res, 200, { ok: true, url: r.url, titulo: r.titulo });
+      }
+      if (req.method === 'POST' && rota === '/api/aprovar-lote') {
+        const b = await corpoJson(req);
+        const ids = Array.isArray(b.ids) ? b.ids.filter((x): x is string => typeof x === 'string').slice(0, 60) : [];
+        if (!ids.length) return json(res, 400, { erro: 'nenhuma matéria selecionada' });
+        const r = await comGit(async () => {
+          const agoraIso = new Date().toISOString();
+          const ok: { id: string; url: string; titulo: string; destino: string }[] = [];
+          const erros: { id: string; erro: string }[] = [];
+          for (const id of ids) {
+            try {
+              const m = moverParaSite(raizes, id, undefined, agoraIso);
+              ok.push({ id, url: m.url, titulo: m.titulo, destino: m.destino });
+            } catch (e) {
+              erros.push({ id, erro: e instanceof Error ? e.message : String(e) });
+            }
+          }
+          if (ok.length) await commitar(ok.map((x) => x.destino), `aprovação em lote: ${ok.length} matéria(s)`);
+          return { ok, erros };
+        });
+        if (r.ok.length) empurrarDepois();
+        console.log(`[admin] lote: ${r.ok.length} aprovada(s), ${r.erros.length} erro(s)`);
+        return json(res, 200, { ok: true, publicadas: r.ok.map(({ destino: _d, ...x }) => x), erros: r.erros });
       }
       if (req.method === 'POST' && rota === '/api/recusar') {
         const b = await corpoJson(req);
@@ -170,4 +218,6 @@ if (process.argv[1] && resolve(process.argv[1]) === resolve(import.meta.filename
     process.exit(1);
   }
   criarServidor(token).listen(PORTA, '127.0.0.1', () => console.log(`[admin] ouvindo em 127.0.0.1:${PORTA} (${REPO})`));
+  void vigia.checar();
+  setInterval(() => void vigia.checar(), 120_000);
 }

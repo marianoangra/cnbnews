@@ -5,6 +5,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
 import { dataBrt } from '../publicador.ts';
+import type { StatusAoVivo } from './aovivo.ts';
 import { listarFila, type Raizes } from './fila.ts';
 
 const run = promisify(execFile);
@@ -136,7 +137,7 @@ function ultimoFimDeCiclo(r: Raizes): string | undefined {
   return linhas.at(-1)?.replace(/^\[[^\]]*\]\s*/, '');
 }
 
-export function equipe(s: Saude, cidadesNoAr: number): Setor[] {
+export function equipe(s: Saude, cidadesNoAr: number, live?: StatusAoVivo): Setor[] {
   const nac: Estado = s.servicos.nacional === 'active' ? 'trabalhando' : 'parado';
   const cid: Estado = s.servicos.cidades === 'active' ? 'trabalhando' : 'parado';
   const rapidaOk = s.rapida.online;
@@ -191,18 +192,24 @@ export function equipe(s: Saude, cidadesNoAr: number): Setor[] {
       funcionarios: [
         { nome: 'Publicador', faz: 'Commit e push: a Vercel põe no ar em ~1 min', motor: 'git', estado: nac === 'parado' && cid === 'parado' ? 'parado' : 'de_plantao' },
         { nome: 'Sitemap Google Notícias', faz: 'Lista as matérias das últimas 48 h', motor: 'Hugo', estado: 'de_plantao' },
-        { nome: 'Âncora da live 24h', faz: 'Lê as laudas no YouTube', motor: 'stream-engine', estado: 'em_teste' },
+        {
+          nome: 'Âncora da live 24h',
+          faz: 'Lê as laudas no YouTube',
+          motor: 'stream-engine',
+          estado: live?.aoVivo ? 'trabalhando' : 'em_teste',
+          detalhe: live?.aoVivo ? 'NO AR agora' : 'canal sem transmissão',
+        },
         { nome: 'Vigia da rig', faz: 'Abre alerta no GitHub se os robôs param de publicar', motor: 'GitHub Actions', estado: 'de_plantao' },
       ],
     },
   ];
 }
 
-export async function painel(r: Raizes, env: NodeJS.ProcessEnv, agoraIso = new Date().toISOString()) {
+export async function painel(r: Raizes, env: NodeJS.ProcessEnv, agoraIso = new Date().toISOString(), live?: StatusAoVivo) {
   const s = await saude(r, env);
   const prod = producao(r, agoraIso);
   const fila = listarFila(r);
-  const setores = equipe(s, prod.totais.cidadesNoAr);
+  const setores = equipe(s, prod.totais.cidadesNoAr, live);
   const agentes = setores.reduce((n, x) => n + x.funcionarios.length, 0);
   return {
     agora: agoraIso,
@@ -221,6 +228,7 @@ export async function painel(r: Raizes, env: NodeJS.ProcessEnv, agoraIso = new D
     ultimoCiclo: ultimoFimDeCiclo(r),
     producao: prod,
     saude: s,
+    aoVivo: live ?? null,
     setores,
   };
 }

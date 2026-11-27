@@ -4,6 +4,10 @@
   "outputDirectory": "public",
   "routes": [
     {
+      "src": "/aovivo.json",
+      "dest": "https://rig1660s.tail4a859f.ts.net/cnb-admin/api/aovivo"
+    },
+    {
       "src": "/admin",
       "status": 308,
       "headers": {

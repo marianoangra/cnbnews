@@ -115,3 +115,28 @@ test('token em tempo constante', () => {
   assert.equal(tokenConfere('', 'abc'), false);
   assert.equal(tokenConfere('abc', ''), false);
 });
+
+test('ao vivo: só com isLiveNow + vídeo; erro de rede segura 10 min e depois cai', async () => {
+  const { analisarPaginaLive, criarVigiaAoVivo } = await import('../src/admin/aovivo.ts');
+  const live = '<link rel="canonical" href="https://www.youtube.com/watch?v=4t4AQ15yj1M">..."liveBroadcastDetails":{"isLiveNow":true,"startTimestamp":"x"}';
+  const fora = '<link rel="canonical" href="https://www.youtube.com/channel/UC8JfkO0NzxMHi-X42lMdEpg">';
+  const agendada = '<link rel="canonical" href="https://www.youtube.com/watch?v=4t4AQ15yj1M">"isLiveNow":false,"isUpcoming":true';
+  assert.deepEqual(analisarPaginaLive(live), { aoVivo: true, videoId: '4t4AQ15yj1M' });
+  assert.deepEqual(analisarPaginaLive(fora), { aoVivo: false });
+  assert.deepEqual(analisarPaginaLive(agendada), { aoVivo: false });
+  let resposta: string | Error = live;
+  const fakeFetch = (async () => {
+    if (resposta instanceof Error) throw resposta;
+    return new Response(resposta, { status: 200 });
+  }) as typeof fetch;
+  const v = criarVigiaAoVivo('https://www.youtube.com/@x/live', fakeFetch, () => {});
+  const t0 = Date.parse('2026-11-27T15:00:00Z');
+  assert.equal((await v.checar(t0)).url, 'https://www.youtube.com/watch?v=4t4AQ15yj1M');
+  resposta = new Error('rede');
+  assert.equal((await v.checar(t0 + 5 * 60_000)).aoVivo, true); // segura
+  assert.equal((await v.checar(t0 + 11 * 60_000)).aoVivo, false); // desiste
+  resposta = fora;
+  const s = await v.checar(t0 + 12 * 60_000);
+  assert.equal(s.aoVivo, false);
+  assert.equal(s.url, 'https://www.youtube.com/@x/live');
+});

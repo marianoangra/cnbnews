@@ -12,8 +12,9 @@ enableRobotsTXT = true
   # Use o endereço do canal terminando em /live (ex.: "https://www.youtube.com/@CANAL/live"):
   # o YouTube abre a transmissão atual ou, sem live, a página do canal.
   youtube = "https://www.youtube.com/@rafaelmarianobr/live"
-  # true só quando houver live PÚBLICA no ar: o botão fica vermelho e pulsa "AO VIVO".
-  # false: botão neutro "TV CNB".
+  # Deixe false: o botão sai "TV CNB" no HTML e ACENDE SOZINHO ("CNB News ao vivo", vermelho)
+  # quando o canal estiver transmitindo, perguntando a /aovivo.json (rig checa o YouTube a cada 2 min).
+  # true força o "ao vivo" no HTML mesmo sem transmissão: não usar.
   aoVivo = false
   # Webrádio (layouts/partials/radio.html). URL do stream: MP3/Icecast (toca nativo) ou HLS .m3u8 (hls.js).
   # Vazio + radioEmBreve = true: o cabeçalho mostra "Rádio CNB · em breve", sem tocar nada.

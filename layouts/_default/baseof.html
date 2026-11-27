@@ -357,6 +357,23 @@
         if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(ok, function(){});
       });
     });
+    /* Botão da TV: o HTML sai neutro ("TV CNB") e só acende quando o canal está TRANSMITINDO.
+       /aovivo.json = rig checando o YouTube a cada 2 min (vercel.json). Falhou ou demorou: fica neutro. */
+    var tvs = document.querySelectorAll("[data-aovivo]");
+    if (tvs.length && window.fetch) {
+      var ctl = window.AbortController ? new AbortController() : null;
+      if (ctl) setTimeout(function(){ ctl.abort(); }, 4000);
+      fetch("/aovivo.json", { cache: "no-cache", signal: ctl ? ctl.signal : undefined }).then(function(r){ return r.ok ? r.json() : null; }).then(function(s){
+        if (!s || s.aoVivo !== true) return;
+        tvs.forEach(function(a){
+          a.classList.add("on");
+          if (s.url) a.href = s.url;
+          var t = a.querySelector(".lv-t");
+          if (t) t.textContent = a.getAttribute("data-aovivo") === "live" ? "CNB News ao vivo" : "CNB ao vivo";
+          a.setAttribute("aria-label", "Assistir à CNB News ao vivo no YouTube (abre em nova aba)");
+        });
+      }).catch(function(){});
+    }
   })();
   </script>
   {{ block "scripts" . }}{{ end }}

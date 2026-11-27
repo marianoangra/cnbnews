@@ -1,12 +1,12 @@
 {{/* Botão da TV CNB no YouTube. Entrada: dict "classe" ("live" = botão do cabeçalho, "live-mini" = versão da barra fixa).
      Liga em config.toml: params.youtube (endereço do canal, de preferência terminando em /live) e params.aoVivo.
-     aoVivo = true  → vermelho, ponto pulsando, "Ao vivo" (só quando a transmissão estiver de fato no ar).
-     aoVivo = false → neutro, "TV CNB": não promete uma live que não existe.
+     aoVivo = true  → vermelho, ponto pulsando, "CNB News ao vivo" (só quando a transmissão estiver de fato no ar).
+     aoVivo = false → neutro, "TV CNB"; o script do baseof acende sozinho via /aovivo.json quando o canal está transmitindo.
      Sem params.youtube o botão não aparece. */}}
 {{- with site.Params.youtube -}}
-<a class="{{ $.classe }}{{ if site.Params.aoVivo }} on{{ end }}" href="{{ . }}" target="_blank" rel="noopener" aria-label="{{ if site.Params.aoVivo }}Assistir à TV CNB ao vivo no YouTube{{ else }}TV CNB no YouTube{{ end }} (abre em nova aba)">
+<a class="{{ $.classe }}{{ if site.Params.aoVivo }} on{{ end }}" href="{{ . }}" data-aovivo="{{ $.classe }}" target="_blank" rel="noopener" aria-label="{{ if site.Params.aoVivo }}Assistir à CNB News ao vivo no YouTube{{ else }}TV CNB no YouTube{{ end }} (abre em nova aba)">
   <span class="dot" aria-hidden="true"></span>
-  <span class="lv-t">{{ if site.Params.aoVivo }}Ao vivo{{ else }}TV CNB{{ end }}</span>
+  <span class="lv-t">{{ if site.Params.aoVivo }}{{ if eq $.classe "live" }}CNB News ao vivo{{ else }}CNB ao vivo{{ end }}{{ else }}TV CNB{{ end }}</span>
   {{- if eq $.classe "live" }}<span class="lv-s">no YouTube</span>{{ end -}}
 </a>
 {{- end -}}
