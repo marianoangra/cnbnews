@@ -1,7 +1,7 @@
 ---
-title: "Caraguatatuba reintroduce taxa de lixo para cobrança via boleto"
+title: "Caraguatatuba volta a cobrar taxa de lixo por boleto"
 date: 2026-11-27T17:33:17.658006-03:00
-description: "A cidade de Caraguatatuba volta a cobrar a taxa de lixo aos moradores por meio do emissão de boletos."
+description: "A cidade de Caraguatatuba volta a cobrar a taxa de lixo aos moradores por meio da emissão de boletos."
 fonte: "G1"
 fonte_url: "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQakZ4TjRSSGw4dFFVcGZBWmpFOVMwX3RFRFhJNDlmejg2dFlBVkltdlVkZkJjelRwY1NrTVhxZXRPYmY4VnpNbElqVmtWek9naUNZbGt1NnI4elRldWFPN2c1bFZ5VEdfU3E1S18yUTM3dXhRMlBmd2ZIYlFZQURYdnBIblV1dFRfNDRmRzVtSnJaLW1RMHNXMjJSUE5MOHQ2Q2MyWm4wWkZCWnMzdkJhQUM5WGp6Q3pXaUx4RVFqdm41bTBoZDBuYmNYTTVvZ2ZVcl9ScjNNQUc2TWx3RVHSAewBQVVfeXFMT2dmRmVGSmp4MGViSElSaDExbm9zSW1hVDdkU2pqWFRGUkdFX2tFOWNJVHlyYlkwMGJCQ2tyT2lJZU1oMGg3SHlpUXlLTERicXZmcTJVcFNMNGZCM3dTbE9QN3dpd1NjNGIyRE5sX2pJUTRtQXBjOVNDVVZ0cjBDR3lXX3hLRFQ3VFlTSVZjYjE5TkVBR0tzbzJjNGVhcDFGc1RyR1BGZkVidk90aTg4XzlKUWhPaFp6REstcXVkZ1J5dmd1bENKQjZTS1A5cWZQSkhZdnFSNE9jY2xDbU9OODVOWnFKWER6Tl9SVmQ?oc=5"
 ---
