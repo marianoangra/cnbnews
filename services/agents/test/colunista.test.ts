@@ -56,3 +56,9 @@ test('versículo sempre vira alerta e aspas escapadas são limpas', () => {
   assert.equal(c.corpo.includes('\\'), false);
   assert.match(c.corpo, /"oi"/);
 });
+
+test('tira "# Título" repetido no começo do corpo', async () => {
+  const { semTituloRepetido } = await import('../src/colunista.ts');
+  assert.equal(semTituloRepetido('# Minha coluna\n\n## Parte 1\ntexto'), '## Parte 1\ntexto');
+  assert.equal(semTituloRepetido('## Parte 1\ntexto'), '## Parte 1\ntexto');
+});

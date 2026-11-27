@@ -106,6 +106,7 @@ const ALERTAS: [RegExp, string][] = [
   [/\b(bitcoin|ethereum|criptomoeda|a[cç][oõ]es da|tesouro direto|cdb|fii)\b/i, 'cita investimento específico'],
   [/\b(segundo (uma )?pesquisa|estudo (da|do|de)|de acordo com (o|a) (ibge|banco central|serasa))\b/i, 'cita pesquisa ou dado (conferir a fonte)'],
   [/\b(lei n?º?\s?\d|artigo \d+)/i, 'cita lei ou artigo (conferir)'],
+  [/R\$\s?\d/, 'traz contas em reais (conferir os cálculos: o modelo erra conta)'],
   // O 4b inventa versículo (escreveu "Provérbios 11:25" com um texto que não existe): sempre conferir.
   [/\b(G[eê]nesis|[EÊ]xodo|Salmos?|Prov[eé]rbios|Eclesiastes|Isa[ií]as|Jeremias|Mateus|Marcos|Lucas|Jo[aã]o|Atos|Romanos|Cor[ií]ntios|G[aá]latas|Ef[eé]sios|Filipenses|Colossenses|Tim[oó]teo|Hebreus|Tiago|Pedro)\s+\d+:\d+/i, 'cita versículo bíblico (CONFERIR o texto exato na Bíblia)'],
 ];
@@ -121,6 +122,11 @@ export function alertasDaColuna(c: Coluna): string[] {
 
 const q = (s: string) => JSON.stringify(s);
 
+// O título já vem do front matter: tira um "# Título" que o modelo repita no começo do corpo.
+export function semTituloRepetido(md: string): string {
+  return md.replace(/^\s*# [^\n]*\n+/, '');
+}
+
 export function paraMarkdownColuna(p: Pauta, c: Coluna, iso: string, alertas: string[]): string {
   const linhas = [
     '---',
@@ -134,7 +140,7 @@ export function paraMarkdownColuna(p: Pauta, c: Coluna, iso: string, alertas: st
     `gerado_por_ia: true`,
   ];
   if (alertas.length) linhas.push('alertas_revisao:', ...alertas.map((a) => `  - ${q(a)}`));
-  linhas.push('draft: false', '---', '', semLinks(c.corpo).trim(), '');
+  linhas.push('draft: false', '---', '', semTituloRepetido(semLinks(c.corpo)).trim(), '');
   return linhas.join('\n');
 }
 
@@ -160,6 +166,20 @@ export function escolherPauta(usadas: Set<string>, tema?: Tema): Pauta | undefin
   return [...livres].sort((a, b) => usoPorTema(a.tema) - usoPorTema(b.tema))[0];
 }
 
+export const MODELO_COLUNISTA = 'qwen2.5:7b-instruct';
+
+async function descarregar(endpoint: string, modelo: string): Promise<void> {
+  try {
+    await fetch(`${endpoint}/api/generate`, {
+      method: 'POST',
+      body: JSON.stringify({ model: modelo, keep_alive: 0 }),
+      signal: AbortSignal.timeout(30_000),
+    });
+  } catch {
+    // melhor esforço: se falhar, o Ollama descarrega quando precisar de espaço
+  }
+}
+
 export async function escreverColuna(llm: Llm, p: Pauta, iso = new Date().toISOString()) {
   const c = await llm.gerarJson(SYSTEM_COLUNISTA, promptColuna(p), validarColuna, 0.6);
   const alertas = alertasDaColuna(c);
@@ -182,12 +202,24 @@ async function main(): Promise<void> {
     console.log('colunista: todas as pautas já foram usadas — adicionar novas em PAUTAS (colunista.ts)');
     return;
   }
-  const cfg = configDoAmbiente(process.env, 'heavy');
-  // Coluna é longa: pede mais tempo que a matéria.
-  const llm = criarLlm({ ...cfg, timeoutMs: Math.max(cfg.timeoutMs, 600_000) });
+  const heavy = configDoAmbiente(process.env, 'heavy');
+  // Coluna usa o qwen2.5:7b: escreve bem melhor que o 4b das notícias (o 4b repetia frases
+  // e inventou versículo). Sem fonte para copiar, o defeito do 7b na esteira (cópia) não pesa.
+  const cfg = {
+    ...heavy,
+    modelo: process.env.OLLAMA_COLUNISTA_MODEL || MODELO_COLUNISTA,
+    timeoutMs: Math.max(heavy.timeoutMs, 600_000), // coluna é longa
+  };
+  const llm = criarLlm(cfg);
   console.log(`colunista: ${pauta.tema} · ${pauta.assunto} (${cfg.modelo})`);
   const t0 = Date.now();
-  const r = await escreverColuna(llm, pauta);
+  let r: Awaited<ReturnType<typeof escreverColuna>>;
+  try {
+    r = await escreverColuna(llm, pauta);
+  } finally {
+    // criarLlm fixa keep_alive -1: tira o 7b da VRAM para não ocupar a 3060 até a próxima coluna.
+    if (cfg.modelo !== heavy.modelo) await descarregar(cfg.endpoint, cfg.modelo);
+  }
   const seg = Math.round((Date.now() - t0) / 1000);
   console.log(`colunista: "${r.coluna.manchete}" · ${contarPalavras(r.coluna.corpo)} palavras · ${seg}s`);
   if (r.alertas.length) console.log(`colunista: alertas → ${r.alertas.join('; ')}`);
