@@ -11,6 +11,13 @@
       }
     },
     {
+      "src": "/admin/api/(.*)",
+      "dest": "https://rig1660s.tail4a859f.ts.net/cnb-admin/api/$1",
+      "headers": {
+        "Cache-Control": "no-store"
+      }
+    },
+    {
       "src": "/delete-account/?",
       "status": 308,
       "headers": {

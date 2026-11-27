@@ -137,7 +137,9 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
 <script>
 (function () {
   "use strict";
-  var API = "https://rig1660s.tail4a859f.ts.net/cnb-admin";
+  // Mesma origem: a Vercel repassa /admin/api/* para a rig (vercel.json). Sem CORS e sem o
+  // bloqueio de "rede local" do Chrome em aparelhos que estão na Tailscale.
+  var API = "/admin";
   var CHAVE = "cnb-redacao-token";
   var estado = { aba: "aprovar", filtro: "todas", painel: null, fila: [], atual: null, editando: false };
   var app = document.getElementById("app");

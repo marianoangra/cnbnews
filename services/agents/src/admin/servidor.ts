@@ -91,6 +91,7 @@ function cors(req: IncomingMessage, res: ServerResponse) {
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Max-Age', '600');
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
   }
 }
 
