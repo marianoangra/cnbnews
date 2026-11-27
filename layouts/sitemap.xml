@@ -64,7 +64,8 @@
   </url>
     {{ end }}{{ end }}
   {{ end }}
-  {{ range where site.RegularPages "Section" "cidades" }}
+  {{/* nota curta de cidade (< 120 palavras) tem noindex: fora do sitemap */}}
+  {{ range where site.RegularPages "Section" "cidades" }}{{ if ge .WordCount 120 }}
     {{ $cslug := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}
   <url>
     <loc>https://{{ $cslug }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/</loc>
@@ -72,7 +73,7 @@
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
-  {{ end }}
+  {{ end }}{{ end }}
   {{/* Editorias só quando têm volume (as mesmas do menu): página vazia no sitemap é sinal ruim para o Google. */}}
   {{ range partial "editorias-ativas.html" . }}
   <url>

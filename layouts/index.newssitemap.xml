@@ -5,7 +5,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
 {{- range first 1000 (where site.RegularPages.ByDate.Reverse "Section" "in" (slice "noticias" "cidades")) }}
-{{- if ge .Date.Unix $limite }}
+{{- if and (ge .Date.Unix $limite) (or (ne .Section "cidades") (ge .WordCount 120)) }}
 {{- $loc := .Permalink }}
 {{- if eq .Section "cidades" }}{{ $loc = printf "https://%s.%s/%s/" (path.Base (strings.TrimSuffix "/" .Parent.RelPermalink)) site.Params.baseDomain (path.Base .RelPermalink) }}{{ end }}
   <url>
