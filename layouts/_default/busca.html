@@ -1,0 +1,98 @@
+{{/* /busca/?q=termo&cidade=slug — busca no navegador sobre /busca.json (sem servidor).
+     Mora só no domínio principal: no subdomínio da cidade, /busca/ cairia em /cidades/<slug>/busca/ (404),
+     por isso o formulário do cabeçalho aponta para https://news.cnbmobile.com/busca/. */}}
+{{ define "titulo" }}Buscar notícias · CNB News{{ end }}
+{{ define "meta" }}<meta name="robots" content="noindex, follow">{{ end }}
+{{ define "main" }}
+<section class="busca-pg">
+  <h1>Buscar notícias</h1>
+  <form class="busca-grande" role="search" action="" method="get">
+    <label class="sr" for="bq">O que você procura?</label>
+    <input id="bq" name="q" type="search" placeholder="Ex.: vacina, concurso, chuva, Basílica" autocomplete="off" autofocus>
+    <input type="hidden" name="cidade" id="bcid">
+    <button type="submit">Buscar</button>
+  </form>
+  <div class="busca-escopo" id="escopo" hidden>
+    <button type="button" data-esc="cidade" class="on"></button>
+    <button type="button" data-esc="tudo">Todo o portal</button>
+  </div>
+  <p class="busca-info" id="binfo" aria-live="polite">Digite uma palavra para buscar entre as notícias mais recentes.</p>
+  <ol class="busca-res" id="bres"></ol>
+</section>
+{{ end }}
+{{ define "scripts" }}
+<script>
+(function(){
+  var q = document.getElementById("bq"), res = document.getElementById("bres"), info = document.getElementById("binfo"),
+      esc = document.getElementById("escopo"), hid = document.getElementById("bcid"),
+      p = new URLSearchParams(location.search), cidade = p.get("cidade") || "", soCidade = !!cidade, dados = null, nomeCidade = "";
+  q.value = p.get("q") || "";
+  hid.value = cidade;
+  function norm(s){ return (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(); }
+  function esc_(s){ return (s||"").replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+  function marca(txt, termos){
+    var out = esc_(txt), n = norm(txt);
+    // marca os termos na versão sem acento e aplica as mesmas posições no texto original
+    var faixas = [];
+    termos.forEach(function(t){ var i = 0; while ((i = n.indexOf(t, i)) > -1) { faixas.push([i, i + t.length]); i += t.length; } });
+    if (!faixas.length) return out;
+    faixas.sort(function(a,b){return a[0]-b[0];});
+    var r = "", pos = 0;
+    faixas.forEach(function(f){ if (f[0] < pos) return; r += esc_(txt.slice(pos, f[0])) + "<mark>" + esc_(txt.slice(f[0], f[1])) + "</mark>"; pos = f[1]; });
+    return r + esc_(txt.slice(pos));
+  }
+  function data(iso){ var d = new Date(iso); return isNaN(d) ? "" : d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}) + " · " + d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}).replace(":","h"); }
+  function buscar(){
+    var termo = norm(q.value).trim();
+    if (!dados) return;
+    var termos = termo.split(/\s+/).filter(function(t){ return t.length > 1; });
+    if (!termos.length) { res.innerHTML = ""; info.textContent = "Digite uma palavra para buscar entre as notícias mais recentes."; return; }
+    var achados = [];
+    dados.forEach(function(it, i){
+      if (soCidade && it.s !== cidade) return;
+      var tt = norm(it.t), dd = norm(it.d), cc = norm(it.c), pts = 0;
+      for (var k = 0; k < termos.length; k++) {
+        var t = termos[k], emT = tt.indexOf(t) > -1, emD = dd.indexOf(t) > -1, emC = cc.indexOf(t) > -1;
+        if (!emT && !emD && !emC) return;
+        pts += (emT ? 3 : 0) + (emD ? 1 : 0) + (emC ? 2 : 0);
+      }
+      achados.push({it: it, pts: pts - i / 1000}); // empate: a mais recente primeiro (o índice já vem por data)
+    });
+    achados.sort(function(a,b){ return b.pts - a.pts; });
+    var onde = soCidade ? " em " + nomeCidade : "";
+    info.textContent = achados.length ? achados.length + (achados.length === 1 ? " notícia encontrada" : " notícias encontradas") + onde + "." : "Nada encontrado" + onde + (soCidade ? ". Tente buscar em todo o portal." : ". Tente outra palavra.");
+    res.innerHTML = achados.slice(0, 60).map(function(a){
+      var it = a.it;
+      return '<li><span class="ed">' + esc_(it.c) + (it.e && it.e !== it.c ? " · " + esc_(it.e) : "") + '</span>' +
+        '<h2><a href="' + esc_(it.u) + '">' + marca(it.t, termos) + '</a></h2>' +
+        (it.d ? '<p>' + marca(it.d, termos) + '</p>' : '') +
+        '<time class="time" datetime="' + esc_(it.dt) + '">' + data(it.dt) + '</time></li>';
+    }).join("");
+  }
+  function atualizaUrl(){
+    var u = new URL(location.href); u.searchParams.set("q", q.value);
+    if (soCidade && cidade) u.searchParams.set("cidade", cidade); else u.searchParams.delete("cidade");
+    history.replaceState(null, "", u);
+  }
+  var t;
+  q.addEventListener("input", function(){ clearTimeout(t); t = setTimeout(function(){ buscar(); atualizaUrl(); }, 120); });
+  document.querySelector(".busca-grande").addEventListener("submit", function(e){ e.preventDefault(); buscar(); atualizaUrl(); });
+  esc.addEventListener("click", function(e){
+    var b = e.target.closest("button"); if (!b) return;
+    soCidade = b.getAttribute("data-esc") === "cidade";
+    hid.value = soCidade ? cidade : "";
+    esc.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
+    buscar(); atualizaUrl();
+  });
+  fetch("{{ "busca.json" | absURL }}").then(function(r){ return r.json(); }).then(function(d){
+    dados = d;
+    if (cidade) {
+      for (var i = 0; i < d.length; i++) if (d[i].s === cidade) { nomeCidade = d[i].c; break; }
+      if (nomeCidade) { esc.hidden = false; esc.querySelector('[data-esc="cidade"]').textContent = "Só em " + nomeCidade; }
+      else soCidade = false;
+    }
+    buscar();
+  }).catch(function(){ info.textContent = "Não foi possível carregar a busca agora. Tente de novo em instantes."; });
+})();
+</script>
+{{ end }}

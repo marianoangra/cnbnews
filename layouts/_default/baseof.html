@@ -42,7 +42,45 @@
     .topo-in{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;min-height:38px;padding:6px 0}
     .topo strong{color:var(--ink);font-weight:700}
     .clima b{font-family:var(--f-head);font-size:1.08rem;font-weight:600;color:var(--ink)}
-    .util{margin-left:auto;display:flex;gap:18px}
+    .busca{margin-left:auto;display:flex;align-items:center;background:var(--surface);border:1px solid var(--rule);border-radius:999px;height:32px;width:240px;transition:border-color .15s,width .2s}
+    .busca:focus-within{border-color:var(--ink-2);width:300px}
+    .busca input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:.82rem;color:var(--ink);padding:0 4px 0 14px;outline:0}
+    .busca input::placeholder{color:var(--muted)}
+    .busca input::-webkit-search-cancel-button{display:none}
+    .busca button{flex:none;display:grid;place-items:center;width:32px;height:30px;border:0;background:none;color:var(--ink-2);cursor:pointer;border-radius:999px}
+    .busca svg,.radio svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+    .util{display:flex;gap:18px}
+    /* Webrádio: irmã menor da TV. "em breve" é selo apagado e sem clique; tocando, ganha equalizador animado. */
+    .radio{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:.84rem;font-weight:700;padding:9px 14px;border-radius:999px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);cursor:pointer;white-space:nowrap}
+    .radio:hover{border-color:var(--ink-2)}
+    .radio.breve{cursor:default;color:var(--muted);border-style:dashed}
+    .radio.breve:hover{border-color:var(--rule)}
+    .radio .rd-s{font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--surface);color:var(--muted);padding:2px 6px;border-radius:999px}
+    .rd-eq{display:none;align-items:flex-end;gap:2px;height:12px}
+    .rd-eq i{width:3px;background:var(--red);border-radius:1px;animation:eq .9s ease-in-out infinite alternate}
+    .rd-eq i:nth-child(2){animation-delay:-.3s}.rd-eq i:nth-child(3){animation-delay:-.6s}
+    @keyframes eq{from{height:3px}to{height:12px}}
+    .radio.tocando{border-color:var(--red);color:var(--red-ink)}
+    .radio.tocando .rd-eq{display:inline-flex}
+    .radio.carregando{opacity:.6}
+    @media (prefers-reduced-motion:reduce){.rd-eq i{animation:none;height:8px}}
+    .busca-pg{max-width:760px;margin:0 auto;padding:32px 0 40px}
+    .busca-pg h1{font-size:clamp(1.9rem,5vw,2.6rem);font-weight:700;margin-bottom:18px}
+    .busca-grande{display:flex;gap:8px}
+    .busca-grande input{flex:1;min-width:0;font:inherit;font-size:1.05rem;padding:12px 16px;border:1px solid var(--ink-2);border-radius:6px;background:var(--bg);color:var(--ink)}
+    .busca-grande button{font:inherit;font-weight:700;padding:0 20px;border:0;border-radius:6px;background:var(--ink);color:var(--bg);cursor:pointer}
+    .busca-escopo{display:flex;gap:6px;margin-top:14px}
+    .busca-escopo button{font:inherit;font-size:.84rem;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--bg);color:var(--ink-2);cursor:pointer}
+    .busca-escopo button.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+    .busca-info{font-size:.88rem;color:var(--muted);margin:16px 0 6px}
+    .busca-res{list-style:none;margin:0;padding:0}
+    .busca-res li{padding:16px 0;border-bottom:1px solid var(--rule)}
+    .busca-res h2{font-size:1.25rem;line-height:1.25;font-weight:650;margin:4px 0 6px}
+    .busca-res h2 a:hover{color:var(--red-ink)}
+    .busca-res p{font-family:var(--f-head);font-size:1.02rem;line-height:1.45;color:var(--ink-2);margin:0 0 6px}
+    .busca-res mark{background:#fde68a;color:inherit;border-radius:2px;padding:0 1px}
+    @media (prefers-color-scheme:dark){.busca-res mark{background:#7c5c0a}}
+    .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
     .util a{font-weight:600;color:var(--ink-2)}
     .util a:hover{color:var(--red-ink)}
     .mast{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;padding:24px 0 20px;flex-wrap:wrap}
@@ -64,7 +102,8 @@
     .on .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:inherit;animation:pulso 1.6s ease-out infinite}
     @keyframes pulso{from{transform:scale(1);opacity:.7}to{transform:scale(2.8);opacity:0}}
     @media (prefers-reduced-motion:reduce){.on .dot::after{animation:none}}
-    .trocar{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:700;color:var(--ink-2);border:1px solid var(--rule);padding:9px 14px;border-radius:999px;white-space:nowrap}
+    .trocar{display:inline-flex;align-items:center;gap:6px;column-gap:6px;font-size:.84rem;font-weight:700;color:var(--ink-2);border:1px solid var(--rule);padding:9px 14px;border-radius:999px;white-space:nowrap}
+    .trocar .tr-l{margin-left:-2px}
     .trocar svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
     .trocar:hover{border-color:var(--ink-2);color:var(--ink)}
     .nav{position:sticky;top:0;z-index:20;background:var(--bg);border-top:3px solid var(--ink);border-bottom:1px solid var(--rule);margin:0 -16px;padding:0 16px}
@@ -158,6 +197,9 @@
     @media (max-width:960px){.capa{grid-template-columns:minmax(0,1fr)}aside.ult{border-left:0;padding-left:0}.blocos{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width:680px){
       .util a:not(.util-cid){display:none}
+      .busca,.busca:focus-within{order:5;width:100%;margin:2px 0 4px;height:38px}
+      .busca input{font-size:16px}
+      .util{margin-left:auto}
       .mast{padding:18px 0 14px}
       .acoes{width:100%}
       .acoes .live{flex:1;justify-content:center}
@@ -179,6 +221,12 @@
   <div class="topo"><div class="wrap topo-in">
     <strong id="hoje">{{ now.Format "02/01/2006" }}</strong>
     {{ if $slug }}{{ partial "clima.html" $slug }}{{ end }}
+    {{/* A busca mora no domínio principal (no subdomínio /busca/ dá 404); na cidade, já filtra por ela. */}}
+    <form class="busca" role="search" action="{{ $base }}busca/" method="get">
+      <input type="search" name="q" placeholder="{{ if $slug }}Buscar em {{ $nomeCidade }}{{ else }}Buscar notícias{{ end }}" aria-label="{{ if $slug }}Buscar notícias de {{ $nomeCidade }}{{ else }}Buscar notícias{{ end }}">
+      {{ with $slug }}<input type="hidden" name="cidade" value="{{ . }}">{{ end }}
+      <button type="submit" aria-label="Buscar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg></button>
+    </form>
     <nav class="util" aria-label="Atalhos">
       <a href="{{ $base }}noticias/">Brasil</a>
       <a href="{{ $base }}colunas/">Colunas</a>
@@ -197,8 +245,9 @@
         </span>
       </a>
       <div class="acoes">
+        {{ partial "radio.html" . }}
         {{ partial "ao-vivo.html" (dict "classe" "live") }}
-        <a class="trocar" href="{{ $base }}#cidades"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>{{ if $cidade }}Trocar<span class="tr-l">&nbsp;cidade</span>{{ else }}Escolher<span class="tr-l">&nbsp;cidade</span>{{ end }}</a>
+        <a class="trocar" href="{{ $base }}#cidades"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>{{ if $cidade }}Trocar<span class="tr-l">cidade</span>{{ else }}Escolher<span class="tr-l">cidade</span>{{ end }}</a>
       </div>
     </header>
   </div>
@@ -246,6 +295,29 @@
       b.addEventListener("click", function(){
         var t = document.querySelector("h1"), txt = (t ? t.textContent.trim() : document.title) + " - " + location.href;
         window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt), "_blank");
+      });
+    });
+    // Webrádio: um <audio> só, criado no primeiro clique (não baixa nada antes). HLS sem suporte nativo → hls.js do cdnjs.
+    document.querySelectorAll("[data-radio]").forEach(function(btn){
+      var audio = null, url = btn.getAttribute("data-radio");
+      function estado(){ var t = audio && !audio.paused; btn.classList.toggle("tocando", t); btn.setAttribute("aria-pressed", t ? "true" : "false"); btn.setAttribute("aria-label", t ? "Pausar a Rádio CNB" : "Ouvir a Rádio CNB"); }
+      function tocar(){ btn.classList.add("carregando"); audio.play().catch(function(){}).then(function(){ btn.classList.remove("carregando"); estado(); }); }
+      btn.addEventListener("click", function(){
+        if (audio) { if (audio.paused) { if (audio.dataset.ao) audio.load(); tocar(); } else audio.pause(); return; }
+        audio = new Audio(); audio.preload = "none";
+        ["play","pause","ended","error"].forEach(function(ev){ audio.addEventListener(ev, function(){ btn.classList.remove("carregando"); estado(); }); });
+        var hls = /\.m3u8(\?|$)/i.test(url);
+        if (hls && !audio.canPlayType("application/vnd.apple.mpegurl")) {
+          btn.classList.add("carregando");
+          var s = document.createElement("script");
+          s.src = "https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js";
+          s.onload = function(){ var h = new Hls(); h.loadSource(url); h.attachMedia(audio); tocar(); };
+          s.onerror = function(){ btn.classList.remove("carregando"); };
+          document.head.appendChild(s);
+        } else {
+          audio.src = url; audio.dataset.ao = "1"; // stream ao vivo: recarrega ao voltar do pause para não tocar atrasado
+          tocar();
+        }
       });
     });
     var mast = document.getElementById("mast"), nav = document.getElementById("nav");

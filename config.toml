@@ -15,6 +15,11 @@ enableRobotsTXT = true
   # true só quando houver live PÚBLICA no ar: o botão fica vermelho e pulsa "AO VIVO".
   # false: botão neutro "TV CNB".
   aoVivo = false
+  # Webrádio (layouts/partials/radio.html). URL do stream: MP3/Icecast (toca nativo) ou HLS .m3u8 (hls.js).
+  # Vazio + radioEmBreve = true: o cabeçalho mostra "Rádio CNB · em breve", sem tocar nada.
+  # Atenção à licença: as faixas da Biblioteca de Áudio do YouTube NÃO podem ir para stream de áudio separado.
+  radio = ""
+  radioEmBreve = true
 
 # Sitemap do Google Notícias (layouts/index.newssitemap.xml → /news-sitemap.xml)
 [outputFormats.NewsSitemap]
@@ -23,5 +28,12 @@ enableRobotsTXT = true
   isPlainText = true
   notAlternative = true
 
+# Índice da busca do portal (layouts/index.buscaindex.json → /busca.json), lido por /busca/
+[outputFormats.BuscaIndex]
+  mediaType = "application/json"
+  baseName = "busca"
+  isPlainText = true
+  notAlternative = true
+
 [outputs]
-  home = ["HTML", "NewsSitemap"]
+  home = ["HTML", "NewsSitemap", "BuscaIndex"]
