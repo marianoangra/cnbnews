@@ -255,7 +255,14 @@ async function main(): Promise<void> {
       }
       console.log(`guia: ${c.nome} (${c.uf}) · verbete "${v.titulo}" · ${v.texto.length} caracteres (${cfg.modelo})`);
       const t0 = Date.now();
-      const r = await escreverGuia(llm, c, v);
+      let r: Awaited<ReturnType<typeof escreverGuia>>;
+      try {
+        r = await escreverGuia(llm, c, v);
+      } catch (err) {
+        // Uma cidade que o modelo não consegue escrever não pode travar a fila: segue para a próxima.
+        console.log(`guia: ${c.nome} falhou (${err instanceof Error ? err.message : err}), tentando a próxima`);
+        continue;
+      }
       console.log(`guia: "${r.guia.manchete}" · ${contarPalavras(r.guia.corpo)} palavras · ${Math.round((Date.now() - t0) / 1000)}s`);
       if (r.alertas.length) console.log(`guia: alertas → ${r.alertas.join('; ')}`);
       if (simular) {
@@ -267,9 +274,9 @@ async function main(): Promise<void> {
       console.log(`guia: na fila de aprovação → ${join(fila, r.arquivo)}`);
       return;
     }
-    console.log('guia: nenhuma das 5 próximas cidades tinha verbete útil');
+    console.log('guia: nenhuma das 5 próximas cidades rendeu guia');
   } finally {
-    // criarLlm fixa keep_alive -1: tira o 7b da VRAM para devolver a 3060 ao robô de notícias.
+    // Só se OLLAMA_GUIA_MODEL apontar outro modelo: tira ele da VRAM para devolver a 3060 ao robô de notícias.
     if (cfg.modelo !== heavy.modelo) await descarregar(cfg.endpoint, cfg.modelo);
   }
 }
