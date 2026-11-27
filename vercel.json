@@ -7,14 +7,14 @@
       "src": "/delete-account/?",
       "status": 308,
       "headers": {
-        "Location": "https://cnbmobile-web.vercel.app/delete-account"
+        "Location": "https://www.usejuicemobile.com/delete-account"
       }
     },
     {
       "src": "/(suporte|faq)/?",
       "status": 308,
       "headers": {
-        "Location": "https://cnbmobile-web.vercel.app/$1"
+        "Location": "https://www.usejuicemobile.com/$1"
       }
     },
     {
