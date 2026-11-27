@@ -76,6 +76,46 @@ CIDADES = [
     ("sao-luiz-do-paraitinga", "São Luiz do Paraitinga (SP)", "Sao Luiz do Paraitinga SP"),
     ("lagoinha", "Lagoinha (SP)", "Lagoinha SP"),
     ("cunha", "Cunha (SP)", "Cunha SP"),
+    # Região Metropolitana de São Paulo (27/11/2026)
+    ("sao-paulo", "São Paulo (SP)", "Sao Paulo SP"),
+    ("aruja", "Arujá (SP)", "Aruja SP"),
+    ("barueri", "Barueri (SP)", "Barueri SP"),
+    ("biritiba-mirim", "Biritiba-Mirim (SP)", "Biritiba Mirim SP"),
+    ("caieiras", "Caieiras (SP)", "Caieiras SP"),
+    ("cajamar", "Cajamar (SP)", "Cajamar SP"),
+    ("carapicuiba", "Carapicuíba (SP)", "Carapicuiba SP"),
+    ("cotia", "Cotia (SP)", "Cotia SP"),
+    ("diadema", "Diadema (SP)", "Diadema SP"),
+    ("embu-das-artes", "Embu das Artes (SP)", "Embu das Artes SP"),
+    ("embu-guacu", "Embu-Guaçu (SP)", "Embu Guacu SP"),
+    ("ferraz-de-vasconcelos", "Ferraz de Vasconcelos (SP)", "Ferraz de Vasconcelos SP"),
+    ("francisco-morato", "Francisco Morato (SP)", "Francisco Morato SP"),
+    ("franco-da-rocha", "Franco da Rocha (SP)", "Franco da Rocha SP"),
+    ("guararema", "Guararema (SP)", "Guararema SP"),
+    ("guarulhos", "Guarulhos (SP)", "Guarulhos SP"),
+    ("itapecerica-da-serra", "Itapecerica da Serra (SP)", "Itapecerica da Serra SP"),
+    ("itapevi", "Itapevi (SP)", "Itapevi SP"),
+    ("itaquaquecetuba", "Itaquaquecetuba (SP)", "Itaquaquecetuba SP"),
+    ("jandira", "Jandira (SP)", "Jandira SP"),
+    ("juquitiba", "Juquitiba (SP)", "Juquitiba SP"),
+    ("mairipora", "Mairiporã (SP)", "Mairipora SP"),
+    ("maua", "Mauá (SP)", "Maua SP"),
+    ("mogi-das-cruzes", "Mogi das Cruzes (SP)", "Mogi das Cruzes SP"),
+    ("osasco", "Osasco (SP)", "Osasco SP"),
+    ("pirapora-do-bom-jesus", "Pirapora do Bom Jesus (SP)", "Pirapora do Bom Jesus SP"),
+    ("poa", "Poá (SP)", "Poa SP"),
+    ("ribeirao-pires", "Ribeirão Pires (SP)", "Ribeirao Pires SP"),
+    ("rio-grande-da-serra", "Rio Grande da Serra (SP)", "Rio Grande da Serra SP"),
+    ("salesopolis", "Salesópolis (SP)", "Salesopolis SP"),
+    ("santa-isabel", "Santa Isabel (SP)", "Santa Isabel SP"),
+    ("santana-de-parnaiba", "Santana de Parnaíba (SP)", "Santana de Parnaiba SP"),
+    ("santo-andre", "Santo André (SP)", "Santo Andre SP"),
+    ("sao-bernardo-do-campo", "São Bernardo do Campo (SP)", "Sao Bernardo do Campo SP"),
+    ("sao-caetano-do-sul", "São Caetano do Sul (SP)", "Sao Caetano do Sul SP"),
+    ("sao-lourenco-da-serra", "São Lourenço da Serra (SP)", "Sao Lourenco da Serra SP"),
+    ("suzano", "Suzano (SP)", "Suzano SP"),
+    ("taboao-da-serra", "Taboão da Serra (SP)", "Taboao da Serra SP"),
+    ("vargem-grande-paulista", "Vargem Grande Paulista (SP)", "Vargem Grande Paulista SP"),
 ]
 
 # Nome que também é sobrenome, palavra comum ou outra cidade (Eduardo Cunha, "areias",
@@ -90,9 +130,19 @@ CIDADES_AMBIGUAS = {
     "paraibuna": "",
     "tremembe": "",  # "do Tremembé"/"no Tremembé" (com artigo) é o bairro de SP
     # Cruzeiro (SP) x Cruzeiro (time de MG, navio de cruzeiro, Cruzeiro do Sul)
-    "cruzeiro-sp": r"cruzeiro (do sul|do oeste|internacional|esporte|ec|e\.c\.|vence|derrota|empata|perde|joga|enfrenta|recebe|anuncia|contrata)"
+    "cruzeiro-sp": r"cruzeiro (do sul|do oeste|internacional|esporte|ec\b|e\.c\.|vence|derrota|empata|perde|joga|enfrenta|recebe|anuncia|contrata)"
                    r"|(contra|derrota|vence|enfrenta|empata com|x|diante do|sobre o) (o )?cruzeiro|navio|transatl[aâ]ntico|torcida|mineir[aã]o|libertadores|brasileir[aã]o|superliga|v[oô]lei",
     "monteiro-lobato": r"(livros?|obras?|contos?|personagens?|autor|escritor|sitio do picapau|legado|centenario) (de|do) monteiro lobato", "cacapava": r"cacapava do sul",
+    # Grande SP (27/11/2026). São Paulo: capital x estado x São Paulo FC.
+    "sao-paulo": r"(governo|estado|interior|litoral|assembleia|alesp|tribunal de justica|tj|ministerio publico|mp|policia militar|policia civil|pm|secretaria estadual|grande|regiao metropolitana|universidade|usp|metro) de sao paulo"
+                 r"|(contra|derrota|vence|enfrenta|empata com|x|diante do|sobre o|torcida do|tecnico do) (o )?sao paulo|sao paulo (fc|futebol|vence|derrota|empata|perde|joga|enfrenta|contrata|estreia)"
+                 r"|tricolor|morumbis|brasileir[aã]o|libertadores|paulist[aã]o|copa do brasil|sul-americana",
+    "suzano": r"suzano (s\.?a|papel|celulose|resultado|lucro|receita|ebitda|investe|anuncia|compra|vende)|(acoes|papeis|empresa|grupo|fabrica) (da )?suzano",
+    "poa": r"porto alegre|\(rs\)|-rs\b|gauch|gremio|\binter\b",
+    "maua": r"barao de maua|praca maua|ponte maua|maua da serra|visconde de maua",
+    "santo-andre": r"(contra|derrota|vence|enfrenta|empata com|x) (o )?santo andre|santo andre (vence|derrota|empata|perde|joga|enfrenta|anuncia|contrata)|ec santo andre|ramalhao|santo andre \(pb\)",
+    "santa-isabel": r"santa isabel (do para|do ivai|do rio negro|do oeste|d.oeste)",
+    "diadema": "", "jandira": "", "cotia": "", "cajamar": "",
 }
 
 def nome_como_lugar(slug, cidade_pura, manchete):
@@ -272,8 +322,9 @@ def outra_cidade_homonima(cidade_pura, manchete):
 
 def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte="", slug=""):
     cidade_pura = cidade_nome.split("(")[0].strip()
-    c_norm = normalizar(cidade_pura)
-    m_norm = normalizar(manchete)
+    # hífen opcional: manchete escreve "Biritiba Mirim" / "Embu Guaçu"
+    c_norm = normalizar(cidade_pura).replace("-", " ")
+    m_norm = normalizar(manchete).replace("-", " ")
     # a Prefeitura de Pelotas não escreve "Pelotas" no título das próprias notícias
     if c_norm not in m_norm and not fonte_eh_da_cidade(cidade_nome, fonte):
         return False
