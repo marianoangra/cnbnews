@@ -61,5 +61,42 @@ class TestDuplicadaOlhaFila(unittest.TestCase):
                 os.chdir(antigo)
 
 
+class TestNotaCurta(unittest.TestCase):
+    """Redação só com o que a manchete diz (27/11/2026): casos reais da avaliação."""
+
+    def test_cidade_homonima(self):
+        self.assertTrue(r.outra_cidade_homonima("Lavras", "Lavras da Mangabeira terá 90 casas populares"))
+        self.assertTrue(r.outra_cidade_homonima("Cunha", "MPSC promove palestra em Cunha Porã"))
+        self.assertFalse(r.outra_cidade_homonima("Lavras", "Prefeitura de Lavras abre concurso"))
+        self.assertFalse(r.outra_cidade_homonima("Campos do Jordão", "Campos do Jordão abre seleção"))
+        self.assertFalse(r.outra_cidade_homonima("Maringá", "Concurso Terminais Aéreos de Maringá: inscrições abertas"))
+
+    def test_enchimento_e_especulacao(self):
+        for t in ("O projeto busca atender à demanda por moradia.", "A ação visa atualizar os serviços.",
+                  "O evento tem como objetivo exibir trabalhos.", "impactará diretamente os moradores da região",
+                  "recomenda-se acompanhar os canais oficiais"):
+            self.assertTrue(r.tem_enchimento(t), t)
+        self.assertIsNone(r.tem_enchimento("A Prefeitura de Quissamã reforma os banheiros das praias."))
+
+    def test_checar_redacao(self):
+        self.assertIn("veículo", r.checar_redacao(
+            "Foragido é preso no bairro Xavier Capanema", "Capanema (PR)", "Rádio Santa Cruz FM",
+            "Foragido preso em Capanema", "Um foragido foi preso no bairro Xavier, em Capanema.",
+            "Em Capanema, foragido foi preso, segundo a Rádio Santa Cruz FM."))
+        self.assertIn("nome", r.checar_redacao(
+            "JUCERJA lança plataforma digital", "Armação dos Búzios (RJ)", "Portal",
+            "JUCERJA lança plataforma digital em Búzios", "A JUCERJA lançou plataforma digital em Armação dos Búzios.",
+            "A Junta de Gestão Urbana de Armação dos Búzios lançou a plataforma."))
+        self.assertIsNone(r.checar_redacao(
+            "Prefeitura de Quissamã reforma banheiros das praias", "Quissamã (RJ)", "Prefeitura de Quissamã",
+            "Quissamã reforma banheiros públicos das praias",
+            "A Prefeitura de Quissamã reforma os banheiros públicos das praias do município.",
+            "A Prefeitura de Quissamã está reformando os banheiros públicos das praias."))
+
+    def test_texto_final_tem_atribuicao_com_link(self):
+        t = r.montar_texto("Fato.", "G1", "https://x")
+        self.assertIn("[Leia a matéria original](https://x)", t)
+
+
 if __name__ == "__main__":
     unittest.main()

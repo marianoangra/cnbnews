@@ -241,6 +241,32 @@ def fonte_eh_da_cidade(cidade_nome, fonte):
     """Veículo/órgão da própria cidade (ex.: "Prefeitura de Pelotas", "Câmara de Curitiba")."""
     return normalizar(cidade_nome.split("(")[0].strip()) in normalizar(fonte)
 
+_SUFIXOS_HOMONIMOS = (
+    r"Por[ãa]|Mirim|Grande|Novo|Nova|Velho|Velha|Alegre|Mineir[oa]|Bonito|Branco|Preto|Verde|Doce"
+    r"|Dourado|Seco|Real|Paulista|Fluminense|Ga[úu]cha|Catarinense|Baiano|Goiano"
+)
+
+def outra_cidade_homonima(cidade_pura, manchete):
+    """"Lavras da Mangabeira" (CE) não é Lavras (MG); "Cunha Porã" (SC) não é Cunha (SP).
+    Nome da cidade seguido de "da/do/de + Nome" ou de sufixo de topônimo = outra cidade."""
+    for m in re.finditer(re.escape(cidade_pura), manchete, re.I):
+        depois = manchete[m.end():]
+        if re.match(rf"\s+(d[aeo]s?\s+[A-ZÁÉÍÓÚÂÊÔÃÕ][\wÀ-ÿ]{{2,}}|(?:{_SUFIXOS_HOMONIMOS})\b)", depois):
+            return True
+        # "Geraldo Resende" (deputado) não é Resende: nome próprio colado antes = sobrenome de pessoa
+        antes = re.search(r"([A-ZÁÉÍÓÚÂÊÔÃÕ][a-zà-ÿ]{2,})\s+$", manchete[:m.start()])
+        if antes and normalizar(antes.group(1)) not in {
+                "prefeitura", "camara", "cidade", "municipio", "regiao", "centro", "estancia", "turistica", "em", "de",
+                "na", "no", "para", "sobre", "hoje", "agora", "bairro", "zona", "vale", "litoral", "interior", "porto",
+                "aeroporto", "rodoviaria", "jornal", "radio", "portal", "noticias", "diario", "folha", "gazeta", "tribuna",
+                # instituição + cidade ("Concurso Resende RJ", "Hotel Sesc Paraty", "Hospital Escola Pelotas")
+                "concurso", "concursos", "hotel", "sesc", "senac", "senai", "hospital", "escola", "casa", "ufpr", "ifpr",
+                "utfpr", "unesp", "usp", "ufla", "unifesp", "fatec", "etec", "shopping", "praia", "parque", "teatro",
+                "museu", "festival", "feira", "expo", "carnaval", "natal", "marcha", "corrida", "maratona", "copa",
+                "torneio", "campeonato", "clube", "esporte", "futebol", "edital", "processo", "seletivo"}:
+            return True
+    return False
+
 def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte="", slug=""):
     cidade_pura = cidade_nome.split("(")[0].strip()
     c_norm = normalizar(cidade_pura)
@@ -249,6 +275,8 @@ def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte="", slug=""):
     if c_norm not in m_norm and not fonte_eh_da_cidade(cidade_nome, fonte):
         return False
     if slug in CIDADES_AMBIGUAS and not fonte_eh_da_cidade(cidade_nome, fonte)             and not nome_como_lugar(slug, cidade_pura, manchete):
+        return False
+    if outra_cidade_homonima(cidade_pura, manchete):
         return False
     if len(m_norm.split()) < 5:
         return False
@@ -361,7 +389,9 @@ def buscar_pautas_oficiais(cidade_nome, query_cidade, slug=""):
                 time.sleep(30)
     return itens[:3]
 
-def redigir_com_ia(cidade_nome, manchete, fonte, data_hoje):
+def redigir_com_ia_antiga(cidade_nome, manchete, fonte, data_hoje):
+    """Versão até 27/11/2026 (3 parágrafos a partir só da manchete): inventava para encher.
+    Fica só para comparação (scripts/avaliar_redacao_cidades.py)."""
     cidade_pura = cidade_nome.split("(")[0].strip()
     prompt = f"""Você é editor-chefe de jornalismo local no Brasil. Hoje é {data_hoje}.
 Reescreva a notícia abaixo exclusivamente com base nos fatos da manchete sobre {cidade_nome}.
@@ -407,6 +437,152 @@ Responda EXCLUSIVAMENTE o JSON válido."""
         limpar_texto_ia(dados["description"]),
         limpar_texto_ia(dados["artigo"])
     )
+
+# ---------------------------------------------------------------------------
+# REDAÇÃO SÓ COM O QUE A MANCHETE DIZ (27/11/2026)
+# O robô só recebe a MANCHETE do Google Notícias (o texto da matéria não chega aqui).
+# Antes ele tinha de escrever 3 parágrafos / 500-800 caracteres e inventava fato para encher
+# ("JUCERJA lança serviço de coleta de lixo", "a prefeitura está monitorando a situação").
+# Agora: nota curta com o fato da manchete + atribuição com link. As travas abaixo descartam
+# enchimento, nome próprio que não está na manchete e conteúdo novo demais.
+# ---------------------------------------------------------------------------
+
+_RE_ENCHIMENTO = re.compile(
+    r"impact\w*\s+(diretamente\s+)?(a vida\s+)?(dos|os|a)?\s*(moradores|popula)"
+    r"|moradores\s+(da regi[aã]o|locais|da cidade)"
+    r"|garanti\w*\s+(a\s+|o\s+)?(continuidade|qualidade|seguran|bem)"
+    r"|monitora\w*\s+(a\s+)?situa"
+    r"|acompanh\w*\s+(as\s+|os\s+)?(atualiza|canais|informa|comunicados)"
+    r"|canais oficiais|atualiza\w* oficia"
+    r"|transpar[eê]ncia e\s+(a\s+)?qualidade|compromisso\s+(com|da|do)"
+    r"|\bvisa(ndo)?\s+(a\s+|ao\s+)?\w+(ar|er|ir)\b|\bbusca(ndo)?\s+\w+(ar|er|ir)\b"
+    r"|tem (como|por) (objetivo|finalidade|meta)|com (a|o) (finalidade|objetivo|intuito|prop[oó]sito)|o objetivo [eé]"
+    r"|destinad[oa]s? a (atender|garantir|melhorar|promover)|amplia\w* a qualidade|import[aâ]ncia (de|do|da)"
+    r"|fundamental para|essencial para|demanda por|necessidades d[aeo]s?"
+    r"|\bmanchete\b|evitar poss[ií]veis|poss[ií]veis (impactos|transtornos|riscos)|de acordo com a previs"
+    r"|contribu\w+\s+para|fortalec\w+|qualidade de vida|bem-estar|recomenda-se|fique atent"
+    r"|para mais informa|importante (passo|medida|iniciativa)|desenvolvimento (local|da regi)"
+    r"|\bmelhor(ar|ia)s?\s+(a|o|os|as)?\s*(acesso|atendimento|servi[cç]o|qualidade|vida)"
+    r"|efici[eê]ncia|de forma (eficiente|transparente|segura)",
+    re.I,
+)
+
+def tem_enchimento(texto):
+    m = _RE_ENCHIMENTO.search(texto)
+    return m.group(0) if m else None
+
+# Palavras com maiúscula (nomes, siglas) fora do começo da frase têm de estar na manchete,
+# no nome da cidade/UF ou da fonte. Pega instituição, pessoa ou programa inventados.
+_PALAVRAS_LIVRES = {
+    "a", "o", "as", "os", "de", "da", "do", "em", "no", "na", "e", "segundo", "conforme", "com",
+    "prefeitura", "camara", "municipal", "governo", "estado", "estadual", "federal", "brasil",
+    "policia", "civil", "militar", "secretaria", "janeiro", "fevereiro", "marco", "abril", "maio",
+    "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro",
+}
+
+def nomes_novos(manchete, cidade_nome, fonte, texto):
+    base = set(re.findall(r"[a-z0-9]+", normalizar(f"{manchete} {cidade_nome} {fonte}")))
+    novos = set()
+    for frase in re.split(r"(?<=[.!?:])\s+|\n+", texto):
+        palavras = re.findall(r"[A-Za-zÀ-ÿ][\wÀ-ÿ-]*", frase)
+        for w in palavras[1:]:  # a 1ª palavra da frase é maiúscula por gramática
+            if not w[0].isupper():
+                continue
+            n = normalizar(w)
+            if n in _PALAVRAS_LIVRES or len(n) <= 1:
+                continue
+            if all(p in base for p in re.findall(r"[a-z0-9]+", n)):
+                continue
+            novos.add(w)
+    return sorted(novos)
+
+def conteudo_novo(manchete, cidade_nome, fonte, texto):
+    """Fração das palavras de conteúdo (5+ letras) do texto que NÃO vêm da manchete
+    (compara pelos 5 primeiros caracteres: 'realiza'/'realizou' contam igual).
+    Paráfrase troca algumas palavras; fato inventado traz muitas."""
+    raizes = {p[:5] for p in extrair_palavras_chave(f"{manchete} {cidade_nome} {fonte}")}
+    palavras = [p for p in re.findall(r"[a-z]{5,}", normalizar(texto)) if p not in STOPWORDS]
+    if not palavras:
+        return 0.0
+    return sum(1 for p in palavras if p[:5] not in raizes) / len(palavras)
+
+LIMITE_CONTEUDO_NOVO = float(os.environ.get("ROBO_LIMITE_NOVO", "0.55"))
+
+def _gerar_json(prompt):
+    payload = json.dumps({
+        "model": os.environ.get("ROBO_MODELO", "qwen3:4b"),
+        "prompt": prompt,
+        "stream": False,
+        "think": False,
+        "format": "json",
+        "options": {"temperature": 0.15, "top_p": 0.85, "repeat_penalty": 1.15, "num_ctx": 4096}
+    }).encode("utf-8")
+    req = urllib.request.Request(os.environ.get("ROBO_OLLAMA_URL", "http://127.0.0.1:11434") + "/api/generate", data=payload, headers={"Content-Type": "application/json"})
+    # 600 s: logo após o boot o qwen3:4b demora a subir para a GPU; se o cliente desiste antes,
+    # o Ollama ABORTA o carregamento e o ciclo nunca termina.
+    resp = json.loads(urllib.request.urlopen(req, timeout=600).read().decode("utf-8"))
+    return json.loads(resp["response"])
+
+def redigir_com_ia(cidade_nome, manchete, fonte, data_hoje):
+    cidade_pura = cidade_nome.split("(")[0].strip()
+    prompt = f"""Você é redator de jornalismo local no Brasil. Hoje é {data_hoje}.
+Você recebeu SÓ a manchete de uma notícia sobre {cidade_nome}, publicada por {fonte}. Você NÃO leu a matéria.
+Escreva uma NOTA CURTA que diga apenas o que a manchete diz, com outras palavras.
+
+Manchete: "{manchete}"
+
+PROIBIDO (a nota é descartada):
+- acrescentar fato, detalhe, número, data, nome, lugar, motivo, consequência ou opinião que não esteja na manchete;
+- frases sobre impacto para os moradores, prefeitura monitorando ou garantindo algo, transparência, qualidade, compromisso, "visa melhorar", "acompanhe os canais oficiais";
+- citar {fonte} no texto (a atribuição é colocada depois, automaticamente).
+Responda {{"valido": false}} SOMENTE se a manchete não for notícia (página de serviço, login, lista genérica) ou se for claramente de OUTRA cidade com nome parecido (ex.: "Cunha Porã" não é "Cunha").
+
+JSON:
+- "valido": true
+- "title": título de 45 a 85 caracteres, com {cidade_pura}, sem o nome do veículo.
+- "description": 1 frase de 80 a 160 caracteres com o fato da manchete, sem repetir o título palavra por palavra.
+- "artigo": UMA frase (120 a 260 caracteres) com o fato da manchete e nada além: sem objetivo, motivo, efeito ou avaliação.
+
+Responda EXCLUSIVAMENTE o JSON."""
+    dados = _gerar_json(prompt)
+    if not dados.get("valido", True):
+        return None, None, None
+    artigo = limpar_texto_ia(dados["artigo"])
+    # Uma frase só, por código: a 2ª frase era onde o modelo especulava ("o projeto busca atender...").
+    artigo = re.split(r"(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÂÊÔÃÕ])", artigo.strip())[0]
+    return (
+        tirar_veiculo_do_titulo(limpar_texto_ia(dados["title"]), fonte),
+        limpar_texto_ia(dados["description"]),
+        artigo
+    )
+
+def checar_redacao(manchete, cidade_nome, fonte, title, desc, artigo):
+    """Travas da nota curta. Devolve o motivo do descarte ou None."""
+    tudo = f"{title}\n{desc}\n{artigo}"
+    e = tem_enchimento(tudo)
+    if e and normalizar(e) not in normalizar(manchete):  # se a própria manchete diz, não é enchimento
+        return f"enchimento ('{e}')"
+    # A atribuição ao veículo é colocada depois, por código; no texto ele vira "fato" ou repetição.
+    f_norm = normalizar(fonte)
+    if f_norm and len(f_norm) > 3 and f_norm not in normalizar(manchete) and not fonte_eh_da_cidade(cidade_nome, fonte) \
+            and re.search(r"\b" + re.escape(f_norm) + r"\b", normalizar(tudo)):
+        return f"veículo ({fonte}) citado no texto"
+    if outra_cidade_homonima(cidade_nome.split("(")[0].strip(), tudo):
+        return "texto fala de outra cidade com nome parecido"
+    # "A prefeitura de Maringá iniciou o concurso dos Terminais Aéreos": quem fez foi outro órgão.
+    for orgao in ("prefeitura", "camara municipal", "prefeito", "vereador"):
+        if re.search(rf"\b{orgao}", normalizar(tudo)) and not re.search(rf"\b{orgao}", normalizar(f"{manchete} {fonte}")):
+            return f"atribui a '{orgao}' algo que a manchete não diz"
+    n = nomes_novos(manchete, cidade_nome, fonte, tudo)
+    if n:
+        return f"nome que não está na manchete ({', '.join(n[:3])})"
+    novo = conteudo_novo(manchete, cidade_nome, fonte, tudo)
+    if novo > LIMITE_CONTEUDO_NOVO:
+        return f"conteúdo novo demais ({novo:.0%} das palavras não vêm da manchete)"
+    return None
+
+def montar_texto(artigo, fonte, link):
+    return f"{artigo.strip()}\n\n*A informação é de {fonte}. [Leia a matéria original]({link}).*"
 
 def atualizar_sitemap_e_git(novos):
     urls = [
@@ -466,14 +642,16 @@ def rodar_ciclo():
                 if eh_duplicada(pasta, title, "", nome.split("(")[0]):
                     print(f"[DUPLICADA] Título reescrito repete matéria já publicada: {title[:50]}...", flush=True)
                     continue
-                motivo = checar_fatos(manchete, fonte, agora.strftime("%d/%m/%Y"), title, desc, texto, nome)
+                motivo = checar_fatos(manchete, fonte, agora.strftime("%d/%m/%Y"), title, desc, texto, nome) \
+                    or checar_redacao(manchete, nome, fonte, title, desc, texto)
                 if motivo:
                     print(f"[DESCARTADO] {motivo}: {title[:50]}...", flush=True)
                     continue
                 low_check = (title + " " + texto).lower()
-                if len(texto) < 380 or len(desc) < 60 or any(w in low_check for w in [" the ", " with ", " from ", " are ", "<think>", "oitos", "oitavos"]):
+                if len(texto) < 120 or len(desc) < 60 or any(w in low_check for w in [" the ", " with ", " from ", " are ", "<think>", "oitos", "oitavos"]):
                     print("[DESCARTADO] Texto curto ou fora do padrao pt-BR.", flush=True)
                     continue
+                texto = montar_texto(texto, fonte, link)
                 score, motivos = avaliar_sensibilidade(title, desc, texto)
                 if precisa_contraditorio(title, desc, texto) and CLAUSULA_CONTRADITORIO not in texto:
                     texto = f"{texto}\n\n*{CLAUSULA_CONTRADITORIO}*"
