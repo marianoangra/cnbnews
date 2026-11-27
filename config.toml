@@ -6,6 +6,8 @@ disableKinds = ["taxonomy", "taxonomyTerm", "term", "RSS"]
 enableRobotsTXT = true
 
 [params]
+  # Perfis oficiais (rodapé e "sameAs" do JSON-LD: o Google liga o portal aos perfis)
+  instagram = "https://www.instagram.com/cnbnewstv/"
   baseDomain = "news.cnbmobile.com"
   descricao = "Notícias de cada cidade do Brasil."
   # Botão da TV CNB no cabeçalho (layouts/partials/ao-vivo.html). Vazio = botão escondido.

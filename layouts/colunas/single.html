@@ -24,7 +24,7 @@
   "articleSection": {{ partial "coluna-tema.html" .Params.tema }},
   "inLanguage": "pt-BR",
   "author": [{"@type": "Person", "name": "Rafael Mariano", "url": "https://www.rafaelmariano.com.br"}],
-  "publisher": {"@type": "Organization", "name": "CNB News", "url": "https://news.cnbmobile.com/", "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
+  "publisher": {"@type": "Organization", "name": "CNB News", "url": "https://news.cnbmobile.com/", "sameAs": [{{ site.Params.instagram }}{{ with site.Params.youtube }}, {{ replaceRE "/live$" "" . }}{{ end }}], "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
 }
 </script>
 {{ end }}
