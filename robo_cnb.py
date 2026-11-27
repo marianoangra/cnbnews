@@ -45,7 +45,62 @@ CIDADES = [
     ("guaira", "Guaíra (PR)", "Guaira PR"),
     ("reboucas", "Rebouças (PR)", "Reboucas PR"),
     ("capanema", "Capanema (PR)", "Capanema PR"),
+    # Vale do Paraíba paulista (27/11/2026)
+    ("jacarei", "Jacareí (SP)", "Jacarei SP"),
+    ("cacapava", "Caçapava (SP)", "Cacapava SP"),
+    ("pindamonhangaba", "Pindamonhangaba (SP)", "Pindamonhangaba SP"),
+    ("tremembe", "Tremembé (SP)", "Tremembe SP"),
+    ("guaratingueta", "Guaratinguetá (SP)", "Guaratingueta SP"),
+    ("aparecida", "Aparecida (SP)", "Aparecida SP"),
+    ("potim", "Potim (SP)", "Potim SP"),
+    ("roseira", "Roseira (SP)", "Roseira SP"),
+    ("canas", "Canas (SP)", "Canas SP"),
+    ("piquete", "Piquete (SP)", "Piquete SP"),
+    ("lavrinhas", "Lavrinhas (SP)", "Lavrinhas SP"),
+    ("queluz", "Queluz (SP)", "Queluz SP"),
+    ("silveiras", "Silveiras (SP)", "Silveiras SP"),
+    ("areias", "Areias (SP)", "Areias SP"),
+    ("sao-jose-do-barreiro", "São José do Barreiro (SP)", "Sao Jose do Barreiro SP"),
+    ("arapei", "Arapeí (SP)", "Arapei SP"),
+    ("bananal", "Bananal (SP)", "Bananal SP"),
+    ("campos-do-jordao", "Campos do Jordão (SP)", "Campos do Jordao SP"),
+    ("santo-antonio-do-pinhal", "Santo Antônio do Pinhal (SP)", "Santo Antonio do Pinhal SP"),
+    ("sao-bento-do-sapucai", "São Bento do Sapucaí (SP)", "Sao Bento do Sapucai SP"),
+    ("monteiro-lobato", "Monteiro Lobato (SP)", "Monteiro Lobato SP"),
+    ("santa-branca", "Santa Branca (SP)", "Santa Branca SP"),
+    ("igarata", "Igaratá (SP)", "Igarata SP"),
+    ("paraibuna", "Paraibuna (SP)", "Paraibuna SP"),
+    ("jambeiro", "Jambeiro (SP)", "Jambeiro SP"),
+    ("redencao-da-serra", "Redenção da Serra (SP)", "Redencao da Serra SP"),
+    ("natividade-da-serra", "Natividade da Serra (SP)", "Natividade da Serra SP"),
+    ("sao-luiz-do-paraitinga", "São Luiz do Paraitinga (SP)", "Sao Luiz do Paraitinga SP"),
+    ("lagoinha", "Lagoinha (SP)", "Lagoinha SP"),
+    ("cunha", "Cunha (SP)", "Cunha SP"),
 ]
+
+# Nome que também é sobrenome, palavra comum ou outra cidade (Eduardo Cunha, "areias",
+# Aparecida de Goiânia, Caçapava do Sul, bairro Tremembé em SP, o escritor Monteiro Lobato).
+# Para essas, a manchete precisa trazer o nome como LUGAR ("em Cunha", "de Areias",
+# "Cunha (SP)", "Cunha-SP") — ou a fonte ser da própria cidade.
+# Sem artigo de propósito: nenhum desses municípios usa artigo ("em Cunha", não "no Cunha").
+CIDADES_AMBIGUAS = {
+    "aparecida": r"aparecida (de goiania|do taboado|do rio negro)|nossa senhora aparecida|n\. ?sra\.? aparecida",
+    "areias": "", "bananal": "", "canas": "", "cunha": "", "lagoinha": "", "potim": "",
+    "piquete": "", "queluz": "", "roseira": "", "silveiras": "", "jambeiro": "", "lavrinhas": "",
+    "paraibuna": "",
+    "tremembe": "",  # "do Tremembé"/"no Tremembé" (com artigo) é o bairro de SP
+    "monteiro-lobato": r"(livros?|obras?|contos?|personagens?|autor|escritor|sitio do picapau|legado|centenario) (de|do) monteiro lobato", "cacapava": r"cacapava do sul",
+}
+
+def nome_como_lugar(slug, cidade_pura, manchete):
+    c = re.escape(normalizar(cidade_pura))
+    m = normalizar(manchete)
+    neg = CIDADES_AMBIGUAS.get(slug, "")
+    if neg and re.search(neg, m):
+        return False
+    return bool(re.search(
+        rf"\b(em|de|para|prefeitura de|camara de|cidade de|municipio de)\s+{c}\b"
+        rf"|\b{c}\s*(\(sp\)|[-/,]\s*sp\b)", m))
 
 STOPWORDS = {
     "para", "com", "sobre", "pela", "pelo", "mais", "nova", "novo",
@@ -186,12 +241,14 @@ def fonte_eh_da_cidade(cidade_nome, fonte):
     """Veículo/órgão da própria cidade (ex.: "Prefeitura de Pelotas", "Câmara de Curitiba")."""
     return normalizar(cidade_nome.split("(")[0].strip()) in normalizar(fonte)
 
-def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte=""):
+def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte="", slug=""):
     cidade_pura = cidade_nome.split("(")[0].strip()
     c_norm = normalizar(cidade_pura)
     m_norm = normalizar(manchete)
     # a Prefeitura de Pelotas não escreve "Pelotas" no título das próprias notícias
     if c_norm not in m_norm and not fonte_eh_da_cidade(cidade_nome, fonte):
+        return False
+    if slug in CIDADES_AMBIGUAS and not fonte_eh_da_cidade(cidade_nome, fonte)             and not nome_como_lugar(slug, cidade_pura, manchete):
         return False
     if len(m_norm.split()) < 5:
         return False
@@ -270,7 +327,7 @@ def limpar_texto_ia(txt):
     txt = re.sub(r"(^|\n)\s*\d+\.\s+", r"\1", txt)
     return txt.strip()
 
-def buscar_pautas_oficiais(cidade_nome, query_cidade):
+def buscar_pautas_oficiais(cidade_nome, query_cidade, slug=""):
     hdr = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"}
     cidade_pura = cidade_nome.split("(")[0].strip()
     consultas = [
@@ -294,7 +351,7 @@ def buscar_pautas_oficiais(cidade_nome, query_cidade):
                 if not t_limpo or t_limpo in vistos:
                     continue
                 vistos.add(t_limpo)
-                if pauta_eh_valida_para_cidade(cidade_nome, t_limpo, fonte):
+                if pauta_eh_valida_para_cidade(cidade_nome, t_limpo, fonte, slug):
                     itens.append((t_limpo, link, fonte))
                 else:
                     print(f"[FILTRO] Descartando pauta sem foco local: {t_limpo[:55]}...", flush=True)
@@ -395,7 +452,7 @@ def rodar_ciclo():
                 f_idx.write(f'---\ntitle: "{nome}"\n---\n')
 
         print(f"[CIDADE] Coletando pautas de {nome}...", flush=True)
-        for manchete, link, fonte in buscar_pautas_oficiais(nome, query):
+        for manchete, link, fonte in buscar_pautas_oficiais(nome, query, slug):
             if eh_duplicada(pasta, manchete, link, nome.split("(")[0]):
                 print(f"[DUPLICADA] Ignorando: {manchete[:50]}...", flush=True)
                 continue
