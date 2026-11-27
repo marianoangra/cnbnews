@@ -1,0 +1,11 @@
+---
+title: "Prefeitura de Guaratinguetá participa da Jornada Brasileira de Foguetes com equipes escolares"
+date: 2026-11-27T08:29:52.855787-03:00
+description: "A Prefeitura de Guaratinguetá, por meio da Secretaria Municipal de Educação, esteve na Jornada Brasileira de Foguetes contando com equipes das escolas municipais."
+fonte: "Prefeitura Estância Turística Guaratinguetá – Prefeitura Estância Turística Guaratinguetá"
+fonte_url: "https://news.google.com/rss/articles/CBMilgJBVV95cUxNOURyNGZrcjBENVJjdmlrcnlTRnpPTnpCMm5TX2l0N0NQeW5kQjF3QWt5dEpMWDF6Z3ZIMWpLdmhnaS1IYy1Ca3hpVzUzRlRwbnZ2alNrb3Nma1ZDQlk3U3JEd2EzQU5DY0JuSHZuZkozYVpqa3poQnNSdnNBNDQ1bWQ0TUhuOWxmeC05SHhRSzBxaHE4bVhmNGowZ29VUXFkSlItemhLSTBQbk02N0lrd0pvQ2ZMeXhJZzQ3TlFpMFF2Qm1SQm93YkJLMDlOLUVVdmlpdHZoS1BKT2sxeDk0WFc0TUxXUjY4NzdvVEdpelNoeVRQWG9idmFQaEVHc1NOYnlwd0NOOXB3Ti00Mk5ERjZCaFh2Zw?oc=5"
+---
+
+A Prefeitura de Guaratinguetá, através da Secretaria Municipal de Educação, participou da Jornada Brasileira de Foguetes, envolvendo equipes das escolas municipais no evento.
+
+*A informação é de Prefeitura Estância Turística Guaratinguetá – Prefeitura Estância Turística Guaratinguetá. [Leia a matéria original](https://news.google.com/rss/articles/CBMilgJBVV95cUxNOURyNGZrcjBENVJjdmlrcnlTRnpPTnpCMm5TX2l0N0NQeW5kQjF3QWt5dEpMWDF6Z3ZIMWpLdmhnaS1IYy1Ca3hpVzUzRlRwbnZ2alNrb3Nma1ZDQlk3U3JEd2EzQU5DY0JuSHZuZkozYVpqa3poQnNSdnNBNDQ1bWQ0TUhuOWxmeC05SHhRSzBxaHE4bVhmNGowZ29VUXFkSlItemhLSTBQbk02N0lrd0pvQ2ZMeXhJZzQ3TlFpMFF2Qm1SQm93YkJLMDlOLUVVdmlpdHZoS1BKT2sxeDk0WFc0TUxXUjY4NzdvVEdpelNoeVRQWG9idmFQaEVHc1NOYnlwd0NOOXB3Ti00Mk5ERjZCaFh2Zw?oc=5).*
