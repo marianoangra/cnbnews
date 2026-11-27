@@ -1,0 +1,6 @@
+{{/* Imagem de cartão com selo. Entrada: dict "f" (foto ou false) "u" (link) "selo" "w" "h" "lazy". Sem foto: bloco da marca. */}}
+<a class="fig" href="{{ .u }}" tabindex="-1" aria-hidden="true">
+  {{- with .f }}<img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="{{ $.w | default 600 }}" height="{{ $.h | default 400 }}"{{ if $.lazy }} loading="lazy"{{ end }} decoding="async">
+  {{- else }}<span class="ph tile"><i>CNB</i></span>{{ end -}}
+  {{- with .selo }}<span class="chip">{{ . }}</span>{{ end -}}
+</a>

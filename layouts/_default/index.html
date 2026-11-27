@@ -1,103 +1,147 @@
-{{ define "titulo" }}CNB News · Notícias da sua cidade{{ end }}
+{{ define "titulo" }}CNB News · Notícias do Brasil e da sua cidade{{ end }}
 {{ define "main" }}
-{{/* Capa: cidades + nacionais, mais recentes primeiro (sem as nacionais a capa esvaziava quando as cidades ficavam sem notícia). */}}
+{{/* Capa (27/11/2026). Manchete e cartões = nacionais (mais substância); cidades ganham faixa própria.
+     Com poucas nacionais (robô parado), a capa usa tudo misturado para não esvaziar. Fotos não se repetem na página. */}}
 {{ $todas := (where .Site.RegularPages "Section" "in" (slice "cidades" "noticias")).ByDate.Reverse }}
-{{ with $todas }}
-<div class="capa">
-  <div>
-    <div class="alto">
-      {{ with index . 0 }}
-        {{ $l := partial "link-capa.html" . }}
-        {{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" (partial "editoria.html" $)) }}{{ end }}
-        <article class="manchete">
-          {{ with $f }}<figure><a href="{{ $l.u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="853"></a>{{ partial "foto-cred.html" . }}</figure>{{ end }}
-          <span class="ed">{{ $l.rotulo }}</span>
-          <h1><a href="{{ $l.u }}">{{ .Title }}</a></h1>
-          {{ with .Description }}<p>{{ . }}</p>{{ end }}
-          {{ partial "tempo.html" . }}
+{{ $nac := (where .Site.RegularPages "Section" "noticias").ByDate.Reverse }}
+{{ $cid := (where .Site.RegularPages "Section" "cidades").ByDate.Reverse }}
+{{ $fonte := $nac }}{{ if lt (len $nac) 12 }}{{ $fonte = $todas }}{{ end }}
+{{ $usadas := newScratch }}
+{{ $hoje := now.Format "2006-01-02" }}
+{{ with $fonte }}
+<div class="hm">
+  <div class="hm-main">
+    {{ with index . 0 }}{{ $l := partial "link-capa.html" . }}
+    <article class="lead">
+      <span class="ed">{{ $l.rotulo }}</span>
+      <h1><a href="{{ $l.u }}">{{ .Title }}</a></h1>
+      {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+      <ul class="rel">
+        {{ range first 4 (after 1 $fonte) }}{{ $m := partial "link-capa.html" . }}<li><a href="{{ $m.u }}">{{ .Title }}</a></li>{{ end }}
+      </ul>
+    </article>
+    {{ end }}
+    {{ $resto := after 5 . }}
+    <div class="cards">
+      {{ range $i := seq 0 5 }}{{ $k := mul $i 3 }}{{ if lt $k (len $resto) }}
+        {{ $p := index $resto $k }}{{ $l := partial "link-capa.html" $p }}
+        {{ $f := partial "foto-unica.html" (dict "p" $p "slug" $l.banco "ed" (partial "editoria.html" $p) "n" $i "usadas" $usadas) }}
+        <article class="card">
+          {{ partial "fig.html" (dict "f" $f "u" $l.u "selo" $l.rotulo "lazy" (ge $i 3)) }}
+          <h2><a href="{{ $l.u }}">{{ $p.Title }}</a></h2>
+          {{ partial "tempo.html" $p }}
+          {{ with first 2 (after (add $k 1) $resto) }}<ul class="rel">{{ range . }}{{ $m := partial "link-capa.html" . }}<li><a href="{{ $m.u }}">{{ .Title }}</a></li>{{ end }}</ul>{{ end }}
         </article>
-      {{ end }}
-      <div class="secs">
-        {{ range $i, $p := first 3 (after 1 .) }}
-          {{ $l := partial "link-capa.html" $p }}
-          {{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $p "slug" . "ed" (partial "editoria.html" $p) "n" (add $i 1)) }}{{ end }}
-          <article class="sec{{ if $f }} com-foto{{ end }}">
-            <div><span class="ed">{{ $l.rotulo }}</span><h2><a href="{{ $l.u }}">{{ $p.Title }}</a></h2>{{ partial "tempo.html" $p }}</div>
-            {{ with $f }}<a href="{{ $l.u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="112" height="112" loading="lazy"></a>{{ end }}
-          </article>
-        {{ end }}
-      </div>
+      {{ end }}{{ end }}
     </div>
   </div>
-  <aside class="ult" aria-label="Últimas pelo Brasil">
-    <div class="ult-h"><span>Últimas pelo Brasil</span><span class="time">por horário</span></div>
-    <ol>
-      {{ $hoje := now.Format "2006-01-02" }}
-      {{ range first 12 (after 4 .) }}
-        {{ $l := partial "link-capa.html" . }}
+  <aside class="hm-side" aria-label="TV e últimas notícias">
+    {{ partial "tv-box.html" . }}
+    <section class="flash" aria-label="Últimas">
+      <div class="sec-h"><h2 class="sec-t"><span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 1 3 9h4l-1 6 6.5-8h-4z"/></svg></span>Últimas</h2><a class="ver" href="{{ "busca/" | absURL }}">Buscar →</a></div>
+      <ol>
+        {{ range first 10 $todas }}{{ $l := partial "link-capa.html" . }}
         <li><span class="hora">{{ if eq (.Date.Format "2006-01-02") $hoje }}{{ .Date.Format "15h04" }}{{ else }}{{ .Date.Format "02/01" }}{{ end }}</span>
         <div><h3><a href="{{ $l.u }}">{{ .Title }}</a></h3><span class="ed">{{ $l.rotulo }}</span></div></li>
-      {{ end }}
-    </ol>
+        {{ end }}
+      </ol>
+    </section>
   </aside>
 </div>
 {{ end }}
+
+{{/* Pelas cidades: a mais recente de cada cidade, 8 cidades diferentes */}}
+{{ $vistas := newScratch }}{{ $sel := slice }}
+{{ range $cid }}{{ $s := path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}{{ if and (lt (len $sel) 8) (not ($vistas.Get $s)) }}{{ $vistas.Set $s true }}{{ $sel = $sel | append . }}{{ end }}{{ end }}
+{{ with $sel }}
+<section class="band" aria-label="Pelas cidades">
+  <div class="sec-h"><h2 class="sec-t"><span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1a5 5 0 0 0-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></span>Pelas cidades</h2><a class="ver" href="#cidades">Escolha a sua →</a></div>
+  <div class="mini-cards">
+    {{ range $i, $p := . }}{{ $l := partial "link-capa.html" $p }}
+      {{ $f := partial "foto-unica.html" (dict "p" $p "slug" $l.banco "ed" (partial "editoria.html" $p) "n" $i "usadas" $usadas) }}
+      <article class="mini">
+        {{ partial "fig.html" (dict "f" $f "u" $l.u "selo" $l.rotulo "lazy" true) }}
+        <h3><a href="{{ $l.u }}">{{ $p.Title }}</a></h3>
+        <span class="time"><span class="ed-m ed">{{ $l.rotulo }}</span>{{ $p.Date.Format "02/01 · 15h04" }}</span>
+      </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
 {{ with first 3 (where .Site.RegularPages "Section" "colunas").ByDate.Reverse }}
-<section class="colunas-faixa" id="colunas" aria-label="Colunas">
-  <div class="faixa-h"><h2><a href="{{ "colunas/" | absURL }}">Colunas</a></h2><a class="ver" href="{{ "colunas/" | absURL }}">Ver todas →</a></div>
+<section class="opiniao" id="colunas" aria-label="Opinião">
+  <div class="sec-h"><h2 class="sec-t"><span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v8H6l-4 3z"/></svg></span>Opinião</h2><a class="ver" href="{{ "colunas/" | absURL }}">Todas as colunas →</a></div>
   <div class="col-grid">
   {{ range . }}
     <article class="col-card">
       <span class="ed">{{ partial "coluna-tema.html" .Params.tema }}</span>
       <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
       {{ with .Description }}<p>{{ . }}</p>{{ end }}
-      <span class="time">Por {{ .Params.autor | default "Rafael Mariano" }} · {{ .Date.Format "02/01" }}</span>
+      <span class="por">Por <b>{{ .Params.autor | default "Rafael Mariano" }}</b> · {{ .Date.Format "02/01" }}</span>
     </article>
   {{ end }}
   </div>
 </section>
 {{ end }}
+
 {{ $ufs := dict "SP" "São Paulo" "RJ" "Rio de Janeiro" "PR" "Paraná" "MG" "Minas Gerais" "RS" "Rio Grande do Sul" "ES" "Espírito Santo" "SC" "Santa Catarina" "GO" "Goiás" "BA" "Bahia" "DF" "Distrito Federal" }}
 {{ $ontem := (now.AddDate 0 0 -1).Unix }}
-<section class="escolha" id="cidades" aria-label="Escolha sua cidade">
-  <div class="faixa-h"><h2>Escolha sua cidade</h2>
+<section class="escolha" id="cidades" aria-label="Escolha sua cidade" data-escolha>
+  <div class="sec-h"><h2 class="sec-t"><span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1a5 5 0 0 0-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></span>Escolha sua cidade</h2>
     <input class="busca-cid" type="search" placeholder="Digite o nome da cidade" aria-label="Buscar cidade" data-busca-cid></div>
   {{ with .Site.GetPage "/cidades" }}{{ $cidades := .Sections.ByTitle }}
-  {{ range $uf := slice "SP" "RJ" "PR" "MG" "RS" "ES" "SC" "GO" "BA" "DF" }}
-    {{ $s := newScratch }}
-    {{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}{{ $s.Add "n" 1 }}{{ end }}{{ end }}
-    {{ with $s.Get "n" }}
-    <div class="uf" data-uf>
-      <h3>{{ index $ufs $uf }} <span>{{ . }} {{ if eq . 1 }}cidade{{ else }}cidades{{ end }}</span></h3>
-      <ul>
-      {{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}
-        {{ $nome := replaceRE ` \([A-Z]{2}\)$` "" .Title }}
-        {{ $hoje := false }}{{ with .Pages.ByDate.Reverse }}{{ with index . 0 }}{{ if gt .Date.Unix $ontem }}{{ $hoje = true }}{{ end }}{{ end }}{{ end }}
-        <li><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" data-nome="{{ $nome }}"{{ if $hoje }} class="novo" title="Notícia nas últimas 24 h"{{ end }}>{{ $nome }}</a></li>
-      {{ end }}{{ end }}
-      </ul>
-    </div>
+  {{ $presentes := slice }}
+  {{ range $uf := slice "SP" "RJ" "PR" "MG" "RS" "ES" "SC" "GO" "BA" "DF" }}{{ range $cidades }}{{ if and (strings.HasSuffix .Title (printf "(%s)" $uf)) (not (in $presentes $uf)) }}{{ $presentes = $presentes | append $uf }}{{ end }}{{ end }}{{ end }}
+  <div class="uf-tabs" role="tablist" aria-label="Estados">
+    {{ range $presentes }}{{ $uf := . }}{{ $n := 0 }}{{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}{{ $n = add $n 1 }}{{ end }}{{ end }}
+    <button type="button" role="tab" data-uf-tab="{{ $uf }}" aria-controls="uf-{{ $uf }}">{{ index $ufs $uf }}<span>{{ $n }}</span></button>
     {{ end }}
+  </div>
+  {{ range $presentes }}{{ $uf := . }}
+  <div class="uf-painel" id="uf-{{ $uf }}" data-uf="{{ $uf }}" role="tabpanel">
+    <h3 class="uf-nome">{{ index $ufs $uf }}</h3>
+    <ul class="cid-lista">
+    {{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}
+      {{ $nome := replaceRE ` \([A-Z]{2}\)$` "" .Title }}
+      {{ $novo := false }}{{ with .Pages.ByDate.Reverse }}{{ with index . 0 }}{{ if gt .Date.Unix $ontem }}{{ $novo = true }}{{ end }}{{ end }}{{ end }}
+      <li><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/" data-nome="{{ $nome }}"{{ if $novo }} class="novo" title="Notícia nas últimas 24 h"{{ end }}>{{ $nome }}</a></li>
+    {{ end }}{{ end }}
+    </ul>
+  </div>
   {{ end }}
   {{ end }}
-  <p class="cid-vazia" hidden>Nenhuma cidade com esse nome ainda. <a href="/contato/">Peça a sua</a>.</p>
+  <p class="cid-vazia" hidden>Nenhuma cidade com esse nome ainda. <a href="{{ "contato/" | absURL }}">Peça a sua</a>.</p>
   <p class="legenda"><span class="ponto"></span> notícia nas últimas 24 horas</p>
 </section>
 {{ end }}
 {{ define "scripts" }}
 <script>
 (function(){
-  var campo=document.querySelector("[data-busca-cid]"); if(!campo) return;
-  var tira=function(t){return t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();};
-  campo.addEventListener("input",function(){
-    var q=tira(campo.value.trim()), total=0;
-    document.querySelectorAll("[data-uf]").forEach(function(g){
-      var n=0;
-      g.querySelectorAll("a[data-nome]").forEach(function(a){var ok=!q||tira(a.getAttribute("data-nome")).indexOf(q)>-1;a.parentNode.hidden=!ok;if(ok)n++;});
-      g.hidden=n===0; total+=n;
+  var box = document.querySelector("[data-escolha]"); if (!box) return;
+  var abas = box.querySelectorAll("[data-uf-tab]"), paineis = box.querySelectorAll("[data-uf]"), campo = box.querySelector("[data-busca-cid]");
+  var atual = abas.length ? abas[0].getAttribute("data-uf-tab") : null;
+  var tira = function(t){ return t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); };
+  box.classList.add("tabs");
+  function mostra(){
+    var q = campo ? tira(campo.value.trim()) : "", total = 0;
+    box.classList.toggle("buscando", !!q);
+    paineis.forEach(function(g){
+      var n = 0;
+      g.querySelectorAll("a[data-nome]").forEach(function(a){ var ok = !q || tira(a.getAttribute("data-nome")).indexOf(q) > -1; a.parentNode.hidden = !ok; if (ok) n++; });
+      g.hidden = q ? n === 0 : g.getAttribute("data-uf") !== atual; total += n;
     });
-    document.querySelector(".cid-vazia").hidden=total>0;
-  });
+    abas.forEach(function(b){ b.setAttribute("aria-selected", !q && b.getAttribute("data-uf-tab") === atual ? "true" : "false"); });
+    box.querySelector(".cid-vazia").hidden = total > 0;
+  }
+  abas.forEach(function(b){ b.addEventListener("click", function(){ atual = b.getAttribute("data-uf-tab"); if (campo) campo.value = ""; mostra(); }); });
+  if (campo) campo.addEventListener("input", mostra);
+  function peloHash(){
+    var m = /^#uf-([A-Z]{2})$/.exec(location.hash);
+    if (m && box.querySelector('[data-uf="' + m[1] + '"]')) { atual = m[1]; if (campo) campo.value = ""; mostra(); box.scrollIntoView(); }
+  }
+  mostra(); peloHash();
+  window.addEventListener("hashchange", peloHash);
 })();
 </script>
 {{ end }}

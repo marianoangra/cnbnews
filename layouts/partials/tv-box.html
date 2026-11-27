@@ -1,0 +1,16 @@
+{{/* Caixa da TV CNB News na lateral da capa. Sai como vinheta ("em breve"); o script do baseof troca pelo player
+     do YouTube (mudo) só quando /aovivo.json diz que o canal está TRANSMITINDO. Sem params.youtube, não aparece. */}}
+{{- with site.Params.youtube -}}
+{{- $canal := replaceRE "/live$" "" . -}}
+<section class="tvbox" data-tvbox aria-label="TV CNB News">
+  <div class="tv-h"><b>TV CNB <span>News</span></b><span class="tv-st"><span class="dot" aria-hidden="true"></span><span data-tv-st>24 horas · em breve</span></span></div>
+  <div class="tv-tela" data-tv-tela>
+    <div class="tv-slate">
+      <span class="k">No YouTube</span>
+      <span class="t">As notícias da CNB ao vivo, 24 horas por dia</span>
+      <a class="tv-btn" href="{{ $canal }}?sub_confirmation=1" target="_blank" rel="noopener"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1l9 5-9 5z"/></svg>Inscreva-se no canal</a>
+    </div>
+  </div>
+  <div class="tv-rod"><span>Avisamos aqui quando estiver no ar</span><a href="{{ . }}" target="_blank" rel="noopener">Abrir no YouTube →</a></div>
+</section>
+{{- end -}}

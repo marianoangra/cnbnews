@@ -1,13 +1,18 @@
 {{ define "titulo" }}Notícias do Brasil · CNB News{{ end }}
 {{ define "main" }}
-<h2 class="h-sec">Notícias do Brasil</h2>
-<div class="materia" style="padding-top:0">
-{{ range .Pages.ByDate.Reverse }}
-  <article class="sec" style="padding:16px 0">
-    {{ with .Params.categoria }}<span class="ed">{{ . | humanize }}</span>{{ end }}
-    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-    {{ with .Description }}<p style="margin:4px 0 6px;color:var(--ink-2)">{{ . }}</p>{{ end }}
-    {{ partial "tempo.html" . }}{{ with .Params.fonte }} <span class="time">· {{ . }}</span>{{ end }}
+<div class="pg-h"><h1 class="pg-t">Brasil</h1><p>As notícias nacionais da CNB News, reescritas pela redação com a fonte original citada em cada matéria.</p></div>
+<div class="lista">
+{{ range $i, $p := .Pages.ByDate.Reverse }}
+  {{ $l := partial "link-capa.html" $p }}
+  {{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $p "slug" . "ed" (partial "editoria.html" $p) "n" $i) }}{{ end }}
+  <article{{ if not $f }} class="sem-foto"{{ end }}>
+    <div>
+      <span class="ed">{{ $l.rotulo }}</span>
+      <h2><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h2>
+      {{ with $p.Description }}<p>{{ . }}</p>{{ end }}
+      {{ partial "tempo.html" $p }}{{ with $p.Params.fonte }} <span class="time">· {{ . }}</span>{{ end }}
+    </div>
+    {{ with $f }}{{ partial "fig.html" (dict "f" . "u" $p.RelPermalink "lazy" (ge $i 4)) }}{{ end }}
   </article>
 {{ else }}<p>Ainda sem notícias nacionais.</p>{{ end }}
 </div>

@@ -2,8 +2,8 @@
 {{ define "main" }}
 {{ if .Sections }}
   {{/* /cidades/ : índice de todas as edições locais */}}
-  <h2 class="h-sec" id="cidades">Escolha sua cidade</h2>
-  <div class="cids">
+  <div class="pg-h"><h1 class="pg-t">Cidades</h1><p>Cada cidade tem a sua edição da CNB News, com as notícias locais e a fonte citada.</p></div>
+  <div class="cids" id="cidades">
   {{ range .Sections.ByTitle }}
     <div class="cid"><a href="https://{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}.{{ site.Params.baseDomain }}/">{{ .Title }}</a>
     {{ with .Pages.ByDate.Reverse }}{{ with index . 0 }}<span class="time">última notícia {{ .Date.Format "02/01 · 15h04" }}</span>{{ end }}{{ end }}</div>
@@ -14,70 +14,72 @@
   {{ $base := printf "https://%s.%s/" $slug site.Params.baseDomain }}
   {{ $nome := replaceRE " \\([A-Z]{2}\\)$" "" .Title }}
   {{ $todas := .Pages.ByDate.Reverse }}
+  {{ $usadas := newScratch }}
+  {{ $hoje := now.Format "2006-01-02" }}
   {{ if not $todas }}<p style="padding:40px 0">Ainda sem notícias de {{ $nome }}.</p>{{ else }}
 
   {{/* agrupa por editoria: Scratch.Add com slice acumula a lista */}}
   {{ $g := newScratch }}
   {{ range $todas }}{{ $g.Add (partial "editoria.html" .) (slice .) }}{{ end }}
 
-  <div class="capa">
-    <div>
-      <div class="alto">
-        {{ with index $todas 0 }}
-          {{ $u := printf "%s%s/" $base (path.Base .RelPermalink) }}
-          {{ $ed := partial "editoria.html" . }}
-          {{ $f := partial "foto.html" (dict "p" . "slug" $slug "ed" $ed) }}
-          <article class="manchete">
-            {{ with $f }}<figure><a href="{{ $u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="853"></a>{{ partial "foto-cred.html" . }}</figure>{{ end }}
-            <span class="ed">{{ partial "editoria-nome.html" $ed }}</span>
-            <h1><a href="{{ $u }}">{{ .Title }}</a></h1>
-            {{ with .Description }}<p>{{ . }}</p>{{ end }}
-            {{ partial "tempo.html" . }}{{ with .Params.fonte }} <span class="time">· {{ . }}</span>{{ end }}
+  <div class="hm">
+    <div class="hm-main">
+      {{ with index $todas 0 }}
+        {{ $u := printf "%s%s/" $base (path.Base .RelPermalink) }}
+        {{/* Cidade com poucas notas: a manchete ganha foto para a capa não ficar vazia. */}}
+        {{ $ed := partial "editoria.html" . }}
+        {{ $f := false }}{{ if lt (len $todas) 5 }}{{ $f = partial "foto-unica.html" (dict "p" . "slug" $slug "ed" $ed "usadas" $usadas) }}{{ end }}
+        <article class="lead{{ if $f }} com-foto{{ end }}">
+          {{ with $f }}<figure>{{ partial "fig.html" (dict "f" . "u" $u "w" 1280 "h" 853) }}{{ partial "foto-cred.html" . }}</figure>{{ end }}
+          <div>
+          <span class="ed">{{ partial "editoria-nome.html" $ed }}</span>
+          <h1><a href="{{ $u }}">{{ .Title }}</a></h1>
+          {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
+          {{ partial "tempo.html" . }}
+          {{ with first 3 (after 1 $todas) }}<ul class="rel">{{ range . }}<li><a href="{{ $base }}{{ path.Base .RelPermalink }}/">{{ .Title }}</a></li>{{ end }}</ul>{{ end }}
+          </div>
+        </article>
+      {{ end }}
+      <div class="cards">
+        {{ range $i, $p := first 6 (after 4 $todas) }}
+          {{ $u := printf "%s%s/" $base (path.Base $p.RelPermalink) }}
+          {{ $ed := partial "editoria.html" $p }}
+          {{ $f := partial "foto-unica.html" (dict "p" $p "slug" $slug "ed" $ed "n" $i "usadas" $usadas) }}
+          <article class="card">
+            {{ partial "fig.html" (dict "f" $f "u" $u "selo" (partial "editoria-nome.html" $ed) "lazy" (ge $i 3)) }}
+            <h2><a href="{{ $u }}">{{ $p.Title }}</a></h2>
+            {{ partial "tempo.html" $p }}
           </article>
         {{ end }}
-        <div class="secs">
-          {{ range $i, $p := first 3 (after 1 $todas) }}
-            {{ $u := printf "%s%s/" $base (path.Base $p.RelPermalink) }}
-            {{ $ed := partial "editoria.html" $p }}
-            {{ $f := partial "foto.html" (dict "p" $p "slug" $slug "ed" $ed "n" (add $i 1)) }}
-            <article class="sec{{ if $f }} com-foto{{ end }}">
-              <div>
-                <span class="ed">{{ partial "editoria-nome.html" $ed }}</span>
-                <h2><a href="{{ $u }}">{{ $p.Title }}</a></h2>
-                {{ partial "tempo.html" $p }}
-              </div>
-              {{ with $f }}<a href="{{ $u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="112" height="112" loading="lazy"></a>{{ end }}
-            </article>
-          {{ end }}
-        </div>
       </div>
-
-      <div class="blocos">
+      {{ if gt (len $todas) 10 }}
+      <div class="blocos band">
         {{ range $k := slice "politica" "cidade" "economia" "saude" "educacao" "transito" "empregos" "servico" "clima" "policia" }}
           {{ with $g.Get $k }}
           <section class="bloco" aria-labelledby="ed-{{ $k }}">
             <div class="bloco-t" id="ed-{{ $k }}">{{ partial "editoria-nome.html" $k }}</div>
-            {{ range $i, $p := first 3 . }}
-              {{ $u := printf "%s%s/" $base (path.Base $p.RelPermalink) }}
-              {{ if eq $i 0 }}{{ with partial "foto.html" (dict "p" $p "slug" $slug "ed" $k "n" 5) }}<figure><a href="{{ $u }}"><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="640" height="360" loading="lazy"></a></figure>{{ end }}{{ end }}
-              <article><h3><a href="{{ $u }}">{{ $p.Title }}</a></h3>{{ partial "tempo.html" $p }}</article>
-            {{ end }}
+            {{ range first 4 . }}<article><h3><a href="{{ $base }}{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h3>{{ partial "tempo.html" . }}</article>{{ end }}
           </section>
           {{ end }}
         {{ end }}
-        {{ range $k := slice "policia" "cidade" "politica" "saude" "educacao" "transito" "empregos" "economia" "servico" "clima" }}{{ if not ($g.Get $k) }}<span id="ed-{{ $k }}"></span>{{ end }}{{ end }}
       </div>
+      {{ end }}
+      {{ range $k := slice "policia" "cidade" "politica" "saude" "educacao" "transito" "empregos" "economia" "servico" "clima" }}{{ if or (not ($g.Get $k)) (le (len $todas) 10) }}<span id="ed-{{ $k }}"></span>{{ end }}{{ end }}
     </div>
 
-    <aside class="ult" aria-label="Últimas notícias de {{ $nome }}">
-      <div class="ult-h"><span>Últimas</span><span class="time">por horário</span></div>
-      <ol>
-        {{ $hoje := now.Format "2006-01-02" }}
-        {{ range first 10 $todas }}
-          <li><span class="hora">{{ if eq (.Date.Format "2006-01-02") $hoje }}{{ .Date.Format "15h04" }}{{ else }}{{ .Date.Format "02/01" }}{{ end }}</span>
-          <div><h3><a href="{{ $base }}{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h3><span class="ed">{{ partial "editoria-nome.html" (partial "editoria.html" .) }}</span></div></li>
-        {{ end }}
-      </ol>
+    <aside class="hm-side" aria-label="TV e últimas notícias de {{ $nome }}">
+      {{ partial "tv-box.html" . }}
+      {{ if gt (len $todas) 1 }}
+      <section class="flash" aria-label="Últimas de {{ $nome }}">
+        <div class="sec-h"><h2 class="sec-t"><span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 1 3 9h4l-1 6 6.5-8h-4z"/></svg></span>Últimas</h2></div>
+        <ol>
+          {{ range first 10 $todas }}
+            <li><span class="hora">{{ if eq (.Date.Format "2006-01-02") $hoje }}{{ .Date.Format "15h04" }}{{ else }}{{ .Date.Format "02/01" }}{{ end }}</span>
+            <div><h3><a href="{{ $base }}{{ path.Base .RelPermalink }}/">{{ .Title }}</a></h3><span class="ed">{{ partial "editoria-nome.html" (partial "editoria.html" .) }}</span></div></li>
+          {{ end }}
+        </ol>
+      </section>
+      {{ end }}
       <div class="servico">
         <h4>Telefones úteis</h4>
         <ul>

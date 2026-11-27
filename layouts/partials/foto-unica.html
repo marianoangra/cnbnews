@@ -1,0 +1,13 @@
+{{/* Foto que ainda não apareceu nesta página. Entrada: dict "p" "slug" (banco) "ed" "n" "usadas" (newScratch da página).
+     Tenta até 10 fotos do banco; se todas já saíram (ou é polícia/mundo), devolve false e o cartão usa o bloco da marca. */}}
+{{- $r := false -}}
+{{- if .slug -}}
+  {{- range $t := seq 0 9 -}}
+    {{- if not $r -}}
+      {{- $c := partial "foto.html" (dict "p" $.p "slug" $.slug "ed" $.ed "n" (add ($.n | default 0) $t)) -}}
+      {{- if $c -}}{{- if not ($.usadas.Get $c.arquivo) -}}{{- $r = $c -}}{{- end -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $r -}}{{- $.usadas.Set .arquivo true -}}{{- end -}}
+{{- end -}}
+{{- return $r -}}
