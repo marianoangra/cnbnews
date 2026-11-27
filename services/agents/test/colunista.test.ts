@@ -48,3 +48,11 @@ test('markdown sai com produto do tema, autor e sem link no corpo', async () => 
   assert.equal(r.arquivo, '2026-11-27-como-montar-sua-reserva-de-emergencia.md');
   assert.match(paraMarkdownColuna(PAUTAS[0], r.coluna, '2026-11-27T12:00:00Z', ['x']), /alertas_revisao:\n {2}- "x"/);
 });
+
+test('versículo sempre vira alerta e aspas escapadas são limpas', () => {
+  const a = alertasDaColuna({ manchete: 'm', subtitulo: 's', corpo: 'Como diz Provérbios 11:25, ...' });
+  assert.ok(a.some((m) => m.includes('versículo')));
+  const c = validarColuna({ manchete: 'Reserva de emergência', subtitulo: 'x'.repeat(80), corpo: corpo + ' Ele disse: \\"oi\\".' });
+  assert.equal(c.corpo.includes('\\'), false);
+  assert.match(c.corpo, /"oi"/);
+});

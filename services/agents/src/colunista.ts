@@ -59,7 +59,7 @@ Regras obrigatórias:
 - Texto LONGO: no mínimo 750 palavras, em Markdown, com 4 ou 5 subtítulos "## " e 2 ou 3 parágrafos em cada um, com exemplos do dia a dia.
 - NÃO prometa ganho, renda, enriquecimento ou resultado garantido. NÃO recomende ação, criptomoeda, banco ou investimento específico.
 - NÃO invente números, pesquisas, leis, datas ou citações de pessoas. Se não tiver certeza de um dado, não use.
-- Em temas de fé: tom acolhedor e respeitoso, pode citar versículos bíblicos conhecidos com a referência (livro capítulo:versículo), sem prometer prosperidade material.
+- Versículos bíblicos: SÓ quando o assunto for de fé, e no máximo 1, com a referência. Fora desse caso, não cite a Bíblia. Nunca prometa prosperidade material.
 - NÃO escreva links, URLs nem nomes de produtos ou cursos. NÃO faça propaganda.
 - Último parágrafo: um resumo prático do que fazer a partir de hoje.
 Responda SOMENTE com JSON: {"manchete": "...", "subtitulo": "...", "corpo": "..."}
@@ -68,7 +68,8 @@ Responda SOMENTE com JSON: {"manchete": "...", "subtitulo": "...", "corpo": "...
 - corpo: a coluna completa em Markdown (sem repetir a manchete como título).`;
 
 export function promptColuna(p: Pauta): string {
-  return `Escreva a coluna desta semana sobre: ${p.assunto}`;
+  const fe = p.tema === 'fe' ? 'Assunto de fé.' : 'Assunto que NÃO é de fé: sem versículos.';
+  return `Escreva a coluna desta semana sobre: ${p.assunto}\n${fe}`;
 }
 
 export interface Coluna {
@@ -81,7 +82,7 @@ export function validarColuna(x: unknown): Coluna {
   const o = objeto(x);
   const manchete = texto(o, 'manchete', 15).replace(/\.$/, '');
   const subtitulo = texto(o, 'subtitulo', 60);
-  const corpo = texto(o, 'corpo', 1500);
+  const corpo = texto(o, 'corpo', 1500).replaceAll('\\"', '"'); // o modelo às vezes devolve \" dentro do texto
   const palavras = contarPalavras(corpo);
   if (palavras < 350) throw new ErroLlm(`coluna curta demais (${palavras} palavras)`);
   return { manchete, subtitulo, corpo };
@@ -105,6 +106,8 @@ const ALERTAS: [RegExp, string][] = [
   [/\b(bitcoin|ethereum|criptomoeda|a[cç][oõ]es da|tesouro direto|cdb|fii)\b/i, 'cita investimento específico'],
   [/\b(segundo (uma )?pesquisa|estudo (da|do|de)|de acordo com (o|a) (ibge|banco central|serasa))\b/i, 'cita pesquisa ou dado (conferir a fonte)'],
   [/\b(lei n?º?\s?\d|artigo \d+)/i, 'cita lei ou artigo (conferir)'],
+  // O 4b inventa versículo (escreveu "Provérbios 11:25" com um texto que não existe): sempre conferir.
+  [/\b(G[eê]nesis|[EÊ]xodo|Salmos?|Prov[eé]rbios|Eclesiastes|Isa[ií]as|Jeremias|Mateus|Marcos|Lucas|Jo[aã]o|Atos|Romanos|Cor[ií]ntios|G[aá]latas|Ef[eé]sios|Filipenses|Colossenses|Tim[oó]teo|Hebreus|Tiago|Pedro)\s+\d+:\d+/i, 'cita versículo bíblico (CONFERIR o texto exato na Bíblia)'],
 ];
 
 export function alertasDaColuna(c: Coluna): string[] {
