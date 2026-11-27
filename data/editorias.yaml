@@ -32,3 +32,7 @@
   categoria: mundo
   nome: Mundo
   descricao: O que acontece fora do Brasil e afeta a gente.
+- slug: tecnologia
+  categoria: tecnologia
+  nome: Tecnologia
+  descricao: Internet, celular, inteligência artificial, golpes digitais e ciência feita no Brasil.

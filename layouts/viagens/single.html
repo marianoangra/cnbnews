@@ -1,0 +1,60 @@
+{{ define "titulo" }}{{ .Title }} · Viagens · CNB News{{ end }}
+{{ define "bodyclass" }}tem-wa{{ end }}
+{{ define "meta" }}
+{{ $f := false }}{{ with .Params.cidade }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" "") }}{{ end }}
+{{ $img := "img/cnb-news-1200x675.png" | absURL }}{{ with $f }}{{ $img = .arquivo | absURL }}{{ end }}
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CNB News">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ $img }}">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {"@type": "WebPage", "@id": {{ .Permalink }}},
+  "headline": {{ .Title }},
+  "description": {{ .Description }},
+  "image": [{{ $img }}],
+  "datePublished": {{ .Date.Format "2006-01-02T15:04:05-07:00" }},
+  "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }},
+  "articleSection": "Viagens",
+  "inLanguage": "pt-BR",
+  "isBasedOn": {{ .Params.fonte_url }},
+  "license": "https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR",
+  "author": [{"@type": "Organization", "name": "Redação CNB News", "url": "https://news.cnbmobile.com/"}],
+  "publisher": {"@type": "Organization", "name": "CNB News", "url": "https://news.cnbmobile.com/", "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
+}
+</script>
+{{ end }}
+{{ define "main" }}
+{{ $f := false }}{{ with .Params.cidade }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" "") }}{{ end }}
+<article class="materia">
+  <div class="crumbs"><a href="{{ "viagens/" | absURL }}">Viagens</a>{{ with .Params.cidade_nome }} · {{ . }}{{ end }}</div>
+  <h1>{{ .Title }}</h1>
+  {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
+  <div class="byline">
+    <div>
+      <b>Redação CNB News — Editor-Chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a></b>
+      <time class="time" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">Publicado em {{ .Date.Format "02/01/2006" }}</time>
+    </div>
+    <div class="share">
+      <button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}Enviar no WhatsApp</button>
+      <button class="btn" type="button" data-copy>Copiar link</button>
+    </div>
+  </div>
+  {{ with $f }}<figure><img class="ph" src="{{ .arquivo | absURL }}" alt="{{ .legenda }}" width="1280" height="720">{{ partial "foto-cred.html" . }}</figure>{{ end }}
+  <div class="corpo">{{ .Content }}</div>
+  <div class="fonte">
+    <span><b>Fonte:</b> texto baseado no verbete <a href="{{ .Params.fonte_url }}" rel="noopener" target="_blank">{{ .Params.fonte_titulo | default "da Wikipédia" }}</a> da Wikipédia, adaptado pela redação. Licença <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.pt_BR" rel="license noopener" target="_blank">CC BY-SA 4.0</a>: este guia pode ser reproduzido com o mesmo crédito e a mesma licença.</span>
+    <span><i>Guia escrito com apoio de inteligência artificial e revisado pela redação antes de ir ao ar. Horários, preços e acessos mudam: confirme antes de viajar. Achou um erro? <a href="{{ "contato/" | absURL }}">Fale com a redação</a>.</i></span>
+  </div>
+  {{ with .Params.cidade }}<p class="fonte"><span>Notícias da cidade: <a href="https://{{ . }}.{{ site.Params.baseDomain }}/">{{ $.Params.cidade_nome | default . }} na CNB News</a></span></p>{{ end }}
+  {{ $outros := first 4 (where (where site.RegularPages "Section" "viagens") "Permalink" "ne" .Permalink) }}
+  {{ with $outros }}<div class="leia"><h2 class="bloco-t">Outros guias</h2>{{ range . }}<a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}</div>{{ end }}
+  <div class="wa-bar"><span>Mande para alguém</span><button class="btn wa" type="button" data-wa>{{ partial "icone-wa.html" }}WhatsApp</button></div>
+</article>
+{{ end }}

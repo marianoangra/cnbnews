@@ -17,7 +17,7 @@
   {{- $banco = "brasil" -}}
   {{- with site.Data.fotos -}}{{- with index . (printf "brasil-%s" $ed) -}}{{- $banco = printf "brasil-%s" $ed -}}{{- end -}}{{- end -}}
   {{/* Sem banco próprio, esporte/cultura/mundo ficam com o bloco da marca: foto de Brasília em jogo de futebol engana. */}}
-  {{- if in (slice "mundo" "esportes" "entretenimento") $cat -}}
+  {{- if in (slice "mundo" "esportes" "entretenimento" "tecnologia") $cat -}}
     {{- $banco = "" -}}
     {{- with site.Data.fotos -}}{{- with index . (printf "brasil-%s" $cat) -}}{{- $banco = printf "brasil-%s" $cat -}}{{- end -}}{{- end -}}
   {{- end -}}

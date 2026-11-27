@@ -2,13 +2,14 @@
 // Três filas, todas FORA do git (o repositório é público e a fila tem pauta sensível):
 //   nacional → services/agents/fila-aprovacao/*.md          → content/noticias/
 //   colunas  → services/agents/fila-aprovacao/colunas/*.md  → content/colunas/
+//   viagens  → services/agents/fila-aprovacao/viagens/*.md  → content/viagens/  (guias das cidades, Wikipédia → IA)
 //   cidades  → fila-aprovacao/cidades/<slug>/*.md           → content/cidades/<slug>/
 // Recusar NÃO apaga o arquivo: os robôs olham a fila para não regerar a mesma pauta.
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { dataBrt } from '../publicador.ts';
 
-export type TipoFila = 'nacional' | 'cidades' | 'colunas';
+export type TipoFila = 'nacional' | 'cidades' | 'colunas' | 'viagens';
 
 export interface ItemFila {
   id: string; // "nacional/arq.md" | "colunas/arq.md" | "cidades/<slug>/arq.md"
@@ -31,7 +32,7 @@ const SEG = /^[a-z0-9][a-z0-9._-]*$/i;
 
 export function filaDir(r: Raizes, tipo: TipoFila): string {
   if (tipo === 'nacional') return join(r.repo, 'services', 'agents', 'fila-aprovacao');
-  if (tipo === 'colunas') return join(r.repo, 'services', 'agents', 'fila-aprovacao', 'colunas');
+  if (tipo === 'colunas' || tipo === 'viagens') return join(r.repo, 'services', 'agents', 'fila-aprovacao', tipo);
   return join(r.repo, 'fila-aprovacao', 'cidades');
 }
 
@@ -42,10 +43,10 @@ export function resolverId(r: Raizes, id: string): { tipo: TipoFila; origem: str
   const partes = id.split('/');
   const tipo = partes[0] as TipoFila;
   const ok = (s: string | undefined): s is string => !!s && SEG.test(s) && !s.includes('..');
-  if (tipo === 'nacional' || tipo === 'colunas') {
+  if (tipo === 'nacional' || tipo === 'colunas' || tipo === 'viagens') {
     const arquivo = partes[1];
     if (partes.length !== 2 || !ok(arquivo) || !arquivo.endsWith('.md')) throw new Error('id inválido');
-    const destDir = tipo === 'nacional' ? join(r.repo, 'content', 'noticias') : join(r.repo, 'content', 'colunas');
+    const destDir = join(r.repo, 'content', tipo === 'nacional' ? 'noticias' : tipo);
     return { tipo, arquivo, origem: join(filaDir(r, tipo), arquivo), destino: join(destDir, arquivo) };
   }
   if (tipo === 'cidades') {
@@ -139,7 +140,9 @@ export function listarFila(r: Raizes): ItemFila[] {
   const fora = recusadas(r);
   const itens: ItemFila[] = [];
   for (const f of mds(filaDir(r, 'nacional'))) itens.push(itemDe(r, `nacional/${f}`, 'nacional', join(filaDir(r, 'nacional'), f)));
-  for (const f of mds(filaDir(r, 'colunas'))) itens.push(itemDe(r, `colunas/${f}`, 'colunas', join(filaDir(r, 'colunas'), f)));
+  for (const t of ['colunas', 'viagens'] as const) {
+    for (const f of mds(filaDir(r, t))) itens.push(itemDe(r, `${t}/${f}`, t, join(filaDir(r, t), f)));
+  }
   const cid = filaDir(r, 'cidades');
   if (existsSync(cid)) {
     for (const slug of readdirSync(cid).filter((s) => SEG.test(s))) {
@@ -197,7 +200,7 @@ export function prepararParaPublicar(md: string, agoraIso: string): string {
 export function urlPublica(tipo: TipoFila, arquivo: string, slug?: string): string {
   const nome = arquivo.replace(/\.md$/, '');
   if (tipo === 'cidades') return `https://${slug}.news.cnbmobile.com/${nome}/`;
-  return `https://news.cnbmobile.com/${tipo === 'nacional' ? 'noticias' : 'colunas'}/${nome}/`;
+  return `https://news.cnbmobile.com/${tipo === 'nacional' ? 'noticias' : tipo}/${nome}/`;
 }
 
 export function lerItem(r: Raizes, id: string): { item: ItemFila; markdown: string } {

@@ -1,0 +1,14 @@
+{{ define "titulo" }}Guia de Compras · CNB News{{ end }}
+{{ define "main" }}
+<div class="pg-h"><h1 class="pg-t">{{ .Title }}</h1>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div>
+<div class="lista">
+{{ range .Pages.ByDate.Reverse }}
+  <article class="sem-foto"><div>
+    <span class="ed">Guia de Compras</span>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+    <span class="time">Atualizado em {{ .Lastmod.Format "02/01/2006" }}</span>
+  </div></article>
+{{ else }}<p>Os primeiros guias chegam em breve.</p>{{ end }}
+</div>
+{{ end }}

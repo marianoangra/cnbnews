@@ -422,6 +422,8 @@
       <li><a href="{{ $base }}"{{ if .IsHome }} class="on"{{ end }}>Capa</a></li>
       <li><a href="{{ $base }}noticias/"{{ if eq .Section "noticias" }} class="on"{{ end }}>Brasil</a></li>
       {{ range partial "editorias-ativas.html" . }}<li><a href="{{ $base }}{{ .slug }}/"{{ if and (eq $.Params.layout "editoria") (eq $.Params.categoria .categoria) }} class="on"{{ end }}>{{ .nome }}</a></li>{{ end }}
+      {{ if ge (len (where site.RegularPages "Section" "viagens")) 3 }}<li><a href="{{ $base }}viagens/"{{ if eq .Section "viagens" }} class="on"{{ end }}>Viagens</a></li>{{ end }}
+      {{ if ge (len (where site.RegularPages "Section" "compras")) 3 }}<li><a href="{{ $base }}compras/"{{ if eq .Section "compras" }} class="on"{{ end }}>Guia de Compras</a></li>{{ end }}
       <li><a href="{{ $base }}colunas/"{{ if eq .Section "colunas" }} class="on"{{ end }}>Opinião</a></li>
       {{ range slice (slice "SP" "São Paulo") (slice "RJ" "Rio de Janeiro") (slice "PR" "Paraná") (slice "MG" "Minas Gerais") (slice "RS" "Rio Grande do Sul") (slice "ES" "Espírito Santo") }}<li><a href="{{ $base }}#uf-{{ index . 0 }}">{{ index . 1 }}</a></li>{{ end }}
       <li><a href="{{ $base }}cidades/"{{ if and (eq .Section "cidades") (not .IsPage) }} class="on"{{ end }}>Cidades A–Z</a></li>

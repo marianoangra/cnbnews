@@ -18,7 +18,7 @@ ESTRUTURA:
 
 CAMPOS DA RESPOSTA:
 - categoria: uma destas palavras: politica, economia, agro, tecnologia, cristao, esportes, saude, natureza, entretenimento, brasil, mundo.
-  (esportes = competições e atletas; saude = saúde pública, doenças, SUS; natureza = meio ambiente, clima, bichos; entretenimento = cultura, música, cinema, TV; brasil = o resto do noticiário nacional.)
+  (esportes = competições e atletas; saude = saúde pública, doenças, SUS; natureza = meio ambiente, clima, bichos; entretenimento = cultura, música, cinema, TV; tecnologia = internet, celular, inteligência artificial, golpes digitais, ciência e inovação; brasil = o resto do noticiário nacional.)
 - urgencia: normal, urgente ou plantao.
 - corpo_artigo_markdown: a SUA matéria completa, escrita por você, em Markdown (use ## para subtítulos quando ajudar).
 - fontes_creditadas: lista com o nome da fonte primária.

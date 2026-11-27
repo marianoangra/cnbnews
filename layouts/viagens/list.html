@@ -1,0 +1,18 @@
+{{ define "titulo" }}Viagens · CNB News{{ end }}
+{{ define "main" }}
+{{/* Guias atemporais das cidades (robô services/agents/src/guia-viagem.ts → fila → aprovação no /admin). */}}
+{{ $usadas := newScratch }}
+<div class="pg-h"><h1 class="pg-t">{{ .Title }}</h1>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div>
+{{ with .Pages.ByTitle }}
+<div class="cards">
+  {{ range $i, $p := . }}
+    {{ $f := partial "foto-unica.html" (dict "p" $p "slug" $p.Params.cidade "ed" "" "n" 0 "usadas" $usadas) }}
+    <article class="card">
+      {{ partial "fig.html" (dict "f" $f "u" $p.RelPermalink "selo" ($p.Params.cidade_nome | default "Viagens") "lazy" (ge $i 3)) }}
+      <h2><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h2>
+      {{ with $p.Description }}<p class="time">{{ . }}</p>{{ end }}
+    </article>
+  {{ end }}
+</div>
+{{ else }}<p class="cid-vazia" style="padding:20px 0 40px">Os primeiros guias chegam em breve.</p>{{ end }}
+{{ end }}

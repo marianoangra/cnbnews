@@ -121,4 +121,11 @@ test('categoria: feed de editoria manda; feed geral deixa o modelo decidir', asy
   assert.equal(categoriaValida('agro', 'brasil', 'Mulheres ocupam metade dos filmes concorrentes no Animage 2025'), 'brasil');
   assert.equal(categoriaValida('agro', 'brasil', 'Ministério propõe inclusão de peixe no cardápio; pesca e aquicultura'), 'agro');
   assert.equal(categoriaValida('entretenimento', 'brasil', 'Mulheres ocupam metade dos filmes concorrentes no Animage 2025'), 'entretenimento');
+  // tecnologia (leva 2): só com palavra do assunto; "IA" só em maiúsculas; golpe de Estado não é tecnologia
+  assert.equal(categoriaValida('tecnologia', 'brasil', 'Com tema Ciência Delas, Semana de Ciência e Tecnologia vai até sábado'), 'tecnologia');
+  assert.equal(categoriaValida('tecnologia', 'brasil', 'Governo lança plano nacional de IA para o SUS'), 'tecnologia');
+  assert.equal(categoriaValida('tecnologia', 'brasil', 'Ministério da Justiça bloqueia 4 mil celulares em presídios'), 'tecnologia');
+  assert.equal(categoriaValida('tecnologia', 'brasil', 'Ele ia para casa quando foi abordado'), 'brasil');
+  assert.equal(categoriaValida('tecnologia', 'brasil', 'STF julga réus da trama golpista e do golpe de Estado'), 'brasil');
+  assert.equal(categoriaValida('tecnologia', 'politica', 'Projeto de regulação das big techs será votado'), 'politica');
 });

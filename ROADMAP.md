@@ -25,10 +25,10 @@ Regra: editoria só entra no menu quando tiver fonte licenciada e volume diário
 | Política | Agência Brasil `rss/politica/feed.xml` + Agência Senado/Câmara (checar licença) | pronta |
 | Natureza | Agência Brasil `rss/meio-ambiente/feed.xml` | pronta |
 | Entretenimento | Agência Brasil `rss/cultura/feed.xml` | pronta (cultura; celebridade fica de fora) |
-| Tecnologia | sem feed próprio na Agência Brasil; avaliar fontes com licença | pesquisar |
-| Influencers | conteúdo próprio: entrevistas do @rafaelmariano (editoria `entrevistas` do §3) | pauta humana |
-| Viagens | conteúdo próprio/evergreen; risco de fato inventado → revisão humana sempre | desenhar |
-| Guia de Compras | afiliados (link `rel="sponsored"`, nota de transparência, regra 90/10 do §4) | desenhar |
+| Tecnologia | Agência Brasil não tem feed de tecnologia (404); o robô classifica do feed geral com confirmação por palavra (IA só em maiúscula, golpe só digital). ~7% das manchetes | NO AR (leva 2) |
+| Influencers | conteúdo próprio: entrevistas do @rafaelmariano (editoria `entrevistas` do §3) | adiado pelo Rafael (27/11) |
+| Viagens | guias das 72 cidades: `services/agents/src/guia-viagem.ts` lê o verbete da Wikipédia (CC BY-SA, crédito no layout) → fila `fila-aprovacao/viagens/` → aprovação no /admin → `content/viagens/`. Menu só com 3+ guias | robô pronto, timer na rig |
+| Guia de Compras | afiliado Mercado Livre: `content/compras/*.md` com `produtos` (nome, link, motivo) no front matter; layout põe aviso de afiliado e `rel="sponsored nofollow noopener"`. Menu só com 3+ guias | estrutura pronta, falta conteúdo |
 
 Ordem sugerida: (1) `data/editorias.yaml` como fonte única do menu, do rótulo e da cor (só `ativa: true` aparece);
 (2) feeds novos no robô nacional com `categoria` por feed (o robô já é o gargalo: medir antes, talvez 2ª rig);

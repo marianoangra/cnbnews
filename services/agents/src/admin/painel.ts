@@ -123,10 +123,12 @@ export function producao(r: Raizes, agoraIso: string, dias = 7) {
     nacional: conta(ls(join(r.repo, 'content', 'noticias'))),
     cidades: conta(deCidades),
     colunas: conta(ls(join(r.repo, 'content', 'colunas'))),
+    viagens: conta(ls(join(r.repo, 'content', 'viagens'))),
     totais: {
       nacional: ls(join(r.repo, 'content', 'noticias')).length,
       cidades: deCidades.length,
       colunas: ls(join(r.repo, 'content', 'colunas')).length,
+      viagens: ls(join(r.repo, 'content', 'viagens')).length,
       cidadesNoAr: slugs.length,
     },
   };
@@ -279,6 +281,7 @@ export async function painel(r: Raizes, env: NodeJS.ProcessEnv, agoraIso = new D
       nacional: fila.filter((i) => i.tipo === 'nacional').length,
       cidades: fila.filter((i) => i.tipo === 'cidades').length,
       colunas: fila.filter((i) => i.tipo === 'colunas').length,
+      viagens: fila.filter((i) => i.tipo === 'viagens').length,
     },
     ultimoCiclo: ultimoFimDeCiclo(r),
     producao: prod,

@@ -205,7 +205,7 @@ h2.sec small{font-family:var(--f-ui);font-size:.72rem;font-weight:600;color:var(
     if (m < 1440) return "há " + Math.round(m / 60) + " h";
     return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
   }
-  var NOME_TIPO = { nacional: "Brasil", cidades: "Cidade", colunas: "Coluna" };
+  var NOME_TIPO = { nacional: "Brasil", cidades: "Cidade", colunas: "Coluna", viagens: "Viagem" };
 
   // ---------- login ----------
   function telaLogin(msg) {
@@ -266,7 +266,7 @@ h2.sec small{font-family:var(--f-ui);font-size:.72rem;font-weight:600;color:var(
   var TRAVA_LEGAL = /menor|ECA|condenatório|acusação|igual à fonte|cópia/i;
   function porNota(n) {
     var vistos = {}, fora = 0, repet = 0;
-    var tipoOk = function (i) { return i.tipo !== "colunas" && (estado.filtro === "todas" || estado.filtro === "revisor" || i.tipo === estado.filtro); };
+    var tipoOk = function (i) { return i.tipo !== "colunas" && i.tipo !== "viagens" && (estado.filtro === "todas" || estado.filtro === "revisor" || i.tipo === estado.filtro); };
     var ok = estado.fila.filter(function (i) {
       if (!tipoOk(i) || i.score !== n) return false;
       if (i.motivos.some(function (m) { return TRAVA_LEGAL.test(m); })) { fora++; return false; }
@@ -340,7 +340,7 @@ h2.sec small{font-family:var(--f-ui);font-size:.72rem;font-weight:600;color:var(
     var so = estado.filtro === "revisor" ? soRevisor().map(function (i) { return i.id; }) : null;
     var f = estado.fila.filter(function (i) { return so ? so.indexOf(i.id) > -1 : (estado.filtro === "todas" || i.tipo === estado.filtro); });
     var cont = function (t) { return estado.fila.filter(function (i) { return t === "todas" || i.tipo === t; }).length; };
-    var filtros = ["todas", "nacional", "cidades", "colunas"].map(function (t) {
+    var filtros = ["todas", "nacional", "cidades", "colunas", "viagens"].map(function (t) {
       return '<button type="button" data-filtro="' + t + '" aria-pressed="' + (estado.filtro === t) + '">' + (t === "todas" ? "Todas" : NOME_TIPO[t]) + " · " + cont(t) + "</button>";
     }).join("");
     var lista = f.length ? f.map(function (i) {

@@ -1,0 +1,42 @@
+{{ define "titulo" }}{{ .Title }} · Guia de Compras · CNB News{{ end }}
+{{ define "bodyclass" }}tem-wa{{ end }}
+{{ define "meta" }}
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CNB News">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="{{ "img/cnb-news-1200x675.png" | absURL }}">
+{{ end }}
+{{ define "main" }}
+{{/* Guia de Compras (afiliado Mercado Livre). Regras (CLAUDE.md §4 e §5B):
+     - aviso de afiliado ANTES do primeiro link;
+     - todo link de produto com rel="sponsored nofollow noopener";
+     - produtos vêm do front matter `produtos` (nome, link, motivo; opcional `destaque`). O texto não leva link de compra.
+     - nada de "testamos" ou nota inventada: a redação não testou os produtos, só seleciona e explica como escolher. */}}
+<article class="materia">
+  <div class="crumbs"><a href="{{ "compras/" | absURL }}">Guia de Compras</a></div>
+  <h1>{{ .Title }}</h1>
+  {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
+  <p class="fonte"><span><b>Aviso:</b> este guia tem links de afiliado do Mercado Livre. Se você comprar por eles, a CNB News recebe uma comissão, sem custo extra para você. A seleção é da redação; nenhuma marca pagou para aparecer.</span></p>
+  <div class="byline"><div>
+    <b>Redação CNB News — Editor-Chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a></b>
+    <time class="time" datetime="{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }}">Atualizado em {{ .Lastmod.Format "02/01/2006" }}</time>
+  </div></div>
+  <div class="corpo">{{ .Content }}</div>
+  {{ with .Params.produtos }}
+  <h2 class="bloco-t">Seleção da redação</h2>
+  <div class="lista">
+    {{ range . }}
+    <article class="sem-foto"><div>
+      {{ with .destaque }}<span class="ed">{{ . }}</span>{{ end }}
+      <h2>{{ .nome }}</h2>
+      {{ with .motivo }}<p>{{ . }}</p>{{ end }}
+      <a class="btn" href="{{ .link }}" rel="sponsored nofollow noopener" target="_blank">Ver preço no Mercado Livre</a>
+    </div></article>
+    {{ end }}
+  </div>
+  <p class="fonte"><span><i>Preço e estoque mudam a toda hora e são definidos pelo vendedor no Mercado Livre. Confira as condições, o vendedor e a garantia antes de comprar.</i></span></p>
+  {{ end }}
+</article>
+{{ end }}

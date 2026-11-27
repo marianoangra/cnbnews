@@ -59,13 +59,15 @@ export function maxEntradaPara(numCtx: number): number {
 // quase tudo em "brasil" e Política tinha 1 matéria em 53.
 // Do feed geral, o modelo errava (festival de cinema em "agro"). Só aceita a editoria se o título ou o
 // começo do texto tiver palavras do assunto; senão fica "brasil".
-const CONFIRMA: Partial<Record<Categoria, RegExp>> = {
+const CONFIRMA: Partial<Record<Categoria, { test(s: string): boolean }>> = {
   agro: /\b(agro\w*|safra|soja|milho|caf[eé]|boi|gado|pecu[aá]ri\w*|rural|produtor\w* rura\w*|lavoura|colheita|pesca|pesqueir\w*|aquicultura|embrapa|conab|fertiliz\w*|agr[ií]col\w*)\b/i,
   esportes: /\b(futebol|jogo|partida|campeonato|copa|sele[cç][aã]o|atleta|olimp\w*|paral[ií]mp\w*|medalha|t[eé]cnico|gol|v[oô]lei|basquete|t[eê]nis|corrida|brasileir[aã]o|libertadores|clube)\b/i,
   saude: /\b(sa[uú]de|sus|hospita\w*|vacina\w*|doen[cç]a\w*|m[eé]dic\w*|anvisa|dengue|covid|epidemi\w*|tratamento|paciente\w*|ubs|minist[eé]rio da sa[uú]de)\b/i,
   natureza: /\b(ambient\w*|clima\w*|floresta|desmatamento|amaz[oô]nia|cerrado|pantanal|rio|chuva|seca|queimada\w*|inc[eê]ndio florestal|esp[eé]cie|fauna|flora|cop\d*|ibama|icmbio|carbono)\b/i,
   entretenimento: /\b(m[uú]sic\w*|cinema|filme\w*|festival|show|novela|s[eé]rie|teatro|livro\w*|artista\w*|cultura\w*|exposi[cç][aã]o|carnaval|cantor\w*|[aá]lbum)\b/i,
   politica: /\b(lula|congresso|c[aâ]mara|senado|deputad\w*|senador\w*|stf|ministro\w*|governo|presidente|elei[cç]\w*|partido|pol[ií]tic\w*|planalto|tse)\b/i,
+  // "IA" só em maiúsculas ("ele ia" não é tecnologia); "golpe" sozinho é golpe de Estado, então só golpe digital.
+  tecnologia: { test: (s: string) => /\bIA\b/.test(s) || /\b(tecnolog\w*|digita(l|is)|intelig[eê]ncia artificial|internet|celular\w*|smartphone\w*|5g|anatel|aplicativo\w*|ciber\w*|hacker\w*|golpes? (digita\w*|virtua\w*|pelo (celular|whatsapp)|do pix)|vazamento de dados|dados pessoais|lgpd|big techs?|redes sociais|plataformas? digita\w*|algoritmo\w*|computa\w*|semicondutor\w*|chips?|startups?|sat[eé]lite\w*|software|rob[oô]\w*|inova[cç][aã]o|ci[eê]ncia e tecnologia|mcti)\b/i.test(s) },
   economia: /\b(econom\w*|infla[cç][aã]o|juros|selic|pib|d[oó]lar|bolsa|ibovespa|emprego|desemprego|renda|imposto\w*|receita federal|banco central|mercado)\b/i,
 };
 
