@@ -96,7 +96,12 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
 .setor{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
 .setor-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
 .setor-h b{font-family:var(--f-head);font-size:1.15rem}
-.setor-h span{font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
+.setor-h span{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);white-space:nowrap}
+.setores{align-items:start}
+h2.sec small{font-family:var(--f-ui);font-size:.72rem;font-weight:600;color:var(--muted);margin-left:6px;letter-spacing:.02em}
+.atualizado{font-family:var(--f-mono);font-size:.66rem;color:var(--muted);margin-right:10px;white-space:nowrap}
+.aud-nota{grid-column:1/-1;font-size:.74rem;color:var(--muted);margin:-4px 0 0}
+@media (max-width:640px){.atualizado{display:none}}
 .func{display:grid;grid-template-columns:12px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid var(--rule)}
 .func:first-of-type{border-top:0}
 .dot{width:10px;height:10px;border-radius:3px;margin-top:5px;background:var(--off)}
@@ -108,7 +113,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
 .legenda span{display:inline-flex;align-items:center;gap:6px}
 .legenda .dot{margin:0}
 /* números */
-.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;align-items:start}
 .caixa{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
 .caixa h3{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
 .barras{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:150px}
@@ -176,6 +181,15 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
     }, function () { throw new Error("A rig não respondeu. Ela está ligada e com internet?"); });
   }
 
+  // Motivos que os robôs gravam ("revisor LLM deu score 5") em linguagem de redação.
+  function motivoClaro(m) {
+    return String(m)
+      .replace(/^triagem deu score (\d)$/i, "triagem: nota $1")
+      .replace(/^revisor LLM deu score (\d)$/i, "revisor: nota $1")
+      .replace(/^revisor LLM pediu aprovação humana$/i, "revisor pediu sua leitura")
+      .replace(/^alerta do revisor: /i, "revisor: ")
+      .replace(/menor de idade em contexto de crime\/vítima \(ECA\)/i, "menor de idade envolvido (ECA)");
+  }
   function quando(iso) {
     if (!iso) return "—";
     var d = new Date(iso); if (isNaN(d)) return iso;
@@ -208,7 +222,8 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
     api("/api/audiencia").then(function (a) { estado.audiencia = a; if (estado.painel) render(); }, function () {});
     var urg = api("/api/urgentes").then(function (x) { return x.itens || []; }, function () { return []; });
     return Promise.all([api("/api/painel"), api("/api/fila"), urg]).then(function (r) {
-      estado.painel = r[0]; estado.fila = r[1].itens || []; estado.urgentes = r[2]; render();
+      estado.painel = r[0]; estado.fila = r[1].itens || []; estado.urgentes = r[2];
+      estado.atualizadoEm = new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }); render();
     }, function (e) {
       if (e.message === "401") return;
       if (!estado.painel) app.innerHTML = '<div class="wrap"><div class="vazio" style="margin-top:12vh">' + esc(e.message) + '<br><br><button class="btn" id="tentar" type="button">Tentar de novo</button></div></div>';
@@ -223,7 +238,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
       '<header class="top"><div class="wrap"><div class="marca"><span class="badge">CNB</span><b>Redação</b><small>empresa de uma pessoa só</small></div>' +
       '<nav class="abas" role="tablist">' +
       aba("aprovar", "Aprovar" + (r.naFila ? '<span class="qtd">' + r.naFila + "</span>" : "")) + aba("equipe", "Equipe") + aba("numeros", "Números") +
-      '</nav><button class="sair" id="sair" type="button">Sair</button></div></header>' +
+      '</nav><span class="atualizado" title="O painel se atualiza sozinho a cada minuto">' + (estado.atualizadoEm ? "atualizado " + estado.atualizadoEm : "") + '</span><button class="sair" id="sair" type="button">Sair</button></div></header>' +
       '<main class="wrap"><div class="kpis">' +
       kpi("no site agora", (estado.audiencia && estado.audiencia.agora != null) ? estado.audiencia.agora : "–") + kpi("agentes ON", contaOn().on + " de " + contaOn().total) + kpi("publicadas hoje", r.publicadasHoje) + kpi("na sua fila", r.naFila, true) + kpi("setores", r.setores) +
       '</div><div id="conteudo"></div></main>';
@@ -296,7 +311,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
         (i.cidade ? "<span>" + esc(i.cidade) + "</span>" : "") + (i.score != null ? '<span class="score s' + i.score + '">nota ' + i.score + "</span>" : "") +
         "<span>" + quando(i.data) + "</span>" + (i.fonte ? "<span>· " + esc(i.fonte) + "</span>" : "") + "</div>" +
         "<h3>" + esc(i.titulo) + "</h3>" + (i.descricao ? "<p>" + esc(i.descricao) + "</p>" : "") +
-        (i.motivos.length ? '<div class="tags">' + i.motivos.slice(0, 4).map(function (m) { return "<span>" + esc(m.length > 90 ? m.slice(0, 88) + "…" : m) + "</span>"; }).join("") + "</div>" : "") +
+        (i.motivos.length ? '<div class="tags">' + i.motivos.slice(0, 4).map(function (m) { m = motivoClaro(m); return "<span>" + esc(m.length > 90 ? m.slice(0, 88) + "…" : m) + "</span>"; }).join("") + "</div>" : "") +
         "</button>";
     }).join("") : '<div class="vazio">Nada esperando você aqui. Os robôs seguem publicando sozinhos o que passa nas travas.</div>';
     return '<h2 class="sec">Você só aprova</h2><p class="sub">O que os robôs não publicaram sozinhos: nota de sensibilidade alta, pedido do revisor, texto parecido demais com a fonte ou coluna. Abra, leia, edite se quiser e decida.</p>' +
@@ -328,7 +343,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
     var c = contaOn(), offs = [];
     p.setores.forEach(function (s) { s.funcionarios.forEach(function (f) { if (!vaga(f) && !ligado(f)) offs.push(f.nome); }); });
     var resumo = '<div class="onoff"><span class="selo on">ON</span><b>' + c.on + '</b> trabalhando ou de plantão' +
-      '<span class="selo off">OFF</span><b>' + c.off + "</b> " + (c.off ? "parados: " + esc(offs.join(", ")) : "nenhum parado") +
+      '<span class="selo off">OFF</span><b>' + c.off + "</b> " + (c.off ? (c.off === 1 ? "parado: " : "parados: ") + esc(offs.join(", ")) : "nenhum parado") +
       (p.resumo.vagas ? '<span class="selo vg">VAGA</span><b>' + p.resumo.vagas + "</b> a contratar" : "") +
       '<button class="btn" type="button" id="so-off">' + (estado.soOff ? "Mostrar todos" : "Ver só os OFF") + "</button></div>";
     return resumo + '<div class="org"><div class="chefe"><span>EDITOR-CHEFE</span><b>Rafael Mariano</b><span>' + p.resumo.agentes + " agentes" + (p.resumo.vagas ? " + " + p.resumo.vagas + " vagas" : "") + " · " + p.resumo.setores + ' setores · 1 pessoa</span><br>' +
@@ -345,12 +360,15 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
     if (!a.configurado) return cab + '<div class="aud vazio">Falta ligar o Google Analytics à rig (credencial de leitura). Peça ao Claude: "configurar analytics no painel".</div>';
     if (a.erro) return cab + '<div class="aud vazio">O Analytics não respondeu: ' + esc(a.erro) + "</div>";
     var n = function (v) { return Number(v || 0).toLocaleString("pt-BR"); };
-    var pags = (a.paginasAgora || []).map(function (x) { return "<li><span>" + esc(x.pagina) + "</span><b>" + n(x.usuarios) + "</b></li>"; }).join("");
+    var pg = function (v) { return n(v) + (Number(v) === 1 ? " página" : " páginas"); };
+    var nomePag = function (t) { return /^CNB News · /.test(t) ? "Capa" : t; };
+    var pags = (a.paginasAgora || []).map(function (x) { return "<li><span>" + esc(nomePag(x.pagina)) + "</span><b>" + n(x.usuarios) + "</b></li>"; }).join("");
     return cab + '<div class="aud"><div class="aud-agora"><b>' + n(a.agora) + '</b><span>no site agora<br><small>últimos 30 min</small></span></div>' +
-      '<div class="aud-num"><div><b>' + n(a.hoje.usuarios) + "</b><span>usuários hoje · " + n(a.hoje.visualizacoes) + " páginas</span></div>" +
-      "<div><b>" + n(a.ontem.usuarios) + "</b><span>ontem · " + n(a.ontem.visualizacoes) + " páginas</span></div>" +
-      "<div><b>" + n(a.semana.usuarios) + "</b><span>últimos 7 dias · " + n(a.semana.visualizacoes) + " páginas</span></div></div>" +
-      (pags ? '<div class="aud-pags"><small>O que estão lendo agora</small><ol>' + pags + "</ol></div>" : "") + "</div>";
+      '<div class="aud-num"><div><b>' + n(a.hoje.usuarios) + "</b><span>usuários hoje · " + pg(a.hoje.visualizacoes) + "</span></div>" +
+      "<div><b>" + n(a.ontem.usuarios) + "</b><span>ontem · " + pg(a.ontem.visualizacoes) + "</span></div>" +
+      "<div><b>" + n(a.semana.usuarios) + "</b><span>últimos 7 dias · " + pg(a.semana.visualizacoes) + "</span></div></div>" +
+      (pags ? '<div class="aud-pags"><small>O que estão lendo agora</small><ol>' + pags + "</ol></div>" : "") +
+      (a.agora > 0 && !a.hoje.usuarios ? '<p class="aud-nota">O "agora" é em tempo real; os totais do dia o Google fecha com algumas horas de atraso.</p>' : "") + "</div>";
   }
   function htmlNumeros() {
     var p = estado.painel, pr = p.producao, s = p.saude;
@@ -475,7 +493,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
   }
 
   carregar();
-  setInterval(function () { if (!estado.atual && document.visibilityState === "visible" && estado.painel) carregar(); }, 120000);
+  setInterval(function () { if (!estado.atual && document.visibilityState === "visible" && estado.painel && !estado.confirmandoLote && !estado.confirmandoAlerta) carregar(); }, 60000);
 })();
 </script>
 </body>
