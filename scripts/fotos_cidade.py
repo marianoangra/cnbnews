@@ -22,10 +22,11 @@ import re
 import sys
 import time
 import urllib.parse
+import urllib.error
 import urllib.request
 
 API = "https://commons.wikimedia.org/w/api.php"
-UA = "cnbnews-fotos/1.0 (portal de noticias locais)"
+UA = "CNBNewsFotos/1.1 (https://news.cnbmobile.com/contato/) python-urllib"
 LICENCAS_OK = re.compile(r"^(CC BY(-SA)? [0-9.]+.*|CC0|Public domain|Domínio público)", re.I)
 TITULO_RUIM = re.compile(
     r"\.(pdf|svg|tif|tiff|gif|webm|ogv)$|mapa|map|locator|bandeira|flag|brasão|brasao|coat of arms|"
@@ -35,12 +36,22 @@ TITULO_RUIM = re.compile(
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def abrir(url, timeout=30, tentativas=6):
+    """GET com espera em caso de 429/5xx (a Wikimedia limita pedidos seguidos)."""
+    for n in range(tentativas):
+        try:
+            return urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=timeout).read()
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 502, 503, 504) or n == tentativas - 1:
+                raise
+            espera = int(e.headers.get("Retry-After") or 0) or 10 * (n + 1)
+            print(f"  [{e.code}] esperando {espera}s...", file=sys.stderr)
+            time.sleep(espera)
+
+
 def api(params):
     params = dict(params, format="json")
-    url = API + "?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+    return json.loads(abrir(API + "?" + urllib.parse.urlencode(params)))
 
 
 def limpar_html(s):
@@ -70,12 +81,47 @@ def buscar(consulta, limite=30):
     return list(d.get("query", {}).get("pages", {}).values())
 
 
+def por_categoria(categoria, profundidade=2, limite=500):
+    """Arquivos da categoria da cidade no Commons e das subcategorias. Para nomes que
+    existem em vários lugares (Lorena, Resende, Rebouças...) a busca por texto traz
+    foto de outra cidade; a categoria só tem o que foi classificado como do município."""
+    cats, vistas, paginas = [categoria], set(), []
+    for _ in range(profundidade + 1):
+        proximas = []
+        for c in cats:
+            if c in vistas or len(paginas) >= limite:
+                continue
+            vistas.add(c)
+            cont = {}
+            while True:
+                d = api(dict({
+                    "action": "query", "generator": "categorymembers", "gcmtitle": c,
+                    "gcmtype": "file|subcat", "gcmlimit": 100,
+                    "prop": "imageinfo", "iiprop": "url|size|mime|extmetadata", "iiurlwidth": 1280,
+                    "iiextmetadatafilter": "Artist|LicenseShortName|ImageDescription",
+                }, **cont))
+                for pg in d.get("query", {}).get("pages", {}).values():
+                    if pg.get("ns") == 14:
+                        proximas.append(pg["title"])
+                    elif pg.get("imageinfo"):
+                        paginas.append(pg)
+                if "continue" not in d or len(paginas) >= limite:
+                    break
+                cont = d["continue"]
+                time.sleep(1)
+        cats = [c for c in proximas if not re.search(r"(?i)births|deaths|people|maps|flags|coats of arms|logos", c)]
+    import random
+    random.Random(7).shuffle(paginas)  # a ordem alfabética juntava fotos da mesma série
+    return paginas
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("slug")
     ap.add_argument("nome")
     ap.add_argument("uf")
     ap.add_argument("--max", type=int, default=12)
+    ap.add_argument("--categoria", help='ex.: "Category:Lorena (São Paulo)" — usa a categoria em vez da busca por texto')
     a = ap.parse_args()
 
     n = f'"{a.nome}"'
@@ -83,13 +129,14 @@ def main():
                  f"{n} prefeitura", f"{n} avenida", f"{n} vista", f"{n} praia", f"{n} teatro",
                  f"{n} universidade", f"{n} chuva enchente", f"{n} {a.uf}"]
     vistos, fotos, por_serie = set(), [], {}
-    for q in consultas:
-        for p in buscar(q):
+    lotes = [por_categoria(a.categoria)] if a.categoria else (buscar(q) for q in consultas)
+    for lote in lotes:
+        for p in lote:
             if len(fotos) >= a.max:
                 break
             t = p.get("title", "")
-            if t in vistos or TITULO_RUIM.search(t) or a.nome.lower() not in t.lower() + limpar_html(
-                    p.get("imageinfo", [{}])[0].get("extmetadata", {}).get("ImageDescription", {}).get("value", "")).lower():
+            if t in vistos or TITULO_RUIM.search(t) or (not a.categoria and a.nome.lower() not in t.lower() + limpar_html(
+                    p.get("imageinfo", [{}])[0].get("extmetadata", {}).get("ImageDescription", {}).get("value", "")).lower()):
                 continue
             vistos.add(t)
             ii = p["imageinfo"][0]
@@ -114,7 +161,7 @@ def main():
                 "autor": autor[:60],
                 "licenca": "domínio público" if lic.lower().startswith(("public", "domínio")) else lic,
             })
-        time.sleep(0.5)
+        time.sleep(1.5)
 
     if not fotos:
         sys.exit(f"Nenhuma foto livre encontrada para {a.nome}.")
@@ -125,9 +172,9 @@ def main():
     saida = []
     for i, f in enumerate(fotos, 1):
         nome = f"{a.slug}-{i:02d}.jpg"
-        req = urllib.request.Request(f["thumb"], headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=60) as r, open(os.path.join(pasta, nome), "wb") as out:
-            out.write(r.read())
+        dados = abrir(f["thumb"], timeout=60)
+        with open(os.path.join(pasta, nome), "wb") as out:
+            out.write(dados)
         saida.append({
             "arquivo": f"/fotos/{a.slug}/{nome}",
             "legenda": f["legenda"],
@@ -137,7 +184,7 @@ def main():
             "tema": f["tema"],
         })
         print(f"  {nome}  {f['legenda'][:60]}  ·  {f['autor'][:30]} / {f['licenca']}")
-        time.sleep(0.5)
+        time.sleep(1.5)
 
     with open(os.path.join(RAIZ, "data", "fotos", f"{a.slug}.json"), "w", encoding="utf-8") as out:
         json.dump(saida, out, ensure_ascii=False, indent=2)
