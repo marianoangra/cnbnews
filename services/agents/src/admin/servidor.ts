@@ -13,6 +13,7 @@ import dotenv from 'dotenv';
 import { CANAL_LIVE_PADRAO, criarVigiaAoVivo } from './aovivo.ts';
 import { lerItem, listarFila, moverParaSite, recusar, type Raizes } from './fila.ts';
 import { dispararAlerta, listarUrgentes, registrarDecisao } from './urgentes.ts';
+import { audiencia } from './audiencia.ts';
 import { painel } from './painel.ts';
 
 const run = promisify(execFile);
@@ -198,6 +199,7 @@ export function criarServidor(token: string) {
         console.log(`[admin] lote: ${r.ok.length} aprovada(s), ${r.erros.length} erro(s)`);
         return json(res, 200, { ok: true, publicadas: r.ok.map(({ destino: _d, ...x }) => x), erros: r.erros });
       }
+      if (req.method === 'GET' && rota === '/api/audiencia') return json(res, 200, await audiencia(process.env));
       if (req.method === 'GET' && rota === '/api/urgentes') return json(res, 200, { itens: listarUrgentes(raizes, new Date().toISOString()) });
       if (req.method === 'POST' && rota === '/api/alerta') {
         const b = await corpoJson(req);

@@ -173,3 +173,32 @@ test('urgentes: só urgente/plantão das últimas 24 h; decisão some do aviso; 
   const subindo = (async () => new Response('{"erro":"ainda_nao_publicada"}', { status: 409 })) as unknown as typeof fetch;
   await assert.rejects(dispararAlerta('u', { ALERTA_SECRET: 's' }, subindo), /1 minuto/);
 });
+
+test('audiência: sem config avisa; com credencial assina JWT e lê o GA4', async () => {
+  const { audiencia, jwtAssinado } = await import('../src/admin/audiencia.ts');
+  const { generateKeyPairSync, createVerify } = await import('node:crypto');
+  assert.deepEqual(await audiencia({}), { configurado: false });
+  const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
+  const cred = { client_email: 'leitor@x.iam.gserviceaccount.com', private_key: privateKey.export({ type: 'pkcs8', format: 'pem' }).toString() };
+  const jwt = jwtAssinado(cred, 1000);
+  const [c, p, s] = jwt.split('.');
+  assert.ok(createVerify('RSA-SHA256').update(`${c}.${p}`).verify(publicKey, Buffer.from(s, 'base64url')));
+  assert.equal(JSON.parse(Buffer.from(p, 'base64url').toString()).scope, 'https://www.googleapis.com/auth/analytics.readonly');
+  const dir = mkdtempSync(join(tmpdir(), 'ga4-'));
+  writeFileSync(join(dir, 'c.json'), JSON.stringify(cred));
+  const falso = (async (url: string, o: RequestInit) => {
+    if (url.includes('oauth2')) return new Response(JSON.stringify({ access_token: 't', expires_in: 3600 }));
+    const b = JSON.parse(String(o.body));
+    if (url.includes('Realtime') && b.dimensions) return new Response(JSON.stringify({ rows: [{ dimensionValues: [{ value: 'Chuva no Sul · CNB News' }], metricValues: [{ value: '4' }] }] }));
+    if (url.includes('Realtime')) return new Response(JSON.stringify({ rows: [{ metricValues: [{ value: '7' }] }] }));
+    return new Response(JSON.stringify({ rows: [
+      { dimensionValues: [{ value: 'hoje' }], metricValues: [{ value: '120' }, { value: '300' }] },
+      { dimensionValues: [{ value: 'ontem' }], metricValues: [{ value: '90' }, { value: '210' }] },
+      { dimensionValues: [{ value: 'semana' }], metricValues: [{ value: '800' }, { value: '2000' }] },
+    ] }));
+  }) as unknown as typeof fetch;
+  const a = await audiencia({ GA4_PROPERTY_ID: '123', GA4_CREDENCIAIS: join(dir, 'c.json') }, falso, 5e12);
+  assert.equal(a.agora, 7);
+  assert.deepEqual(a.hoje, { usuarios: 120, visualizacoes: 300 });
+  assert.equal(a.paginasAgora![0].pagina, 'Chuva no Sul');
+});

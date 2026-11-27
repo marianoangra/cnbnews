@@ -51,6 +51,17 @@ h2.sec{font-family:var(--f-head);font-size:1.5rem;margin:0 0 4px}
 .item p{margin:0 0 6px;color:var(--ink-2);font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tags{display:flex;flex-wrap:wrap;gap:5px}
 .tags span{font-size:.72rem;background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--ink-2);border-radius:4px;padding:1px 6px}
+.selo{display:inline-block;font-size:.62rem;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:4px;vertical-align:1px}
+.selo.on{background:#dcfce7;color:#166534}.selo.off{background:#fee2e2;color:#991b1b}.selo.vg{background:var(--rule);color:var(--muted)}
+@media (prefers-color-scheme:dark){.selo.on{background:#14532d;color:#bbf7d0}.selo.off{background:#7f1d1d;color:#fecaca}}
+.onoff{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:.88rem}
+.onoff .selo{margin-left:6px}.onoff .btn{margin-left:auto}
+.aud{display:grid;grid-template-columns:auto 1fr 1fr;gap:16px;align-items:start;background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px;margin-bottom:18px}
+.aud.vazio{display:block;color:var(--muted)}
+.aud-agora{display:flex;gap:10px;align-items:center}.aud-agora b{font-size:2.6rem;line-height:1;color:var(--red)}.aud-agora span{font-size:.85rem}
+.aud-num{display:grid;gap:8px}.aud-num b{font-size:1.25rem;margin-right:6px}.aud-num span{font-size:.82rem;color:var(--muted)}
+.aud-pags small{color:var(--muted)}.aud-pags ol{margin:6px 0 0;padding-left:18px;font-size:.84rem}.aud-pags li{display:flex;justify-content:space-between;gap:10px}
+@media (max-width:760px){.aud{grid-template-columns:1fr}}
 .lote.urg{border-left-color:var(--red)}.lote.urg a{color:inherit;font-weight:700;text-decoration:underline}
 .lote{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--ok);border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .lote p{margin:0;font-size:.92rem;flex:1;min-width:240px}
@@ -194,6 +205,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
   function carregar() {
     if (!lerToken()) return telaLogin();
     if (!estado.painel) app.innerHTML = '<p class="carregando">Falando com a rig…</p>';
+    api("/api/audiencia").then(function (a) { estado.audiencia = a; if (estado.painel) render(); }, function () {});
     var urg = api("/api/urgentes").then(function (x) { return x.itens || []; }, function () { return []; });
     return Promise.all([api("/api/painel"), api("/api/fila"), urg]).then(function (r) {
       estado.painel = r[0]; estado.fila = r[1].itens || []; estado.urgentes = r[2]; render();
@@ -213,7 +225,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
       aba("aprovar", "Aprovar" + (r.naFila ? '<span class="qtd">' + r.naFila + "</span>" : "")) + aba("equipe", "Equipe") + aba("numeros", "Números") +
       '</nav><button class="sair" id="sair" type="button">Sair</button></div></header>' +
       '<main class="wrap"><div class="kpis">' +
-      kpi("pessoas", r.pessoas) + kpi("agentes de IA", r.agentes) + kpi("publicadas hoje", r.publicadasHoje) + kpi("na sua fila", r.naFila, true) + kpi("setores", r.setores) +
+      kpi("no site agora", (estado.audiencia && estado.audiencia.agora != null) ? estado.audiencia.agora : "–") + kpi("agentes ON", contaOn().on + " de " + contaOn().total) + kpi("publicadas hoje", r.publicadasHoje) + kpi("na sua fila", r.naFila, true) + kpi("setores", r.setores) +
       '</div><div id="conteudo"></div></main>';
     document.querySelectorAll("nav.abas button").forEach(function (b) { b.onclick = function () { estado.aba = b.dataset.aba; render(); }; });
     document.getElementById("sair").onclick = function () { salvarToken(""); estado.painel = null; telaLogin(); };
@@ -291,6 +303,15 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
       htmlUrgentes() + '<div class="filtros">' + filtros + (so ? '<button type="button" data-filtro="revisor" aria-pressed="true">Só o revisor pediu · ' + so.length + "</button>" : "") + "</div>" + htmlLote() + '<div class="lista">' + lista + "</div>";
   }
 
+  // ON = trabalhando, de plantão ou na reserva; OFF = parado ou em teste; vaga = ainda não existe.
+  function ligado(f) { return f.estado === "trabalhando" || f.estado === "de_plantao" || f.estado === "reserva"; }
+  function ehVaga(f) { return f.estado === "em_montagem" || f.estado === "aguardando_rig"; }
+  function contaOn() {
+    var on = 0, off = 0;
+    (estado.painel.setores || []).forEach(function (s) { s.funcionarios.forEach(function (f) { if (ehVaga(f)) return; if (ligado(f)) on++; else off++; }); });
+    return { on: on, off: off, total: on + off };
+  }
+  function selo(f) { return ehVaga(f) ? '<span class="selo vg">VAGA</span>' : ligado(f) ? '<span class="selo on">ON</span>' : '<span class="selo off">OFF</span>'; }
   function htmlEquipe() {
     var p = estado.painel;
     var vaga = function (f) { return f.estado === "em_montagem" || f.estado === "aguardando_rig"; };
@@ -300,16 +321,37 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
       if (vagas) cont += (cont ? " · " : "") + vagas + (vagas === 1 ? " vaga" : " vagas");
       return '<div class="setor"><div class="setor-h"><b>' + esc(s.nome) + "</b><span>" + cont + "</span></div>" +
         s.funcionarios.map(function (f) {
-          return '<div class="func' + (vaga(f) ? " vaga" : "") + '"><span class="dot ' + f.estado + '" title="' + rotuloEstado(f.estado) + '"></span><div><b>' + esc(f.nome) + "</b> <i>" + esc(f.motor) + "</i><small>" + esc(f.faz) + (f.detalhe ? " · " + esc(f.detalhe) : "") + "</small></div></div>";
+          if (estado.soOff && (ligado(f) || vaga(f))) return "";
+          return '<div class="func' + (vaga(f) ? " vaga" : "") + '"><span class="dot ' + f.estado + '" title="' + rotuloEstado(f.estado) + '"></span><div><b>' + esc(f.nome) + "</b> " + selo(f) + " <i>" + esc(f.motor) + "</i><small>" + rotuloEstado(f.estado) + " · " + esc(f.faz) + (f.detalhe ? " · " + esc(f.detalhe) : "") + "</small></div></div>";
         }).join("") + "</div>";
     }).join("");
-    return '<div class="org"><div class="chefe"><span>EDITOR-CHEFE</span><b>Rafael Mariano</b><span>' + p.resumo.agentes + " agentes" + (p.resumo.vagas ? " + " + p.resumo.vagas + " vagas" : "") + " · " + p.resumo.setores + ' setores · 1 pessoa</span><br>' +
+    var c = contaOn(), offs = [];
+    p.setores.forEach(function (s) { s.funcionarios.forEach(function (f) { if (!vaga(f) && !ligado(f)) offs.push(f.nome); }); });
+    var resumo = '<div class="onoff"><span class="selo on">ON</span><b>' + c.on + '</b> trabalhando ou de plantão' +
+      '<span class="selo off">OFF</span><b>' + c.off + "</b> " + (c.off ? "parados: " + esc(offs.join(", ")) : "nenhum parado") +
+      (p.resumo.vagas ? '<span class="selo vg">VAGA</span><b>' + p.resumo.vagas + "</b> a contratar" : "") +
+      '<button class="btn" type="button" id="so-off">' + (estado.soOff ? "Mostrar todos" : "Ver só os OFF") + "</button></div>";
+    return resumo + '<div class="org"><div class="chefe"><span>EDITOR-CHEFE</span><b>Rafael Mariano</b><span>' + p.resumo.agentes + " agentes" + (p.resumo.vagas ? " + " + p.resumo.vagas + " vagas" : "") + " · " + p.resumo.setores + ' setores · 1 pessoa</span><br>' +
       '<button class="pedido" type="button" data-ir="aprovar">' + (p.resumo.naFila ? p.resumo.naFila + " esperando sua aprovação" : "nada esperando você") + "</button></div>" +
       '<div class="liga"></div><div class="setores">' + setores + "</div></div>" +
       '<div class="legenda">' + ["trabalhando", "de_plantao", "reserva", "em_teste", "parado", "em_montagem", "aguardando_rig"].map(function (e) { return '<span><i class="dot ' + e + '"></i>' + rotuloEstado(e) + "</span>"; }).join("") + "</div>";
   }
   function rotuloEstado(e) { return { trabalhando: "trabalhando", de_plantao: "de plantão", reserva: "na reserva (GPU de backup)", em_teste: "em teste", parado: "parado", em_montagem: "em montagem (próxima)", aguardando_rig: "aguardando rig nova" }[e] || e; }
 
+  function htmlAudiencia() {
+    var a = estado.audiencia;
+    var cab = '<h2 class="sec">Audiência <small>Google Analytics</small></h2>';
+    if (!a) return cab + '<div class="aud vazio">Carregando a audiência…</div>';
+    if (!a.configurado) return cab + '<div class="aud vazio">Falta ligar o Google Analytics à rig (credencial de leitura). Peça ao Claude: "configurar analytics no painel".</div>';
+    if (a.erro) return cab + '<div class="aud vazio">O Analytics não respondeu: ' + esc(a.erro) + "</div>";
+    var n = function (v) { return Number(v || 0).toLocaleString("pt-BR"); };
+    var pags = (a.paginasAgora || []).map(function (x) { return "<li><span>" + esc(x.pagina) + "</span><b>" + n(x.usuarios) + "</b></li>"; }).join("");
+    return cab + '<div class="aud"><div class="aud-agora"><b>' + n(a.agora) + '</b><span>no site agora<br><small>últimos 30 min</small></span></div>' +
+      '<div class="aud-num"><div><b>' + n(a.hoje.usuarios) + "</b><span>usuários hoje · " + n(a.hoje.visualizacoes) + " páginas</span></div>" +
+      "<div><b>" + n(a.ontem.usuarios) + "</b><span>ontem · " + n(a.ontem.visualizacoes) + " páginas</span></div>" +
+      "<div><b>" + n(a.semana.usuarios) + "</b><span>últimos 7 dias · " + n(a.semana.visualizacoes) + " páginas</span></div></div>" +
+      (pags ? '<div class="aud-pags"><small>O que estão lendo agora</small><ol>' + pags + "</ol></div>" : "") + "</div>";
+  }
   function htmlNumeros() {
     var p = estado.painel, pr = p.producao, s = p.saude;
     var max = 1;
@@ -322,7 +364,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
     var st = function (v) { return v === "active" ? '<span class="st-ok">no ar</span>' : '<span class="st-mal">' + esc(v) + "</span>"; };
     var g = s.gpu ? '<div><span>RTX 3060 · memória</span><span>' + (s.gpu.usadaMiB / 1024).toFixed(1) + " de " + (s.gpu.totalMiB / 1024).toFixed(0) + " GB · " + s.gpu.temp + "°C</span></div>" +
       '<div class="medidor"><i style="width:' + Math.round(s.gpu.usadaMiB / s.gpu.totalMiB * 100) + '%"></i></div>' : "";
-    return '<div class="grade">' +
+    return htmlAudiencia() + '<div class="grade">' +
       '<div class="caixa"><h3>Publicadas por dia</h3><div class="barras">' + barras + '</div><div class="dias">' + dias + '</div>' +
       '<div class="legenda" style="justify-content:flex-start"><span><i class="dot" style="background:var(--red)"></i>Brasil</span><span><i class="dot" style="background:var(--blue)"></i>Cidades</span><span><i class="dot" style="background:var(--warn)"></i>Colunas</span></div></div>' +
       '<div class="caixa"><h3>No ar</h3><div class="linhas">' +
@@ -422,6 +464,7 @@ textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8
     document.querySelectorAll("[data-alerta-nao]").forEach(function (b) { b.onclick = function () { estado.confirmandoAlerta = null; render(); }; });
     document.querySelectorAll("[data-alerta-sim]").forEach(function (b) { b.onclick = function () { decidirAlerta(b.dataset.alertaSim, "enviar", b); }; });
     document.querySelectorAll("[data-alerta-ignorar]").forEach(function (b) { b.onclick = function () { decidirAlerta(b.dataset.alertaIgnorar, "ignorar", b); }; });
+    if ((x = document.getElementById("so-off"))) x.onclick = function () { estado.soOff = !estado.soOff; render(); };
     if ((x = document.getElementById("lote-aprovar"))) x.onclick = function () { estado.confirmandoLote = true; render(); };
     if ((x = document.getElementById("lote-nao"))) x.onclick = function () { estado.confirmandoLote = false; render(); };
     if ((x = document.getElementById("lote-sim"))) x.onclick = aprovarLote;
