@@ -208,7 +208,7 @@ export function escolherPauta(usadas: Set<string>, tema?: Tema): Pauta | undefin
 
 export const MODELO_COLUNISTA = 'qwen2.5:7b-instruct';
 
-async function descarregar(endpoint: string, modelo: string): Promise<void> {
+export async function descarregar(endpoint: string, modelo: string): Promise<void> {
   try {
     await fetch(`${endpoint}/api/generate`, {
       method: 'POST',

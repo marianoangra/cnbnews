@@ -11,7 +11,7 @@ import { join, resolve } from 'node:path';
 import dotenv from 'dotenv';
 import { configDoAmbiente, criarLlm, ErroLlm, objeto, texto, type Llm } from './ollama.ts';
 import { dataBrt } from './publicador.ts';
-import { semLinks, semTituloRepetido, contarPalavras } from './colunista.ts';
+import { semLinks, semTituloRepetido, contarPalavras, descarregar, MODELO_COLUNISTA } from './colunista.ts';
 
 export const ESTADOS: Record<string, string> = {
   SP: 'São Paulo', RJ: 'Rio de Janeiro', PR: 'Paraná', MG: 'Minas Gerais', RS: 'Rio Grande do Sul',
@@ -236,29 +236,37 @@ async function main(): Promise<void> {
     return;
   }
   const heavy = configDoAmbiente(process.env, 'heavy');
-  const llm = criarLlm({ ...heavy, timeoutMs: Math.max(heavy.timeoutMs, 600_000) });
-  // Verbete fraco (sem seção de turismo/história) não rende guia: tenta a próxima cidade, até 5.
-  for (const c of candidatas.slice(0, 5)) {
-    const v = await buscarVerbete(c);
-    if (!v || v.texto.length < 1500) {
-      console.log(`guia: ${c.nome} (${c.uf}) sem verbete útil na Wikipédia (${v?.texto.length ?? 0} caracteres), pulando`);
-      continue;
-    }
-    console.log(`guia: ${c.nome} (${c.uf}) · verbete "${v.titulo}" · ${v.texto.length} caracteres (${heavy.modelo})`);
-    const t0 = Date.now();
-    const r = await escreverGuia(llm, c, v);
-    console.log(`guia: "${r.guia.manchete}" · ${contarPalavras(r.guia.corpo)} palavras · ${Math.round((Date.now() - t0) / 1000)}s`);
-    if (r.alertas.length) console.log(`guia: alertas → ${r.alertas.join('; ')}`);
-    if (simular) {
-      console.log('\n' + r.markdown);
+  // qwen2.5:7b (o do colunista): o qwen3:4b entregava 250-300 palavras mesmo pedindo 450+ (testado em 27/11).
+  // Cópia do verbete, o defeito do 7b, vira alerta (trechosCopiados) e o editor reescreve.
+  const cfg = { ...heavy, modelo: process.env.OLLAMA_GUIA_MODEL || MODELO_COLUNISTA, timeoutMs: Math.max(heavy.timeoutMs, 600_000) };
+  const llm = criarLlm(cfg);
+  try {
+    // Verbete fraco (sem seção de turismo/história) não rende guia: tenta a próxima cidade, até 5.
+    for (const c of candidatas.slice(0, 5)) {
+      const v = await buscarVerbete(c);
+      if (!v || v.texto.length < 1500) {
+        console.log(`guia: ${c.nome} (${c.uf}) sem verbete útil na Wikipédia (${v?.texto.length ?? 0} caracteres), pulando`);
+        continue;
+      }
+      console.log(`guia: ${c.nome} (${c.uf}) · verbete "${v.titulo}" · ${v.texto.length} caracteres (${cfg.modelo})`);
+      const t0 = Date.now();
+      const r = await escreverGuia(llm, c, v);
+      console.log(`guia: "${r.guia.manchete}" · ${contarPalavras(r.guia.corpo)} palavras · ${Math.round((Date.now() - t0) / 1000)}s`);
+      if (r.alertas.length) console.log(`guia: alertas → ${r.alertas.join('; ')}`);
+      if (simular) {
+        console.log('\n' + r.markdown);
+        return;
+      }
+      mkdirSync(fila, { recursive: true });
+      writeFileSync(join(fila, r.arquivo), r.markdown, 'utf8');
+      console.log(`guia: na fila de aprovação → ${join(fila, r.arquivo)}`);
       return;
     }
-    mkdirSync(fila, { recursive: true });
-    writeFileSync(join(fila, r.arquivo), r.markdown, 'utf8');
-    console.log(`guia: na fila de aprovação → ${join(fila, r.arquivo)}`);
-    return;
+    console.log('guia: nenhuma das 5 próximas cidades tinha verbete útil');
+  } finally {
+    // criarLlm fixa keep_alive -1: tira o 7b da VRAM para devolver a 3060 ao robô de notícias.
+    if (cfg.modelo !== heavy.modelo) await descarregar(cfg.endpoint, cfg.modelo);
   }
-  console.log('guia: nenhuma das 5 próximas cidades tinha verbete útil');
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === resolve(import.meta.filename)) {
