@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Redação CNB</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500..700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#15171c;--ink-2:#3b3f48;--muted:#6a7180;--rule:#e3e5ea;--red:#c8102e;--red-ink:#a50d25;--ok:#1d8f50;--warn:#c27c0e;--off:#9aa1ad;--blue:#2f6fde;
+  --f-head:"Newsreader",Georgia,serif;--f-ui:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"JetBrains Mono",ui-monospace,monospace;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#101216;--card:#181b21;--ink:#eef0f3;--ink-2:#c9cdd4;--muted:#9aa1ad;--rule:#2a2e36;--red:#ef3b55;--red-ink:#ff6b7f;--ok:#3ccf7a;--warn:#e9a93a;--off:#6b7280;--blue:#6ea0ff;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.5}
+button,input,textarea{font:inherit;color:inherit}
+a{color:var(--red-ink)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.top{background:var(--card);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:10}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:10px}
+.badge{background:var(--red);color:#fff;font-weight:800;font-size:.85rem;padding:3px 7px 2px;border-radius:3px;letter-spacing:.04em}
+.marca b{font-family:var(--f-head);font-size:1.3rem}
+.marca small{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+nav.abas{display:flex;gap:4px}
+nav.abas button{border:0;background:none;padding:8px 12px;border-radius:8px;font-weight:700;font-size:.9rem;color:var(--ink-2);cursor:pointer}
+nav.abas button[aria-selected=true]{background:var(--ink);color:var(--card)}
+.qtd{display:inline-block;min-width:20px;padding:0 6px;margin-left:4px;border-radius:999px;background:var(--red);color:#fff;font-size:.72rem;line-height:18px;text-align:center}
+.sair{border:1px solid var(--rule);background:var(--card);border-radius:999px;padding:5px 12px;font-size:.8rem;font-weight:600;cursor:pointer}
+main{padding:20px 0 60px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:22px}
+.kpi{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:10px 14px}
+.kpi span{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);text-transform:lowercase}
+.kpi b{display:block;font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.2}
+.kpi.dest b{color:var(--red-ink)}
+h2.sec{font-family:var(--f-head);font-size:1.5rem;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:.9rem}
+.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.filtros button{border:1px solid var(--rule);background:var(--card);border-radius:999px;padding:5px 12px;font-size:.85rem;font-weight:600;cursor:pointer}
+.filtros button[aria-pressed=true]{border-color:var(--ink);background:var(--ink);color:var(--card)}
+.lista{display:grid;gap:10px}
+.item{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px 16px;cursor:pointer;text-align:left;width:100%}
+.item:hover{border-color:var(--ink-2)}
+.item .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.75rem;color:var(--muted);margin-bottom:4px}
+.tipo{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;padding:1px 7px;border-radius:4px;background:var(--bg);border:1px solid var(--rule);color:var(--ink-2)}
+.score{font-weight:800;font-size:.7rem;padding:1px 7px;border-radius:4px;color:#fff;background:var(--off)}
+.score.s4,.score.s5{background:var(--red)}.score.s3{background:var(--warn)}.score.s1,.score.s2{background:var(--ok)}
+.item h3{font-family:var(--f-head);font-size:1.15rem;line-height:1.25;margin:2px 0 4px}
+.item p{margin:0 0 6px;color:var(--ink-2);font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tags span{font-size:.72rem;background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--ink-2);border-radius:4px;padding:1px 6px}
+.vazio{background:var(--card);border:1px dashed var(--rule);border-radius:10px;padding:30px;text-align:center;color:var(--muted)}
+/* detalhe */
+.painel{position:fixed;inset:0;background:rgba(10,12,16,.45);display:none;z-index:30}
+.painel.aberto{display:block}
+.folha{position:absolute;right:0;top:0;bottom:0;width:min(760px,100%);background:var(--card);display:flex;flex-direction:column;box-shadow:-8px 0 30px rgba(0,0,0,.15)}
+.folha-h{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--rule)}
+.folha-c{overflow:auto;padding:18px 20px;flex:1}
+.folha-c h1{font-family:var(--f-head);font-size:1.7rem;line-height:1.15;margin:6px 0 8px}
+.fina{font-family:var(--f-head);font-size:1.1rem;color:var(--ink-2);margin:0 0 12px}
+.texto{font-family:var(--f-head);font-size:1.1rem;line-height:1.6}
+.texto h2{font-size:1.25rem;margin:18px 0 6px}
+textarea{width:100%;min-height:60vh;border:1px solid var(--rule);border-radius:8px;padding:12px;font-family:var(--f-mono);font-size:.82rem;line-height:1.5;background:var(--bg)}
+.acoes{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--rule);align-items:center}
+.btn{border:1px solid var(--rule);background:var(--card);border-radius:999px;padding:9px 16px;font-weight:700;font-size:.9rem;cursor:pointer}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.nao{color:var(--red-ink);border-color:color-mix(in srgb,var(--red) 40%,var(--rule))}
+.btn:disabled{opacity:.55;cursor:wait}
+.motivo{flex:1;min-width:180px;border:1px solid var(--rule);border-radius:999px;padding:8px 14px;background:var(--bg)}
+.aviso-ia{font-size:.8rem;background:var(--bg);border-left:3px solid var(--warn);padding:8px 12px;margin:0 0 14px;border-radius:4px}
+/* equipe (organograma) */
+.org{display:grid;gap:0;justify-items:center}
+.chefe{background:var(--ink);color:var(--card);border-radius:12px;padding:16px 22px;text-align:center;min-width:min(420px,100%)}
+.chefe b{font-family:var(--f-head);font-size:1.4rem;display:block}
+.chefe span{font-family:var(--f-mono);font-size:.75rem;opacity:.75}
+.chefe .pedido{display:inline-block;margin-top:8px;background:var(--red);color:#fff;border-radius:999px;padding:3px 12px;font-weight:700;font-size:.82rem;cursor:pointer;border:0}
+.liga{width:2px;height:22px;background:var(--rule)}
+.setores{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;width:100%;border-top:2px solid var(--rule);padding-top:22px}
+.setor{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
+.setor-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.setor-h b{font-family:var(--f-head);font-size:1.15rem}
+.setor-h span{font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
+.func{display:grid;grid-template-columns:12px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid var(--rule)}
+.func:first-of-type{border-top:0}
+.dot{width:10px;height:10px;border-radius:3px;margin-top:5px;background:var(--off)}
+.dot.trabalhando{background:var(--ok)}.dot.de_plantao{background:var(--blue)}.dot.reserva{background:var(--warn)}.dot.parado{background:var(--red)}.dot.em_teste{background:#8b5cf6}
+.func b{font-size:.92rem}
+.func small{display:block;color:var(--muted);font-size:.78rem;line-height:1.35}
+.func i{font-style:normal;font-family:var(--f-mono);font-size:.66rem;color:var(--ink-2)}
+.legenda{display:flex;flex-wrap:wrap;gap:14px;font-size:.78rem;color:var(--muted);margin:16px 0 0;justify-content:center}
+.legenda span{display:inline-flex;align-items:center;gap:6px}
+.legenda .dot{margin:0}
+/* números */
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.caixa{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px}
+.caixa h3{font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
+.barras{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:150px}
+.barra{display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:2px}
+.barra i{display:block;border-radius:3px 3px 0 0}
+.barra i.n{background:var(--red)}.barra i.c{background:var(--blue)}.barra i.l{background:var(--warn)}
+.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;font-family:var(--f-mono);font-size:.66rem;color:var(--muted);text-align:center;margin-top:4px}
+.linhas{display:grid;gap:6px;font-size:.88rem}
+.linhas div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--rule);padding-bottom:6px}
+.linhas div:last-child{border-bottom:0}
+.linhas span:last-child{font-weight:700;text-align:right}
+.st-ok{color:var(--ok)}.st-mal{color:var(--red-ink)}.st-meio{color:var(--warn)}
+.medidor{height:8px;border-radius:4px;background:var(--bg);overflow:hidden;margin-top:6px}
+.medidor i{display:block;height:100%;background:var(--ink-2)}
+/* login */
+.login{max-width:380px;margin:12vh auto;background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:26px}
+.login h1{font-family:var(--f-head);margin:8px 0 4px}
+.login input{width:100%;border:1px solid var(--rule);border-radius:10px;padding:11px 14px;margin:14px 0 10px;background:var(--bg)}
+.login .btn{width:100%}
+.erro{color:var(--red-ink);font-size:.88rem;min-height:1.3em}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--card);padding:10px 16px;border-radius:10px;font-size:.9rem;z-index:50;max-width:calc(100% - 32px);display:none}
+.toast a{color:inherit;font-weight:700}
+.carregando{color:var(--muted);padding:30px 0;text-align:center}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.kpi:nth-child(n+4){display:none}.marca small{display:none}}
+</style>
+</head>
+<body>
+<div id="app"><p class="carregando">Carregando…</p></div>
+<div class="toast" id="toast" role="status"></div>
+<div class="painel" id="painel" aria-hidden="true">
+  <div class="folha" role="dialog" aria-modal="true" aria-labelledby="det-titulo">
+    <div class="folha-h"><span id="det-meta" class="tipo"></span><div style="display:flex;gap:6px"><button class="btn" id="det-editar" type="button">Editar texto</button><button class="btn" id="det-fechar" type="button">Fechar</button></div></div>
+    <div class="folha-c" id="det-corpo"></div>
+    <div class="acoes">
+      <button class="btn ok" id="det-aprovar" type="button">Aprovar e publicar</button>
+      <input class="motivo" id="det-motivo" placeholder="Motivo da recusa (opcional)" maxlength="200">
+      <button class="btn nao" id="det-recusar" type="button">Recusar</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  var API = "https://rig1660s.tail4a859f.ts.net/cnb-admin";
+  var CHAVE = "cnb-redacao-token";
+  var estado = { aba: "aprovar", filtro: "todas", painel: null, fila: [], atual: null, editando: false };
+  var app = document.getElementById("app");
+
+  function lerToken() { try { return localStorage.getItem(CHAVE) || ""; } catch (e) { return estado.tokenMem || ""; } }
+  function salvarToken(t) { estado.tokenMem = t; try { if (t) localStorage.setItem(CHAVE, t); else localStorage.removeItem(CHAVE); } catch (e) {} }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function toast(html, ms) { var t = document.getElementById("toast"); t.innerHTML = html; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(function () { t.style.display = "none"; }, ms || 5000); }
+
+  function api(caminho, corpo) {
+    var op = { headers: { Authorization: "Bearer " + lerToken() } };
+    if (corpo) { op.method = "POST"; op.headers["Content-Type"] = "application/json"; op.body = JSON.stringify(corpo); }
+    return fetch(API + caminho, op).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (j) {
+        if (r.status === 401) { salvarToken(""); telaLogin("Senha inválida."); throw new Error("401"); }
+        if (!r.ok) throw new Error(j.erro || ("erro " + r.status));
+        return j;
+      });
+    }, function () { throw new Error("A rig não respondeu. Ela está ligada e com internet?"); });
+  }
+
+  function quando(iso) {
+    if (!iso) return "—";
+    var d = new Date(iso); if (isNaN(d)) return iso;
+    var m = Math.round((Date.now() - d) / 60000);
+    if (m < 1) return "agora";
+    if (m < 60) return "há " + m + " min";
+    if (m < 1440) return "há " + Math.round(m / 60) + " h";
+    return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  }
+  var NOME_TIPO = { nacional: "Brasil", cidades: "Cidade", colunas: "Coluna" };
+
+  // ---------- login ----------
+  function telaLogin(msg) {
+    app.innerHTML = '<form class="login" id="f-login"><span class="badge">CNB</span><h1>Redação</h1>' +
+      '<p class="sub">Painel do Editor-Chefe. A senha fica salva só neste aparelho.</p>' +
+      '<input type="password" id="senha" autocomplete="current-password" placeholder="Senha da redação" required>' +
+      '<p class="erro" id="erro">' + esc(msg || "") + '</p><button class="btn ok" type="submit">Entrar</button></form>';
+    document.getElementById("f-login").addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      salvarToken(document.getElementById("senha").value.trim());
+      carregar();
+    });
+    document.getElementById("senha").focus();
+  }
+
+  // ---------- carga ----------
+  function carregar() {
+    if (!lerToken()) return telaLogin();
+    if (!estado.painel) app.innerHTML = '<p class="carregando">Falando com a rig…</p>';
+    return Promise.all([api("/api/painel"), api("/api/fila")]).then(function (r) {
+      estado.painel = r[0]; estado.fila = r[1].itens || []; render();
+    }, function (e) {
+      if (e.message === "401") return;
+      if (!estado.painel) app.innerHTML = '<div class="wrap"><div class="vazio" style="margin-top:12vh">' + esc(e.message) + '<br><br><button class="btn" id="tentar" type="button">Tentar de novo</button></div></div>';
+      var b = document.getElementById("tentar"); if (b) b.onclick = carregar; else toast(esc(e.message));
+    });
+  }
+
+  // ---------- render ----------
+  function render() {
+    var p = estado.painel, r = p.resumo;
+    app.innerHTML =
+      '<header class="top"><div class="wrap"><div class="marca"><span class="badge">CNB</span><b>Redação</b><small>empresa de uma pessoa só</small></div>' +
+      '<nav class="abas" role="tablist">' +
+      aba("aprovar", "Aprovar" + (r.naFila ? '<span class="qtd">' + r.naFila + "</span>" : "")) + aba("equipe", "Equipe") + aba("numeros", "Números") +
+      '</nav><button class="sair" id="sair" type="button">Sair</button></div></header>' +
+      '<main class="wrap"><div class="kpis">' +
+      kpi("pessoas", r.pessoas) + kpi("agentes de IA", r.agentes) + kpi("publicadas hoje", r.publicadasHoje) + kpi("na sua fila", r.naFila, true) + kpi("setores", r.setores) +
+      '</div><div id="conteudo"></div></main>';
+    document.querySelectorAll("nav.abas button").forEach(function (b) { b.onclick = function () { estado.aba = b.dataset.aba; render(); }; });
+    document.getElementById("sair").onclick = function () { salvarToken(""); estado.painel = null; telaLogin(); };
+    var c = document.getElementById("conteudo");
+    if (estado.aba === "aprovar") c.innerHTML = htmlAprovar(); else if (estado.aba === "equipe") c.innerHTML = htmlEquipe(); else c.innerHTML = htmlNumeros();
+    ligar();
+  }
+  function aba(id, rotulo) { return '<button role="tab" data-aba="' + id + '" aria-selected="' + (estado.aba === id) + '">' + rotulo + "</button>"; }
+  function kpi(rot, v, dest) { return '<div class="kpi' + (dest && v ? " dest" : "") + '"><span>' + rot + "</span><b>" + esc(v) + "</b></div>"; }
+
+  function htmlAprovar() {
+    var f = estado.fila.filter(function (i) { return estado.filtro === "todas" || i.tipo === estado.filtro; });
+    var cont = function (t) { return estado.fila.filter(function (i) { return t === "todas" || i.tipo === t; }).length; };
+    var filtros = ["todas", "nacional", "cidades", "colunas"].map(function (t) {
+      return '<button type="button" data-filtro="' + t + '" aria-pressed="' + (estado.filtro === t) + '">' + (t === "todas" ? "Todas" : NOME_TIPO[t]) + " · " + cont(t) + "</button>";
+    }).join("");
+    var lista = f.length ? f.map(function (i) {
+      return '<button class="item" type="button" data-id="' + esc(i.id) + '"><div class="meta"><span class="tipo">' + NOME_TIPO[i.tipo] + "</span>" +
+        (i.cidade ? "<span>" + esc(i.cidade) + "</span>" : "") + (i.score != null ? '<span class="score s' + i.score + '">nota ' + i.score + "</span>" : "") +
+        "<span>" + quando(i.data) + "</span>" + (i.fonte ? "<span>· " + esc(i.fonte) + "</span>" : "") + "</div>" +
+        "<h3>" + esc(i.titulo) + "</h3>" + (i.descricao ? "<p>" + esc(i.descricao) + "</p>" : "") +
+        (i.motivos.length ? '<div class="tags">' + i.motivos.slice(0, 4).map(function (m) { return "<span>" + esc(m.length > 90 ? m.slice(0, 88) + "…" : m) + "</span>"; }).join("") + "</div>" : "") +
+        "</button>";
+    }).join("") : '<div class="vazio">Nada esperando você aqui. Os robôs seguem publicando sozinhos o que passa nas travas.</div>';
+    return '<h2 class="sec">Você só aprova</h2><p class="sub">O que os robôs não publicaram sozinhos: nota de sensibilidade alta, pedido do revisor, texto parecido demais com a fonte ou coluna. Abra, leia, edite se quiser e decida.</p>' +
+      '<div class="filtros">' + filtros + '</div><div class="lista">' + lista + "</div>";
+  }
+
+  function htmlEquipe() {
+    var p = estado.painel;
+    var setores = p.setores.map(function (s) {
+      return '<div class="setor"><div class="setor-h"><b>' + esc(s.nome) + "</b><span>" + s.funcionarios.length + (s.funcionarios.length === 1 ? " funcionário" : " funcionários") + "</span></div>" +
+        s.funcionarios.map(function (f) {
+          return '<div class="func"><span class="dot ' + f.estado + '" title="' + rotuloEstado(f.estado) + '"></span><div><b>' + esc(f.nome) + "</b> <i>" + esc(f.motor) + "</i><small>" + esc(f.faz) + (f.detalhe ? " · " + esc(f.detalhe) : "") + "</small></div></div>";
+        }).join("") + "</div>";
+    }).join("");
+    return '<div class="org"><div class="chefe"><span>EDITOR-CHEFE</span><b>Rafael Mariano</b><span>' + p.resumo.agentes + " agentes · " + p.resumo.setores + ' setores · 1 pessoa</span><br>' +
+      '<button class="pedido" type="button" data-ir="aprovar">' + (p.resumo.naFila ? p.resumo.naFila + " esperando sua aprovação" : "nada esperando você") + "</button></div>" +
+      '<div class="liga"></div><div class="setores">' + setores + "</div></div>" +
+      '<div class="legenda">' + ["trabalhando", "de_plantao", "reserva", "em_teste", "parado"].map(function (e) { return '<span><i class="dot ' + e + '"></i>' + rotuloEstado(e) + "</span>"; }).join("") + "</div>";
+  }
+  function rotuloEstado(e) { return { trabalhando: "trabalhando", de_plantao: "de plantão", reserva: "na reserva (GPU de backup)", em_teste: "em teste", parado: "parado" }[e] || e; }
+
+  function htmlNumeros() {
+    var p = estado.painel, pr = p.producao, s = p.saude;
+    var max = 1;
+    pr.dias.forEach(function (_, k) { max = Math.max(max, pr.nacional[k] + pr.cidades[k] + pr.colunas[k]); });
+    var barras = pr.dias.map(function (d, k) {
+      var h = function (v) { return (v / max * 100) + "%"; };
+      return '<div class="barra" title="' + d + ": " + pr.nacional[k] + " Brasil, " + pr.cidades[k] + " cidades, " + pr.colunas[k] + ' colunas"><i class="l" style="height:' + h(pr.colunas[k]) + '"></i><i class="c" style="height:' + h(pr.cidades[k]) + '"></i><i class="n" style="height:' + h(pr.nacional[k]) + '"></i></div>';
+    }).join("");
+    var dias = pr.dias.map(function (d) { return "<span>" + d.slice(8) + "/" + d.slice(5, 7) + "</span>"; }).join("");
+    var st = function (v) { return v === "active" ? '<span class="st-ok">no ar</span>' : '<span class="st-mal">' + esc(v) + "</span>"; };
+    var g = s.gpu ? '<div><span>RTX 3060 · memória</span><span>' + (s.gpu.usadaMiB / 1024).toFixed(1) + " de " + (s.gpu.totalMiB / 1024).toFixed(0) + " GB · " + s.gpu.temp + "°C</span></div>" +
+      '<div class="medidor"><i style="width:' + Math.round(s.gpu.usadaMiB / s.gpu.totalMiB * 100) + '%"></i></div>' : "";
+    return '<div class="grade">' +
+      '<div class="caixa"><h3>Publicadas por dia</h3><div class="barras">' + barras + '</div><div class="dias">' + dias + '</div>' +
+      '<div class="legenda" style="justify-content:flex-start"><span><i class="dot" style="background:var(--red)"></i>Brasil</span><span><i class="dot" style="background:var(--blue)"></i>Cidades</span><span><i class="dot" style="background:var(--warn)"></i>Colunas</span></div></div>' +
+      '<div class="caixa"><h3>No ar</h3><div class="linhas">' +
+      "<div><span>Matérias nacionais</span><span>" + pr.totais.nacional + "</span></div>" +
+      "<div><span>Matérias de cidades</span><span>" + pr.totais.cidades + "</span></div>" +
+      "<div><span>Cidades com portal</span><span>" + pr.totais.cidadesNoAr + "</span></div>" +
+      "<div><span>Colunas</span><span>" + pr.totais.colunas + "</span></div>" +
+      "<div><span>Na fila · Brasil / cidades / colunas</span><span>" + p.fila.nacional + " / " + p.fila.cidades + " / " + p.fila.colunas + "</span></div>" +
+      "</div></div>" +
+      '<div class="caixa"><h3>Saúde da rig</h3><div class="linhas">' +
+      "<div><span>Robô nacional</span>" + st(s.servicos.nacional) + "</div>" +
+      "<div><span>Robô das cidades</span>" + st(s.servicos.cidades) + "</div>" +
+      "<div><span>Ollama (IA)</span>" + st(s.servicos.ollama) + "</div>" +
+      "<div><span>GPU rápida (2060 do PC)</span>" + (s.rapida.online ? '<span class="st-ok">ligada</span>' : '<span class="st-meio">desligada · usando a 3060</span>') + "</div>" +
+      "<div><span>Último ciclo nacional</span><span>" + quando(s.ultimoCicloNacional) + "</span></div>" +
+      "<div><span>Último ciclo das cidades</span><span>" + quando(s.ultimoCicloCidades) + "</span></div>" +
+      g + "</div>" + (p.ultimoCiclo ? '<p class="sub" style="margin:10px 0 0;font-family:var(--f-mono);font-size:.72rem">' + esc(p.ultimoCiclo) + "</p>" : "") + "</div>" +
+      "</div>";
+  }
+
+  // ---------- detalhe ----------
+  function md(texto) {
+    var corpo = texto.replace(/^---[\s\S]*?\n---\s*/, "");
+    var out = [], lista = null;
+    corpo.split(/\n{2,}/).forEach(function (bloco) {
+      var b = bloco.trim(); if (!b) return;
+      var inl = function (s) { return esc(s).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\*(.+?)\*/g, "<i>$1</i>"); };
+      if (/^#{1,6}\s/.test(b)) { out.push("<h2>" + inl(b.replace(/^#+\s*/, "")) + "</h2>"); return; }
+      if (/^(\s*[-*]|\s*\d+\.)\s/.test(b)) { out.push("<ul>" + b.split("\n").map(function (l) { return "<li>" + inl(l.replace(/^\s*([-*]|\d+\.)\s*/, "")) + "</li>"; }).join("") + "</ul>"); return; }
+      out.push("<p>" + inl(b).replace(/\n/g, "<br>") + "</p>");
+    });
+    return out.join("");
+  }
+
+  function abrir(id) {
+    var item = estado.fila.filter(function (i) { return i.id === id; })[0]; if (!item) return;
+    estado.atual = { item: item, markdown: null }; estado.editando = false;
+    var pn = document.getElementById("painel"); pn.classList.add("aberto"); pn.setAttribute("aria-hidden", "false");
+    document.getElementById("det-meta").textContent = NOME_TIPO[item.tipo] + (item.cidade ? " · " + item.cidade : "");
+    document.getElementById("det-corpo").innerHTML = '<p class="carregando">Abrindo…</p>';
+    document.getElementById("det-motivo").value = "";
+    api("/api/item?id=" + encodeURIComponent(id)).then(function (r) { estado.atual.markdown = r.markdown; desenharDetalhe(); }, function (e) { document.getElementById("det-corpo").innerHTML = '<p class="erro">' + esc(e.message) + "</p>"; });
+  }
+  function desenharDetalhe() {
+    var a = estado.atual, i = a.item, c = document.getElementById("det-corpo");
+    document.getElementById("det-editar").textContent = estado.editando ? "Ver como fica" : "Editar texto";
+    if (estado.editando) { c.innerHTML = '<p class="sub">Edite título (title), linha fina (description) e texto. Não apague as linhas entre os "---".</p><textarea id="det-texto" spellcheck="true"></textarea>'; document.getElementById("det-texto").value = a.markdown; return; }
+    c.innerHTML = '<div class="aviso-ia">Texto escrito por IA. Confira nomes, números e citações antes de publicar.' + (i.motivos.length ? "<br><b>Por que está na fila:</b> " + i.motivos.map(esc).join(" · ") : "") + "</div>" +
+      '<h1 id="det-titulo">' + esc(i.titulo) + "</h1>" + (i.descricao ? '<p class="fina">' + esc(i.descricao) + "</p>" : "") +
+      (i.fonte_url ? '<p class="sub">Fonte: <a href="' + esc(i.fonte_url) + '" target="_blank" rel="noopener">' + esc(i.fonte || "abrir original") + "</a></p>" : "") +
+      '<div class="texto">' + md(a.markdown) + "</div>";
+  }
+  function fechar() { var pn = document.getElementById("painel"); pn.classList.remove("aberto"); pn.setAttribute("aria-hidden", "true"); estado.atual = null; }
+  function tirarDaLista(id) { estado.fila = estado.fila.filter(function (i) { return i.id !== id; }); estado.painel.resumo.naFila = estado.fila.length; render(); }
+  function travar(sim) { ["det-aprovar", "det-recusar"].forEach(function (b) { document.getElementById(b).disabled = sim; }); }
+
+  document.getElementById("det-fechar").onclick = fechar;
+  document.getElementById("painel").addEventListener("click", function (ev) { if (ev.target.id === "painel") fechar(); });
+  document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && estado.atual) fechar(); });
+  document.getElementById("det-editar").onclick = function () {
+    if (!estado.atual || estado.atual.markdown == null) return;
+    if (estado.editando) estado.atual.markdown = document.getElementById("det-texto").value;
+    estado.editando = !estado.editando; desenharDetalhe();
+  };
+  document.getElementById("det-aprovar").onclick = function () {
+    var a = estado.atual; if (!a || a.markdown == null) return;
+    if (estado.editando) a.markdown = document.getElementById("det-texto").value;
+    travar(true); document.getElementById("det-aprovar").textContent = "Publicando…";
+    api("/api/aprovar", { id: a.item.id, markdown: a.markdown }).then(function (r) {
+      fechar(); tirarDaLista(a.item.id);
+      toast('Publicada: <a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + esc(r.titulo) + "</a>" + (r.aviso ? "<br>" + esc(r.aviso) : " · no ar em ~1 min"), 9000);
+    }, function (e) { toast("Não publiquei: " + esc(e.message)); }).then(function () { travar(false); document.getElementById("det-aprovar").textContent = "Aprovar e publicar"; });
+  };
+  document.getElementById("det-recusar").onclick = function () {
+    var a = estado.atual; if (!a) return;
+    travar(true);
+    api("/api/recusar", { id: a.item.id, motivo: document.getElementById("det-motivo").value }).then(function () {
+      fechar(); tirarDaLista(a.item.id); toast("Recusada. Não vai ao ar e o robô não escreve essa pauta de novo.");
+    }, function (e) { toast("Erro: " + esc(e.message)); }).then(function () { travar(false); });
+  };
+
+  function ligar() {
+    document.querySelectorAll("[data-filtro]").forEach(function (b) { b.onclick = function () { estado.filtro = b.dataset.filtro; render(); }; });
+    document.querySelectorAll(".item[data-id]").forEach(function (b) { b.onclick = function () { abrir(b.dataset.id); }; });
+    document.querySelectorAll("[data-ir]").forEach(function (b) { b.onclick = function () { estado.aba = b.dataset.ir; render(); }; });
+  }
+
+  carregar();
+  setInterval(function () { if (!estado.atual && document.visibilityState === "visible" && estado.painel) carregar(); }, 120000);
+})();
+</script>
+</body>
+</html>

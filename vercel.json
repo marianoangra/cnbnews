@@ -4,6 +4,13 @@
   "outputDirectory": "public",
   "routes": [
     {
+      "src": "/admin",
+      "status": 308,
+      "headers": {
+        "Location": "/admin/"
+      }
+    },
+    {
       "src": "/delete-account/?",
       "status": 308,
       "headers": {
