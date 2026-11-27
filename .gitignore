@@ -7,3 +7,5 @@ __pycache__/
 .hugo_build.lock
 node_modules/
 .env
+fila-aprovacao/
+agents.log

@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMiiwJBVV95cUxPaFdLTmRSYm4weW5
 draft: false
 ---
 
-['Uma adolescente foi baleada na cabeça por seu ex-companheiro em Pelotas. A GZH informou que a jovem passará por cirurgia imediatamente para evitar complicações graves.', 'Os serviços de emergência do Hospital GZH são essenciais para garantir o tratamento rápido de casos como este, demonstrando a importância da assistência médica disponível para cidadãos em situações críticas.']
+
+Uma adolescente foi baleada na cabeça por seu ex-companheiro em Pelotas. A GZH informou que a jovem passará por cirurgia imediatamente para evitar complicações graves.
+
+Os serviços de emergência do Hospital GZH são essenciais para garantir o tratamento rápido de casos como este, demonstrando a importância da assistência médica disponível para cidadãos em situações críticas.

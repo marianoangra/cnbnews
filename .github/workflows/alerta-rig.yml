@@ -1,0 +1,78 @@
+# Alerta: os robôs da rig pararam de publicar?
+# Roda no GitHub (independe da rig e do PC). Se a última matéria dos robôs no main
+# tiver mais de 2 h (6 h entre 0h e 7h BRT, quando quase não há pauta), abre uma issue marcando o Rafael (GitHub avisa
+# por e-mail/app). Quando os robôs voltam a publicar, comenta e fecha sozinho.
+# Uma issue aberta por vez: não manda alerta repetido.
+name: Alerta rig parada
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: alerta-rig
+  cancel-in-progress: false
+
+jobs:
+  checar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      LIMITE_DIA_MIN: '120'     # 7h-24h BRT
+      LIMITE_NOITE_MIN: '360'   # 0h-7h BRT: Agência Brasil quase não publica
+      ROTULO: rig-alerta
+    steps:
+      - name: Checar última publicação dos robôs
+        run: |
+          set -euo pipefail
+          # Commits dos robôs: "noticias: N matéria(s)..." (nacional) e "chore(news): ..." (cidades).
+          # Commit manual não conta: não pode mascarar a rig parada.
+          ultimo=$(gh api "repos/$REPO/commits?sha=main&per_page=100" \
+            --jq '[.[] | select(.commit.message | test("^(noticias:|chore\\(news\\))"))][0] | "\(.commit.committer.date) \(.sha[0:7])"')
+          if [ -z "$ultimo" ] || [ "$ultimo" = "null null" ]; then
+            echo "nenhum commit de robô nos últimos 100 — trato como parado"
+            data="1970-01-01T00:00:00Z"; sha="?"
+          else
+            data=${ultimo% *}; sha=${ultimo#* }
+          fi
+          idade=$(( ( $(date -u +%s) - $(date -u -d "$data" +%s) ) / 60 ))
+          hora=$(TZ=America/Sao_Paulo date +%-H)
+          if [ "$hora" -lt 7 ]; then LIMITE_MIN=$LIMITE_NOITE_MIN; else LIMITE_MIN=$LIMITE_DIA_MIN; fi
+          echo "última publicação: $data ($sha) — há $idade min (limite $LIMITE_MIN)"
+
+          gh label create "$ROTULO" --repo "$REPO" --color B60205 \
+            --description "Robôs da rig sem publicar (alerta automático)" --force >/dev/null
+          aberta=$(gh issue list --repo "$REPO" --label "$ROTULO" --state open --json number --jq '.[0].number // empty')
+          brt=$(TZ=America/Sao_Paulo date -d "$data" '+%d/%m %H:%M')
+
+          if [ "$idade" -gt "$LIMITE_MIN" ]; then
+            if [ -z "$aberta" ]; then
+              gh issue create --repo "$REPO" --label "$ROTULO" \
+                --title "🚨 Robôs sem publicar desde $brt BRT" \
+                --body "@marianoangra os robôs da CNB News não publicam nada desde **$brt (horário de Brasília)** — commit \`$sha\`, há $idade min.
+
+          O que checar:
+          1. A rig está ligada? Luz do cabo de rede acesa?
+          2. Aparece na Tailscale (\`tailscale status\`, rig1660s / 100.68.100.67)?
+          3. Se travou: desligar no botão e ligar de novo — os robôs (\`cnbnews\` e \`cnbnews-agents\`) sobem sozinhos no boot.
+
+          De madrugada pode ser só falta de pauta nova (os robôs só fazem push quando aprovam alguma matéria).
+          Esta issue fecha sozinha quando a próxima matéria for publicada."
+              echo "issue aberta"
+            else
+              echo "já existe alerta aberto (#$aberta)"
+            fi
+          elif [ -n "$aberta" ]; then
+            gh issue comment "$aberta" --repo "$REPO" --body "✅ Voltou: robôs publicaram às $brt BRT (\`$sha\`). Fechando."
+            gh issue close "$aberta" --repo "$REPO"
+            echo "alerta #$aberta fechado"
+          else
+            echo "tudo certo"
+          fi

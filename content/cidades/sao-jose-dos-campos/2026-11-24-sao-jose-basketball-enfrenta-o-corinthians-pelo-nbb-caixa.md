@@ -1,6 +1,6 @@
 ---
 imagem: "https://wikimedia.org"
-title: "São José Basketball enfrenta o Corinthians pelo NBB Caixa - Prefeitura de São José dos Campos"
+title: "São José Basketball enfrenta o Corinthians pelo NBB Caixa"
 date: 2026-11-24T21:03:58-03:00
 description: "São José Basketball enfrenta o Corinthians pelo NBB Caixa - Prefeitura de São José dos Campos"
 fonte: "Prefeitura de São José dos Campos"

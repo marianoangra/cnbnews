@@ -1,6 +1,6 @@
 ---
 imagem: "/fotos/obras.jpg"
-title: "Prefeito de Cachoeira Paulista, SP cobra votação de projetos para jovens e reajuste salarial de servidores - A Gazeta RM"
+title: "Prefeito de Cachoeira Paulista, SP cobra votação de projetos para jovens e reajuste salarial de servidores"
 date: 2026-11-24T17:10:23-03:00
 description: "O prefeito de Cachoeira Paulista, SP, solicitou a votação de projetos destinados a jovens e reajuste salarial de servidores públicos, conforme informado pela A Gazeta RM."
 fonte: "A Gazeta RM"

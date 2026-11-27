@@ -25,7 +25,7 @@ const CONDENATORIOS: Regra = {
 
 // Gatilhos críticos que exigem aprovação humana.
 const CRITICOS: Regra[] = [
-  { motivo: 'crime violento', score: 5, re: /\b(chacina|massacre|homicidios?|assassinat[oa]s?|latrocinios?|feminicidios?|estupros?|sequestros?|tiroteios?|mort[oa]s? a tiros|baleados?|esfaquead[oa]s?)\b/ },
+  { motivo: 'crime violento', score: 5, re: /\b(chacina|massacre|homicidios?|assassinat[oa]s?|latrocinios?|feminicidios?|estupros?|sequestros?|tiroteios?|mort[oa]s? a tiros|balead[oa]s?|esfaquead[oa]s?)\b/ },
   { motivo: 'operação policial', score: 4, re: /\b(operacao policial|confronto com a policia|troca de tiros|preso em flagrante|prisao em flagrante|flagrante)\b/ },
   { motivo: 'crime hediondo', score: 5, re: /\b(hediondo|abuso sexual|exploracao sexual|trabalho escravo|tortura)\b/ },
   { motivo: 'acusação de corrupção', score: 4, re: /\b(corrupcao|propinas?|lavagem de dinheiro|desvio de (recursos|verbas|dinheiro)|peculato|improbidade)\b/ },
@@ -33,7 +33,7 @@ const CRITICOS: Regra[] = [
 
 // ECA: menor + contexto de crime na MESMA frase.
 const MENOR = /\b(menor(es)? de idade|menor(es)?|criancas?|adolescentes?|bebes?|recem-nascid[oa]s?|alun[oa]s?|estudantes?|garot[oa]s?|menin[oa]s?)\b/;
-const CONTEXTO_CRIME = /\b(crimes?|infracion\w*|apreendid[oa]s?|vitimas?|violencia|abus\w*|agredid[oa]s?|agress\w*|mort[oa]s?|assassinad[oa]s?|estuprad[oa]s?|desaparecid[oa]s?|sequestrad[oa]s?|policia)\b/;
+const CONTEXTO_CRIME = /\b(crimes?|infracion\w*|apreendid[oa]s?|vitimas?|violencia|abus\w*|agredid[oa]s?|agress\w*|mort[oa]s?|assassinad[oa]s?|estuprad[oa]s?|desaparecid[oa]s?|sequestrad[oa]s?|policia|balead[oa]s?|esfaquead[oa]s?|tiros?)\b/;
 
 // Palavras que indicam acusação → exige cláusula de contraditório (Lei 13.188/2015).
 const ACUSACAO = /\b(investigad[oa]s?|denunciad[oa]s?|suspeit[oa]s?|acusad[oa]s?|reus?|indiciad[oa]s?|pres[oa]s?|processad[oa]s?|alvos? de (uma )?operacao|denuncia|acusacao|inquerito)\b/;

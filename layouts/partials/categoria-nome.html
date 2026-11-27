@@ -1,0 +1,3 @@
+{{- /* Nome com acento das editorias nacionais (packages/types CATEGORIAS). */ -}}
+{{- $n := dict "politica" "Política" "economia" "Economia" "agro" "Agro" "tecnologia" "Tecnologia" "cristao" "Cristão" "brasil" "Brasil" "mundo" "Mundo" "entrevistas" "Entrevistas" -}}
+{{- with . }}{{ index $n . | default (humanize .) }}{{ else }}Brasil{{ end -}}

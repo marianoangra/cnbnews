@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMinwJBVV95cUxNbmhqZUotX2NnRU1
 draft: false
 ---
 
-['O menino atingido por uma trave de gol em escola de Taubaté permanece em UTI após o incidente, gerando preocupação na comunidade. A prefeitura de Taubaté confirmou que a quadra estava em conformidade com as normas de segurança.', 'A transparência nas ações de segurança pública é essencial para garantir o bem-estar dos estudantes. A prefeitura está monitorando a situação para evitar novos acidentes e manter os ambientes escolares seguros.']
+
+O menino atingido por uma trave de gol em escola de Taubaté permanece em UTI após o incidente, gerando preocupação na comunidade. A prefeitura de Taubaté confirmou que a quadra estava em conformidade com as normas de segurança.
+
+A transparência nas ações de segurança pública é essencial para garantir o bem-estar dos estudantes. A prefeitura está monitorando a situação para evitar novos acidentes e manter os ambientes escolares seguros.

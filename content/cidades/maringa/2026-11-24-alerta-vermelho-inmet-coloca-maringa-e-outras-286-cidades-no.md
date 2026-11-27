@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNemFlSzRvRXNhRkF
 draft: false
 ---
 
-['O Inmet emitiu alerta vermelho para Maringá e outras 286 cidades, indicando risco de tempestades intensas com ventos que podem atingir velocidades superiores a 100 km/h. Essa medida de atenção máxima é essencial para garantir a segurança da população e minimizar impactos.', 'Cidadãos devem evitar áreas expostas a riscos de alagamentos e permanecer em locais seguros durante a tempestade. É recomendado monitorar canais oficiais e redes sociais para receber atualizações em tempo real sobre a evolução do alerta e seguir as orientações das autoridades competentes.']
+
+O Inmet emitiu alerta vermelho para Maringá e outras 286 cidades, indicando risco de tempestades intensas com ventos que podem atingir velocidades superiores a 100 km/h. Essa medida de atenção máxima é essencial para garantir a segurança da população e minimizar impactos.
+
+Cidadãos devem evitar áreas expostas a riscos de alagamentos e permanecer em locais seguros durante a tempestade. É recomendado monitorar canais oficiais e redes sociais para receber atualizações em tempo real sobre a evolução do alerta e seguir as orientações das autoridades competentes.

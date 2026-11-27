@@ -1,4 +1,8 @@
-// Cliente do Ollama: um só modelo carregado (zero model swapping), só o system prompt muda.
+// Cliente do Ollama. Dual-GPU: uma instância do Ollama por placa, cada uma com UM modelo
+// fixo (zero model swapping dentro de cada GPU); entre agentes só o system prompt muda.
+//   heavy → RTX 3060 (12 GB), porta 11434: redação, revisão, SEO, colunista
+//   fast  → RTX 2060 (6 GB),  porta 11435: triagem de sensibilidade, lauda da live/rádio
+//           (hoje no PC do Rafael, alcançado pela rig via Tailscale: OLLAMA_FAST_URL)
 
 export interface ConfigOllama {
   endpoint: string;
@@ -8,15 +12,30 @@ export interface ConfigOllama {
   token?: string;
 }
 
-// Padrões = os do robo_cnb.py na rig1660s (GTX 1660 Super, 6 GB). Modelo e num_ctx
-// IGUAIS aos dele: qualquer diferença faz o Ollama recarregar o modelo a cada troca
-// entre os dois robôs.
-export function configDoAmbiente(env: NodeJS.ProcessEnv = process.env): ConfigOllama {
+export type Perfil = 'heavy' | 'fast';
+
+const PADROES: Record<Perfil, { url: string; modelo: string; numCtx: number }> = {
+  heavy: { url: 'http://localhost:11434', modelo: 'qwen2.5:14b-instruct-q4_K_M', numCtx: 8192 },
+  fast: { url: 'http://localhost:11435', modelo: 'llama3.2:3b', numCtx: 4096 }, // licença comercial ok (o Qwen2.5-3B não é Apache)
+};
+
+// heavy aceita também as variáveis antigas (OLLAMA_ENDPOINT/OLLAMA_MODEL/OLLAMA_NUM_CTX):
+// um .env de antes do dual-GPU continua funcionando igual, sem trocar de modelo.
+export function configDoAmbiente(env: NodeJS.ProcessEnv = process.env, perfil: Perfil = 'heavy'): ConfigOllama {
+  const p = PADROES[perfil];
+  const heavy = perfil === 'heavy';
+  const url = heavy ? env.OLLAMA_HEAVY_URL || env.OLLAMA_ENDPOINT : env.OLLAMA_FAST_URL;
+  const modelo = heavy ? env.OLLAMA_HEAVY_MODEL || env.OLLAMA_MODEL : env.OLLAMA_FAST_MODEL;
+  const ctx = heavy ? env.OLLAMA_HEAVY_NUM_CTX || env.OLLAMA_NUM_CTX : env.OLLAMA_FAST_NUM_CTX;
   return {
-    endpoint: (env.OLLAMA_ENDPOINT || 'http://localhost:11434').replace(/\/+$/, ''),
-    modelo: env.OLLAMA_MODEL || 'qwen3:4b',
-    timeoutMs: Number(env.OLLAMA_TIMEOUT_MS) || 180_000,
-    numCtx: Number(env.OLLAMA_NUM_CTX) || 4096,
+    endpoint: (url || p.url).replace(/\/+$/, ''),
+    modelo: modelo || p.modelo,
+    // fast é acessória e fica num PC remoto que pode estar em fila: desiste rápido e a
+    // etapa cai na pesada (comReserva). heavy espera o carregamento lento do pendrive.
+    timeoutMs: heavy
+      ? Number(env.OLLAMA_TIMEOUT_MS) || 600_000
+      : Number(env.OLLAMA_FAST_TIMEOUT_MS) || 45_000,
+    numCtx: Number(ctx) || p.numCtx,
     token: env.OLLAMA_TOKEN || undefined,
   };
 }
@@ -46,9 +65,10 @@ export function criarLlm(cfg: ConfigOllama, fetchImpl: typeof fetch = fetch, ten
               system,
               prompt,
               stream: false,
-              think: false, // qwen3: sem bloco <think> antes do JSON
+              // qwen3: sem bloco <think> antes do JSON; nos outros modelos o campo nem vai
+              ...(/^qwen3/i.test(cfg.modelo) ? { think: false } : {}),
               format: 'json',
-              keep_alive: '30m',
+              keep_alive: -1, // nunca descarregar (o serviço já usa OLLAMA_KEEP_ALIVE=-1; '30m' sobrescrevia)
               options: { temperature: temperatura, num_ctx: cfg.numCtx ?? 4096 },
             }),
           });
@@ -71,15 +91,46 @@ export function criarLlm(cfg: ConfigOllama, fetchImpl: typeof fetch = fetch, ten
   };
 }
 
+// Se a GPU rápida (2060) estiver fora — instância não subiu, placa ausente, JSON ruim
+// duas vezes —, a etapa roda na pesada. A matéria nunca para por causa da GPU 1.
+export function comReserva(principal: Llm, reserva: Llm, aoFalhar?: (err: unknown) => void): Llm {
+  return {
+    async gerarJson<T>(system: string, prompt: string, validar: Validador<T>, temperatura?: number): Promise<T> {
+      try {
+        return await principal.gerarJson(system, prompt, validar, temperatura);
+      } catch (err) {
+        aoFalhar?.(err);
+        return reserva.gerarJson(system, prompt, validar, temperatura);
+      }
+    },
+  };
+}
+
 // Helpers de validação do JSON devolvido pelo modelo.
 export function objeto(x: unknown): Record<string, unknown> {
   if (typeof x !== 'object' || x === null || Array.isArray(x)) throw new ErroLlm('resposta não é um objeto JSON');
   return x as Record<string, unknown>;
 }
 
+// Modelos pequenos (qwen3:4b) às vezes devolvem a DESCRIÇÃO do campo em vez do conteúdo
+// ("matéria integral corrigida em Markdown", "título (máx 70 caracteres)").
+const MOLDE = [
+  /^mat[eé]ria (completa|integral)\b/i,
+  /^(t[ií]tulo|linha fina|manchete|subt[ií]tulo)\s*\(m[aá]x/i,
+  /\(m[aá]x(imo)?\.? \d+ caracteres\)/i,
+  /^(texto|resumo) (completo|flu[ií]do|jornal[ií]stico)\b/i,
+  /^\.{3}$/,
+];
+
+export function pareceMolde(v: string): boolean {
+  const t = v.trim();
+  return t.length < 120 && MOLDE.some((re) => re.test(t));
+}
+
 export function texto(o: Record<string, unknown>, chave: string, minimo = 1): string {
   const v = o[chave];
   if (typeof v !== 'string' || v.trim().length < minimo) throw new ErroLlm(`campo "${chave}" ausente ou curto demais`);
+  if (pareceMolde(v)) throw new ErroLlm(`campo "${chave}" veio com o texto do molde: "${v.trim().slice(0, 60)}"`);
   return v.trim();
 }
 

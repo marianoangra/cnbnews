@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNUV9JemhYc0VZWkZ
 draft: false
 ---
 
-['A Prefeitura de Macaé está realizando, nesta quinta-feira, uma campanha de vacinação contra a Covid-19 e influenza no Shopping Plaza, com o intuito de garantir a saúde da população e reduzir o risco de doenças graves. Essa iniciativa reflete o compromisso da administração em oferecer serviços públicos de saúde acessíveis e eficazes.', 'A vacinação é um dos pilares para a proteção coletiva, especialmente em contextos de pandemia e vigilância sanitária. A participação dos cidadãos nesse serviço público contribui para a diminuição da disseminação de agentes patogênicos e a preservação da saúde coletiva.', 'O evento é uma ação importante para a comunidade de Macaé, demonstrando a importância de medidas preventivas e ações coletivas para o bem-estar dos seus habitantes. A Prefeitura reforça que a vacinação é um direito fundamental e um passo essencial para a construção de uma sociedade mais saudável.']
+
+A Prefeitura de Macaé está realizando, nesta quinta-feira, uma campanha de vacinação contra a Covid-19 e influenza no Shopping Plaza, com o intuito de garantir a saúde da população e reduzir o risco de doenças graves. Essa iniciativa reflete o compromisso da administração em oferecer serviços públicos de saúde acessíveis e eficazes.
+
+A vacinação é um dos pilares para a proteção coletiva, especialmente em contextos de pandemia e vigilância sanitária. A participação dos cidadãos nesse serviço público contribui para a diminuição da disseminação de agentes patogênicos e a preservação da saúde coletiva.
+
+O evento é uma ação importante para a comunidade de Macaé, demonstrando a importância de medidas preventivas e ações coletivas para o bem-estar dos seus habitantes. A Prefeitura reforça que a vacinação é um direito fundamental e um passo essencial para a construção de uma sociedade mais saudável.

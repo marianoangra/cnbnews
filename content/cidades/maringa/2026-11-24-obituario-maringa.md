@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMibkFVX3lxTFBQaUVPbHNhSFlNb1R
 draft: false
 ---
 
-['Sua morte reforça a importância de manter a transparência e o engajamento cidadão em questões públicas, elementos essenciais para a construção de uma sociedade mais justa e inclusiva.', 'Em um contexto onde a qualidade do serviço público é essencial para o bem-estar coletivo, a homenagem a indivíduos que contribuíram para a sociedade deve ser um pilar da cultura municipal. A cidade de Maringá, com seu histórico de compromisso com a população, pode aprender com a trajetória de Angelo Rigon para continuar a promover políticas que atendam às necessidades reais dos cidadãos.', 'A memória de Angelo Rigon serve como um lembrete contínuo de que, mesmo em momentos de desafio, a colaboração entre o governo e a sociedade civil é fundamental para o progresso. Através da valorização desses contribuintes, Maringá pode fortalecer sua identidade coletiva e garantir um futuro mais inclusivo.']
+
+Sua morte reforça a importância de manter a transparência e o engajamento cidadão em questões públicas, elementos essenciais para a construção de uma sociedade mais justa e inclusiva.
+
+Em um contexto onde a qualidade do serviço público é essencial para o bem-estar coletivo, a homenagem a indivíduos que contribuíram para a sociedade deve ser um pilar da cultura municipal. A cidade de Maringá, com seu histórico de compromisso com a população, pode aprender com a trajetória de Angelo Rigon para continuar a promover políticas que atendam às necessidades reais dos cidadãos.
+
+A memória de Angelo Rigon serve como um lembrete contínuo de que, mesmo em momentos de desafio, a colaboração entre o governo e a sociedade civil é fundamental para o progresso. Através da valorização desses contribuintes, Maringá pode fortalecer sua identidade coletiva e garantir um futuro mais inclusivo.

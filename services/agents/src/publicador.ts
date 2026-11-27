@@ -32,6 +32,16 @@ export function paraMarkdownHugo(a: ArticlePayload): string {
   if (a.motivos_revisao.length) {
     linhas.push('motivos_revisao:', ...a.motivos_revisao.map((m) => `  - ${q(m)}`));
   }
+  // Lauda da live/rádio: o stream-engine lê do front matter (o Hugo ignora campos extras).
+  if (a.lauda_youtube) {
+    const l = a.lauda_youtube;
+    linhas.push(
+      'lauda_youtube:',
+      `  texto_gc: ${q(l.texto_gc)}`,
+      `  texto_locucao: ${q(l.texto_locucao)}`,
+      `  palavras_chave_visuais: [${l.palavras_chave_visuais.map(q).join(', ')}]`,
+    );
+  }
   linhas.push('draft: false', '---', '', a.corpo_artigo_md.trim(), '');
   return linhas.join('\n');
 }

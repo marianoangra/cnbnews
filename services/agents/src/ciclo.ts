@@ -9,15 +9,15 @@ import { join, resolve } from 'node:path';
 import dotenv from 'dotenv';
 import { Estado } from './estado.ts';
 import { FONTES_RSS } from './fontes.ts';
-import { configDoAmbiente, criarLlm } from './ollama.ts';
-import { processarItem } from './orquestrador.ts';
+import { comReserva, configDoAmbiente, criarLlm } from './ollama.ts';
+import { maxEntradaPara, processarItem, type Llms } from './orquestrador.ts';
 import { gravar } from './publicador.ts';
 import { coletarFonte } from './rss.ts';
 import type { ItemBruto } from './tipos.ts';
 
 const AGENTS = resolve(import.meta.dirname, '..');
 const REPO = resolve(AGENTS, '..', '..');
-// OLLAMA_ENDPOINT, OLLAMA_MODEL, OLLAMA_TOKEN… (modelo em .env.example)
+// OLLAMA_HEAVY_*/OLLAMA_FAST_* (dual-GPU) ou OLLAMA_ENDPOINT/OLLAMA_MODEL antigos — ver .env.example
 dotenv.config({ path: join(AGENTS, '.env'), quiet: true });
 const DESTINOS = {
   publicadas: join(REPO, 'content', 'noticias'),
@@ -36,20 +36,39 @@ function git(...args: string[]): string {
   return execFileSync('git', args, { cwd: REPO, encoding: 'utf8' }).trim();
 }
 
+// O robo_cnb.py dá push no mesmo checkout. Se o nosso push perder a corrida, o commit
+// fica local e sai no próximo ciclo (ou no push do robô de cidades) — nada se perde.
 function publicarNoGit(n: number): void {
   git('add', '--', 'content/noticias');
-  if (!git('diff', '--cached', '--name-only', '--', 'content/noticias')) return;
-  git('commit', '-m', `noticias: ${n} matéria(s) da redação automática`, '--', 'content/noticias');
-  git('pull', '--rebase', '--autostash');
-  git('push');
-  log(`git: ${n} matéria(s) enviadas (o push publica na Vercel)`);
+  if (git('diff', '--cached', '--name-only', '--', 'content/noticias')) {
+    git('commit', '-m', `noticias: ${n} matéria(s) da redação automática`, '--', 'content/noticias');
+  }
+  git('fetch', '-q', 'origin');
+  if (git('rev-list', '--count', 'origin/main..HEAD') === '0') return;
+  git('pull', '--rebase', '--autostash', 'origin', 'main');
+  git('push', 'origin', 'HEAD:main');
+  log(`git: matérias enviadas (o push publica na Vercel)`);
 }
 
 export async function rodarCiclo(): Promise<void> {
   const simular = flag('--simular');
   const limite = Number(arg('--limite')) || 5;
   const estado = new Estado(join(AGENTS, 'estado', 'vistos.json'));
-  const llm = criarLlm(configDoAmbiente());
+  const cfgHeavy = configDoAmbiente(process.env, 'heavy');
+  const cfgFast = configDoAmbiente(process.env, 'fast');
+  const heavy = criarLlm(cfgHeavy);
+  let avisouFast = false;
+  const llms: Llms = {
+    heavy,
+    // GPU 1 fora do ar → a etapa roda na GPU 0 (avisa uma vez por ciclo)
+    fast: comReserva(criarLlm(cfgFast, fetch, 1), heavy, (err) => {
+      if (avisouFast) return;
+      avisouFast = true;
+      log(`GPU rápida (${cfgFast.endpoint}) falhou, usando a pesada —`, err instanceof Error ? err.message.split('\n')[0] : err);
+    }),
+  };
+  const maxEntrada = maxEntradaPara(cfgHeavy.numCtx ?? 4096);
+  log(`heavy: ${cfgHeavy.modelo} @ ${cfgHeavy.endpoint} (ctx ${cfgHeavy.numCtx}) · fast: ${cfgFast.modelo} @ ${cfgFast.endpoint} (ctx ${cfgFast.numCtx})`);
 
   const candidatos: ItemBruto[] = [];
   const vistosNoCiclo = new Set<string>();
@@ -75,7 +94,7 @@ export async function rodarCiclo(): Promise<void> {
   for (const item of candidatos.slice(0, limite)) {
     const t0 = Date.now();
     try {
-      const artigo = await processarItem(item, llm);
+      const artigo = await processarItem(item, llms, { maxEntrada });
       const r = gravar(artigo, DESTINOS, simular);
       const seg = Math.round((Date.now() - t0) / 1000);
       if (r.destino === 'publicada') publicadas += r.novo ? 1 : 0;
@@ -94,7 +113,13 @@ export async function rodarCiclo(): Promise<void> {
 
   if (!simular) {
     estado.salvar();
-    if (flag('--push') && publicadas > 0) publicarNoGit(publicadas);
+    if (flag('--push')) {
+      try {
+        publicarNoGit(publicadas);
+      } catch (err) {
+        log('git: push falhou, tento de novo no próximo ciclo —', err instanceof Error ? err.message.split('\n')[0] : err);
+      }
+    }
   }
   log(`fim do ciclo: ${publicadas} publicada(s), ${naFila} na fila de aprovação`);
 }

@@ -1,6 +1,6 @@
 ---
 imagem: "/fotos/geral.jpg"
-title: "Antiga sede da Turf em Pelotas não recebe propostas em primeira tentativa de venda - GZH"
+title: "Antiga sede da Turf em Pelotas não recebe propostas em primeira tentativa de venda"
 date: 2026-11-24T17:10:23-03:00
 description: "A antiga sede da Turf em Pelotas não obteve propostas de compra na primeira etapa do processo de venda, conforme informado pela GZH."
 fonte: "GZH"

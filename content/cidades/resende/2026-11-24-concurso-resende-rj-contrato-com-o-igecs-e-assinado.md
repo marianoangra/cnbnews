@@ -1,6 +1,6 @@
 ---
 imagem: "/fotos/educacao.jpg"
-title: "Concurso Resende RJ: contrato com o IGECS é assinado - Nova Concursos"
+title: "Concurso Resende RJ: contrato com o IGECS é assinado"
 date: 2026-11-24T20:43:29-03:00
 description: "Concurso Resende RJ: contrato com o IGECS é assinado - Nova Concursos"
 fonte: "Nova Concursos"

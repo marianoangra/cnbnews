@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMitwFBVV95cUxPUmhEUkVpX2s1SkU
 draft: false
 ---
 
-['A Prefeitura de Lorena-SP, por meio do edital lançado com vagas para concursos públicos com salários até R$ 8,8 mil, busca reforçar a capacidade de atendimento ao cidadão, garantindo que profissionais qualificados estejam atuando em áreas essenciais para o bem-estar da população.', 'O edital, organizado pela plataforma Ache Concursos, visa garantir transparência e eficiência na contratação de servidores públicos, contribuindo para a melhoria dos serviços oferecidos à comunidade e fortalecendo a relação de confiança entre o governo municipal e os cidadãos.']
+
+A Prefeitura de Lorena-SP, por meio do edital lançado com vagas para concursos públicos com salários até R$ 8,8 mil, busca reforçar a capacidade de atendimento ao cidadão, garantindo que profissionais qualificados estejam atuando em áreas essenciais para o bem-estar da população.
+
+O edital, organizado pela plataforma Ache Concursos, visa garantir transparência e eficiência na contratação de servidores públicos, contribuindo para a melhoria dos serviços oferecidos à comunidade e fortalecendo a relação de confiança entre o governo municipal e os cidadãos.

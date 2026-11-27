@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { criarLlm, type Llm } from '../src/ollama.ts';
-import { processarItem } from '../src/orquestrador.ts';
+import { aplicarCorrecoes, corrigirAnos, processarItem } from '../src/orquestrador.ts';
 import { PROMPT_EDITOR_SEO, PROMPT_REDATOR, PROMPT_REVISOR } from '../src/prompts.ts';
 import { dataBrt, gravar } from '../src/publicador.ts';
 import { coletarFonte, extrairItens, htmlParaTexto, limparRelacionadas } from '../src/rss.ts';
@@ -49,7 +49,8 @@ test('esteira completa: redator → revisor → SEO gera matéria publicável', 
     seo: [{ manchete_home: 'Governo prorroga subsídio ao diesel por mais 30 dias', subtitulo: 'Medida evita alta nas bombas em dezembro' }],
   });
   const a = await processarItem(item, llm);
-  assert.deepEqual(llm.chamadas, ['redator', 'revisor', 'seo']);
+  // com um Llm só, triagem e lauda caem no mesmo modelo ('?' = sem resposta no falso)
+  assert.deepEqual(llm.chamadas, ['?', 'redator', 'revisor', 'seo', '?']);
   assert.equal(a.requer_aprovacao_humana, false);
   assert.equal(a.slug, 'governo-prorroga-subsidio-ao-diesel-por-mais-30-dias');
   assert.equal(a.categoria, 'economia');
@@ -67,9 +68,71 @@ test('manchete longa: pede de novo ao SEO e, se insistir, corta em 70', async ()
     ],
   });
   const a = await processarItem(item, llm);
-  assert.deepEqual(llm.chamadas, ['redator', 'revisor', 'seo', 'seo']);
+  assert.deepEqual(llm.chamadas, ['?', 'redator', 'revisor', 'seo', 'seo', '?']);
   assert.ok(a.manchete_home.length <= 70);
   assert.equal(a.categoria, 'economia', 'categoria fora da lista cai na padrão da fonte');
+});
+
+test('revisor aplica correções pontuais e ignora trecho que não existe no texto', async () => {
+  const llm = llmFalso({
+    redator: [{ categoria: 'economia', corpo_artigo_markdown: CORPO }],
+    revisor: [
+      {
+        correcoes: [
+          { trecho: 'por mais um mês', correcao: 'por mais 30 dias' },
+          { trecho: ', de acordo com a equipe econômica', correcao: '' },
+          { trecho: 'frase que o modelo inventou e não está lá', correcao: 'x' },
+        ],
+        score_risco_juridico: 1,
+        alertas_ao_editor: ['...'],
+      },
+    ],
+    seo: [{ manchete_home: 'Governo prorroga subsídio ao diesel por mais 30 dias', subtitulo: 'Medida evita alta nas bombas em dezembro' }],
+  });
+  const a = await processarItem(item, llm);
+  assert.match(a.corpo_artigo_md, /por mais 30 dias a subvenção/);
+  assert.match(a.corpo_artigo_md, /R\$ 1,2 bilhão\./);
+  assert.ok(!a.corpo_artigo_md.includes('equipe econômica'));
+  assert.ok(a.motivos_revisao.some((m) => m.includes('1 correção(ões) ignorada(s)')));
+  assert.ok(!a.motivos_revisao.some((m) => m.includes('...')));
+});
+
+test('revisor sem correções (ou só com molde) mantém o texto do redator', async () => {
+  const llm = llmFalso({
+    redator: [{ corpo_artigo_markdown: CORPO }],
+    revisor: [{ correcoes: [{ trecho: '...', correcao: '...' }], score_risco_juridico: 1 }],
+    seo: [{ manchete_home: 'Governo prorroga subsídio ao diesel por mais 30 dias', subtitulo: 'Medida evita alta nas bombas em dezembro' }],
+  });
+  const a = await processarItem(item, llm);
+  assert.equal(a.corpo_artigo_md.startsWith(CORPO), true);
+});
+
+test('revisor que tenta reescrever mais de 40% não altera nada', () => {
+  const r = aplicarCorrecoes(CORPO, [{ trecho: CORPO.slice(0, Math.ceil(CORPO.length * 0.5)), correcao: 'outra coisa' }]);
+  assert.equal(r.excedeu, true);
+  assert.equal(r.corpo, CORPO);
+});
+
+test('revisor não pode apagar o crédito da fonte', () => {
+  const r = aplicarCorrecoes(CORPO, [{ trecho: 'Segundo a Agência Brasil', correcao: '' }], 'Agência Brasil');
+  assert.equal(r.corpo, CORPO);
+  assert.equal(r.ignoradas, 1);
+});
+
+test('anos formatados como milhar são corrigidos, dinheiro não', () => {
+  assert.equal(corrigirAnos('o carnaval de 2.027 e o de 2.030'), 'o carnaval de 2027 e o de 2030');
+  assert.equal(corrigirAnos('(2.027)'), '(2027)');
+  assert.equal(corrigirAnos('custa R$ 2.030 por mês'), 'custa R$ 2.030 por mês');
+  assert.equal(corrigirAnos('foram 12.030 pessoas e 1.2.027 itens'), 'foram 12.030 pessoas e 1.2.027 itens');
+});
+
+test('manchete com texto do molde é rejeitada', async () => {
+  const llm = llmFalso({
+    redator: [{ corpo_artigo_markdown: CORPO }],
+    revisor: [{ texto_final_revisado: CORPO, score_risco_juridico: 1 }],
+    seo: [{ manchete_home: 'título (máx 70 caracteres)', subtitulo: 'linha fina (máx 155 caracteres)' }],
+  });
+  await assert.rejects(processarItem(item, llm), /molde/);
 });
 
 test('resposta inválida do modelo derruba a matéria (não publica lixo)', async () => {

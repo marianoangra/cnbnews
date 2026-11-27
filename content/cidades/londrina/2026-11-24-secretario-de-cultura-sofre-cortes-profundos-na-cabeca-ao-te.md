@@ -1,6 +1,6 @@
 ---
 imagem: "/fotos/clima.jpg"
-title: "Secretário de Cultura sofre cortes profundos na cabeça ao tentar proteger pessoas de vendaval em Londrina: 'Não deu tempo de nada' - G1"
+title: "Secretário de Cultura sofre cortes profundos na cabeça ao tentar proteger pessoas de vendaval em Londrina: 'Não deu tempo de nada'"
 date: 2026-11-24T19:59:21-03:00
 description: "Secretário de Cultura sofre cortes profundos na cabeça ao tentar proteger pessoas de vendaval em Londrina: 'Não deu tempo de nada' - G1"
 fonte: "G1"
@@ -8,4 +8,9 @@ fonte_url: "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMktPUDlrRXg2aFF
 draft: false
 ---
 
-['O incidente envolveu o Secretário de Cultura de Londrina que, ao tentar proteger pessoas em um vendaval, sofreu cortes profundos na cabeça. A frase "Não deu tempo de nada" destaca a urgência da situação.', 'A ação do secretário demonstra o compromisso com o serviço ao cidadão, mesmo em situações de risco. No entanto, o evento evidencia a necessidade de garantir a segurança dos profissionais durante emergências climáticas.', 'A prioridade de proteger os cidadãos permanece central, mesmo quando os agentes públicos enfrentam riscos físicos.']
+
+O incidente envolveu o Secretário de Cultura de Londrina que, ao tentar proteger pessoas em um vendaval, sofreu cortes profundos na cabeça. A frase "Não deu tempo de nada" destaca a urgência da situação.
+
+A ação do secretário demonstra o compromisso com o serviço ao cidadão, mesmo em situações de risco. No entanto, o evento evidencia a necessidade de garantir a segurança dos profissionais durante emergências climáticas.
+
+A prioridade de proteger os cidadãos permanece central, mesmo quando os agentes públicos enfrentam riscos físicos.

@@ -8,4 +8,7 @@ fonte_url: "https://news.google.com/rss/articles/CBMisAFBVV95cUxPSHZUTWFIdTBoQXJ
 draft: false
 ---
 
-['A chegada do Brasília International Film Festival 2026 em Paraty representa um serviço público de qualidade, oferecendo aos cidadãos acesso a eventos cinematográficos e debates que estimulam a reflexão coletiva.', 'Essa iniciativa contribui para o fortalecimento da cultura local e a promoção de um diálogo inclusivo entre diferentes grupos da sociedade.']
+
+A chegada do Brasília International Film Festival 2026 em Paraty representa um serviço público de qualidade, oferecendo aos cidadãos acesso a eventos cinematográficos e debates que estimulam a reflexão coletiva.
+
+Essa iniciativa contribui para o fortalecimento da cultura local e a promoção de um diálogo inclusivo entre diferentes grupos da sociedade.

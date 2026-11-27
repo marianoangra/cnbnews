@@ -1,27 +1,14 @@
 {{ define "titulo" }}Notícias do Brasil · CNB News{{ end }}
-{{ define "edicao" }}Brasil{{ end }}
-{{ define "home" }}/{{ end }}
 {{ define "main" }}
-<h1 style="margin:0 0 18px;font-size:1.75rem">Notícias do Brasil</h1>
-{{ $sorted := .Pages.ByDate.Reverse }}
-{{ if gt (len $sorted) 0 }}
-<div class="cards">
-{{ range $sorted }}
-  <article class="card">
-    <div class="card-top"></div>
-    <div class="card-in">
-      <div>
-        {{ with .Params.categoria }}<span class="badge">{{ . | humanize }}</span>{{ end }}
-        <h2><a class="title-link" href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-        <p style="font-size:.9rem;color:var(--mut);margin:0">{{ .Description }}</p>
-      </div>
-      <div class="meta">
-        <span>{{ .Date.Format "02/01/2006 15:04" }}{{ with .Params.fonte }} · {{ . }}{{ end }}</span>
-        <a class="wa-btn" href="#" onclick="return compartilharWA(this)">WhatsApp</a>
-      </div>
-    </div>
+<h2 class="h-sec">Notícias do Brasil</h2>
+<div class="materia" style="padding-top:0">
+{{ range .Pages.ByDate.Reverse }}
+  <article class="sec" style="padding:16px 0">
+    {{ with .Params.categoria }}<span class="ed">{{ . | humanize }}</span>{{ end }}
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ with .Description }}<p style="margin:4px 0 6px;color:var(--ink-2)">{{ . }}</p>{{ end }}
+    {{ partial "tempo.html" . }}{{ with .Params.fonte }} <span class="time">· {{ . }}</span>{{ end }}
   </article>
-{{ end }}
-</div>
 {{ else }}<p>Ainda sem notícias nacionais.</p>{{ end }}
+</div>
 {{ end }}
