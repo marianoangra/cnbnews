@@ -45,11 +45,22 @@
       <div class="mk-mono" aria-hidden="true">RM</div>
       <div>
         <h3>Rafael Mariano <span>editor-chefe da CNB News</span></h3>
-        <p>Nascido em Angra dos Reis (RJ), entrou na Marinha do Brasil por concurso aos 17 anos e embarcou como marinheiro em navio de guerra. Formado em Administração de Empresas, construiu carreira no mercado financeiro, com passagem por XP Investimentos, Rico e Terra Investimentos, e deu aulas no SENAI.</p>
-        <p>Hoje é comunicador, palestrante, analista de investimentos certificado (CNPI), autor e piloto de helicóptero. Já levou suas palestras a eventos como o Digital Assets Forum e a Bitconf, e reuniu {{ .Params.instagram_seguidores }} seguidores no Instagram com conteúdo sobre finanças, negócios, fé e entrevistas.</p>
-        <ul class="mk-tags"><li>Comunicador</li><li>Palestrante</li><li>Analista CNPI</li><li>Piloto de helicóptero</li><li>Ex-Marinha do Brasil</li><li>Entrevistador</li></ul>
+        <p>Nascido em Angra dos Reis (RJ), filho de uma professora de matemática e de um contador, entrou na Marinha do Brasil por concurso aos 17 anos e embarcou como marinheiro em navio de guerra. Formado em Administração de Empresas, abriu uma lanchonete logo depois da faculdade e a vendeu quatro anos depois por quatro vezes o valor de mercado. Construiu carreira no mercado financeiro, com passagem por XP Investimentos, Rico e Terra Investimentos, e deu aulas no SENAI.</p>
+        <p>Foram os alunos do SENAI, no Rio de Janeiro, que o incentivaram a contar a própria história num livro, e do livro nasceram as palestras. A paixão por voar começou vendo helicópteros sobre o mar de Angra: hoje ele pilota entre São Paulo e Angra dos Reis.</p>
+        <p>É comunicador, palestrante, analista de investimentos certificado (CNPI), autor e piloto. Já levou suas palestras a eventos como o Digital Assets Forum e a Bitconf, e reuniu {{ .Params.instagram_seguidores }} seguidores no Instagram com conteúdo sobre finanças, negócios, fé e entrevistas.</p>
+        <ul class="mk-tags"><li>Comunicador</li><li>Palestrante</li><li>Analista CNPI</li><li>Piloto</li><li>Ex-Marinha do Brasil</li><li>Entrevistador</li></ul>
       </div>
     </div>
+  </section>
+
+  <section class="mk-sec">
+    <h2>Na imprensa</h2>
+    {{/* Só matéria editorial. Publieditorial (conteúdo pago) não entra aqui: listar como "imprensa" enganaria o anunciante. */}}
+    <a class="mk-press" href="https://revistamensch.com.br/carreira-rafael-mariano-voando-alto/" target="_blank" rel="noopener">
+      <span class="mk-press-tag">Capa</span>
+      <span class="mk-press-nome">Revista MENSCH</span>
+      <span class="mk-press-tit">“Rafael Mariano voando alto”: entrevista de capa sobre carreira, aviação e propósito, por Márcia Dornelles · outubro de 2022</span>
+    </a>
   </section>
 
   <section class="mk-sec">
@@ -99,6 +110,11 @@
   .mk-bio p{font-family:var(--f-text);font-size:1.06rem;line-height:1.6;color:var(--ink-2);margin:0 0 12px;max-width:66ch}
   .mk-tags{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
   .mk-tags li{font-size:.76rem;font-weight:700;border:1px solid var(--rule);border-radius:999px;padding:5px 11px;color:var(--ink-2)}
+  .mk-press{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;align-items:baseline;padding:20px 22px;border:1px solid var(--rule);border-radius:12px;max-width:720px}
+  .mk-press:hover{border-color:var(--ink)}
+  .mk-press-tag{grid-row:span 2;align-self:center;background:var(--red);color:#fff;font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:6px 9px;border-radius:4px}
+  .mk-press-nome{font-size:1.35rem;font-weight:900;letter-spacing:-.03em}
+  .mk-press-tit{font-size:.9rem;color:var(--muted);line-height:1.45}
   .mk-regras{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px}
   .mk-regras li{font-size:.95rem;line-height:1.5;color:var(--ink-2);padding-left:16px;border-left:3px solid var(--rule)}
   .mk-regras b{color:var(--ink);display:block}
