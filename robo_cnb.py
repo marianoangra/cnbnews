@@ -713,6 +713,66 @@ def atualizar_sitemap_e_git(novos):
     subprocess.run(["git", "push", "origin", "main"], check=False)
     print(f"[SYNC] {novos} noticias enviadas para GitHub/Vercel!", flush=True)
 
+def processar_prefeitura(slug, nome, pasta, tz, novos):
+    """Comunicados da própria prefeitura (RSS com texto completo, prefeituras.py) viram matéria
+    de 150-300 palavras. Devolve quantas foram publicadas."""
+    import prefeituras
+    import sys
+    robo = sys.modules[__name__]
+    feitas = 0
+    for titulo, link, texto_fonte, _data in prefeituras.pautas_da_prefeitura(slug):
+        if feitas >= prefeituras.MAX_POR_CICLO:
+            break
+        if eh_duplicada(pasta, titulo, link, nome.split("(")[0]):
+            continue
+        print(f"[PREFEITURA {slug}] {titulo[:60]}...", flush=True)
+        try:
+            agora = datetime.now(tz) - timedelta(minutes=(novos + feitas) * 7)
+            data_hoje = agora.strftime("%d/%m/%Y")
+            dados = _gerar_json(prefeituras.prompt_materia(nome, titulo, texto_fonte, data_hoje))
+            if not dados.get("valido", True):
+                print("[PREFEITURA] IA: não é notícia", flush=True)
+                continue
+            title = limpar_texto_ia(dados.get("title", ""))
+            desc = limpar_texto_ia(dados.get("description", ""))
+            artigo = limpar_texto_ia(dados.get("artigo", ""))
+            if not title or not artigo or eh_duplicada(pasta, title, "", nome.split("(")[0]):
+                continue
+            motivo = prefeituras.checar_materia_oficial(robo, nome, titulo, texto_fonte, data_hoje, title, desc, artigo)
+            if motivo:
+                print(f"[DESCARTADO] {motivo}: {title[:50]}...", flush=True)
+                continue
+            fonte = f"Prefeitura de {nome.split('(')[0].strip()}"
+            texto = prefeituras.montar_texto_oficial(artigo, nome, link)
+            score, motivos = avaliar_sensibilidade(title, desc, texto)
+            orto = checar_ortografia(title, desc, artigo, f"{titulo} {texto_fonte}", fonte)
+            if orto:
+                motivos = list(motivos) + orto
+            if precisa_contraditorio(title, desc, texto) and CLAUSULA_CONTRADITORIO not in texto:
+                texto = f"{texto}\n\n*{CLAUSULA_CONTRADITORIO}*"
+            vai_para_fila = score >= LIMITE_SCORE_HUMANO or bool(orto)
+            destino = os.path.join(FILA_APROVACAO, slug) if vai_para_fila else pasta
+            os.makedirs(destino, exist_ok=True)
+            arq = f"{destino}/{agora.strftime('%Y-%m-%d')}-{slugify(title)}.md"
+            extra = ""
+            if vai_para_fila:
+                extra = (f"score_sensibilidade: {score}\nrequer_aprovacao_humana: true\nmotivos_revisao:\n"
+                         + "".join(f'  - "{m}"\n' for m in motivos))
+            q = lambda v: v.replace(chr(34), chr(92) + chr(34))
+            md = (f'---\ntitle: "{q(title)}"\ndate: {agora.isoformat()}\ndescription: "{q(desc)}"\n'
+                  f'fonte: "{q(fonte)}"\nfonte_url: "{link}"\nfonte_tipo: "oficial"\n{extra}---\n\n{texto}\n')
+            with open(arq, "w", encoding="utf-8") as f_out:
+                f_out.write(md)
+            if vai_para_fila:
+                print(f"[FILA] score {score} ({'; '.join(motivos)}) -> {arq}", flush=True)
+                continue
+            print(f"[OK OFICIAL] {arq}", flush=True)
+            feitas += 1
+            time.sleep(2)
+        except Exception as e:
+            print(f"[ERRO PREFEITURA] {e}", flush=True)
+    return feitas
+
 def rodar_ciclo():
     tz = timezone(timedelta(hours=-3))
     novos = 0
@@ -725,6 +785,7 @@ def rodar_ciclo():
                 f_idx.write(f'---\ntitle: "{nome}"\n---\n')
 
         print(f"[CIDADE] Coletando pautas de {nome}...", flush=True)
+        novos += processar_prefeitura(slug, nome, pasta, tz, novos)
         for manchete, link, fonte in buscar_pautas_oficiais(nome, query, slug):
             if eh_duplicada(pasta, manchete, link, nome.split("(")[0]):
                 print(f"[DUPLICADA] Ignorando: {manchete[:50]}...", flush=True)
