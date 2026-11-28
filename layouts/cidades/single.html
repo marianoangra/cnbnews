@@ -1,4 +1,4 @@
-{{ define "titulo" }}{{ .Title }} · {{ replaceRE " \\([A-Z]{2}\\)$" "" .Parent.Title }} · CNB News{{ end }}
+{{ define "titulo" }}{{ $c := replaceRE " \\([A-Z]{2}\\)$" "" .Parent.Title }}{{ .Title }}{{ if not (in .Title $c) }} · {{ $c }}{{ end }} · CNB News{{ end }}
 {{ define "bodyclass" }}tem-wa{{ end }}
 {{ define "canonical" }}https://{{ path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) }}.{{ site.Params.baseDomain }}/{{ path.Base .RelPermalink }}/{{ end }}
 {{/* Nota curta (< 120 palavras) fica fora do índice do Google: ver layouts/sitemap.xml. */}}

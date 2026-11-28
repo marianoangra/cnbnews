@@ -12,7 +12,7 @@
     {{ with index $itens 0 }}{{ $l := partial "link-capa.html" . }}
     <article class="lead">
       <span class="ed">{{ $l.rotulo }}</span>
-      <h1><a href="{{ $l.u }}">{{ .Title }}</a></h1>
+      <h2 class="lead-t"><a href="{{ $l.u }}">{{ .Title }}</a></h2>
       {{ with .Description }}<p class="dek">{{ . }}</p>{{ end }}
       {{ partial "tempo.html" . }}
       {{ with first 3 (after 1 $itens) }}<ul class="rel">{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul>{{ end }}
