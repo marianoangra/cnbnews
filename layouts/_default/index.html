@@ -105,18 +105,21 @@
 </section>
 {{ end }}
 
-{{ $ufs := dict "SP" "São Paulo" "RJ" "Rio de Janeiro" "PR" "Paraná" "MG" "Minas Gerais" "RS" "Rio Grande do Sul" "ES" "Espírito Santo" "SC" "Santa Catarina" "GO" "Goiás" "BA" "Bahia" "DF" "Distrito Federal" }}
+{{ $ufs := dict "SP" "São Paulo" "RJ" "Rio de Janeiro" "MG" "Minas Gerais" "PR" "Paraná" "RS" "Rio Grande do Sul" "SC" "Santa Catarina" "ES" "Espírito Santo" "DF" "Distrito Federal" "AC" "Acre" "AL" "Alagoas" "AP" "Amapá" "AM" "Amazonas" "BA" "Bahia" "CE" "Ceará" "GO" "Goiás" "MA" "Maranhão" "MT" "Mato Grosso" "MS" "Mato Grosso do Sul" "PA" "Pará" "PB" "Paraíba" "PE" "Pernambuco" "PI" "Piauí" "RN" "Rio Grande do Norte" "RO" "Rondônia" "RR" "Roraima" "SE" "Sergipe" "TO" "Tocantins" }}
 {{ $ontem := (now.AddDate 0 0 -1).Unix }}
 <section class="escolha" id="cidades" aria-label="Escolha sua cidade" data-escolha>
   <div class="sec-h"><h2 class="sec-t"><span class="ico"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1a5 5 0 0 0-5 5c0 3.8 5 9 5 9s5-5.2 5-9a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg></span>Escolha sua cidade</h2>
     <input class="busca-cid" type="search" placeholder="Digite o nome da cidade" aria-label="Buscar cidade" data-busca-cid></div>
   {{ with .Site.GetPage "/cidades" }}{{ $cidades := .Sections.ByTitle }}
   {{ $presentes := slice }}
-  {{ range $uf := slice "SP" "RJ" "PR" "MG" "RS" "ES" "SC" "GO" "BA" "DF" }}{{ range $cidades }}{{ if and (strings.HasSuffix .Title (printf "(%s)" $uf)) (not (in $presentes $uf)) }}{{ $presentes = $presentes | append $uf }}{{ end }}{{ end }}{{ end }}
+  {{/* Estado com 1 cidade só (a capital) não ganha aba: 27 abas não cabiam numa linha. Ele aparece na aba "Capitais". */}}
+  {{ $capitais := slice "rio-branco" "maceio" "macapa" "manaus" "salvador" "fortaleza" "brasilia" "vitoria-es" "goiania" "sao-luis" "cuiaba" "campo-grande" "belo-horizonte" "belem" "joao-pessoa" "curitiba" "recife" "teresina" "rio-de-janeiro" "natal" "porto-alegre" "porto-velho" "boa-vista" "florianopolis" "sao-paulo" "aracaju" "palmas" }}
+  {{ range $uf := slice "SP" "RJ" "MG" "PR" "RS" "SC" "ES" "DF" "AC" "AL" "AP" "AM" "BA" "CE" "GO" "MA" "MT" "MS" "PA" "PB" "PE" "PI" "RN" "RO" "RR" "SE" "TO" }}{{ $n := 0 }}{{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}{{ $n = add $n 1 }}{{ end }}{{ end }}{{ if ge $n 2 }}{{ $presentes = $presentes | append $uf }}{{ end }}{{ end }}
   <div class="uf-tabs" role="tablist" aria-label="Estados">
     {{ range $presentes }}{{ $uf := . }}{{ $n := 0 }}{{ range $cidades }}{{ if strings.HasSuffix .Title (printf "(%s)" $uf) }}{{ $n = add $n 1 }}{{ end }}{{ end }}
     <button type="button" role="tab" data-uf-tab="{{ $uf }}" aria-controls="uf-{{ $uf }}">{{ index $ufs $uf }}<span>{{ $n }}</span></button>
     {{ end }}
+    <button type="button" role="tab" data-uf-tab="CAP" aria-controls="uf-CAP">Capitais<span>{{ len $capitais }}</span></button>
   </div>
   {{ range $presentes }}{{ $uf := . }}
   <div class="uf-painel" id="uf-{{ $uf }}" data-uf="{{ $uf }}" role="tabpanel">
@@ -130,6 +133,17 @@
     </ul>
   </div>
   {{ end }}
+  <div class="uf-painel" id="uf-CAP" data-uf="CAP" role="tabpanel">
+    <h3 class="uf-nome">Capitais</h3>
+    <ul class="cid-lista">
+    {{ range $cidades }}{{ $s := path.Base (strings.TrimSuffix "/" .RelPermalink) }}{{ if in $capitais $s }}
+      {{ $uf := replaceRE `^.*\(([A-Z]{2})\)$` "$1" .Title }}
+      {{ $nome := replaceRE ` \([A-Z]{2}\)$` "" .Title }}
+      {{ $novo := false }}{{ with .Pages.ByDate.Reverse }}{{ with index . 0 }}{{ if gt .Date.Unix $ontem }}{{ $novo = true }}{{ end }}{{ end }}{{ end }}
+      <li><a href="https://{{ $s }}.{{ site.Params.baseDomain }}/" data-nome="{{ $nome }}"{{ if in $presentes $uf }} data-dup{{ end }}{{ if $novo }} class="novo" title="Notícia nas últimas 24 h"{{ end }}>{{ $nome }} <small>{{ $uf }}</small></a></li>
+    {{ end }}{{ end }}
+    </ul>
+  </div>
   {{ end }}
   <p class="cid-vazia" hidden>Nenhuma cidade com esse nome ainda. <a href="{{ "contato/" | absURL }}">Peça a sua</a>.</p>
   <p class="legenda"><span class="ponto"></span> notícia nas últimas 24 horas</p>
@@ -148,7 +162,7 @@
     box.classList.toggle("buscando", !!q);
     paineis.forEach(function(g){
       var n = 0;
-      g.querySelectorAll("a[data-nome]").forEach(function(a){ var ok = !q || tira(a.getAttribute("data-nome")).indexOf(q) > -1; a.parentNode.hidden = !ok; if (ok) n++; });
+      g.querySelectorAll("a[data-nome]").forEach(function(a){ var ok = (!q || tira(a.getAttribute("data-nome")).indexOf(q) > -1) && !(q && a.hasAttribute("data-dup")); a.parentNode.hidden = !ok; if (ok) n++; });
       g.hidden = q ? n === 0 : g.getAttribute("data-uf") !== atual; total += n;
     });
     abas.forEach(function(b){ b.setAttribute("aria-selected", !q && b.getAttribute("data-uf-tab") === atual ? "true" : "false"); });
@@ -158,6 +172,7 @@
   if (campo) campo.addEventListener("input", mostra);
   function peloHash(){
     var m = /^#uf-([A-Z]{2})$/.exec(location.hash);
+    if (m && !box.querySelector('[data-uf="' + m[1] + '"]')) m[1] = "CAP";
     if (m && box.querySelector('[data-uf="' + m[1] + '"]')) { atual = m[1]; if (campo) campo.value = ""; mostra(); box.scrollIntoView(); }
   }
   mostra(); peloHash();

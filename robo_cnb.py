@@ -116,6 +116,32 @@ CIDADES = [
     ("suzano", "Suzano (SP)", "Suzano SP"),
     ("taboao-da-serra", "Taboão da Serra (SP)", "Taboao da Serra SP"),
     ("vargem-grande-paulista", "Vargem Grande Paulista (SP)", "Vargem Grande Paulista SP"),
+    # Sumaré e capitais (27/11/2026)
+    ("sumare", "Sumaré (SP)", "Sumare SP"),
+    ("rio-branco", "Rio Branco (AC)", "Rio Branco AC"),
+    ("maceio", "Maceió (AL)", "Maceio AL"),
+    ("macapa", "Macapá (AP)", "Macapa AP"),
+    ("manaus", "Manaus (AM)", "Manaus AM"),
+    ("salvador", "Salvador (BA)", "Salvador BA"),
+    ("fortaleza", "Fortaleza (CE)", "Fortaleza CE"),
+    ("brasilia", "Brasília (DF)", "Brasilia DF"),
+    ("goiania", "Goiânia (GO)", "Goiania GO"),
+    ("sao-luis", "São Luís (MA)", "Sao Luis MA"),
+    ("cuiaba", "Cuiabá (MT)", "Cuiaba MT"),
+    ("campo-grande", "Campo Grande (MS)", "Campo Grande MS"),
+    ("belo-horizonte", "Belo Horizonte (MG)", "Belo Horizonte MG"),
+    ("belem", "Belém (PA)", "Belem PA"),
+    ("joao-pessoa", "João Pessoa (PB)", "Joao Pessoa PB"),
+    ("recife", "Recife (PE)", "Recife PE"),
+    ("teresina", "Teresina (PI)", "Teresina PI"),
+    ("rio-de-janeiro", "Rio de Janeiro (RJ)", "Rio de Janeiro RJ"),
+    ("natal", "Natal (RN)", "Natal RN"),
+    ("porto-alegre", "Porto Alegre (RS)", "Porto Alegre RS"),
+    ("porto-velho", "Porto Velho (RO)", "Porto Velho RO"),
+    ("boa-vista", "Boa Vista (RR)", "Boa Vista RR"),
+    ("florianopolis", "Florianópolis (SC)", "Florianopolis SC"),
+    ("aracaju", "Aracaju (SE)", "Aracaju SE"),
+    ("palmas", "Palmas (TO)", "Palmas TO"),
 ]
 
 # Nome que também é sobrenome, palavra comum ou outra cidade (Eduardo Cunha, "areias",
@@ -143,17 +169,46 @@ CIDADES_AMBIGUAS = {
     "santo-andre": r"(contra|derrota|vence|enfrenta|empata com|x) (o )?santo andre|santo andre (vence|derrota|empata|perde|joga|enfrenta|anuncia|contrata)|ec santo andre|ramalhao|santo andre \(pb\)",
     "santa-isabel": r"santa isabel (do para|do ivai|do rio negro|do oeste|d.oeste)",
     "diadema": "", "jandira": "", "cotia": "", "cajamar": "",
+    # Capitais (27/11/2026): palavra comum, nome de gente, clube, bairro de outra cidade ou sede do governo
+    "natal": r"(arvore|ceia|feliz|vespera|luzes|decoracao|campanha|cesta|presente|musical|cantata|auto|vila|mundo|parada|feira|show|espirito|magia|magico|iluminado|solidario|dos sonhos) (de |do |da )?natal|natal (luz|iluminado|dos sonhos|magico|solidario|encantado|de luz)|no natal|papai noel",
+    "salvador": r"salvador dali|cristo salvador|el salvador|salvador do mundo|jesus|pastor|bombeiro|(o|um|como|foi o|e o) salvador",
+    "palmas": r"palmas \(pr\)|palmas[-/ ]pr\b|salva de palmas|bater palmas|aplau|de palmas",
+    "recife": r"recifes? de coral|corais|recife (de|da|do) (coral|corais|arenito)",
+    "fortaleza": r"(contra|derrota|vence|enfrenta|empata com|x|diante do|sobre o|torcida do|tecnico do) (o )?fortaleza|fortaleza (ec|vence|derrota|empata|perde|joga|enfrenta|contrata|estreia)|tricolor do pici|leao do pici|fortaleza (de|da|do) (santa|sao|nossa)",
+    "brasilia": r"planalto|congresso|camara dos deputados|senado|stf|supremo|ministerio|ministro|governo federal|presidente lula|lula|esplanada|itamaraty|tcu|stj|tse|pgr|policia federal|deputad|senador",
+    "boa-vista": r"(uma|com|de|a|tem) boa vista (para|do|da|de|pro)|boa vista (do|da|de) [a-z]+|bairro boa vista|jardim boa vista|vila boa vista",
+    "campo-grande": r"campo grande \(rj\)|zona oeste|bairro campo grande|campo grande do|campo grande, no rio|rio de janeiro",
+    "rio-branco": r"barao do rio branco|rio branco (fc|futebol|vence|derrota|empata)|(contra|vence|derrota|x) (o )?rio branco|rio branco do sul|rio branco \(es\)|rio branco \(sp\)",
+    "rio-de-janeiro": r"(governo|estado|interior|assembleia|alerj|tribunal de justica|tj|ministerio publico|mp|policia militar|policia civil|pm|secretaria estadual|regiao metropolitana|uerj|metro) do rio de janeiro|governador|castro|estado do rio",
+    "sao-luis": r"sao luis do|sao luis gonzaga|sao luis (rei|de franca)|igreja de sao luis",
+    "joao-pessoa": r"(avenida|rua|praca|escola|colegio|presidente|governador|epitacio) joao pessoa",
+    "belem": r"belem do|belem de|belem \(pb\)|presepio|jesus|menino|estrela de belem|torre de belem|lisboa",
+    "goiania": r"aparecida de goiania|goiania \(bairro\)",
+    "sumare": r"estacao sumare|metro sumare|bairro sumare|sumare \(zona oeste\)|perdizes|alto de pinheiros|vila madalena|sumare, na zona",
+    "manaus": "", "maceio": "", "macapa": "", "cuiaba": "", "teresina": "", "aracaju": "", "florianopolis": "",
+    "porto-velho": "", "porto-alegre": "", "belo-horizonte": "",
 }
 
-def nome_como_lugar(slug, cidade_pura, manchete):
+# Capitais que a imprensa escreve com artigo ("Prefeitura do Recife", "no Rio de Janeiro").
+CIDADES_COM_ARTIGO = {"recife", "rio-de-janeiro"}
+# Capitais em que a manchete que COMEÇA pelo nome ("João Pessoa recebe voo...") é quase sempre a cidade.
+CIDADES_INICIO_OK = {"joao-pessoa", "recife", "salvador", "belem", "rio-de-janeiro"}
+
+def nome_como_lugar(slug, cidade_pura, manchete, uf="sp"):
     c = re.escape(normalizar(cidade_pura))
     m = normalizar(manchete)
+    u = re.escape(uf.lower())
     neg = CIDADES_AMBIGUAS.get(slug, "")
     if neg and re.search(neg, m):
         return False
+    prep = r"em|de|para|prefeitura de|camara de|cidade de|municipio de"
+    if slug in CIDADES_COM_ARTIGO:
+        prep += r"|do|no|ao|prefeitura do|camara do"
+    if slug in CIDADES_INICIO_OK and re.match(rf"{c}\b", m):
+        return True
     return bool(re.search(
-        rf"\b(em|de|para|prefeitura de|camara de|cidade de|municipio de)\s+{c}\b"
-        rf"|\b{c}\s*(\(sp\)|[-/,]\s*sp\b)", m))
+        rf"\b({prep})\s+{c}\b"
+        rf"|\b{c}\s*(\({u}\)|[-/,]\s*{u}\b)", m))
 
 STOPWORDS = {
     "para", "com", "sobre", "pela", "pelo", "mais", "nova", "novo",
@@ -367,7 +422,7 @@ def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte="", slug=""):
     # a Prefeitura de Pelotas não escreve "Pelotas" no título das próprias notícias
     if c_norm not in m_norm and not fonte_eh_da_cidade(cidade_nome, fonte):
         return False
-    if slug in CIDADES_AMBIGUAS and not fonte_eh_da_cidade(cidade_nome, fonte)             and not nome_como_lugar(slug, cidade_pura, manchete):
+    if slug in CIDADES_AMBIGUAS and not fonte_eh_da_cidade(cidade_nome, fonte)             and not nome_como_lugar(slug, cidade_pura, manchete, (re.search(r"\((\w\w)\)", cidade_nome) or [None, "sp"])[1]):
         return False
     if outra_cidade_homonima(cidade_pura, manchete):
         return False
@@ -376,7 +431,7 @@ def pauta_eh_valida_para_cidade(cidade_nome, manchete, fonte="", slug=""):
     for bloq in TITULOS_GENERICOS_BLOQUEADOS:
         if m_norm.startswith(bloq):
             return False
-    if "prefeitura de " in m_norm and f"prefeitura de {c_norm}" not in m_norm:
+    if "prefeitura de " in m_norm and f"prefeitura de {c_norm}" not in m_norm and f"prefeitura do {c_norm}" not in m_norm:
         return False
     return True
 

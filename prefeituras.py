@@ -41,6 +41,12 @@ FEEDS_PREFEITURAS = {
     "areias": "https://www.areias.sp.gov.br/feed/",
     "guaratingueta": "https://guaratingueta.sp.gov.br/feed/",
     "cabo-frio": "https://cabofrio.rj.gov.br/feed/",
+    # capitais com texto completo no RSS (27/11/2026)
+    "goiania": "https://www.goiania.go.gov.br/feed/",
+    "rio-branco": "https://www.riobranco.ac.gov.br/feed/",
+    "salvador": "https://salvador.ba.gov.br/feed/",
+    "joao-pessoa": "https://www.joaopessoa.pb.gov.br/feed/",
+    "macapa": "https://macapa.ap.gov.br/feed/",
 }
 
 UA = "Mozilla/5.0 (compatible; CNBNewsBot/1.0; +https://news.cnbmobile.com/sobre/)"
