@@ -123,8 +123,10 @@ def codificar(png, wav, mp4, dur):
 
 def gerar(caminho, voz, saida):
     m = front_matter(caminho)
-    if not m["locucao"]:
-        raise SystemExit(f"{m['slug']}: sem lauda_youtube.texto_locucao")
+    if not m["locucao"]:  # matéria aprovada à mão pode não ter lauda: título + linha fina (ambos passaram pelas travas)
+        if not (m["titulo"] and m["linha"]):
+            raise SystemExit(f"{m['slug']}: sem lauda e sem linha fina")
+        m["locucao"] = f"{m['titulo'].rstrip('.')}. {m['linha'].rstrip('…').rstrip('.')}."
     if e_policia(m):
         raise SystemExit(f"{m['slug']}: Polícia não vai para a TV")
     item = {"c": "Brasil", "s": "", "u": m["slug"], "ed": m["editoria"], "cat": m["categoria"]}
