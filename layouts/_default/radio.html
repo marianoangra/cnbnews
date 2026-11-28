@@ -1,0 +1,18 @@
+{{ define "titulo" }}{{ .Title }} · CNB News{{ end }}
+{{ define "main" }}
+<article class="materia">
+  <h1>{{ .Title }}</h1>
+  <div class="corpo">
+    {{ .Content }}
+    {{ with site.Data.radio }}
+    <h2 id="creditos">Créditos das músicas</h2>
+    <p>{{ len .faixas }} faixas, cerca de {{ replace (string .horas) "." "," }} horas de música, tocadas em ordem aleatória.</p>
+    <ul class="creditos-radio">
+      {{ range sort .faixas "titulo" }}
+      <li>“{{ .titulo }}” — {{ .autor }} (<a href="{{ .fonte_url }}" rel="noopener" target="_blank">fonte</a>) · licença {{ if eq .licenca "CC-BY-4.0" }}<a href="https://creativecommons.org/licenses/by/4.0/deed.pt-br" rel="license noopener" target="_blank">Creative Commons Atribuição 4.0</a>{{ else }}{{ .licenca }}{{ end }}</li>
+      {{ end }}
+    </ul>
+    {{ end }}
+  </div>
+</article>
+{{ end }}
