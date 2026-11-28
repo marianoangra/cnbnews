@@ -145,7 +145,7 @@ export function criarServidor(token: string) {
     if (rota === '/api/aovivo') {
       const s = vigia.status();
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=30, s-maxage=60', 'Access-Control-Allow-Origin': '*' });
-      return void res.end(JSON.stringify({ aoVivo: s.aoVivo, url: s.url, desde: s.desde ?? null, verificadoEm: s.verificadoEm ?? null }));
+      return void res.end(JSON.stringify({ aoVivo: s.aoVivo, videoId: s.aoVivo ? s.videoId ?? null : null, url: s.url, desde: s.desde ?? null, verificadoEm: s.verificadoEm ?? null }));
     }
 
     const ip = String(req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? '?').split(',')[0].trim();

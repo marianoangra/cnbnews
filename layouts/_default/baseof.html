@@ -191,6 +191,12 @@
     .tvbox.on .tv-st .dot{background:#fff}
     .tv-tela{position:relative;aspect-ratio:16/9;background:#000}
     .tv-tela iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .tv-play{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:#000;cursor:pointer;display:block}
+    .tv-play img{width:100%;height:100%;object-fit:cover;display:block;opacity:.92;transition:opacity .2s}
+    .tv-play:hover img{opacity:1}
+    .tv-pl-ic{position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,.45);transition:transform .15s}
+    .tv-play:hover .tv-pl-ic,.tv-play:focus-visible .tv-pl-ic{transform:scale(1.08)}
+    .tv-pl-ic svg{width:30px;height:30px;fill:#fff;margin-left:3px}
     .tv-slate{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:10px;padding:20px;background:radial-gradient(130% 100% at 100% 0%,rgba(200,16,46,.6),transparent 58%),linear-gradient(180deg,#15161a,#0a0b0d)}
     .tv-slate .k{font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#ff9aa9}
     .tv-slate .t{font-size:1.32rem;font-weight:800;line-height:1.12;letter-spacing:-.03em;max-width:15em}
@@ -637,11 +643,30 @@
         if (caixa) {
           caixa.classList.add("on");
           var st = caixa.querySelector("[data-tv-st]"); if (st) st.textContent = "Ao vivo";
-          if (s.videoId && /^[\w-]{11}$/.test(s.videoId)) {
-            var f = document.createElement("iframe");
-            f.src = "https://www.youtube-nocookie.com/embed/" + s.videoId + "?autoplay=1&mute=1&playsinline=1&rel=0";
-            f.title = "TV CNB News ao vivo"; f.allow = "autoplay; encrypted-media; picture-in-picture"; f.allowFullscreen = true;
-            var tela = caixa.querySelector("[data-tv-tela]"); tela.innerHTML = ""; tela.appendChild(f);
+          var vid = s.videoId || ((s.url || "").match(/[?&]v=([\w-]{11})/) || [])[1];
+          var rod = caixa.querySelector(".tv-rod"), ab = rod && rod.querySelector("a"), rt = rod && rod.querySelector("span");
+          if (ab && s.url) ab.href = s.url;
+          if (vid && /^[\w-]{11}$/.test(vid)) {
+            /* Capa do que está passando (o YouTube renova a imagem da live) + Play. O player só carrega no clique,
+               e aí já sai COM som (clique do leitor libera o autoplay). Não pesa a página de quem não assiste. */
+            var tela = caixa.querySelector("[data-tv-tela]");
+            var bt = document.createElement("button");
+            bt.type = "button"; bt.className = "tv-play";
+            bt.setAttribute("aria-label", "Assistir à TV CNB News ao vivo aqui no site");
+            var im = document.createElement("img");
+            im.alt = ""; im.decoding = "async";
+            im.onerror = function(){ im.onerror = null; im.src = "https://i.ytimg.com/vi/" + vid + "/hqdefault.jpg"; };
+            im.src = "https://i.ytimg.com/vi/" + vid + "/hqdefault_live.jpg?t=" + Math.floor(Date.now() / 300000);
+            bt.appendChild(im);
+            bt.insertAdjacentHTML("beforeend", '<span class="tv-pl-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>');
+            bt.addEventListener("click", function(){
+              var f = document.createElement("iframe");
+              f.src = "https://www.youtube-nocookie.com/embed/" + vid + "?autoplay=1&playsinline=1&rel=0";
+              f.title = "TV CNB News ao vivo"; f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen = true;
+              tela.innerHTML = ""; tela.appendChild(f);
+            });
+            tela.innerHTML = ""; tela.appendChild(bt);
+            if (rt) rt.textContent = "No ar agora · toque para assistir";
           }
         }
       }).catch(function(){});
