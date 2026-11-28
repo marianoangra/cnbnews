@@ -24,10 +24,17 @@ for f in sorted(glob.glob(os.path.join(RAIZ, 'static', 'fotos', '*', '*.jpg'))):
     im.load()
     if im.mode != 'RGB':
         im = im.convert('RGB')
-    for q in (84, 80, 76, 72, 68, 64, 60):
-        buf = io.BytesIO()
-        im.save(buf, 'JPEG', quality=q, optimize=True, progressive=True)
-        if buf.tell() <= LIMITE:
+    # Primeiro só qualidade; foto muito detalhada que não cabe nem com 64 perde um pouco de resolução.
+    ok = False
+    for escala in (1.0, 0.9, 0.8, 0.7):
+        alvo = im if escala == 1.0 else im.resize((round(im.width * escala), round(im.height * escala)), Image.LANCZOS)
+        for q in (84, 80, 76, 72, 68, 64):
+            buf = io.BytesIO()
+            alvo.save(buf, 'JPEG', quality=q, optimize=True, progressive=True)
+            if buf.tell() <= LIMITE:
+                ok = True
+                break
+        if ok:
             break
     with open(f, 'wb') as out:
         out.write(buf.getvalue())
