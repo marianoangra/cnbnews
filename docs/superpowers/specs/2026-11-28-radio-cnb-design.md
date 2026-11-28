@@ -44,6 +44,18 @@ Webrádio do portal CNB News com **música e informação**. A notícia é a est
 - **Lançamento:** 48 h de teste não divulgado, depois liga o botão.
 - **Logs:** `~/cnbnews/radio.log`, padrão dos outros serviços.
 
+## Player: ouvir sem sair da página (decidido pelo user em 28/11)
+O ouvinte continua navegando com a rádio tocando. Escolha do user: **barra fixa no rodapé + navegação sem recarregar** (a janelinha pop-up foi descartada). Restrição do user: **não atrapalhar AdSense nem GA4**. Por isso:
+- **Navegação sem recarregar só liga enquanto a rádio toca.** Sem rádio (a maioria), o site recarrega a cada clique como hoje, sem nenhuma mudança em AdSense e GA4.
+- Com a rádio tocando, o clique em link interno busca a página nova, troca o conteúdo (menos a barra), atualiza `<title>`, URL (`history.pushState`), rola pro topo e reexecuta os scripts da página (relógio relativo, WhatsApp, clima, newsletter etc.). Voltar/avançar do navegador funciona.
+- **GA4:** `gtag('event','page_view', {page_location, page_title})` a cada troca.
+- **AdSense:** anúncios automáticos NÃO são reinseridos nas trocas (nenhum refresh automático = nenhum risco de política). Aceito: ouvinte vê menos anúncio enquanto navega com a rádio.
+- **Pausou a rádio:** o próximo clique volta a recarregar normalmente.
+- **Cidades:** com a rádio tocando, link para `<cidade>.news.cnbmobile.com/...` é aberto como `news.cnbmobile.com/cidades/<cidade>/...` (rota já funciona: 200). A canonical da página continua no subdomínio, SEO intocado.
+- Links externos, `target=_blank`, `/admin`, downloads e âncoras na mesma página: comportamento normal.
+- Falha ao buscar a página: cai para navegação normal (a rádio para, mas nada quebra).
+- Testar com `hugo --minify` 0.58.2 (o minify já apagou atributo antes).
+
 ## Decisões minhas (revisão de construtor)
 - Sem matéria nova suficiente para o boletim: o bloco é pulado e entra só a vinheta. Nunca repetir boletim velho.
 - Funnel: `tailscale funnel --set-path /radio` apontando pro Icecast, sem tocar na raiz (ttyd) nem em `/cnb-admin` e `/aovivo`.
