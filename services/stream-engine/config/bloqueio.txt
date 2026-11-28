@@ -1,0 +1,67 @@
+# Palavras e expressões que tiram a matéria da LIVE (ela continua no site).
+# Uma por linha. Comparação sem acento, sem maiúsculas, por palavra inteira.
+# Motivo: diretrizes de conteúdo adequado para anunciantes do YouTube + ECA/CLAUDE.md §5.
+baleado
+baleada
+baleados
+morto
+morta
+mortos
+mortas
+morte
+mortes
+assassinato
+assassinada
+assassinado
+homicidio
+estupro
+estuprada
+tiroteio
+tiros
+chacina
+esfaqueado
+esfaqueada
+facada
+feminicidio
+latrocinio
+sequestro
+sequestrada
+sequestrado
+tragedia
+acidente fatal
+corpo encontrado
+cadaver
+suicidio
+preso
+presa
+presos
+prisao em flagrante
+trafico
+abuso sexual
+violencia sexual
+menor apreendido
+adolescente apreendido
+# armas, drogas e roubo (27/11: "PM apreende dois revólveres" passou)
+revolver
+revolveres
+pistola
+pistolas
+fuzil
+fuzis
+arma de fogo
+armas de fogo
+municao
+municoes
+colete balistico
+drogas
+entorpecentes
+cocaina
+maconha
+crack
+assalto
+assaltos
+assaltante
+roubo
+roubos
+furto
+furtos
