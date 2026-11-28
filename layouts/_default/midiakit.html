@@ -45,9 +45,8 @@
       <div class="mk-mono" aria-hidden="true">RM</div>
       <div>
         <h3>Rafael Mariano <span>editor-chefe da CNB News</span></h3>
-        <p>Nascido em Angra dos Reis (RJ), filho de uma professora de matemática e de um contador, entrou na Marinha do Brasil por concurso aos 17 anos e embarcou como marinheiro em navio de guerra. Formado em Administração de Empresas, abriu uma lanchonete logo depois da faculdade e a vendeu quatro anos depois por quatro vezes o valor de mercado. Construiu carreira no mercado financeiro, com passagem por XP Investimentos, Rico e Terra Investimentos, e deu aulas no SENAI.</p>
-        <p>Foram os alunos do SENAI, no Rio de Janeiro, que o incentivaram a contar a própria história num livro, e do livro nasceram as palestras. A paixão por voar começou vendo helicópteros sobre o mar de Angra: hoje ele pilota entre São Paulo e Angra dos Reis.</p>
-        <p>É comunicador, palestrante, analista de investimentos certificado (CNPI), autor e piloto. Já levou suas palestras a eventos como o Digital Assets Forum e a Bitconf, e reuniu {{ .Params.instagram_seguidores }} seguidores no Instagram com conteúdo sobre finanças, negócios, fé e entrevistas.</p>
+        {{ partial "bio-rafael.html" .Params.instagram_seguidores }}
+        <p><a href="{{ "autor/rafael-mariano/" | absURL }}">Página do autor →</a></p>
         <ul class="mk-tags"><li>Comunicador</li><li>Palestrante</li><li>Analista CNPI</li><li>Piloto</li><li>Ex-Marinha do Brasil</li><li>Entrevistador</li></ul>
       </div>
     </div>

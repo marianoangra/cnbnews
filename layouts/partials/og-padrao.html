@@ -30,10 +30,10 @@
   "url": "https://news.cnbmobile.com/",
   "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}, "width": 192, "height": 192},
   "sameAs": [{{ site.Params.instagram }}{{ with site.Params.youtube }}, {{ replaceRE "/live$" "" . }}{{ end }}],
-  "founder": {"@type": "Person", "name": "Rafael Mariano", "url": "https://www.rafaelmariano.com.br"},
-  "publishingPrinciples": {{ "sobre/" | absURL }},
-  "correctionsPolicy": {{ "sobre/" | absURL }},
-  "ethicsPolicy": {{ "sobre/" | absURL }},
+  "founder": {"@type": "Person", "name": "Rafael Mariano", "url": {{ "autor/rafael-mariano/" | absURL }}},
+  "publishingPrinciples": {{ "politica-editorial/" | absURL }},
+  "correctionsPolicy": {{ "correcoes/" | absURL }},
+  "ethicsPolicy": {{ "politica-editorial/" | absURL }},
   "contactPoint": {"@type": "ContactPoint", "contactType": "redação", "email": "contato@rafaelmariano.com.br"}
 },{
   "@context": "https://schema.org",

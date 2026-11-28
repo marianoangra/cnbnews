@@ -23,7 +23,7 @@
   "dateModified": {{ .Lastmod.Format "2006-01-02T15:04:05-07:00" }},
   "articleSection": {{ partial "coluna-tema.html" .Params.tema }},
   "inLanguage": "pt-BR",
-  "author": [{"@type": "Person", "name": "Rafael Mariano", "url": "https://www.rafaelmariano.com.br"}],
+  "author": [{"@type": "Person", "name": "Rafael Mariano", "url": {{ "autor/rafael-mariano/" | absURL }}}],
   "publisher": {"@type": "Organization", "name": "CNB News", "url": "https://news.cnbmobile.com/", "sameAs": [{{ site.Params.instagram }}{{ with site.Params.youtube }}, {{ replaceRE "/live$" "" . }}{{ end }}], "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
 }
 </script>
@@ -36,7 +36,7 @@
   {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
   <div class="byline">
     <div>
-      <b>Por <a href="https://www.rafaelmariano.com.br" rel="author">{{ .Params.autor | default "Rafael Mariano" }}</a></b>
+      <b>Por <a href="{{ "autor/rafael-mariano/" | absURL }}" rel="author">{{ .Params.autor | default "Rafael Mariano" }}</a></b>
       <time class="time" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}" data-rel>Publicado em {{ .Date.Format "02/01/2006 às 15h04" }}</time>
     </div>
     <div class="share">

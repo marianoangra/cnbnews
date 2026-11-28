@@ -38,7 +38,7 @@
   {{ with .Description }}<p class="fina">{{ . }}</p>{{ end }}
   <div class="byline">
     <div>
-      <b>Redação CNB News — Editor-Chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a></b>
+      <b>Redação CNB News — Editor-Chefe: <a href="{{ "autor/rafael-mariano/" | absURL }}" rel="author">Rafael Mariano</a></b>
       <time class="time" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">Publicado em {{ .Date.Format "02/01/2006" }}</time>
     </div>
     <div class="share">

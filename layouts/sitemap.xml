@@ -39,6 +39,14 @@
     <priority>0.6</priority>
   </url>
   {{ end }}
+  {{/* páginas de confiança (E-E-A-T): autor, política editorial, correções, expediente */}}
+  {{ range slice "/rafael-mariano" "/politica-editorial" "/correcoes" "/sobre" }}{{ with site.GetPage . }}
+  <url>
+    <loc>{{ .Permalink }}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  {{ end }}{{ end }}
   {{ with site.GetPage "/anuncie" }}
   <url>
     <loc>{{ .Permalink }}</loc>

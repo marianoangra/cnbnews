@@ -1,0 +1,64 @@
+{{ define "titulo" }}{{ .Title }} · Editor-chefe · CNB News{{ end }}
+{{ define "meta" }}
+{{/* Página de autor (E-E-A-T): as assinaturas e o JSON-LD das matérias apontam para cá. */}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": {{ .Permalink }},
+  "mainEntity": {
+    "@type": "Person",
+    "@id": {{ printf "%s#pessoa" .Permalink }},
+    "name": {{ .Title }},
+    "jobTitle": {{ .Params.cargo }},
+    "description": {{ .Description }},
+    "url": {{ .Permalink }},
+    "worksFor": {"@type": "NewsMediaOrganization", "name": "CNB News", "url": "https://news.cnbmobile.com/"},
+    "sameAs": [{{ range $i, $l := .Params.links }}{{ if $i }}, {{ end }}{{ $l.url }}{{ end }}]
+  }
+}
+</script>
+{{ end }}
+{{ define "main" }}
+{{ $colunas := first 6 (where site.RegularPages "Section" "colunas").ByDate.Reverse }}
+<article class="materia autor">
+  <div class="crumbs"><a href="{{ "sobre/" | absURL }}">Expediente</a> · Autor</div>
+  <div class="au-topo">
+    <div class="au-mono" aria-hidden="true">RM</div>
+    <div>
+      <h1>{{ .Title }}</h1>
+      <p class="au-cargo">{{ .Params.cargo }}</p>
+    </div>
+  </div>
+  <div class="corpo">{{ partial "bio-rafael.html" .Params.instagram_seguidores }}</div>
+
+  <h2 class="bloco-t">O que ele faz na CNB News</h2>
+  <div class="corpo">
+    <p>Rafael responde pela linha editorial do portal: define as regras que os sistemas de redação seguem (fontes permitidas, travas de presunção de inocência, proteção de menores, conferência de números e nomes), lê e aprova as matérias que vão para a fila de revisão humana e assina as colunas. As notícias automáticas trazem a assinatura "Redação CNB News" e a fonte original; veja como funcionam na <a href="{{ "politica-editorial/" | absURL }}">política editorial</a>.</p>
+  </div>
+
+  {{ with .Params.imprensa }}
+  <h2 class="bloco-t">Na imprensa</h2>
+  <ul class="au-lista">{{ range . }}<li><a href="{{ .url }}" target="_blank" rel="noopener"><b>{{ .veiculo }}</b> · “{{ .titulo }}”</a><span>{{ .detalhe }}</span></li>{{ end }}</ul>
+  {{ end }}
+
+  {{ with $colunas }}
+  <h2 class="bloco-t">Colunas</h2>
+  <ul class="au-lista">{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a><span>{{ .Date.Format "02/01/2006" }}</span></li>{{ end }}</ul>
+  {{ end }}
+
+  <h2 class="bloco-t">Onde encontrar</h2>
+  <ul class="au-lista">{{ range .Params.links }}<li><a href="{{ .url }}" target="_blank" rel="me noopener">{{ .nome }}</a></li>{{ end }}<li><a href="{{ "contato/" | absURL }}">Contato com a redação</a></li></ul>
+</article>
+<style>
+  .au-topo{display:flex;align-items:center;gap:18px;margin:6px 0 18px}
+  .au-topo h1{margin:0}
+  .au-mono{width:84px;height:84px;flex:none;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:1.8rem;letter-spacing:-.04em;display:grid;place-items:center}
+  .au-cargo{margin:6px 0 0;color:var(--muted);font-weight:700}
+  .au-lista{list-style:none;padding:0;margin:0 0 8px}
+  .au-lista li{padding:10px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:2px}
+  .au-lista a{font-weight:700;color:var(--ink)}.au-lista a:hover{text-decoration:underline}
+  .au-lista span{font-size:.85rem;color:var(--muted)}
+  @media (max-width:520px){.au-mono{width:64px;height:64px;font-size:1.35rem}}
+</style>
+{{ end }}

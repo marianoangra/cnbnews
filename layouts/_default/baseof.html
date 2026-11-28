@@ -472,11 +472,11 @@
   <footer class="rodape"><div class="wrap">
     <div class="rod-top">
       <a class="brand" href="{{ $base }}" aria-label="CNB News, capa"><span class="badge">CNB</span><span class="brand-news">NEWS</span></a>
-      <p>Notícias de cada cidade do Brasil, a qualquer hora. Redação CNB News · Editor-chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a>.</p>
+      <p>Notícias de cada cidade do Brasil, a qualquer hora. Redação CNB News · Editor-chefe: <a href="{{ "autor/rafael-mariano/" | absURL }}" rel="author">Rafael Mariano</a>.</p>
     </div>
     <div class="rod-cols">
       <nav aria-label="Seções"><h4>Seções</h4><a href="{{ $base }}noticias/">Brasil</a><a href="{{ $base }}colunas/">Opinião e colunas</a><a href="{{ $base }}cidades/">Todas as cidades</a><a href="{{ $base }}busca/">Busca</a><a href="{{ $base }}newsletter/">Newsletter</a></nav>
-      <nav aria-label="Institucional"><h4>A CNB</h4><a href="{{ $base }}sobre/">Sobre e expediente</a><a href="{{ $base }}contato/">Contato e correções</a><a href="{{ $base }}anuncie/">Anuncie · mídia kit</a><a href="{{ $base }}privacidade/">Privacidade</a><a href="{{ $base }}termos/">Termos</a></nav>
+      <nav aria-label="Institucional"><h4>A CNB</h4><a href="{{ $base }}sobre/">Sobre e expediente</a><a href="{{ $base }}contato/">Contato</a><a href="{{ $base }}politica-editorial/">Política editorial</a><a href="{{ $base }}correcoes/">Correções</a><a href="{{ $base }}anuncie/">Anuncie · mídia kit</a><a href="{{ $base }}privacidade/">Privacidade</a><a href="{{ $base }}termos/">Termos</a></nav>
       <nav aria-label="Redes"><h4>Siga a CNB</h4>{{ with .Site.Params.instagram }}<a href="{{ . }}" target="_blank" rel="me noopener">Instagram @cnbnewstv</a>{{ end }}{{ with $canal }}<a href="{{ . }}" target="_blank" rel="me noopener">TV CNB News no YouTube</a>{{ end }}</nav>
     </div>
     <div class="rod-fim"><span>© {{ now.Format "2006" }} CNB News{{ with $cidade }} · {{ . }}{{ end }}</span><span>Textos com apoio de inteligência artificial, sempre com a fonte citada.</span></div>

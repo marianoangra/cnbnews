@@ -31,7 +31,7 @@
   "articleSection": {{ $secao }},
   "inLanguage": "pt-BR",
   {{ with .Params.fonte_url }}"isBasedOn": {{ . }},{{ end }}
-  "author": [{"@type": "Person", "name": "Rafael Mariano", "jobTitle": "Editor-chefe", "url": "https://www.rafaelmariano.com.br"}],
+  "author": [{"@type": "Person", "name": "Rafael Mariano", "jobTitle": "Editor-chefe", "url": {{ "autor/rafael-mariano/" | absURL }}}],
   "publisher": {"@type": "Organization", "name": "CNB News", "url": "https://news.cnbmobile.com/", "sameAs": [{{ site.Params.instagram }}{{ with site.Params.youtube }}, {{ replaceRE "/live$" "" . }}{{ end }}], "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}}}
 }
 </script>
@@ -44,7 +44,7 @@
   <div class="byline">
     <div>
       <b>{{ with .Params.autor }}{{ . }}{{ else }}Redação CNB News{{ end }}</b>{{ with .Params.fonte }}, com informações de {{ . }}{{ end }}
-      <span class="time">Editor-chefe: <a href="https://www.rafaelmariano.com.br" rel="author">Rafael Mariano</a></span>
+      <span class="time">Editor-chefe: <a href="{{ "autor/rafael-mariano/" | absURL }}" rel="author">Rafael Mariano</a></span>
       <time class="time" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}" data-rel>Publicado em {{ .Date.Format "02/01/2006 às 15h04" }}</time>
     </div>
     <div class="share">
