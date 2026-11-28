@@ -6,8 +6,11 @@
 Como funciona (testado em 28/11/2026: 400 s e 150 emendas sem salto de tempo):
   - Duas playlists ffconcat que apontam uma para a outra (lista-a -> lista-b -> lista-a ...).
   - UM ffmpeg com -re lê a lista-a e manda -c copy (zero recodificação: o Pentium nem sente).
-  - Enquanto uma lista toca, este script reescreve a outra com as notícias mais novas (~1 h por lista):
-    vinheta + notícias da mais nova para a mais velha, repetidas até fechar a hora.
+  - Cada lista tem ~15 min (CNB_TV_HORA). A PRÓXIMA lista é montada 60 s antes de tocar (o concat só abre o
+    arquivo da lista aninhada quando chega nele), então notícia nova entra no ar em até ~16 min.
+  - Rodízio contínuo entre listas: uma "rodada" = vinheta + todas as notícias do estoque, da mais nova para a
+    mais velha; a lista seguinte continua de onde a anterior parou. Notícia que chegou no meio da rodada entra
+    na frente (ainda não passou nesta rodada). Sem isso, com lista menor que o estoque, as velhas nunca iam ao ar.
   - Sem notícia no estoque: só a vinheta (nunca tela preta).
   - Cada emenda deixa ~1 arquivo aberto e ~75 KB no ffmpeg: o timer cnbnews-tv-reinicio reinicia toda segunda às 4h BRT.
   - A posição real vem do -progress do ffmpeg (out_time), não do relógio.
@@ -19,7 +22,8 @@ SEG = os.path.join(TV, "segmentos")
 AR = os.path.join(TV, "ar")
 CHAVE = os.path.join(TV, "youtube.key")
 RTMP = "rtmp://a.rtmp.youtube.com/live2/"
-HORA = float(os.environ.get("CNB_TV_HORA", 3600))  # duração de cada playlist; no teste, menor para ver as emendas
+HORA = float(os.environ.get("CNB_TV_HORA", 900))  # duração de cada playlist; no teste, menor para ver as emendas
+ANTES = 60  # monta a próxima lista este tanto de segundos antes de ela tocar
 
 
 # O AAC começa 1024 amostras ANTES do zero (priming: 1º pacote de áudio em -0,0213 s). Emendando pela duração
@@ -27,6 +31,7 @@ HORA = float(os.environ.get("CNB_TV_HORA", 3600))  # duração de cada playlist;
 # 28/11/2026). Declarando cada arquivo 1024/48000 s mais longo, o áudio emenda exato e o vídeo ganha 21 ms parado.
 PRIMING = 1024 / 48000
 _dur = {}
+_rodada = set()  # notícias que já entraram numa lista nesta rodada
 
 
 def duracao(mp4):
@@ -45,15 +50,20 @@ def montar(nome, proxima, geracao):
     noticias = sorted(glob.glob(os.path.join(SEG, "2*.mp4")), reverse=True)
     noticias = [f for f in noticias if ".parcial" not in f and os.path.exists(f) and os.path.getsize(f) > 0]
     itens, total = [], 0.0
+    _rodada.intersection_update(noticias)  # some quem saiu do estoque (>72 h)
     while total < HORA:
-        bloco = [vinheta] + noticias
-        for f in bloco:
-            itens.append(f)
-            total += duracao(f) + PRIMING
-            if total >= HORA:
+        pendentes = [f for f in noticias if f not in _rodada]
+        if not pendentes:  # rodada completa (ou estoque vazio): recomeça com a vinheta
+            _rodada.clear()
+            itens.append(vinheta)
+            total += duracao(vinheta) + PRIMING
+            if not noticias and total >= 60:
                 break
-        if not noticias and total >= 60:
-            break
+            continue
+        f = pendentes[0]
+        _rodada.add(f)
+        itens.append(f)
+        total += duracao(f) + PRIMING
     for velho in glob.glob(os.path.join(AR, f"{nome[-1]}*-*.mp4")):  # links da geração anterior DESTA lista
         if not os.path.basename(velho).startswith(f"{nome[-1]}{geracao}-"):
             os.remove(velho)
@@ -90,6 +100,7 @@ def main():
     geracao = int(time.time())
     fim = {"lista-a": montar("lista-a", "lista-b", geracao)}
     fim["lista-b"] = fim["lista-a"] + montar("lista-b", "lista-a", geracao)
+    pronta = {"lista-a": True, "lista-b": True}  # a próxima já está montada para tocar
     ff = subprocess.Popen(["ffmpeg", "-hide_banner", "-loglevel", "warning", "-re", "-f", "concat", "-i", os.path.join(AR, "lista-a.ffconcat"),
                            "-c", "copy", "-progress", "pipe:1", "-nostats"] + destino,
                           stdout=subprocess.PIPE, text=True, cwd=AR)
@@ -106,9 +117,12 @@ def main():
     tocando, outra = "lista-a", "lista-b"
     while ff.poll() is None:
         time.sleep(5)
-        if pos["s"] > fim[tocando] + 20:  # já passou para a outra: reescreve a que acabou de tocar
+        if not pronta[outra] and pos["s"] > fim[tocando] - ANTES:  # 60 s antes de a outra tocar: monta com o mais novo
             geracao += 1
-            fim[tocando] = fim[outra] + montar(tocando, outra, geracao)
+            fim[outra] = fim[tocando] + montar(outra, tocando, geracao)
+            pronta[outra] = True
+        if pos["s"] > fim[tocando] + 20:  # já passou para a outra: a que acabou de tocar fica para remontar
+            pronta[tocando] = False
             tocando, outra = outra, tocando
     print("ffmpeg saiu com", ff.returncode, flush=True)
     sys.exit(ff.returncode or 1)
