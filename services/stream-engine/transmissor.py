@@ -43,7 +43,7 @@ def montar(nome, proxima, geracao):
     aninhada do ffconcat recusa caminho absoluto ('unsafe file name')."""
     vinheta = os.path.join(SEG, "vinheta.mp4")
     noticias = sorted(glob.glob(os.path.join(SEG, "2*.mp4")), reverse=True)
-    noticias = [f for f in noticias if os.path.getsize(f) > 0]
+    noticias = [f for f in noticias if ".parcial" not in f and os.path.exists(f) and os.path.getsize(f) > 0]
     itens, total = [], 0.0
     while total < HORA:
         bloco = [vinheta] + noticias

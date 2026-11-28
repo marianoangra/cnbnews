@@ -110,7 +110,7 @@ def sintetizar(texto, voz, wav):
 def codificar(png, wav, mp4, dur):
     """Quadro parado + voz -> MP4 com os parâmetros FIXOS da TV (a transmissão emenda com -c copy).
     0,8 s de silêncio antes e 1,2 s depois: respiro entre uma notícia e outra."""
-    tmp = mp4 + ".parcial.mp4"
+    tmp = mp4[:-4] + ".parcial"  # sem ".mp4" no fim: o transmissor lista "2*.mp4" e não pode pegar arquivo pela metade
     subprocess.run(["nice", "-n", "15", "ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", "30", "-i", png,
                     "-i", wav, "-filter_complex", "[1:a]adelay=800|800,apad=pad_dur=1.2,aresample=48000,aformat=channel_layouts=stereo[a]",
                     "-map", "0:v", "-map", "[a]", "-t", f"{dur + 2.0:.2f}",
