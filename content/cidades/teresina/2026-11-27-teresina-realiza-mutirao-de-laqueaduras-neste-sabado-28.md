@@ -1,0 +1,11 @@
+---
+title: "Teresina realiza mutirão de laqueaduras neste sábado (28)"
+date: 2026-11-27T17:54:53.836704-03:00
+description: "Em Teresina, um evento de laqueaduras ocorrerá no sábado, dia 28, para a realização das atividades programadas."
+fonte: "G1"
+fonte_url: "https://news.google.com/rss/articles/CBMijwFBVV95cUxNaTJzY3dldnlHZlRVdUhMR09oY1A1NDRKR01QQVFwbG9xVmtjR2d0TWN5bDN6d2EtSmlUNUFYSVlFcnY3MDRfeEh3ZWE5cC15YUhIRHlLRVdTLVp1NE5EamVaT2NtMXBPY2I0YmpJbGpJenZiVlFMUm90TGg2bFhBLWEySS1sdms5cjB1OUItQdIBngFBVV95cUxPalc4OVRhMVBWRnVpTEFKQkoxVkZ1VHM2Y2p4YnY2U2g3aDM2MmJtajF0bjBtZWxSTzl2WDBEdWlIMzVBdzM3cUxwcVQ5Zm9uZ1JVVG1BV3R1Z2RMVjlPR0hSZEtVZUJwbkFlUlRIZDJnX1NMTkhwTllIcUh1YS1jdkNXY3VnVW5qNWd5ZEhTNzJwcmJXVEtsT3FFLTU2Zw?oc=5"
+---
+
+A cidade de Teresina realizará um mutirão de laqueaduras durante o sábado, data em que os procedimentos serão executados conforme planejado.
+
+*A informação é de G1. [Leia a matéria original](https://news.google.com/rss/articles/CBMijwFBVV95cUxNaTJzY3dldnlHZlRVdUhMR09oY1A1NDRKR01QQVFwbG9xVmtjR2d0TWN5bDN6d2EtSmlUNUFYSVlFcnY3MDRfeEh3ZWE5cC15YUhIRHlLRVdTLVp1NE5EamVaT2NtMXBPY2I0YmpJbGpJenZiVlFMUm90TGg2bFhBLWEySS1sdms5cjB1OUItQdIBngFBVV95cUxPalc4OVRhMVBWRnVpTEFKQkoxVkZ1VHM2Y2p4YnY2U2g3aDM2MmJtajF0bjBtZWxSTzl2WDBEdWlIMzVBdzM3cUxwcVQ5Zm9uZ1JVVG1BV3R1Z2RMVjlPR0hSZEtVZUJwbkFlUlRIZDJnX1NMTkhwTllIcUh1YS1jdkNXY3VnVW5qNWd5ZEhTNzJwcmJXVEtsT3FFLTU2Zw?oc=5).*
