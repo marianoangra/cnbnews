@@ -66,6 +66,8 @@ def ffmpeg(*args):
 def montar(tipo, agora_utc, para=None):
     os.makedirs(SAIDA, exist_ok=True)
     destino = os.path.join(SAIDA, f"proximo-{tipo}.mp3")
+    if os.path.exists(destino):  # o da hora anterior nunca pode ir ao ar (hora certa errada): falhou daqui pra frente = só vinheta
+        os.remove(destino)
     tocados_p = os.path.join(SAIDA, f"tocados-{tipo}.json")
     tocados = json.load(open(tocados_p)) if os.path.exists(tocados_p) else {}
     escolhidos = B.escolher(carregar_segmentos(), agora_utc, tocados, B.TIPOS[tipo])
@@ -78,8 +80,6 @@ def montar(tipo, agora_utc, para=None):
             soma += s.get("duracao", 30)
         escolhidos = cortados
     if not escolhidos:
-        if os.path.exists(destino):
-            os.remove(destino)
         log(f"{tipo}: pulado (estoque insuficiente)")
         return None
     voz = VOZES[len(tocados) % 2]
