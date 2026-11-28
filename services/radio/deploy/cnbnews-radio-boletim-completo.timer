@@ -1,0 +1,10 @@
+[Unit]
+Description=Radio CNB - boletim completo pronto aos :57 (vai ao ar na hora cheia)
+
+[Timer]
+OnCalendar=*-*-* *:57:00
+Unit=cnbnews-radio-boletim@completo.service
+Persistent=false
+
+[Install]
+WantedBy=timers.target

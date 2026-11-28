@@ -1,0 +1,10 @@
+[Unit]
+Description=Radio CNB - manchetes prontas aos :27 (vao ao ar aos :30)
+
+[Timer]
+OnCalendar=*-*-* *:27:00
+Unit=cnbnews-radio-boletim@manchetes.service
+Persistent=false
+
+[Install]
+WantedBy=timers.target

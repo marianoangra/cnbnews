@@ -26,10 +26,10 @@ class TestEscolher(unittest.TestCase):
         self.assertNotIn("velha", slugs)
         self.assertEqual(len(slugs), 3)
 
-    def test_nao_repete_tocado_em_3h(self):
+    def test_nao_repete_no_bloco_seguinte(self):
         segs = [seg("a", 1), seg("b", 2), seg("c", 3), seg("d", 4)]
-        tocados = {"a": (AGORA - dt.timedelta(hours=2)).isoformat(),
-                   "b": (AGORA - dt.timedelta(hours=4)).isoformat()}
+        tocados = {"a": (AGORA - dt.timedelta(minutes=55)).isoformat(),
+                   "b": (AGORA - dt.timedelta(minutes=125)).isoformat()}
         slugs = [s["slug"] for s in b.escolher(segs, AGORA, tocados, 6)]
         self.assertNotIn("a", slugs)
         self.assertIn("b", slugs)

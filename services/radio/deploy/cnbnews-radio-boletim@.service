@@ -1,0 +1,12 @@
+[Unit]
+Description=Radio CNB - monta o proximo boletim (%i)
+RequiresMountsFor=/mnt/hd
+
+[Service]
+Type=oneshot
+User=rafael
+Nice=10
+WorkingDirectory=/home/rafael/cnbnews
+ExecStart=/mnt/hd/tv/piper-venv/bin/python services/radio/montar_boletim.py --tipo %i
+StandardOutput=append:/home/rafael/cnbnews/radio-boletim.log
+StandardError=append:/home/rafael/cnbnews/radio-boletim.log

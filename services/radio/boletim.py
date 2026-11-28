@@ -6,10 +6,10 @@ O produtor já recusa Polícia; aqui só entram frescor, repetição e quantidad
 """
 import datetime as dt
 
-TIPOS = {"completo": 6, "manchetes": 4}
-MINIMO = {6: 3, 4: 2}
+TIPOS = {"completo": 8, "manchetes": 4}  # completo = áudio dos segmentos, cortado em ~3 min no montar_boletim; manchetes = só os títulos
+MINIMO = {8: 3, 4: 2}
 JANELA = dt.timedelta(hours=24)
-SEM_REPETIR = dt.timedelta(hours=3)
+SEM_REPETIR = dt.timedelta(minutes=90)  # nunca a mesma matéria em dois blocos seguidos do mesmo tipo (fluxo ~14 matérias/dia)
 
 _HORAS = ["zero", "uma", "duas", "três", "quatro", "cinco", "seis", "sete", "oito", "nove", "dez",
           "onze", "doze", "treze", "quatorze", "quinze", "dezesseis", "dezessete", "dezoito", "dezenove",
@@ -17,7 +17,7 @@ _HORAS = ["zero", "uma", "duas", "três", "quatro", "cinco", "seis", "sete", "oi
 
 
 def escolher(segmentos, agora, tocados, n):
-    """Até n segmentos frescos (< 24 h), mais recentes primeiro, sem os tocados nas últimas 3 h.
+    """Até n segmentos frescos (< 24 h), mais recentes primeiro, sem as tocadas no bloco anterior do mesmo tipo.
     Menos que o mínimo do tipo → [] (o bloco é pulado)."""
     def tocado_recente(slug):
         quando = tocados.get(slug)
