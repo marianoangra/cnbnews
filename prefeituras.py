@@ -163,6 +163,40 @@ JSON:
 Responda EXCLUSIVAMENTE o JSON."""
 
 
+# Trava de REGIÃO TROCADA (27/11/2026). Caso real: o comunicado de SP dizia "Parque do Carmo, na Zona Leste"
+# e a matéria escreveu "A região central também conta com ... Parque do Carmo". As outras travas só veem se o
+# nome existe no comunicado. Um revisor com IA (qwen3:4b) foi testado e REPROVADO: apontou frase certa como
+# errada e deixou passar essa. Esta trava é por código: só avisa (a matéria vai para a fila), nunca apaga.
+_REGIOES = re.compile(
+    r"\b(regi[aã]o central|centro hist[oó]rico|centro da cidade|zona (?:norte|sul|leste|oeste|rural|central)"
+    r"|regi[aã]o (?:norte|sul|leste|oeste|metropolitana|serrana)|litoral (?:norte|sul))\b", re.I)
+_LUGAR = re.compile(r"\b((?:Parque|Praça|Praia|Avenida|Rua|Largo|Bairro|Vila|Jardim|Estação|Terminal|Mercado|Teatro|Museu|"
+                    r"Hospital|Ilha|Lagoa|Morro|Ponte|Viaduto)\s+(?:d[aeo]s?\s+)?[A-ZÁÉÍÓÚÂÊÔÃÕ][\wÀ-ÿ'-]+(?:\s+[A-ZÁÉÍÓÚÂÊÔÃÕ][\wÀ-ÿ'-]+)*)")
+
+
+def _n(s):
+    import unicodedata
+    return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode().lower()
+
+
+def regiao_trocada(texto_fonte, artigo):
+    """Frases da matéria que põem um lugar numa região que o comunicado não liga a esse lugar."""
+    pars = [_n(p) for p in re.split(r"\n\s*\n|\n", texto_fonte) if p.strip()]
+    alertas = []
+    for frase in re.split(r"(?<=[.!?])\s+", artigo.replace("\n", " ")):
+        regioes = {_n(m.group(1)) for m in _REGIOES.finditer(frase)}
+        if not regioes:
+            continue
+        for lugar in {m.group(1) for m in _LUGAR.finditer(frase)}:
+            ln = _n(lugar)
+            # Só o MESMO parágrafo: incluir os vizinhos foi testado e deixou passar o caso do Parque do Carmo
+            # (o parágrafo seguinte falava de "região central" por outro motivo).
+            com_lugar = [p for p in pars if ln in p]
+            if com_lugar and not any(rg in p for p in com_lugar for rg in regioes):
+                alertas.append(f'região trocada? "{lugar}" + "{", ".join(sorted(regioes))}" não aparecem juntos no comunicado')
+    return list(dict.fromkeys(alertas))[:3]
+
+
 def montar_texto_oficial(artigo, cidade_nome, link, slug=""):
     return (f"{artigo.strip()}\n\n*Com informações da {orgao(slug, cidade_nome)}. "
             f"[Leia o comunicado original]({link}).*")

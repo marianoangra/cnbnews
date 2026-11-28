@@ -848,6 +848,7 @@ def processar_prefeitura(slug, nome, pasta, tz, novos):
             texto = prefeituras.montar_texto_oficial(artigo, nome, link, slug)
             score, motivos = avaliar_sensibilidade(title, desc, texto)
             orto = checar_ortografia(title, desc, artigo, f"{titulo} {texto_fonte}", fonte)
+            orto += prefeituras.regiao_trocada(texto_fonte, artigo)  # região trocada: vai para a fila, não apaga
             if orto:
                 motivos = list(motivos) + orto
             if precisa_contraditorio(title, desc, texto) and CLAUSULA_CONTRADITORIO not in texto:
