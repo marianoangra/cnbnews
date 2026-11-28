@@ -254,6 +254,39 @@ def _ler_front_matter(caminho):
         pass
     return title, url
 
+DESCARTADAS_ARQ = ".robo_descartadas.json"  # fora do git (.gitignore)
+DESCARTE_HORAS = 24
+_descartadas = None
+
+def _chave_descarte(slug, texto):
+    return slug + "|" + normalizar(texto)[:120]
+
+def descartada_recente(slug, texto):
+    """Pauta que já foi descartada nas últimas 24 h: não gasta GPU reescrevendo de novo."""
+    global _descartadas
+    if _descartadas is None:
+        try:
+            with open(DESCARTADAS_ARQ, encoding="utf-8") as f:
+                _descartadas = json.load(f)
+        except (OSError, ValueError):
+            _descartadas = {}
+    t = _descartadas.get(_chave_descarte(slug, texto))
+    return bool(t) and time.time() - t < DESCARTE_HORAS * 3600
+
+def marcar_descartada(slug, texto):
+    global _descartadas
+    if _descartadas is None:
+        descartada_recente(slug, texto)
+    agora = time.time()
+    _descartadas = {k: v for k, v in _descartadas.items() if agora - v < DESCARTE_HORAS * 3600}
+    _descartadas[_chave_descarte(slug, texto)] = agora
+    try:
+        with open(DESCARTADAS_ARQ + ".tmp", "w", encoding="utf-8") as f:
+            json.dump(_descartadas, f)
+        os.replace(DESCARTADAS_ARQ + ".tmp", DESCARTADAS_ARQ)
+    except OSError:
+        pass
+
 def fonte_ja_usada(pasta, fonte_url):
     """Só pelo link da fonte (site, fila de aprovação). eh_duplicada com título vazio sempre diz "duplicada"."""
     fila = os.path.join(FILA_APROVACAO, os.path.basename(pasta))
@@ -790,7 +823,7 @@ def processar_prefeitura(slug, nome, pasta, tz, novos):
     for titulo, link, texto_fonte, _data in prefeituras.pautas_da_prefeitura(slug, ja_publicado):
         if feitas >= prefeituras.MAX_POR_CICLO:
             break
-        if eh_duplicada(pasta, titulo, link, nome.split("(")[0]):
+        if eh_duplicada(pasta, titulo, link, nome.split("(")[0]) or descartada_recente(slug, link):
             continue
         print(f"[PREFEITURA {slug}] {titulo[:60]}...", flush=True)
         try:
@@ -799,6 +832,7 @@ def processar_prefeitura(slug, nome, pasta, tz, novos):
             dados = _gerar_json(prefeituras.prompt_materia(nome, titulo, texto_fonte, data_hoje, slug))
             if not dados.get("valido", True):
                 print("[PREFEITURA] IA: não é notícia", flush=True)
+                marcar_descartada(slug, link)
                 continue
             title = limpar_texto_ia(dados.get("title", ""))
             desc = limpar_texto_ia(dados.get("description", ""))
@@ -808,6 +842,7 @@ def processar_prefeitura(slug, nome, pasta, tz, novos):
             motivo = prefeituras.checar_materia_oficial(robo, nome, titulo, texto_fonte, data_hoje, title, desc, artigo, slug)
             if motivo:
                 print(f"[DESCARTADO] {motivo}: {title[:50]}...", flush=True)
+                marcar_descartada(slug, link)
                 continue
             fonte = prefeituras.orgao(slug, nome)
             texto = prefeituras.montar_texto_oficial(artigo, nome, link, slug)
@@ -857,12 +892,15 @@ def rodar_ciclo():
             if eh_duplicada(pasta, manchete, link, nome.split("(")[0]):
                 print(f"[DUPLICADA] Ignorando: {manchete[:50]}...", flush=True)
                 continue
+            if descartada_recente(slug, manchete):
+                continue
             print(f"[REDIGINDO {slug}] {manchete[:55]}...", flush=True)
             try:
                 agora = datetime.now(tz) - timedelta(minutes=novos * 7)
                 title, desc, texto = redigir_com_ia(nome, manchete, fonte, agora.strftime("%d/%m/%Y"))
                 if not title or not texto:
                     print("[IA REJEITOU] Pauta considerada invalida/nao-local pela IA.", flush=True)
+                    marcar_descartada(slug, manchete)
                     continue
                 if eh_duplicada(pasta, title, "", nome.split("(")[0]):
                     print(f"[DUPLICADA] Título reescrito repete matéria já publicada: {title[:50]}...", flush=True)
@@ -871,10 +909,12 @@ def rodar_ciclo():
                     or checar_redacao(manchete, nome, fonte, title, desc, texto)
                 if motivo:
                     print(f"[DESCARTADO] {motivo}: {title[:50]}...", flush=True)
+                    marcar_descartada(slug, manchete)
                     continue
                 low_check = (title + " " + texto).lower()
                 if len(texto) < 120 or len(desc) < 60 or any(w in low_check for w in [" the ", " with ", " from ", " are ", "<think>", "oitos", "oitavos"]):
                     print("[DESCARTADO] Texto curto ou fora do padrao pt-BR.", flush=True)
+                    marcar_descartada(slug, manchete)
                     continue
                 texto = montar_texto(texto, fonte, link)
                 score, motivos = avaliar_sensibilidade(title, desc, texto)

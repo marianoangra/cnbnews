@@ -69,6 +69,8 @@ PAGINAS_PREFEITURAS = {
     "belem": ("https://agenciabelem.com.br/Noticias", r"^/Noticia/\d+"),
     "cuiaba": ("https://www.cuiaba.mt.gov.br/noticias", r"^/noticias/[a-z0-9-]{15,}"),
     "vitoria-es": ("https://www.vitoria.es.gov.br/noticias", r"^/noticia/[a-z0-9-]{10,}"),
+    # A página da notícia mostra "11/05/2026" perto do título em TODAS (data errada): vale só a regra do link novo.
+    "pelotas": ("https://www.pelotas.com.br/listar-noticias", r"^/noticia/[a-z0-9-]{10,}", {"sem_data": True}),
 }
 
 # Quem publicou, quando não é "Prefeitura de <cidade>".
@@ -211,7 +213,8 @@ def pautas_html(slug, pular=None, agora=None):
     """Notícias novas da página de listagem (link que não estava lá na visita anterior)."""
     import paginas_oficiais as po
     agora = agora or datetime.now(timezone.utc)
-    lista, padrao = PAGINAS_PREFEITURAS[slug]
+    lista, padrao, *opcoes = PAGINAS_PREFEITURAS[slug]
+    sem_data = bool(opcoes and opcoes[0].get("sem_data"))
     links = po.links_da_lista(lista, padrao, maximo=12)
     estado = _estado()
     vistos = estado.get(slug)
@@ -226,6 +229,8 @@ def pautas_html(slug, pular=None, agora=None):
             continue
         try:
             titulo, final, texto, data = po.ler_pagina(link)
+            if sem_data:
+                data = None
         except Exception as e:
             print(f"[PREFEITURA {slug}] página falhou: {link} ({e})", flush=True)
             continue
