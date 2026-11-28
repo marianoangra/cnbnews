@@ -1,4 +1,5 @@
-"""Recomprime as fotos dos bancos (static/fotos/**/*.jpg) para no máximo 280 KB, sem mudar o tamanho em pixels.
+"""Recomprime as fotos dos bancos (static/fotos/**/*.jpg) para no máximo 280 KB, sem mudar o tamanho em pixels,
+e gera a miniatura <foto>-480.jpg (480 px de largura) que os cartões usam no srcset.
 
     python scripts/otimizar_fotos.py
 
@@ -12,9 +13,11 @@ from PIL import Image
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LIMITE = 280 * 1024
+MINI = '-480.jpg'   # layouts/partials/fig.html procura este sufixo (fileExists) antes de pôr o srcset
 
 antes = depois = mexidas = 0
-for f in sorted(glob.glob(os.path.join(RAIZ, 'static', 'fotos', '*', '*.jpg'))):
+FOTOS = [f for f in sorted(glob.glob(os.path.join(RAIZ, 'static', 'fotos', '*', '*.jpg'))) if not f.endswith(MINI)]
+for f in FOTOS:
     t = os.path.getsize(f)
     antes += t
     if t <= LIMITE:
@@ -41,3 +44,20 @@ for f in sorted(glob.glob(os.path.join(RAIZ, 'static', 'fotos', '*', '*.jpg'))):
     depois += buf.tell()
     mexidas += 1
 print(f'{mexidas} fotos recomprimidas · {antes // 1024 // 1024} MB -> {depois // 1024 // 1024} MB')
+
+# Miniaturas: os cartões da capa aparecem com 100-360 px; sem isto o celular baixava a foto de 1280 px
+# (~250 KB) para mostrar 162 px. Só gera a que falta ou que ficou mais velha que a foto.
+novas = 0
+for f in FOTOS:
+    m = f[:-4] + MINI
+    if os.path.exists(m) and os.path.getmtime(m) >= os.path.getmtime(f):
+        continue
+    im = Image.open(f)
+    im.load()
+    if im.mode != 'RGB':
+        im = im.convert('RGB')
+    if im.width > 480:
+        im = im.resize((480, round(im.height * 480 / im.width)), Image.LANCZOS)
+    im.save(m, 'JPEG', quality=74, optimize=True, progressive=True)
+    novas += 1
+print(f'{novas} miniaturas geradas')

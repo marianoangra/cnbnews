@@ -188,7 +188,7 @@ def main():
 
     with open(os.path.join(RAIZ, "data", "fotos", f"{a.slug}.json"), "w", encoding="utf-8") as out:
         json.dump(saida, out, ensure_ascii=False, indent=2)
-    print(f"{len(saida)} fotos em static/fotos/{a.slug}/ e data/fotos/{a.slug}.json. Revise antes de commitar.")
+    print(f"{len(saida)} fotos em static/fotos/{a.slug}/ e data/fotos/{a.slug}.json. Revise antes de commitar; depois rode scripts/otimizar_fotos.py (compressão + miniaturas -480).")
 
 
 if __name__ == "__main__":
