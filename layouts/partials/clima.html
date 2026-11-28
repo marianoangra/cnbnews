@@ -3,7 +3,7 @@
      Página de cidade: usa as coordenadas da própria cidade (mapa abaixo).
      Previsão do MET Norway (uso comercial permitido, crédito no title). Falhou: o widget fica escondido. */}}
 <div class="w w-clima" data-clima data-cidade="{{ .slug }}" data-nome="{{ .nome }}" hidden>
-  <svg class="cl-ic" data-cl-ic viewBox="0 0 48 48" aria-hidden="true"></svg>
+  <svg class="cl-ic" viewBox="0 0 48 48" aria-hidden="true"></svg>
   <span class="cl-tx">
     <span class="cl-l1"><b data-cl-t>--°</b><small data-cl-mm></small></span>
     <span class="cl-l2"><span data-cl-c></span><span class="cl-cond" data-cl-d></span></span>
@@ -58,7 +58,7 @@
   };
   function pinta(d){
     if (!d || typeof d.temp !== "number") return;
-    box.querySelector("[data-cl-ic]").innerHTML = ICONES[d.icone] || NUV;
+    box.querySelector(".cl-ic").innerHTML = ICONES[d.icone] || NUV;
     box.querySelector("[data-cl-t]").textContent = d.temp + "°";
     box.querySelector("[data-cl-mm]").textContent = (d.max != null && d.min != null) ? "↑" + d.max + "° ↓" + d.min + "°" : "";
     var onde = d.cidade || "";
