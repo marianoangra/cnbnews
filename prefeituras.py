@@ -71,6 +71,9 @@ PAGINAS_PREFEITURAS = {
     "vitoria-es": ("https://www.vitoria.es.gov.br/noticias", r"^/noticia/[a-z0-9-]{10,}"),
     # A página da notícia mostra "11/05/2026" perto do título em TODAS (data errada): vale só a regra do link novo.
     "pelotas": ("https://www.pelotas.com.br/listar-noticias", r"^/noticia/[a-z0-9-]{10,}", {"sem_data": True}),
+    "natal": ("https://natal.rn.gov.br/noticias", r"^/news/post\d+/\d+"),
+    # Fora (28/11/2026): Curitiba bloqueia robôs na Akamai (403 até no robots.txt; não contornar com UA de navegador);
+    # Recife (www2.recife.pe.gov.br) não responde. Essas cidades seguem só com o Google Notícias.
 }
 
 # Quem publicou, quando não é "Prefeitura de <cidade>".
@@ -78,6 +81,7 @@ ORGAOS = {
     "brasilia": "Agência Brasília (Governo do Distrito Federal)",
     "rio-de-janeiro": "Prefeitura do Rio de Janeiro",
     "recife": "Prefeitura do Recife",
+    "natal": "Prefeitura do Natal",
 }
 
 # Não é notícia para o leitor: pauta do dia para jornalistas, agenda de autoridade.
