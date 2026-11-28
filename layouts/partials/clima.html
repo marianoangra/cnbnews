@@ -1,7 +1,18 @@
-{{/* Clima da cidade (Open-Meteo, sem chave). Entrada: slug. Fica escondido se a cidade não tiver coordenadas ou a API falhar. */}}
-<span class="clima" id="clima" data-cidade="{{ . }}" hidden>Agora <b id="clima-t">--°</b> <span id="clima-d"></span> · máx <span id="clima-max">--</span>° mín <span id="clima-min">--</span>°</span>
+{{/* Clima no cabeçalho, ao lado do câmbio (27/11/2026). Entrada: dict "slug" (cidade ou "") "nome" (nome da cidade).
+     Capa/nacional: a cidade do visitante vem da geolocalização por IP da Vercel (/api/clima, sem pedir permissão).
+     Página de cidade: usa as coordenadas da própria cidade (mapa abaixo).
+     Previsão do MET Norway (uso comercial permitido, crédito no title). Falhou: o widget fica escondido. */}}
+<div class="w w-clima" data-clima data-cidade="{{ .slug }}" data-nome="{{ .nome }}" hidden>
+  <svg class="cl-ic" data-cl-ic viewBox="0 0 48 48" aria-hidden="true"></svg>
+  <span class="cl-tx">
+    <span class="cl-l1"><b data-cl-t>--°</b><small data-cl-mm></small></span>
+    <span class="cl-l2" data-cl-c></span>
+  </span>
+</div>
 <script>
 (function(){
+  var box = document.querySelector("[data-clima]");
+  if (!box || !window.fetch) return;
   var coords = {
     "pelotas":[-31.76,-52.34],"londrina":[-23.31,-51.16],"maringa":[-23.42,-51.93],
     "vitoria-es":[-20.31,-40.31],"angra-dos-reis":[-23.00,-44.31],"paraty":[-23.21,-44.71],
@@ -23,23 +34,48 @@
     "natividade-da-serra":[-23.37,-45.44],"sao-luiz-do-paraitinga":[-23.22,-45.31],"lagoinha":[-23.09,-45.19],"cunha":[-23.07,-44.96],
     "sao-paulo":[-23.55,-46.63],"aruja":[-23.40,-46.32],"barueri":[-23.51,-46.88],"biritiba-mirim":[-23.57,-46.04],"caieiras":[-23.36,-46.74],"cajamar":[-23.36,-46.88],"carapicuiba":[-23.52,-46.84],"cotia":[-23.60,-46.92],"diadema":[-23.69,-46.62],"embu-das-artes":[-23.65,-46.85],"embu-guacu":[-23.83,-46.81],"ferraz-de-vasconcelos":[-23.54,-46.37],"francisco-morato":[-23.28,-46.75],"franco-da-rocha":[-23.33,-46.73],"guararema":[-23.41,-46.04],"guarulhos":[-23.46,-46.53],"itapecerica-da-serra":[-23.72,-46.85],"itapevi":[-23.55,-46.93],"itaquaquecetuba":[-23.49,-46.35],"jandira":[-23.53,-46.90],"juquitiba":[-23.93,-47.07],"mairipora":[-23.32,-46.59],"maua":[-23.67,-46.46],"mogi-das-cruzes":[-23.52,-46.19],"osasco":[-23.53,-46.79],"pirapora-do-bom-jesus":[-23.40,-47.00],"poa":[-23.53,-46.34],"ribeirao-pires":[-23.71,-46.41],"rio-grande-da-serra":[-23.74,-46.40],"salesopolis":[-23.53,-45.85],"santa-isabel":[-23.32,-46.22],"santana-de-parnaiba":[-23.44,-46.92],"santo-andre":[-23.66,-46.53],"sao-bernardo-do-campo":[-23.69,-46.56],"sao-caetano-do-sul":[-23.62,-46.55],"sao-lourenco-da-serra":[-23.85,-46.94],"suzano":[-23.54,-46.31],"taboao-da-serra":[-23.61,-46.79],"vargem-grande-paulista":[-23.60,-47.03]
   };
-  var wmo = {
-    0:["☀️","Céu limpo"],1:["🌤️","Predomínio de sol"],2:["⛅","Parcialmente nublado"],3:["☁️","Nublado"],
-    45:["🌫️","Nevoeiro"],48:["🌫️","Nevoeiro"],51:["🌦️","Garoa leve"],53:["🌦️","Garoa moderada"],
-    61:["🌧️","Chuva fraca"],63:["🌧️","Chuva moderada"],65:["⛈️","Chuva forte"],
-    80:["🌦️","Pancadas de chuva"],81:["🌧️","Pancadas moderadas"],82:["⛈️","Tempestade"],95:["⛈️","Trovoadas"]
+  var slug = box.getAttribute("data-cidade"), c = slug && coords[slug];
+  var url = "/api/clima" + (c ? "?lat=" + c[0] + "&lon=" + c[1] + "&nome=" + encodeURIComponent(box.getAttribute("data-nome") || "") : "");
+  /* Ícones: traço fino, cor só no que importa (sol âmbar, gota azul, raio amarelo). */
+  var SOL = '<g class="cl-sol"><circle cx="24" cy="24" r="8"/><g class="cl-raios"><path d="M24 6v5M24 37v5M6 24h5M37 24h5M11.3 11.3l3.5 3.5M33.2 33.2l3.5 3.5M11.3 36.7l3.5-3.5M33.2 14.8l3.5-3.5"/></g></g>';
+  var SOLP = '<g class="cl-sol" transform="translate(-6 -7) scale(.78)"><circle cx="24" cy="24" r="8"/><g class="cl-raios"><path d="M24 7v4M7 24h4M12 12l3 3M36 12l-3 3M24 37v4"/></g></g>';
+  var LUA = '<path class="cl-lua" d="M30.5 9.5a15 15 0 1 0 8 25.5 12.5 12.5 0 0 1-8-25.5z"/>';
+  var LUAP = '<path class="cl-lua" transform="translate(-5 -6) scale(.72)" d="M30.5 9.5a15 15 0 1 0 8 25.5 12.5 12.5 0 0 1-8-25.5z"/>';
+  var NUV = '<path class="cl-nuv" d="M15 36h20a8 8 0 0 0 .6-16 11 11 0 0 0-21.2 2.6A6.8 6.8 0 0 0 15 36z"/>';
+  var NUVA = '<path class="cl-nuv" d="M15 30h20a7 7 0 0 0 .5-14 10 10 0 0 0-19.3 2.3A5.9 5.9 0 0 0 15 30z"/>';
+  var GOTAS = function(n){ var g = ''; for (var i = 0; i < n; i++) g += '<path class="cl-gota" style="animation-delay:' + (i * .35) + 's" d="M' + (17 + i * 7) + ' 35l-2 6"/>'; return g; };
+  var ICONES = {
+    "sol": SOL,
+    "lua": LUA,
+    "sol-nuvem": SOLP + NUV,
+    "lua-nuvem": LUAP + NUV,
+    "nuvem": NUV,
+    "chuva": NUVA + GOTAS(3),
+    "chuvisco": NUVA + GOTAS(2),
+    "tempestade": NUVA + '<path class="cl-raio" d="M25 31l-5 8h5l-3 7 8-10h-5l3-5z"/>',
+    "neblina": '<path class="cl-nev" d="M9 19h30M7 25h34M11 31h26M15 37h18"/>',
+    "neve": NUVA + '<g class="cl-nev"><circle cx="18" cy="38" r="1.4"/><circle cx="25" cy="41" r="1.4"/><circle cx="32" cy="38" r="1.4"/></g>'
   };
-  var box = document.getElementById("clima"), c = coords[box.getAttribute("data-cidade")];
-  if (!c) return;
-  fetch("https://api.open-meteo.com/v1/forecast?latitude="+c[0]+"&longitude="+c[1]+"&current_weather=true&daily=temperature_2m_max,temperature_2m_min&timezone=America%2FSao_Paulo&forecast_days=1")
-    .then(function(r){return r.json();})
-    .then(function(d){
-      var cw = d.current_weather, w = wmo[cw.weathercode] || ["", "tempo estável"];
-      document.getElementById("clima-t").textContent = Math.round(cw.temperature) + "°";
-      document.getElementById("clima-d").textContent = w[1].toLowerCase();
-      document.getElementById("clima-max").textContent = Math.round(d.daily.temperature_2m_max[0]);
-      document.getElementById("clima-min").textContent = Math.round(d.daily.temperature_2m_min[0]);
-      box.hidden = false;
-    }).catch(function(){});
+  function pinta(d){
+    if (!d || typeof d.temp !== "number") return;
+    box.querySelector("[data-cl-ic]").innerHTML = ICONES[d.icone] || NUV;
+    box.querySelector("[data-cl-t]").textContent = d.temp + "°";
+    box.querySelector("[data-cl-mm]").textContent = (d.max != null && d.min != null) ? "↑" + d.max + "° ↓" + d.min + "°" : "";
+    var onde = d.cidade || "";
+    box.querySelector("[data-cl-c]").textContent = (onde ? onde + " · " : "") + d.texto;
+    box.title = d.texto + " em " + (onde || "sua região") + " agora. " +
+      (d.max != null ? "Máxima de " + d.max + "° e mínima de " + d.min + "° nas próximas 24 horas. " : "") +
+      "Previsão: MET Norway (CC BY 4.0).";
+    box.setAttribute("aria-label", "Tempo: " + d.temp + " graus, " + d.texto + (onde ? ", " + onde : ""));
+    box.hidden = false;
+  }
+  var K = "cnb-clima-" + (slug || "geo"), g = null;
+  try { g = JSON.parse(sessionStorage.getItem(K) || "null"); } catch(e){}
+  if (g && Date.now() - g.t < 900000) { pinta(g.d); return; }
+  fetch(url).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    if (!d) return;
+    try { sessionStorage.setItem(K, JSON.stringify({ t: Date.now(), d: d })); } catch(e){}
+    pinta(d);
+  }).catch(function(){});
 })();
 </script>

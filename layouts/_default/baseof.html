@@ -76,8 +76,26 @@
     .w-cambio>span{display:flex;flex-direction:column}
     .w-cambio b{font-variant-numeric:tabular-nums}
     .w-cambio b.up::before{content:"▲ ";color:var(--up);font-size:.7em}.w-cambio b.dn::before{content:"▼ ";color:var(--dn);font-size:.7em}
-    .clima{font-size:.76rem;color:var(--muted);line-height:1.35;white-space:nowrap}
-    .clima b{display:inline-block;font-size:1.5rem;font-weight:800;color:var(--ink);letter-spacing:-.04em;line-height:1;margin-right:4px;vertical-align:-.12em}
+    /* Clima (ao lado do câmbio): ícone desenhado + temperatura grande + cidade e céu numa linha discreta */
+    .w-clima{flex-direction:row;align-items:center;gap:10px;cursor:default}
+    .w-clima[hidden]{display:none}
+    .cl-ic{width:38px;height:38px;flex:none;overflow:visible;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .cl-sol circle{fill:#f6b73c;stroke:#f6b73c;stroke-width:1.5}
+    .cl-raios path{stroke:#f6b73c;stroke-width:2.6}
+    .cl-raios{transform-origin:24px 24px;animation:cl-gira 40s linear infinite}
+    .cl-lua{fill:#f3d77a;stroke:#e9c24f;stroke-width:1.2}
+    .cl-nuv{fill:var(--surface);stroke:var(--muted);stroke-width:2.2}
+    .cl-gota{stroke:#3b82f6;stroke-width:2.6;animation:cl-chove 1.4s ease-in infinite}
+    .cl-raio{fill:#f6c33c;stroke:#e0a91e;stroke-width:1}
+    .cl-nev{stroke:var(--muted);stroke-width:2.4;fill:var(--muted)}
+    .cl-tx{display:flex;flex-direction:column;min-width:0}
+    .cl-l1{display:flex;align-items:baseline;gap:7px}
+    .cl-l1 b{font-size:1.45rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+    .cl-l1 small{font-size:.72rem;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.01em}
+    .cl-l2{font-size:.74rem;color:var(--muted);max-width:210px;overflow:hidden;text-overflow:ellipsis}
+    @keyframes cl-gira{to{transform:rotate(360deg)}}
+    @keyframes cl-chove{0%{transform:translateY(-3px);opacity:0}30%{opacity:1}100%{transform:translateY(4px);opacity:0}}
+    @media (prefers-reduced-motion:reduce){.cl-raios,.cl-gota{animation:none}}
     .busca{flex:none;display:flex;align-items:center;background:var(--surface);border:1px solid transparent;border-radius:6px;height:46px;width:270px;transition:border-color .15s,background .15s}
     .busca:focus-within{border-color:var(--ink-2);background:var(--bg)}
     .busca input{flex:1;min-width:0;border:0;background:none;font:inherit;font-size:.78rem;font-weight:600;letter-spacing:.05em;color:var(--ink);padding:0 4px 0 16px;outline:0}
@@ -334,7 +352,8 @@
 
     @media (max-width:1100px){.w-data{display:none}.hm{grid-template-columns:minmax(0,1fr) 330px;gap:32px}.mini-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.busca{width:230px}}
     @media (max-width:900px){
-      .widgets{display:none}.mast{justify-content:space-between}
+      .widgets{flex:none;gap:0}.widgets>:not(.w-clima){display:none}.mast{justify-content:space-between}
+      .w-clima{gap:7px}.cl-ic{width:30px;height:30px}.cl-l1 b{font-size:1.2rem}.cl-l1 small{display:none}.cl-l2{max-width:110px;font-size:.7rem}
       .hm{display:flex;flex-direction:column;gap:0}.hm-main,.hm-side{display:contents}
       .lead{order:1}.tvbox{order:2;margin-top:24px}.cards{order:3}.flash{order:4}.hm-side .servico{order:5}.blocos{order:6}
       .cards{grid-template-columns:repeat(2,minmax(0,1fr))}.blocos{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -400,7 +419,7 @@
       </a>
       <div class="widgets">
         {{ if not $slug }}<div class="w w-data"><b id="hoje-d">Hoje</b><span id="hoje">{{ now.Format "02/01/2006" }}</span></div>{{ end }}
-        {{ if $slug }}{{ partial "clima.html" $slug }}{{ end }}
+        {{ partial "clima.html" (dict "slug" $slug "nome" $nomeCidade) }}
         <div class="w w-cambio" data-cambio hidden><span>Dólar <b data-c="USD">–</b></span><span>Euro <b data-c="EUR">–</b></span></div>
       </div>
       {{/* A busca mora no domínio principal (no subdomínio /busca/ dá 404); na cidade, já filtra por ela. */}}
