@@ -99,6 +99,28 @@ def quadro(m, foto):
     return img
 
 
+def sintetizar(texto, voz, wav):
+    """Voz Piper do texto JÁ falável; devolve a duração em segundos."""
+    subprocess.run([PIPER, "-m", os.path.join(TV, "vozes", f"pt_BR-{voz}-medium.onnx"), "-f", wav],
+                   input=texto.encode("utf-8"), check=True, stderr=subprocess.DEVNULL)
+    with wave.open(wav) as w:
+        return w.getnframes() / w.getframerate()
+
+
+def codificar(png, wav, mp4, dur):
+    """Quadro parado + voz -> MP4 com os parâmetros FIXOS da TV (a transmissão emenda com -c copy).
+    0,8 s de silêncio antes e 1,2 s depois: respiro entre uma notícia e outra."""
+    tmp = mp4 + ".parcial.mp4"
+    subprocess.run(["nice", "-n", "15", "ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", "30", "-i", png,
+                    "-i", wav, "-filter_complex", "[1:a]adelay=800|800,apad=pad_dur=1.2,aresample=48000,aformat=channel_layouts=stereo[a]",
+                    "-map", "0:v", "-map", "[a]", "-t", f"{dur + 2.0:.2f}",
+                    "-c:v", "h264_nvenc", "-preset", "p5", "-rc", "cbr", "-b:v", "4500k", "-maxrate", "4500k", "-bufsize", "9000k",
+                    "-g", "60", "-bf", "0", "-pix_fmt", "yuv420p", "-r", "30",
+                    "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-movflags", "+faststart", "-f", "mp4", tmp], check=True)
+    os.replace(tmp, mp4)  # a playlist nunca enxerga arquivo pela metade
+    return dur + 2.0
+
+
 def gerar(caminho, voz, saida):
     m = front_matter(caminho)
     if not m["locucao"]:
@@ -112,21 +134,12 @@ def gerar(caminho, voz, saida):
         png, wav = os.path.join(tmp, "q.png"), os.path.join(tmp, "v.wav")
         quadro(m, foto).save(png)
         texto = falavel(m["locucao"])
-        subprocess.run([PIPER, "-m", os.path.join(TV, "vozes", f"pt_BR-{voz}-medium.onnx"), "-f", wav],
-                       input=texto.encode("utf-8"), check=True, stderr=subprocess.DEVNULL)
-        with wave.open(wav) as w:
-            dur = w.getnframes() / w.getframerate()
+        dur = sintetizar(texto, voz, wav)
         mp4 = os.path.join(saida, m["slug"] + ".mp4")
-        # 0,8 s de silêncio antes e 1,2 s depois: respiro entre uma notícia e outra.
-        subprocess.run(["nice", "-n", "15", "ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", "30", "-i", png,
-                        "-i", wav, "-filter_complex", "[1:a]adelay=800|800,apad=pad_dur=1.2,aresample=48000,aformat=channel_layouts=stereo[a]",
-                        "-map", "0:v", "-map", "[a]", "-t", f"{dur + 2.0:.2f}",
-                        "-c:v", "h264_nvenc", "-preset", "p5", "-rc", "cbr", "-b:v", "4500k", "-maxrate", "4500k", "-bufsize", "9000k",
-                        "-g", "60", "-bf", "0", "-pix_fmt", "yuv420p", "-r", "30",
-                        "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-movflags", "+faststart", mp4], check=True)
-    json.dump({"slug": m["slug"], "titulo": m["titulo"], "voz": voz, "duracao": round(dur + 2.0, 2), "texto_falado": texto},
+        total = codificar(png, wav, mp4, dur)
+    json.dump({"slug": m["slug"], "titulo": m["titulo"], "voz": voz, "duracao": round(total, 2), "texto_falado": texto},
               open(os.path.join(saida, m["slug"] + ".json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    return mp4, dur + 2.0
+    return mp4, total
 
 
 if __name__ == "__main__":
