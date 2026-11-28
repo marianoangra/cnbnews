@@ -1,0 +1,20 @@
+{{/* Barra fixa da Rádio CNB (fora do #pagina: não é trocada na navegação sem recarregar). Lógica em static/js/radio.js. */}}
+{{- with site.Params.radio -}}
+<div class="radio-barra" data-radio-barra data-url="{{ . }}" data-breve="{{ if site.Params.radioEmBreve }}1{{ end }}" hidden>
+  <button type="button" class="rb-play" data-rb-play aria-label="Ouvir a Rádio CNB">
+    <svg class="rb-i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="rb-i-pausa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+  </button>
+  <div class="rb-info">
+    <b>Rádio CNB News</b>
+    <span class="rb-st" data-rb-st role="status" aria-live="polite">Música e notícia, 24 horas</span>
+  </div>
+  <span class="rd-eq rb-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+  <button type="button" class="rb-de-novo" data-rb-de-novo hidden>Tentar de novo</button>
+  <a class="rb-sobre" href="{{ "radio/" | absURL }}">Sobre</a>
+  <button type="button" class="rb-fechar" data-rb-fechar aria-label="Desligar e fechar a rádio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  </button>
+</div>
+<script src="{{ "js/radio.js" | absURL }}" defer></script>
+{{- end -}}

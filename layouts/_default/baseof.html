@@ -78,6 +78,23 @@
     .rd-eq i:nth-child(2){animation-delay:-.3s}.rd-eq i:nth-child(3){animation-delay:-.6s}
     @keyframes eq{from{height:3px}to{height:11px}}
     .radio.tocando{color:#fff}.radio.tocando .rd-eq{display:inline-flex}.radio.carregando{opacity:.6}
+    /* Barra fixa da Rádio CNB (partials/radio-barra.html) */
+    .radio-barra{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;gap:12px;height:56px;padding:0 16px calc(env(safe-area-inset-bottom,0px));background:var(--black);color:#fff;font-family:var(--f-ui);border-top:3px solid var(--red);box-shadow:0 -4px 18px rgba(0,0,0,.18)}
+    .radio-barra[hidden]{display:none!important}
+    .rb-play{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--red);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+    .rb-play svg{width:20px;height:20px;fill:currentColor}.rb-i-pausa{display:none}
+    .radio-barra.tocando .rb-i-play{display:none}.radio-barra.tocando .rb-i-pausa{display:block}
+    .radio-barra.carregando .rb-play{opacity:.65}
+    .rb-info{display:flex;flex-direction:column;min-width:0;line-height:1.2}.rb-info b{font-size:.9rem}
+    .rb-st{font-size:.75rem;color:#c9ccd3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .radio-barra.fora .rb-st{color:#ff8a9c}
+    .radio-barra.tocando .rb-eq{display:inline-flex}
+    .rb-de-novo{border:1px solid #fff;background:none;color:#fff;font:inherit;font-size:.78rem;padding:6px 10px;border-radius:4px;cursor:pointer}
+    .rb-sobre{margin-left:auto;color:#c9ccd3;font-size:.78rem;text-decoration:none}.rb-sobre:hover{color:#fff}
+    .rb-fechar{flex:none;width:44px;height:44px;border:0;background:none;color:#c9ccd3;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+    .rb-fechar svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}.rb-fechar:hover{color:#fff}
+    body.tem-radio{padding-bottom:56px}
+    .rb-navegando body{cursor:progress}
 
     /* 2. Marca + serviço (data, clima, câmbio) + busca */
     .mast{display:flex;align-items:center;gap:20px 36px;padding:24px 0 20px}
@@ -384,6 +401,9 @@
     }
     @media (max-width:640px){
       .topo-r a:not(.ic),.topo-r .radio{display:none}.topo-l{gap:16px}
+      .topo-r .radio.rd-on{display:inline-flex;min-width:44px;min-height:44px;margin:-12px -10px;justify-content:center}.topo-r .radio.rd-on .rd-t{display:none}
+      .rb-sobre{display:none}.rb-de-novo{margin-left:auto}
+      body.tem-wa.tem-radio{padding-bottom:128px}body.tem-radio .wa-bar{bottom:56px}
       .mast{flex-wrap:wrap;padding:16px 0 14px;gap:14px}
       .badge{font-size:1.15rem;padding:7px 8px 6px}.brand-news{font-size:2.2rem}.city{font-size:1.85rem}.tag{display:none}
       .busca,.busca:focus-within{order:5;width:100%;height:42px}.busca input{font-size:16px}
@@ -413,6 +433,7 @@
   </style>
 </head>
 <body class="{{ block "bodyclass" . }}{{ end }}">
+  <div id="pagina">{{/* tudo que muda de uma página pra outra; a barra da rádio fica fora (static/js/radio.js) */}}
   {{- $base := printf "https://%s/" .Site.Params.baseDomain -}}
   {{- $nomeCidade := replaceRE " \\([A-Z]{2}\\)$" "" $cidade -}}
   {{- $canal := "" -}}{{- with .Site.Params.youtube -}}{{- $canal = replaceRE "/live$" "" . -}}{{- end -}}
@@ -546,29 +567,6 @@
         window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(txt), "_blank");
       });
     });
-    // Webrádio: um <audio> só, criado no primeiro clique (não baixa nada antes). HLS sem suporte nativo → hls.js do cdnjs.
-    document.querySelectorAll("[data-radio]").forEach(function(btn){
-      var audio = null, url = btn.getAttribute("data-radio");
-      function estado(){ var t = audio && !audio.paused; btn.classList.toggle("tocando", t); btn.setAttribute("aria-pressed", t ? "true" : "false"); btn.setAttribute("aria-label", t ? "Pausar a Rádio CNB" : "Ouvir a Rádio CNB"); }
-      function tocar(){ btn.classList.add("carregando"); audio.play().catch(function(){}).then(function(){ btn.classList.remove("carregando"); estado(); }); }
-      btn.addEventListener("click", function(){
-        if (audio) { if (audio.paused) { if (audio.dataset.ao) audio.load(); tocar(); } else audio.pause(); return; }
-        audio = new Audio(); audio.preload = "none";
-        ["play","pause","ended","error"].forEach(function(ev){ audio.addEventListener(ev, function(){ btn.classList.remove("carregando"); estado(); }); });
-        var hls = /\.m3u8(\?|$)/i.test(url);
-        if (hls && !audio.canPlayType("application/vnd.apple.mpegurl")) {
-          btn.classList.add("carregando");
-          var s = document.createElement("script");
-          s.src = "https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js";
-          s.onload = function(){ var h = new Hls(); h.loadSource(url); h.attachMedia(audio); tocar(); };
-          s.onerror = function(){ btn.classList.remove("carregando"); };
-          document.head.appendChild(s);
-        } else {
-          audio.src = url; audio.dataset.ao = "1"; // stream ao vivo: recarrega ao voltar do pause para não tocar atrasado
-          tocar();
-        }
-      });
-    });
     var mast = document.getElementById("mast"), nav = document.getElementById("nav");
     if (mast && nav && "IntersectionObserver" in window) {
       new IntersectionObserver(function(e){ nav.classList.toggle("fixa", !e[0].isIntersecting); }).observe(mast);
@@ -675,5 +673,7 @@
   })();
   </script>
   {{ block "scripts" . }}{{ end }}
+  </div>
+  {{ partial "radio-barra.html" . }}
 </body>
 </html>

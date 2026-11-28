@@ -18,10 +18,10 @@ enableRobotsTXT = true
   # quando o canal estiver transmitindo, perguntando a /aovivo.json (rig checa o YouTube a cada 2 min).
   # true força o "ao vivo" no HTML mesmo sem transmissão: não usar.
   aoVivo = false
-  # Webrádio (layouts/partials/radio.html). URL do stream: MP3/Icecast (toca nativo) ou HLS .m3u8 (hls.js).
-  # Vazio + radioEmBreve = true: o cabeçalho mostra "Rádio CNB · em breve", sem tocar nada.
+  # Rádio CNB (services/radio; partials/radio.html + radio-barra.html + static/js/radio.js). URL = Icecast da rig pelo Funnel.
+  # radioEmBreve = true: o público vê "em breve"; quem abre o site com ?radio=1 (cookie de teste, 48 h) já ouve. ?radio=0 apaga.
   # Atenção à licença: as faixas da Biblioteca de Áudio do YouTube NÃO podem ir para stream de áudio separado.
-  radio = ""
+  radio = "https://rig1660s.tail4a859f.ts.net/radio"
   radioEmBreve = true
 
 # Sitemap do Google Notícias (layouts/index.newssitemap.xml → /news-sitemap.xml)
