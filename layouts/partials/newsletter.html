@@ -21,7 +21,7 @@
       {{ range .Sections.ByTitle }}<option value="{{ path.Base (strings.TrimSuffix "/" .RelPermalink) }}">{{ .Title }}</option>{{ end }}
     </select>
     {{ end }}{{ end }}
-    <label class="nl-ok"><input type="checkbox" name="consentimento" required> Aceito receber a newsletter e li a <a href="https://{{ site.Params.baseDomain }}/privacidade/#newsletter">Política de Privacidade</a>.</label>
+    <label class="nl-ok"><input type="checkbox" name="consentimento" required> <span>Aceito receber a newsletter e li a <a href="https://{{ site.Params.baseDomain }}/privacidade/#newsletter">Política de Privacidade</a>.</span></label>
     <input class="nl-isca" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
     <p class="nl-msg" role="status" aria-live="polite"></p>
   </form>

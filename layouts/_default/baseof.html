@@ -2,11 +2,15 @@
 {{- if eq .Section "cidades" -}}{{- if .IsPage -}}{{- $sec = .Parent -}}{{- else if and (not .IsHome) (not .Sections) -}}{{- $sec = . -}}{{- end -}}{{- end -}}
 {{- $cidade := "" -}}{{- $slug := "" -}}{{- $home := printf "https://%s/" .Site.Params.baseDomain -}}
 {{- with $sec -}}{{- $cidade = .Title -}}{{- $slug = path.Base (strings.TrimSuffix "/" .RelPermalink) -}}{{- $home = printf "https://%s.%s/" $slug site.Params.baseDomain -}}{{- end -}}
+{{- /* Paleta do modo escuro: UMA fonte, usada no escuro do sistema e no escuro escolhido no botão do topo. */ -}}
+{{- $escuro := "--bg:#111214;--surface:#1b1c20;--ink:#f2f3f5;--ink-2:#cdd0d6;--muted:#9da2ac;--rule:#2b2d33;--red:#e5304b;--red-ink:#ff6078;--black:#000;--wa:#3ccf7a;--up:#3ccf7a;--dn:#ff6078;--mark:#7c5c0a;color-scheme:dark" -}}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{/* Tema escolhido no botão do topo (claro/escuro). Sem escolha: segue o sistema. Roda antes do CSS para não piscar. */}}
+  <script>(function(){try{var m=document.cookie.match(/(?:^|; )cnb-tema=(claro|escuro)/),t=m?m[1]:null;if(!t&&!navigator.cookieEnabled){try{t=localStorage.getItem("cnb-tema")}catch(e){}}if(t==="claro"||t==="escuro")document.documentElement.setAttribute("data-tema",t)}catch(e){}})();</script>
   <title>{{ block "titulo" . }}{{ .Title }} · CNB News{{ end }}</title>
   <meta name="description" content="{{ block "descricao" . }}{{ with .Params.description }}{{ . }}{{ else }}{{ .Site.Params.descricao }}{{ end }}{{ end }}">
   <meta name="robots" content="{{ block "robots" . }}{{ .Params.robots | default "max-image-preview:large" }}{{ end }}">
@@ -35,9 +39,12 @@
     /* Identidade CNB (27/11/2026): preto + branco + vermelho CNB. Referência de hierarquia: grandes portais
        (manchete gigante sem foto + tópicos, cards com selo, caixa da TV ao vivo). Nada copiado, só a gramática. */
     :root{--bg:#fff;--surface:#f4f4f5;--ink:#0f1115;--ink-2:#353a43;--muted:#676d79;--rule:#e3e4e8;--red:#c8102e;--red-ink:#b30d28;--black:#0c0d10;--on-black:#c9ccd3;--wa:#128c4a;--up:#0a7a3e;--dn:#c8102e;
-      --f-head:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--f-ui:var(--f-head);--f-text:"Newsreader",Georgia,"Times New Roman",serif;--max:1200px;color-scheme:light}
-    @media (prefers-color-scheme:dark){:root{--bg:#111214;--surface:#1b1c20;--ink:#f2f3f5;--ink-2:#cdd0d6;--muted:#9da2ac;--rule:#2b2d33;--red:#e5304b;--red-ink:#ff6078;--black:#000;--wa:#3ccf7a;--up:#3ccf7a;--dn:#ff6078;color-scheme:dark}}
+      --f-head:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--f-ui:var(--f-head);--f-text:"Newsreader",Georgia,"Times New Roman",serif;--max:1200px;--mark:#fde68a;color-scheme:light}
+    @media (prefers-color-scheme:dark){:root:not([data-tema=claro]){ {{- $escuro | safeCSS -}} }}
+    :root[data-tema=escuro]{ {{- $escuro | safeCSS -}} }
     *{box-sizing:border-box}
+    /* O atributo hidden sempre vale: "display:flex" de uma classe passava por cima e mostrava caixa vazia (escopo da busca). */
+    [hidden]{display:none!important}
     body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:16px;line-height:1.5;padding:0 16px;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}
     a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
@@ -52,9 +59,15 @@
     .topo{background:var(--black);color:var(--on-black);margin:0 -16px;padding:0 16px;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
     .topo-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:42px}
     .topo-l,.topo-r{display:flex;align-items:center;gap:22px;min-width:0}
+    .topo-r{flex:none} /* os ícones (Instagram, YouTube, tema) não encolhem: quem rola é a lista de atalhos */
     .topo-l{overflow-x:auto;scrollbar-width:none}.topo-l::-webkit-scrollbar{display:none}
     .topo a{white-space:nowrap}.topo a:hover{color:#fff}
     .topo .ic{display:inline-flex}.topo .ic svg{width:17px;height:17px;fill:currentColor}
+    .tema-bt{align-items:center;justify-content:center;background:none;border:0;padding:0;margin:0;color:inherit;cursor:pointer;line-height:0}
+    .tema-bt:hover{color:#fff}.tema-bt .t-sol path{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+    .tema-bt .t-sol{display:none}
+    @media (prefers-color-scheme:dark){:root:not([data-tema=claro]) .tema-bt .t-sol{display:block}:root:not([data-tema=claro]) .tema-bt .t-lua{display:none}}
+    :root[data-tema=escuro] .tema-bt .t-sol{display:block}:root[data-tema=escuro] .tema-bt .t-lua{display:none}
     .topo .radio{display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;padding:0;cursor:pointer;white-space:nowrap}
     .topo .radio svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
     .topo .radio.breve{cursor:default;opacity:.75}
@@ -334,8 +347,7 @@
     .busca-res h2{font-size:1.22rem;line-height:1.25;margin:4px 0 6px}
     .busca-res h2 a:hover{color:var(--red-ink)}
     .busca-res p{font-family:var(--f-text);font-size:1.02rem;line-height:1.45;color:var(--ink-2);margin:0 0 6px}
-    .busca-res mark{background:#fde68a;color:inherit;border-radius:2px;padding:0 1px}
-    @media (prefers-color-scheme:dark){.busca-res mark{background:#7c5c0a}}
+    .busca-res mark{background:var(--mark);color:inherit;border-radius:2px;padding:0 1px}
 
     /* /cidades/ (índice) */
     .cids{columns:4 200px;column-gap:28px;padding:8px 0 20px}
@@ -412,6 +424,7 @@
       <a href="{{ $base }}contato/">Contato</a>
       {{ with .Site.Params.instagram }}<a class="ic" href="{{ . }}" target="_blank" rel="noopener" aria-label="Instagram @cnbnewstv"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM12 2.5c-2.6 0-2.9 0-3.9.1-3.5.2-5.4 2.1-5.6 5.6-.1 1-.1 1.3-.1 3.8s0 2.9.1 3.9c.2 3.5 2.1 5.4 5.6 5.6 1 .1 1.3.1 3.9.1s2.9 0 3.9-.1c3.5-.2 5.4-2.1 5.6-5.6.1-1 .1-1.3.1-3.9s0-2.8-.1-3.8c-.2-3.5-2.1-5.4-5.6-5.6-1-.1-1.3-.1-3.9-.1zm0 1.7c2.5 0 2.8 0 3.8.1 2.5.1 3.7 1.3 3.8 3.8.1 1 .1 1.3.1 3.8s0 2.9-.1 3.8c-.1 2.5-1.3 3.7-3.8 3.8-1 .1-1.3.1-3.8.1s-2.9 0-3.8-.1c-2.5-.1-3.7-1.3-3.8-3.8-.1-1-.1-1.3-.1-3.8s0-2.8.1-3.8c.1-2.5 1.3-3.7 3.8-3.8 1-.1 1.3-.1 3.8-.1z"/></svg></a>{{ end }}
       {{ with $canal }}<a class="ic" href="{{ . }}" target="_blank" rel="noopener" aria-label="YouTube TV CNB News"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15V9l5.8 3-5.8 3z"/></svg></a>{{ end }}
+      <button type="button" class="ic tema-bt" data-tema-bt aria-label="Modo escuro" aria-pressed="false" title="Mudar para o modo escuro"><svg class="t-lua" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.6 8.6 0 0 1 9.4 3.5a8.6 8.6 0 1 0 11.1 11.1z"/></svg><svg class="t-sol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.3v2.3M12 19.4v2.3M2.3 12h2.3M19.4 12h2.3M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M5.1 18.9l1.6-1.6M17.3 6.7l1.6-1.6"/></svg></button>
     </div>
   </div></div>
   <div class="wrap">
@@ -468,6 +481,36 @@
     </div>
     <div class="rod-fim"><span>© {{ now.Format "2006" }} CNB News{{ with $cidade }} · {{ . }}{{ end }}</span><span>Textos com apoio de inteligência artificial, sempre com a fonte citada.</span></div>
   </div></footer>
+  <script>
+  /* Botão de tema do topo. Cookie em .cnbmobile.com (vale em todas as cidades); sem cookie no navegador, localStorage. */
+  (function(){
+    var r = document.documentElement, bt = document.querySelector("[data-tema-bt]");
+    if (!bt) return;
+    var mq = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    function escuro(){ var t = r.getAttribute("data-tema"); return t ? t === "escuro" : !!(mq && mq.matches); }
+    function guarda(t){
+      try {
+        var dom = /(^|\.)cnbmobile\.com$/.test(location.hostname) ? "; domain=.cnbmobile.com" : "";
+        var seg = location.protocol === "https:" ? "; Secure" : "";
+        document.cookie = "cnb-tema=" + (t || "") + "; path=/; max-age=" + (t ? 31536000 : 0) + "; SameSite=Lax" + dom + seg;
+      } catch(e){}
+      if (!navigator.cookieEnabled) { try { t ? localStorage.setItem("cnb-tema", t) : localStorage.removeItem("cnb-tema"); } catch(e){} }
+    }
+    function pinta(){
+      var e = escuro();
+      bt.setAttribute("aria-pressed", e ? "true" : "false");
+      bt.title = e ? "Mudar para o modo claro" : "Mudar para o modo escuro";
+    }
+    bt.addEventListener("click", function(){
+      var novo = escuro() ? "claro" : "escuro", sistema = (mq && mq.matches) ? "escuro" : "claro";
+      if (novo === sistema) { r.removeAttribute("data-tema"); guarda(null); }
+      else { r.setAttribute("data-tema", novo); guarda(novo); }
+      pinta();
+    });
+    if (mq) { if (mq.addEventListener) mq.addEventListener("change", pinta); else if (mq.addListener) mq.addListener(pinta); }
+    pinta();
+  })();
+  </script>
   <script>
   (function(){
     var NOW = new Date();

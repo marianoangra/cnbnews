@@ -11,6 +11,9 @@ A sua privacidade é importante para nós. É política do **CNB News Brasil** r
 * Com o cookie DART / de publicidade, o Google pode exibir anúncios personalizados com base nas suas visitas a este e a outros sites na Internet.
 * Você pode desativar a publicidade personalizada acessando as **Configurações de Anúncios do Google**.
 
+### Preferência de modo claro ou escuro
+* Se você usar o botão de modo claro/escuro do topo, guardamos a escolha num cookie chamado **cnb-tema**, válido por um ano em todas as páginas da CNB News (inclusive nas edições das cidades). Ele guarda só a palavra "claro" ou "escuro": não identifica você e não é usado para publicidade. Para apagar, basta voltar à opção do seu aparelho no mesmo botão ou limpar os cookies do navegador.
+
 ### Google Analytics
 * Usamos o **Google Analytics 4** para medir a audiência (páginas mais lidas, cidade e tipo de aparelho dos visitantes, de onde veio a visita). Ele usa cookies e recebe dados de navegação, como endereço IP e páginas visitadas.
 * Usamos esses números só de forma agregada, para decidir o que cobrir. Você pode bloquear a coleta com o complemento oficial de desativação do Google Analytics ou nas configurações de cookies do seu navegador.
