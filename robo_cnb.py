@@ -254,6 +254,17 @@ def _ler_front_matter(caminho):
         pass
     return title, url
 
+def fonte_ja_usada(pasta, fonte_url):
+    """Só pelo link da fonte (site, fila de aprovação). eh_duplicada com título vazio sempre diz "duplicada"."""
+    fila = os.path.join(FILA_APROVACAO, os.path.basename(pasta))
+    for d in (pasta, fila):
+        if not os.path.isdir(d):
+            continue
+        for f in os.listdir(d):
+            if f.endswith(".md") and f != "_index.md" and _ler_front_matter(os.path.join(d, f))[1] == fonte_url:
+                return True
+    return False
+
 def eh_duplicada(pasta, titulo_novo, fonte_url="", cidade=""):
     """Compara com os TÍTULOS gravados (front matter), não só com o nome do arquivo,
     que corta em 65 caracteres. Chamada duas vezes: com a manchete da fonte e,
@@ -775,7 +786,8 @@ def processar_prefeitura(slug, nome, pasta, tz, novos):
     import sys
     robo = sys.modules[__name__]
     feitas = 0
-    for titulo, link, texto_fonte, _data in prefeituras.pautas_da_prefeitura(slug):
+    ja_publicado = lambda l: fonte_ja_usada(pasta, l)
+    for titulo, link, texto_fonte, _data in prefeituras.pautas_da_prefeitura(slug, ja_publicado):
         if feitas >= prefeituras.MAX_POR_CICLO:
             break
         if eh_duplicada(pasta, titulo, link, nome.split("(")[0]):
@@ -784,7 +796,7 @@ def processar_prefeitura(slug, nome, pasta, tz, novos):
         try:
             agora = datetime.now(tz) - timedelta(minutes=(novos + feitas) * 7)
             data_hoje = agora.strftime("%d/%m/%Y")
-            dados = _gerar_json(prefeituras.prompt_materia(nome, titulo, texto_fonte, data_hoje))
+            dados = _gerar_json(prefeituras.prompt_materia(nome, titulo, texto_fonte, data_hoje, slug))
             if not dados.get("valido", True):
                 print("[PREFEITURA] IA: não é notícia", flush=True)
                 continue
@@ -793,12 +805,12 @@ def processar_prefeitura(slug, nome, pasta, tz, novos):
             artigo = limpar_texto_ia(dados.get("artigo", ""))
             if not title or not artigo or eh_duplicada(pasta, title, "", nome.split("(")[0]):
                 continue
-            motivo = prefeituras.checar_materia_oficial(robo, nome, titulo, texto_fonte, data_hoje, title, desc, artigo)
+            motivo = prefeituras.checar_materia_oficial(robo, nome, titulo, texto_fonte, data_hoje, title, desc, artigo, slug)
             if motivo:
                 print(f"[DESCARTADO] {motivo}: {title[:50]}...", flush=True)
                 continue
-            fonte = f"Prefeitura de {nome.split('(')[0].strip()}"
-            texto = prefeituras.montar_texto_oficial(artigo, nome, link)
+            fonte = prefeituras.orgao(slug, nome)
+            texto = prefeituras.montar_texto_oficial(artigo, nome, link, slug)
             score, motivos = avaliar_sensibilidade(title, desc, texto)
             orto = checar_ortografia(title, desc, artigo, f"{titulo} {texto_fonte}", fonte)
             if orto:

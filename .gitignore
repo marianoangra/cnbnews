@@ -12,3 +12,4 @@ agents.log
 admin.log
 colunista.log
 ollama.log
+.prefeituras_vistos.json*
