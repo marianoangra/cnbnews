@@ -39,6 +39,13 @@
     <priority>0.6</priority>
   </url>
   {{ end }}
+  {{ with site.GetPage "/anuncie" }}
+  <url>
+    <loc>{{ .Permalink }}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  {{ end }}
   {{ with site.GetPage "/colunas" }}
   <url>
     <loc>{{ .Permalink }}</loc>
