@@ -1,0 +1,18 @@
+[Unit]
+Description=Radio CNB News - Liquidsoap (grade musica + boletins) -> Icecast local /radio
+After=network-online.target icecast2.service
+Wants=icecast2.service
+RequiresMountsFor=/mnt/hd
+
+[Service]
+User=rafael
+EnvironmentFile=/etc/cnbnews-radio.env
+WorkingDirectory=/home/rafael/cnbnews
+ExecStart=/usr/bin/liquidsoap services/radio/radio.liq
+Restart=always
+RestartSec=5
+StandardOutput=append:/home/rafael/cnbnews/radio.log
+StandardError=append:/home/rafael/cnbnews/radio.log
+
+[Install]
+WantedBy=multi-user.target
