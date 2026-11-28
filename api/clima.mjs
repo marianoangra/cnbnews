@@ -21,7 +21,7 @@ const SIMBOLOS = [
   [/sleet|snow/, 'neve', 'Neve'],
   [/fog/, 'neblina', 'Neblina'],
   [/^cloudy/, 'nuvem', 'Nublado'],
-  [/partlycloudy/, 'sol-nuvem', 'Parcialmente nublado'],
+  [/partlycloudy/, 'sol-nuvem', 'Sol entre nuvens'],
   [/fair/, 'sol-nuvem', 'Poucas nuvens'],
   [/clearsky/, 'sol', 'Céu limpo'],
 ];
@@ -32,7 +32,7 @@ export function traduzir(codigo = '') {
   const achado = SIMBOLOS.find(([re]) => re.test(base));
   let [, icone, texto] = achado ?? [null, 'nuvem', 'Tempo instável'];
   if (noite && icone === 'sol') icone = 'lua';
-  if (noite && icone === 'sol-nuvem') icone = 'lua-nuvem';
+  if (noite && icone === 'sol-nuvem') { icone = 'lua-nuvem'; texto = 'Algumas nuvens'; }
   return { icone, texto };
 }
 
