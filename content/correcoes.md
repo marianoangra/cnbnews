@@ -7,6 +7,7 @@ Quando uma matéria tem erro, corrigimos o texto e registramos aqui o que mudou.
 
 ### 28/11/2026
 
+* **[Dólar cai 4% e fecha em R$ 5,51 com Trabuco confirmado na Fazenda](/noticias/2026-11-27-dolar-cai-4-para-r-5-51-com-confirmacao-de-trabuco-no/).** O título saiu cortado no meio ("…no Ministério da"). Corrigido; o sistema passou a não deixar preposição solta no fim de título encurtado.
 * **Matérias nacionais publicadas em duplicidade.** Três pautas da Agência Brasil saíram duas vezes em 26/11, com títulos diferentes: o raio na plataforma P-77 da Petrobras, o turismo estrangeiro de R$ 53,8 bilhões e a trajetória da deputada Benedita da Silva. Ficou uma versão de cada; os endereços repetidos levam a ela. O sistema passou a barrar matéria com o mesmo link de origem ou manchete quase igual.
 
 ### 27/11/2026

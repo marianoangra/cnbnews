@@ -170,7 +170,11 @@ export function limitarManchete(s: string, max = 70): string {
   if (t.length <= max) return t;
   const corte = t.slice(0, max + 1);
   const ultimo = corte.lastIndexOf(' ');
-  return (ultimo > 30 ? corte.slice(0, ultimo) : t.slice(0, max)).replace(/[\s,;:–—-]+$/, '');
+  let m = (ultimo > 30 ? corte.slice(0, ultimo) : t.slice(0, max)).replace(/[\s,;:–—-]+$/, '');
+  // Corte na palavra ainda pode deixar preposição/artigo solto no fim ("…no Ministério da", 27/11/2026).
+  const SOLTA = /\s+(da|de|do|das|dos|na|no|nas|nos|em|com|para|pra|por|pelo|pela|ao|aos|à|às|a|o|as|os|e|ou|que|um|uma|sobre|entre|após|sem|contra)$/i;
+  while (SOLTA.test(m) && m.length > 30) m = m.replace(SOLTA, '').replace(/[\s,;:–—-]+$/, '');
+  return m;
 }
 
 // O qwen3:4b às vezes mistura o mês em inglês/espanhol com o português ("Decembro" na manchete

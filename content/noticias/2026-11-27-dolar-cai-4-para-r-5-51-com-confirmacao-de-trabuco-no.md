@@ -1,5 +1,5 @@
 ---
-title: "Dólar cai 4% para R$ 5,51 com confirmação de Trabuco no Ministério da"
+title: "Dólar cai 4% e fecha em R$ 5,51 com Trabuco confirmado na Fazenda"
 date: 2026-11-27T20:15:01-03:00
 description: "O dólar registrou queda de 3,97% nesta sexta-feira, fechando em R$ 5,516 após a confirmação de Luiz Carlos Trabuco para assumir o Ministério da Fazenda no…"
 fonte: "Agência Brasil"

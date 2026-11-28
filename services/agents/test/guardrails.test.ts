@@ -91,6 +91,12 @@ test('slug sem acento, minúsculo e curto', () => {
   assert.ok(slugificar('palavra '.repeat(30)).length <= 60);
 });
 
+test('manchete cortada não termina em preposição solta', () => {
+  const m = limitarManchete('Dólar cai 4% para R$ 5,51 com confirmação de Trabuco no Ministério da Fazenda');
+  assert.equal(m, 'Dólar cai 4% para R$ 5,51 com confirmação de Trabuco no Ministério');
+  assert.equal(limitarManchete('Prefeitura abre inscrições para curso gratuito de informática para jovens de baixa renda'), 'Prefeitura abre inscrições para curso gratuito de informática');
+});
+
 test('manchete cortada na palavra, dentro do limite', () => {
   const m = limitarManchete('Governo federal anuncia prorrogação do subsídio ao diesel importado por mais trinta dias');
   assert.ok(m.length <= 70);

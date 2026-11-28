@@ -1,9 +1,9 @@
 {{/* Índice da busca (/busca.json): as 3000 matérias mais recentes de cidades, Brasil e colunas.
      Chaves curtas para o arquivo ficar leve: t título, d linha fina, u endereço canônico,
-     c cidade, s slug da cidade, e editoria (nome), dt data ISO. Saída texto puro: tudo passa por jsonify. */}}
+     c cidade, s slug da cidade, e editoria (nome), ed editoria (slug: o /admin tira "policia" do resumo do WhatsApp), dt data ISO. Saída texto puro: tudo passa por jsonify. */}}
 {{- $itens := slice -}}
 {{- range first 3000 (where site.RegularPages.ByDate.Reverse "Section" "in" (slice "cidades" "noticias" "colunas")) -}}
-{{- $u := .Permalink -}}{{- $c := "" -}}{{- $s := "" -}}{{- $e := "" -}}
+{{- $u := .Permalink -}}{{- $c := "" -}}{{- $s := "" -}}{{- $e := "" -}}{{- $ed := "" -}}{{- if ne .Section "colunas" -}}{{- $ed = partial "editoria.html" . -}}{{- end -}}
 {{- if eq .Section "cidades" -}}
   {{- $s = path.Base (strings.TrimSuffix "/" .Parent.RelPermalink) -}}
   {{- $u = printf "https://%s.%s/%s/" $s site.Params.baseDomain (path.Base .RelPermalink) -}}
@@ -11,6 +11,6 @@
   {{- $e = partial "editoria-nome.html" (partial "editoria.html" .) -}}
 {{- else if eq .Section "noticias" -}}{{- $c = "Brasil" -}}{{- $e = "Brasil" -}}
 {{- else -}}{{- $c = "Colunas" -}}{{- $e = "Coluna" -}}{{- end -}}
-{{- $itens = $itens | append (dict "t" .Title "d" (.Description | default "") "u" $u "c" $c "s" $s "e" $e "dt" (.Date.Format "2006-01-02T15:04:05-07:00")) -}}
+{{- $itens = $itens | append (dict "t" .Title "d" (.Description | default "") "u" $u "c" $c "s" $s "e" $e "ed" $ed "dt" (.Date.Format "2006-01-02T15:04:05-07:00")) -}}
 {{- end -}}
 {{- $itens | jsonify -}}
