@@ -10,6 +10,7 @@
     "@type": "Person",
     "@id": {{ printf "%s#pessoa" .Permalink }},
     "name": {{ .Title }},
+    "image": {{ "img/rafael-mariano.jpg" | absURL }},
     "jobTitle": {{ .Params.cargo }},
     "description": {{ .Description }},
     "url": {{ .Permalink }},
@@ -24,7 +25,7 @@
 <article class="materia autor">
   <div class="crumbs"><a href="{{ "sobre/" | absURL }}">Expediente</a> · Autor</div>
   <div class="au-topo">
-    <div class="au-mono" aria-hidden="true">RM</div>
+    <img class="au-mono" src="{{ "img/rafael-mariano.jpg" | absURL }}" alt="Rafael Mariano" width="400" height="400" decoding="async">
     <div>
       <h1>{{ .Title }}</h1>
       <p class="au-cargo">{{ .Params.cargo }}</p>
@@ -53,7 +54,7 @@
 <style>
   .au-topo{display:flex;align-items:center;gap:18px;margin:6px 0 18px}
   .au-topo h1{margin:0}
-  .au-mono{width:84px;height:84px;flex:none;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:1.8rem;letter-spacing:-.04em;display:grid;place-items:center}
+  .au-mono{width:84px;height:84px;flex:none;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:1.8rem;letter-spacing:-.04em;display:grid;place-items:center;object-fit:cover}
   .au-cargo{margin:6px 0 0;color:var(--muted);font-weight:700}
   .au-lista{list-style:none;padding:0;margin:0 0 8px}
   .au-lista li{padding:10px 0;border-bottom:1px solid var(--rule);display:flex;flex-direction:column;gap:2px}

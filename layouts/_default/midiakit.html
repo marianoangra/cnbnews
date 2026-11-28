@@ -42,7 +42,7 @@
   <section class="mk-sec mk-quem">
     <h2>Quem está por trás</h2>
     <div class="mk-bio">
-      <div class="mk-mono" aria-hidden="true">RM</div>
+      <img class="mk-mono" src="{{ "img/rafael-mariano.jpg" | absURL }}" alt="Rafael Mariano" width="400" height="400" loading="lazy" decoding="async">
       <div>
         <h3>Rafael Mariano <span>editor-chefe da CNB News</span></h3>
         {{ partial "bio-rafael.html" .Params.instagram_seguidores }}
@@ -103,7 +103,7 @@
   .mk-card p{font-size:.92rem;line-height:1.5;color:var(--ink-2);margin:0}
   .mk-card-dest{background:var(--black);color:var(--on-black)}.mk-card-dest h3{color:#fff}.mk-card-dest p{color:var(--on-black)}
   .mk-bio{display:grid;grid-template-columns:96px minmax(0,1fr);gap:24px;align-items:start}
-  .mk-mono{width:96px;height:96px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:2rem;letter-spacing:-.04em;display:grid;place-items:center}
+  .mk-mono{width:96px;height:96px;border-radius:50%;background:var(--red);color:#fff;font-weight:900;font-size:2rem;letter-spacing:-.04em;display:grid;place-items:center;object-fit:cover}
   .mk-bio h3{font-size:1.5rem;font-weight:900;letter-spacing:-.03em;margin:4px 0 12px}
   .mk-bio h3 span{display:block;font-size:.85rem;font-weight:600;color:var(--muted);letter-spacing:0;margin-top:4px}
   .mk-bio p{font-family:var(--f-text);font-size:1.06rem;line-height:1.6;color:var(--ink-2);margin:0 0 12px;max-width:66ch}
