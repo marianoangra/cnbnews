@@ -7,6 +7,7 @@
 import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
 import dotenv from 'dotenv';
+import { lerGravadas, mancheteRepetida } from './duplicatas.ts';
 import { Estado } from './estado.ts';
 import { FONTES_RSS } from './fontes.ts';
 import { comReserva, configDoAmbiente, criarLlm } from './ollama.ts';
@@ -72,12 +73,19 @@ export async function rodarCiclo(): Promise<void> {
 
   const candidatos: ItemBruto[] = [];
   const vistosNoCiclo = new Set<string>();
+  // O que já está gravado (site + fila + aprovadas) manda mais que o estado em JSON: ver duplicatas.ts
+  const gravadas = lerGravadas(DESTINOS.publicadas, DESTINOS.fila, join(DESTINOS.fila, 'aprovadas'));
+  const linksGravados = new Set(gravadas.map((g) => g.fonteUrl).filter(Boolean));
   for (const fonte of FONTES_RSS) {
     try {
       const itens = await coletarFonte(fonte, { maxIdadeHoras: 24, minCaracteres: 400 });
       for (const it of itens) {
         // o mesmo link aparece em mais de um feed (últimas notícias + editoria)
         if (vistosNoCiclo.has(it.link_original) || !estado.pendente(it.link_original)) continue;
+        if (linksGravados.has(it.link_original)) {
+          if (!simular) estado.marcar(it.link_original, 'publicada'); // já está no site/fila: não reprocessa
+          continue;
+        }
         vistosNoCiclo.add(it.link_original);
         candidatos.push(it);
       }
@@ -95,7 +103,15 @@ export async function rodarCiclo(): Promise<void> {
     const t0 = Date.now();
     try {
       const artigo = await processarItem(item, llms, { maxEntrada });
+      const repetida = mancheteRepetida(artigo.manchete_home, gravadas);
+      if (repetida) {
+        log(`repetida, descartada: "${artigo.manchete_home}" ≈ "${repetida.titulo}"`);
+        if (!simular) estado.marcar(item.link_original, 'publicada'); // resolvida: não gastar GPU de novo
+        continue;
+      }
       const r = gravar(artigo, DESTINOS, simular);
+      gravadas.push({ titulo: artigo.manchete_home, fonteUrl: item.link_original, quando: Date.now() });
+      linksGravados.add(item.link_original);
       const seg = Math.round((Date.now() - t0) / 1000);
       if (r.destino === 'publicada') publicadas += r.novo ? 1 : 0;
       else naFila += r.novo ? 1 : 0;

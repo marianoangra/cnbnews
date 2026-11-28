@@ -1,4 +1,5 @@
 ---
+aliases: ["/noticias/2026-11-26-deputada-benedita-40-anos-pioneira-para-mulheres-negras/"]
 title: "Deputada Benedita Silva com 40 anos de trajeto político"
 date: 2026-11-26T19:35:50-03:00
 description: "Benedita da Silva, pioneira para mulheres negras no Brasil, com 40 anos de trajeto político, é referência para mulheres negras e periféricas, inspirando"

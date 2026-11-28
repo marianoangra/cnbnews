@@ -1,4 +1,5 @@
 ---
+aliases: ["/noticias/2026-11-26-raio-atinge-plataforma-petrobras-a-200-km-da-costa-do-rio/"]
 title: "Raio atinge plataforma Petrobras P-77 a 200 km da costa do Rio"
 date: 2026-11-26T19:24:54-03:00
 description: "Plataforma P-77 da Petrobras, no Campo de Búzios, teve princípio de incêndio após raio, mas sem vítimas ou danos. Segurança mantida."

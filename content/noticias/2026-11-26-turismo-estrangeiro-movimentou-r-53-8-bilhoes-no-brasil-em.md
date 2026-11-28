@@ -1,4 +1,5 @@
 ---
+aliases: ["/noticias/2026-11-26-turismo-estrangeiro-movimentou-r-53-8-bi-em-2026/"]
 title: "Turismo estrangeiro movimentou R$ 53,8 bilhões no Brasil em 2026"
 description: "Os gastos de visitantes estrangeiros no Brasil alcançaram R$ 53,8 bilhões (US$ 9,247 bilhões) nos dez primeiros meses do ano, representando aumento de 9,3%"
 fonte: "Agência Brasil"
