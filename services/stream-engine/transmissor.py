@@ -22,15 +22,20 @@ RTMP = "rtmp://a.rtmp.youtube.com/live2/"
 HORA = float(os.environ.get("CNB_TV_HORA", 3600))  # duração de cada playlist; no teste, menor para ver as emendas
 
 
+# O AAC começa 1024 amostras ANTES do zero (priming: 1º pacote de áudio em -0,0213 s). Emendando pela duração
+# do arquivo, esse pedaço invade o fim do anterior e o muxer reclama de DTS fora de ordem (visto no teste de
+# 28/11/2026). Declarando cada arquivo 1024/48000 s mais longo, o áudio emenda exato e o vídeo ganha 21 ms parado.
+PRIMING = 1024 / 48000
+_dur = {}
+
+
 def duracao(mp4):
-    j = mp4[:-4] + ".json"
-    if os.path.exists(j):
-        try:
-            return float(json.load(open(j, encoding="utf-8"))["duracao"])
-        except Exception:
-            pass
-    r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", mp4], capture_output=True, text=True)
-    return float(r.stdout.strip() or 0)
+    """Duração real do arquivo (ffprobe), com cache."""
+    k = (mp4, os.path.getmtime(mp4))
+    if k not in _dur:
+        r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", mp4], capture_output=True, text=True)
+        _dur[k] = float(r.stdout.strip() or 0)
+    return _dur[k]
 
 
 def montar(nome, proxima, geracao):
@@ -44,7 +49,7 @@ def montar(nome, proxima, geracao):
         bloco = [vinheta] + noticias
         for f in bloco:
             itens.append(f)
-            total += duracao(f)
+            total += duracao(f) + PRIMING
             if total >= HORA:
                 break
         if not noticias and total >= 60:
@@ -60,6 +65,7 @@ def montar(nome, proxima, geracao):
             os.remove(caminho)
         os.symlink(f, caminho)
         linhas.append(f"file {link}")
+        linhas.append(f"duration {duracao(f) + PRIMING:.6f}")
     linhas.append(f"file {proxima}.ffconcat")
     tmp = os.path.join(AR, nome + ".tmp")
     open(tmp, "w").write("\n".join(linhas) + "\n")
