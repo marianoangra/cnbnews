@@ -17,6 +17,7 @@ TV = os.environ.get("CNB_TV_DIR", "/mnt/hd/tv")
 RADIO = os.environ.get("CNB_RADIO_DIR", "/mnt/hd/radio")
 SEG = os.path.join(TV, "segmentos")
 SAIDA = os.path.join(RADIO, "boletins")
+VINHETA = os.path.join(RADIO, "vinhetas", "vinheta-longa.mp3")
 BRT = dt.timezone(dt.timedelta(hours=-3))
 LIMITE_COMPLETO_S = 180
 VOZES = ["cadu", "faber"]
@@ -108,8 +109,15 @@ def montar(tipo, agora_utc, para=None):
         # tudo para o mesmo formato antes de concatenar (Piper sai 22050 mono; segmentos idem após -ac 1 -ar 22050)
         ffmpeg("-f", "concat", "-safe", "0", "-i", lista, "-ac", "1", "-ar", "22050", unido)
         temp_mp3 = destino + ".tmp.mp3"
-        ffmpeg("-i", unido, "-af", "apad=pad_dur=0.6,loudnorm=I=-16:TP=-1.5:LRA=11",
-               "-ar", "44100", "-ac", "2", "-c:a", "libmp3lame", "-b:a", "128k", temp_mp3)
+        # A vinheta vai DENTRO do arquivo: com dois itens na fila o Liquidsoap só prepara o 2º quando o 1º
+        # acaba, e nesse vão volta à música por ~5 s (visto no ar em 28/11 12:30).
+        voz_af = "apad=pad_dur=0.6,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100,aformat=channel_layouts=stereo"
+        if os.path.exists(VINHETA):
+            ffmpeg("-i", VINHETA, "-i", unido, "-filter_complex",
+                   f"[0:a]aresample=44100,aformat=channel_layouts=stereo[v];[1:a]{voz_af}[b];[v][b]concat=n=2:v=0:a=1",
+                   "-c:a", "libmp3lame", "-b:a", "128k", temp_mp3)
+        else:
+            ffmpeg("-i", unido, "-af", voz_af, "-c:a", "libmp3lame", "-b:a", "128k", temp_mp3)
         os.replace(temp_mp3, destino)
     limite = agora_utc - dt.timedelta(hours=24)
     tocados = {k: v for k, v in tocados.items() if dt.datetime.fromisoformat(v) > limite}

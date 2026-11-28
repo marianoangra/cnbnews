@@ -4,7 +4,7 @@
 #   :30  vinheta longa + manchetes         (idem)
 #   :15 / :45  vinheta curta com crédito das músicas (espera a faixa atual acabar)
 #   resto: acervo em ordem aleatória, com crossfade.
-# Boletins: montar_boletim.py grava proximo-<tipo>.mp3 aos :57/:27. Sem arquivo = só a vinheta.
+# Boletins: montar_boletim.py grava proximo-<tipo>.mp3 (vinheta + boletim) aos :57/:27. Sem arquivo = só a vinheta.
 
 settings.log.stdout := true
 settings.log.level := 3
@@ -25,8 +25,13 @@ def empurrar(fila, arquivos) =
   list.iter(fun (f) -> if file.exists(f) then fila.push(request.create(f)) else log.important("faltando: #{f}") end, arquivos)
 end
 
-thread.when({0m0s}, fun () -> empurrar(fila_bloco, [vinheta_longa, "#{radio}/boletins/proximo-completo.mp3"]))
-thread.when({30m0s}, fun () -> empurrar(fila_bloco, [vinheta_longa, "#{radio}/boletins/proximo-manchetes.mp3"]))
+# O boletim já vem com a vinheta na frente (montar_boletim.py); sem boletim, só a vinheta.
+def bloco(tipo) =
+  b = "#{radio}/boletins/proximo-#{tipo}.mp3"
+  if file.exists(b) then empurrar(fila_bloco, [b]) else empurrar(fila_bloco, [vinheta_longa]) end
+end
+thread.when({0m0s}, fun () -> bloco("completo"))
+thread.when({30m0s}, fun () -> bloco("manchetes"))
 thread.when({15m0s}, fun () -> empurrar(fila_curta, [vinheta_curta]))
 thread.when({45m0s}, fun () -> empurrar(fila_curta, [vinheta_curta]))
 
