@@ -1,0 +1,11 @@
+---
+title: "Previsão do tempo em Campos dos Goytacazes para quinta-feira"
+date: 2026-11-27T20:50:58.392316-03:00
+description: "A previsão climática atual de Campos dos Goytacazes indica como será o clima nesta quinta-feira."
+fonte: "Terra"
+fonte_url: "https://news.google.com/rss/articles/CBMilgJBVV95cUxNYkpueVA4ZTJ3RTFyS0VSRzVHb2RDME5KYlpxRHFuVkJlZGtFMkFXOWljUjZQQlFtYlk1aFJNWjByZWFWdzlLNHVFNlZRdXV0Q3IxSVhuVUtDQWJtREtEWEN0cXhrekwzT0VZVkhibVVGaWdBZjFveVdxZ20ycURLczlqT2NyTHI1c2hsOHRpa0hRQW5ySU11MEpZUmZBUktlWFBsNjdDV25VNHJqOEptWDhuTXhoOW9TVkRUU0xJNFJ0V0pIdXRNeVFhdEk3RGFtQVR3OTRtQmhZX041c09BMG5kUUtpQ0tsN2EwbzF5VHZoc1BGWW5ZMVpUZ1hkdEpnM0VwdUpqSmFxcEhhT3I4NHpjVzFYQQ?oc=5"
+---
+
+Campos dos Goytacazes terá uma previsão do tempo detalhada hoje, mostrando as condições climáticas esperadas para a quinta-feira.
+
+*A informação é de Terra. [Leia a matéria original](https://news.google.com/rss/articles/CBMilgJBVV95cUxNYkpueVA4ZTJ3RTFyS0VSRzVHb2RDME5KYlpxRHFuVkJlZGtFMkFXOWljUjZQQlFtYlk1aFJNWjByZWFWdzlLNHVFNlZRdXV0Q3IxSVhuVUtDQWJtREtEWEN0cXhrekwzT0VZVkhibVVGaWdBZjFveVdxZ20ycURLczlqT2NyTHI1c2hsOHRpa0hRQW5ySU11MEpZUmZBUktlWFBsNjdDV25VNHJqOEptWDhuTXhoOW9TVkRUU0xJNFJ0V0pIdXRNeVFhdEk3RGFtQVR3OTRtQmhZX041c09BMG5kUUtpQ0tsN2EwbzF5VHZoc1BGWW5ZMVpUZ1hkdEpnM0VwdUpqSmFxcEhhT3I4NHpjVzFYQQ?oc=5).*
