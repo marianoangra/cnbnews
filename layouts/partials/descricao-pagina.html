@@ -1,0 +1,2 @@
+{{/* Descrição para og:description (mesma regra do <meta description>). */}}
+{{- if and (eq .Section "cidades") (not .IsPage) (not .Sections) -}}Notícias de {{ .Title }} hoje: prefeitura, serviços, saúde, trânsito e o que acontece na cidade, com a fonte citada.{{- else -}}{{ with .Params.description }}{{ . }}{{ else }}{{ site.Params.descricao }}{{ end }}{{- end -}}

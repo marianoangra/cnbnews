@@ -1,0 +1,2 @@
+{{/* Título para og:title (mesma regra do <title>, sem o " · CNB News" no fim). */}}
+{{- if .IsHome -}}CNB News · Notícias do Brasil e da sua cidade{{- else if and (eq .Section "cidades") (not .IsPage) (not .Sections) -}}Notícias de {{ replaceRE " \\([A-Z]{2}\\)$" "" .Title }} hoje · CNB News{{- else if and .IsPage (ne .Params.layout "editoria") -}}{{ .Title }}{{- else -}}{{ .Title }} · CNB News{{- end -}}

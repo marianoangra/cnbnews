@@ -4,7 +4,7 @@
 {{/* Foto de arquivo do banco nacional do tema (data/fotos/brasil-*.json, 1280 px); sem foto (polícia, mundo): card da marca 1200x675. */}}
 {{ $l := partial "link-capa.html" . }}
 {{ $f := false }}{{ with $l.banco }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" (partial "editoria.html" $)) }}{{ end }}
-{{ $img := "img/cnb-news-1200x675.png" | absURL }}{{ with $f }}{{ $img = .arquivo | absURL }}{{ end }}
+{{ $img := "img/og/cnb-news.jpg" | absURL }}{{ with $f }}{{ $img = .arquivo | absURL }}{{ end }}
 {{ $secao := partial "categoria-nome.html" .Params.categoria }}
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CNB News">

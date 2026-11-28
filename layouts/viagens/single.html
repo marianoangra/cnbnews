@@ -2,7 +2,7 @@
 {{ define "bodyclass" }}tem-wa{{ end }}
 {{ define "meta" }}
 {{ $f := false }}{{ with .Params.cidade }}{{ $f = partial "foto.html" (dict "p" $ "slug" . "ed" "") }}{{ end }}
-{{ $img := "img/cnb-news-1200x675.png" | absURL }}{{ with $f }}{{ $img = .arquivo | absURL }}{{ end }}
+{{ $img := "img/og/cnb-news.jpg" | absURL }}{{ with $f }}{{ $img = .arquivo | absURL }}{{ end }}
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="CNB News">
 <meta property="og:locale" content="pt_BR">

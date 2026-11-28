@@ -1,0 +1,47 @@
+{{/* Tags de compartilhamento (WhatsApp, Facebook, X, LinkedIn) para as páginas que não têm as próprias:
+     capa, capa de cada cidade, editorias, colunas, mídia kit e institucionais. As matérias definem as suas no bloco "meta".
+     Entrada: dict "p" (página) "slug" (cidade, "" no nacional) "titulo" "descricao" "url".
+     Imagem: cartão 1200x630 de scripts/cartoes_og.py (< 200 KB: o WhatsApp não mostra imagem acima de ~300 KB). */}}
+{{- $img := "img/og/cnb-news.jpg" | absURL -}}
+{{- $alt := "CNB News · Notícias do Brasil e da sua cidade" -}}
+{{- with .slug -}}{{- $img = printf "img/og/%s.jpg" . | absURL -}}{{- $alt = printf "CNB News · notícias de %s" $.p.Title -}}{{- end }}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CNB News">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="{{ .titulo }}">
+<meta property="og:description" content="{{ .descricao }}">
+<meta property="og:url" content="{{ .url }}">
+<meta property="og:image" content="{{ $img }}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ $alt }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .titulo }}">
+<meta name="twitter:description" content="{{ .descricao }}">
+<meta name="twitter:image" content="{{ $img }}">
+{{- if .p.IsHome }}
+{{/* Capa: quem é o site (Google usa para o painel de conhecimento e a caixa de busca nos resultados) */}}
+<script type="application/ld+json">
+[{
+  "@context": "https://schema.org",
+  "@type": "NewsMediaOrganization",
+  "name": "CNB News",
+  "url": "https://news.cnbmobile.com/",
+  "logo": {"@type": "ImageObject", "url": {{ "favicon.png" | absURL }}, "width": 192, "height": 192},
+  "sameAs": [{{ site.Params.instagram }}{{ with site.Params.youtube }}, {{ replaceRE "/live$" "" . }}{{ end }}],
+  "founder": {"@type": "Person", "name": "Rafael Mariano", "url": "https://www.rafaelmariano.com.br"},
+  "publishingPrinciples": {{ "sobre/" | absURL }},
+  "correctionsPolicy": {{ "sobre/" | absURL }},
+  "ethicsPolicy": {{ "sobre/" | absURL }},
+  "contactPoint": {"@type": "ContactPoint", "contactType": "redação", "email": "contato@rafaelmariano.com.br"}
+},{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CNB News",
+  "url": "https://news.cnbmobile.com/",
+  "inLanguage": "pt-BR",
+  "potentialAction": {"@type": "SearchAction", "target": "https://news.cnbmobile.com/busca/?q={q}", "query-input": "required name=q"}
+}]
+</script>
+{{- end }}

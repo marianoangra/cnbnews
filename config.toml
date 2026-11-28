@@ -9,7 +9,7 @@ enableRobotsTXT = true
   # Perfis oficiais (rodapé e "sameAs" do JSON-LD: o Google liga o portal aos perfis)
   instagram = "https://www.instagram.com/cnbnewstv/"
   baseDomain = "news.cnbmobile.com"
-  descricao = "Notícias de cada cidade do Brasil."
+  descricao = "Notícias do Brasil e da sua cidade, 24 horas: política, economia, esportes, saúde e o que acontece em mais de 130 cidades, sempre com a fonte citada."
   # Botão da TV CNB no cabeçalho (layouts/partials/ao-vivo.html). Vazio = botão escondido.
   # Use o endereço do canal terminando em /live (ex.: "https://www.youtube.com/@CANAL/live"):
   # o YouTube abre a transmissão atual ou, sem live, a página do canal.

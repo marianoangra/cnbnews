@@ -15,6 +15,11 @@
   {{/* Estáticos SEMPRE pelo domínio principal: no subdomínio da cidade a rota do vercel.json manda /fotos/... para /cidades/<slug>/fotos/... e dá 404. */}}
   <link rel="icon" href="{{ "favicon.svg" | absURL }}" type="image/svg+xml">
   <link rel="icon" href="{{ "favicon.png" | absURL }}" sizes="192x192" type="image/png">
+  {{- $temOg := and .IsPage (in (slice "noticias" "cidades" "colunas" "viagens" "compras") .Section) -}}
+  {{- if not $temOg -}}
+  {{- $url := .Permalink -}}{{- with $slug -}}{{- if not $.IsPage -}}{{- $url = printf "https://%s.%s/" . site.Params.baseDomain -}}{{- end -}}{{- end -}}
+  {{ partial "og-padrao.html" (dict "p" (cond (ne $sec false) $sec .) "slug" $slug "titulo" (trim (partial "titulo-pagina.html" .) " \n") "descricao" (trim (partial "descricao-pagina.html" .) " \n") "url" $url) }}
+  {{- end }}
   {{ block "meta" . }}{{ end }}
   {{/* AdSense (pub-3552150640937820): NÃO remover. O redesign de 24/11 tirou e a conta estava em revisão; o Google precisa achar o código em todas as páginas. */}}
   <meta name="google-adsense-account" content="ca-pub-3552150640937820">
